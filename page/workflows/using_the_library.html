@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Using the library &ndash; TDEP</title>
+
+<!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+</div>
+<div class="jumbotron">
+<div class="container-fluid">
+  <h3>Using the library</h3>
+</div>
+</div>
+<div class="container-fluid">
+
+<div class="row">
+    
+        <div class="col-sm-3">
+        <div class="toc">
+            <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Manual</a></li>
+            </ul>
+            <ul class="nav nav-stacked nav-pills">
+            
+                <li role="presentation">
+                <a href='../../page/./0_installation.html'>Installation</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./files.html'>Files</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/index.html'>Workflows</a>
+                
+                    <ul class="nav nav-stacked nav-pills">
+                      
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_1.html'>Minimal example I</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_2.html'>Minimal example II</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_3.html'>Minimal example III</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_4.html'>Minimal example IV</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_5.html'>Minimal example V</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_6.html'>Minimal example VI</a>
+                
+                </li>
+            
+                <li role="presentation" class="disabled">
+                <a href='../../page/workflows/using_the_library.html'>Using the library</a>
+                
+                </li>
+            
+                    </ul>
+                
+                </li>
+            
+            </ul>
+        </div>
+        </div>
+    
+    <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
+        <p>This documentation also details the library. It's easy to write codes. A minimal code that calculates the phonon dispersions on a mesh in the BZ looks something like this:</p>
+<div class="codehilite"><pre><span></span><span class="k">program </span><span class="n">minimal_example</span>
+<span class="k">use </span><span class="n">constants</span>
+<span class="k">use </span><span class="n">type_crystalstructure</span>
+<span class="k">use </span><span class="n">type_lotosplitting</span>
+<span class="k">use </span><span class="n">type_qpointmesh</span>
+<span class="k">use </span><span class="n">type_phonon_dispersions</span>
+<span class="k">use </span><span class="n">type_forceconstant_secondorder</span>
+
+<span class="k">implicit none</span>
+<span class="k">type</span><span class="p">(</span><span class="n">lo_crystalstructure</span><span class="p">)</span> <span class="kd">::</span> <span class="n">uc</span>
+<span class="k">class</span><span class="p">(</span><span class="n">lo_qpoint_mesh</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">qp</span>
+<span class="k">type</span><span class="p">(</span><span class="n">lo_phonon_dispersions</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dr</span>
+<span class="k">type</span><span class="p">(</span><span class="n">lo_forceconstant_secondorder</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fc</span>
+<span class="k">type</span><span class="p">(</span><span class="n">lo_loto</span><span class="p">)</span> <span class="kd">::</span> <span class="n">loto</span>
+
+<span class="c">! read the unitcell</span>
+<span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ucposcar&#39;</span><span class="p">)</span>
+<span class="c">! read the forceconstant</span>
+<span class="k">call </span><span class="n">fc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="s1">&#39;infile.forceconstant&#39;</span><span class="p">)</span>
+<span class="c">! skip lo-to splitting for now, get an empty one</span>
+<span class="k">call </span><span class="n">loto</span><span class="p">%</span><span class="n">initempty</span><span class="p">()</span>
+<span class="c">! generate a q-point mesh</span>
+<span class="k">call </span><span class="n">lo_generate_qmesh</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,[</span><span class="mi">24</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">24</span><span class="p">],</span><span class="s1">&#39;monkhorst&#39;</span><span class="p">)</span>
+<span class="c">! phonon dispersions on this mesh</span>
+<span class="k">call </span><span class="n">dr</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">loto</span><span class="p">)</span>
+<span class="c">! get the phonon free energy at 300K</span>
+<span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;phonon free energy at 300K:&#39;</span><span class="p">,</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_free_energy</span><span class="p">(</span><span class="mi">30</span><span class="mf">0.0_flyt</span><span class="p">)</span>
+
+<span class="k">end program</span>
+</pre></div>
+    </div>
+</div>
+
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

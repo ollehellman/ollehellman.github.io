@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>Installation &ndash; TDEP</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+</div>
+<div class="jumbotron">
+<div class="container-fluid">
+  <h3>Installation</h3>
+</div>
+</div>
+<div class="container-fluid">
+
+<div class="row">
+    
+        <div class="col-sm-3">
+        <div class="toc">
+            <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../page/index.html'>Manual</a></li>
+            </ul>
+            <ul class="nav nav-stacked nav-pills">
+            
+                <li role="presentation" class="disabled">
+                <a href='../page/./0_installation.html'>Installation</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/./files.html'>Files</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/index.html'>Workflows</a>
+                
+                    <ul class="nav nav-stacked nav-pills">
+                      
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_1.html'>Minimal example I</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_2.html'>Minimal example II</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_3.html'>Minimal example III</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_4.html'>Minimal example IV</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_5.html'>Minimal example V</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_6.html'>Minimal example VI</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/using_the_library.html'>Using the library</a>
+                
+                </li>
+            
+                    </ul>
+                
+                </li>
+            
+            </ul>
+        </div>
+        </div>
+    
+    <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
+        <p>This package is written mainly in fortran, with parts in c, c++, and python. The minimum requirements are</p>
+<ul>
+<li>fortran compiler. Tested with gcc 5+, ifort 14+. Several f2003/2008 features are extensively used, so the compiler needs to be rather new.</li>
+<li>MPI</li>
+<li>fftw</li>
+<li>hdf5</li>
+<li>python</li>
+</ul>
+<p>In addition, to make use of all features you might want to install</p>
+<ul>
+<li>gnuplot, tested with 4+ on OSX with <a href="http://sourceforge.net/projects/aquaterm">aquaterm</a></li>
+<li>this documentation is generated with <a href="https://github.com/cmacmackin/ford">FORD</a>.</li>
+</ul>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4>I do all the development in OSX, and install all libraries/dependencies with <a href="http://brew.sh">homebrew</a>. For reference, these are the things I installed, and referred to in the sample important_settings:
+<code>brew install gcc fftw --with-fortran openmpi gnuplot --with-aquaterm hdf5 --with-fortran --with-fortran2003</code> If you do the same, installation should be a breeze.</div>
+<h3>Download</h3>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Will fix once I make the repository public.</div>
+<h3>Compiling</h3>
+<p>The build system is a little unorthodox, but straightforward. You need to create a file called <code>important_settings</code>, and put it in the root directory of tdep. Several examples are provided, start with the one that seems closest to what you have. An example follows here, for OSX:</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># A central place to put all the important paths. You probably have to modify this to make things work.</span>
+
+<span class="c1"># the path to the cli mathematica interface. Different on each system.</span>
+<span class="nv">MATHEMATICAHEADER</span><span class="o">=</span><span class="s2">&quot;#!/Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script&quot;</span> <span class="c1"># OSX</span>
+<span class="c1"># the folder where Mathematica puts its settings. I have made a Mathematica package, and it needs</span>
+<span class="c1"># to be linked in the correct folder, which differs from system to system.</span>
+<span class="nv">MATHEMATICASETTINGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/Library/Mathematica&quot;</span> <span class="c1"># on OSX</span>
+<span class="c1">#MATHEMATICASETTINGS=&quot;${HOME}/.Mathematica&quot;       # on linux, usually</span>
+
+<span class="c1"># the header to put in python scripts.</span>
+<span class="nv">PYTHONHEADER</span><span class="o">=</span><span class="s2">&quot;#!/usr/bin/python&quot;</span>
+
+<span class="c1"># Which gnuplot terminal to use by default.</span>
+<span class="nv">GNUPLOTTERMINAL</span><span class="o">=</span><span class="s2">&quot;aqua&quot;</span>  <span class="c1"># nice on OSX, needs aquaterm installed and gnuplot compiled with support for it.</span>
+<span class="c1">#GNUPLOTTERMINAL=&quot;wxt&quot;  # nice on linux.</span>
+<span class="c1">#GNUPLOTTERMINAL=&quot;x11&quot;  # fallback that works but looks kind of bad</span>
+
+<span class="c1"># the fortran compiler</span>
+<span class="nv">FORTRAN_COMPILER</span><span class="o">=</span><span class="s2">&quot;gfortran&quot;</span>
+<span class="nv">OPTIMIZATION_LEVEL</span><span class="o">=</span><span class="s2">&quot;-Ofast&quot;</span>
+<span class="c1"># the flag that sets the default real to a double. I only use it in one place, but can sometimes be</span>
+<span class="c1"># really important for the procedurally generated code</span>
+<span class="nv">DOUBLE_FLAG</span><span class="o">=</span><span class="s2">&quot;-fdefault-real-8&quot;</span>
+<span class="nv">MODULE_FLAG</span><span class="o">=</span><span class="s2">&quot;-J&quot;</span>
+
+<span class="c1"># Precompiler flags. Selecting default gnuplot terminal, and make the progressbars work.</span>
+<span class="nv">PRECOMPILER_FLAGS</span><span class="o">=</span><span class="s2">&quot;-DGP</span><span class="si">${</span><span class="nv">GNUPLOTTERMINAL</span><span class="si">}</span><span class="s2"> -Dgfortranprogressbar&quot;</span> <span class="c1"># for gfortran</span>
+<span class="c1">#PRECOMPILER_FLAGS=&quot;-DGP${GNUPLOTTERMINAL} -Difortprogressbar&quot; # for ifort</span>
+
+<span class="c1"># these are the flags that are needed for gfortran</span>
+<span class="nv">FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-Wl,-commons,use_dylibs -ffree-line-length-none -std=f2008 -fall-intrinsics -cpp -fopenmp&quot;</span>
+
+<span class="c1"># These are the BLAS/LAPACK libraries. On OSX with gfortran, use the built-in</span>
+<span class="c1"># where you just specify -framework accelerate and everything works. On other systems</span>
+<span class="c1"># you might have to specify this manally</span>
+<span class="nv">PATH_TO_BLASLAPACK_LIB</span><span class="o">=</span><span class="s2">&quot; &quot;</span>
+<span class="c1">#PATH_TO_BLASLAPACK_LIB=&quot;-L/path_to_somehwere &quot; </span>
+<span class="nv">PATH_TO_BLASLAPACK_INC</span><span class="o">=</span><span class="s2">&quot; &quot;</span>
+<span class="c1">#PATH_TO_BLASLAPACK_INC=&quot;-I/path_to_somewhere&quot;  </span>
+<span class="nv">BLASLAPACK_LIBS</span><span class="o">=</span><span class="s2">&quot;-framework accelerate&quot;</span> 
+<span class="c1">#BLASLAPACK_LIBS=&quot;-lblas -llapack &quot; # add whatever library lines needed for your blas/lapack installation</span>
+
+<span class="c1"># For the autocorrelation code, I use fast Fourier transforms. fftw needs to be installed and</span>
+<span class="c1"># linked. This is where homebrew installed mine on osx</span>
+<span class="nv">PATH_TO_FFTW_LIB</span><span class="o">=</span><span class="s2">&quot;-L/usr/local/lib&quot;</span>
+<span class="nv">PATH_TO_FFTW_INC</span><span class="o">=</span><span class="s2">&quot;-I/usr/local/include&quot;</span>
+<span class="nv">FFTW_LIBS</span><span class="o">=</span><span class="s2">&quot;-lfftw3&quot;</span>
+
+<span class="c1"># The thermal conductivity is MPI parallel. Then you need an mpi installation. This one points to </span>
+<span class="c1"># openmpi installed by homebrew in it&#39;s default location</span>
+<span class="nv">PATH_TO_MPI_LIB</span><span class="o">=</span><span class="s2">&quot;-L/usr/local/lib&quot;</span>
+<span class="nv">PATH_TO_MPI_INC</span><span class="o">=</span><span class="s2">&quot;-I/usr/local/include&quot;</span>
+<span class="nv">MPI_LIBS</span><span class="o">=</span><span class="s2">&quot;-lmpi_mpifh -lmpi&quot;</span>
+
+<span class="c1"># I also use HDF5 every now and then</span>
+<span class="nv">PATH_TO_HDF5_LIB</span><span class="o">=</span><span class="s2">&quot;-L/usr/local/lib&quot;</span>
+<span class="nv">PATH_TO_HDF5_INC</span><span class="o">=</span><span class="s2">&quot;-I/usr/local/include&quot;</span>
+<span class="nv">HDF5_LIBS</span><span class="o">=</span><span class="s2">&quot;-lhdf5 -lhdf5_fortran&quot;</span>
+
+<span class="c1"># We also need a C-compiler</span>
+<span class="nv">C_COMPILER</span><span class="o">=</span><span class="s2">&quot;gcc-5&quot;</span>
+
+<span class="c1"># If you want to try and use CGAL. Not recommended for people who do not like to sort out compiler errors. </span>
+<span class="nv">USECGAL</span><span class="o">=</span><span class="s2">&quot;no&quot;</span>
+
+<span class="c1"># CGAL is written in c++. I have wrapper functions in C, that I call from Fortran.</span>
+<span class="nv">CPP_COMPILER</span><span class="o">=</span><span class="s2">&quot;gcc-5&quot;</span>
+<span class="nv">CPP_FLAGS</span><span class="o">=</span><span class="s2">&quot;--std=c++0x -frounding-math -O3 -Dusecgal -DCGAL_USE_GMP -DCGAL_USE_MPFR -DCGAL_EIGEN3_ENABLED -DNDEBUG -DBOOST_PARAMETER_MAX_ARITY=12 -Wno-deprecated-declarations&quot;</span>
+<span class="nv">CGALLINKLINE</span><span class="o">=</span><span class="s2">&quot;-lstdc++ -lCGAL -lmpfr -lgmp -lboost_system -lboost_thread-mt&quot;</span>
+
+<span class="c1"># It&#39;s important at least a majority of these libraries are compiled with the same c++ compiler </span>
+<span class="c1"># as above. You can get strange, strange errors otherwise. As I said, getting this up and running</span>
+<span class="c1"># is not easy. But pretty cool, and worth the effort.</span>
+<span class="nv">PATH_TO_CGAL_LIB</span><span class="o">=</span><span class="s2">&quot;-L/Users/olle/software/CGAL-4.8/build/lib -L/usr/local/lib&quot;</span>
+<span class="nv">PATH_TO_CGAL_INC</span><span class="o">=</span><span class="s2">&quot;-I/Users/olle/software/CGAL-4.8/build/include -I/usr/local/include -I/usr/local/include/eigen3&quot;</span>
+</pre></div>
+
+
+<p>once that is set up, run</p>
+<div class="codehilite"><pre><span></span>./build_things.sh
+</pre></div>
+
+
+<p>And things should start compiling. It will stop at any error, you probably have to install some library or adjust some path in <code>important_settings</code>.</p>
+<h3>Setting paths</h3>
+<p>once <code>build_things.sh</code> has finished, it should have printed a <code>bashrc_tdep</code> file. The rest of the usage guides assumes you put this in your <code>.bashrc</code> or equivalent. It sets the path, manpath and a few minor things, contains the following lines:</p>
+<div class="codehilite"><pre><span></span><span class="nv">MANPATH</span><span class="o">=</span><span class="nv">$MANPATH</span>:/Users/olle/tdep-devel/man
+<span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/Users/olle/tdep-devel/bin
+<span class="nb">export</span> MANPATH
+<span class="nb">export</span> PATH
+<span class="nb">alias</span> <span class="nv">gnuplot</span><span class="o">=</span><span class="s1">&#39;gnuplot -persist&#39;</span>
+</pre></div>
+
+
+<p>If this is set up, you are good to go. </p>
+<h3>Complicated dependencies</h3>
+<h4>CGAL</h4>
+<p>You might have noticed that there is an optional dependency on <a href="http://http://www.cgal.org/">CGAL</a> in the provided <code>important_settings</code>. I wrote a Fortran interface to (a very small subset of) CGAL that can be used to generate meshes, triangulations and other things. The reason it is not enabled by default is that making CGAL and Fortran talk to each other nicely is not that fun. I can only describe how I got it to work. I don't know if all of these steps are necessary, or if there is some other thing I did that got it to work. This is all for OSX 10.11.4</p>
+<ul>
+<li>get the latest CGAL source, I used 4.8, and read the manual installation.</li>
+<li>compile boost with gcc</li>
+<li>compile eigen with gcc</li>
+<li>when configuring cgal with cmake, specify C and c++ compilers manually to gcc-5 (I never got it working with clang, my guess is that linking becomes easier if the fortran, C and c++ compilers are all gcc.)</li>
+<li>configure cgal to produce static libraries</li>
+<li>add <code>-DBOOST_PARAMETER_MAX_ARITY=12</code> to the compile line</li>
+</ul>
+<p>If this made no sense whatsoever, you probably do not want to try and enable this.</p>
+    </div>
+</div>
+
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

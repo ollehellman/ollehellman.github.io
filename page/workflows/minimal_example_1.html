@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Minimal example I &ndash; TDEP</title>
+
+<!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+</div>
+<div class="jumbotron">
+<div class="container-fluid">
+  <h3>Minimal example I</h3>
+</div>
+</div>
+<div class="container-fluid">
+
+<div class="row">
+    
+        <div class="col-sm-3">
+        <div class="toc">
+            <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Manual</a></li>
+            </ul>
+            <ul class="nav nav-stacked nav-pills">
+            
+                <li role="presentation">
+                <a href='../../page/./0_installation.html'>Installation</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./files.html'>Files</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/index.html'>Workflows</a>
+                
+                    <ul class="nav nav-stacked nav-pills">
+                      
+                <li role="presentation" class="disabled">
+                <a href='../../page/workflows/minimal_example_1.html'>Minimal example I</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_2.html'>Minimal example II</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_3.html'>Minimal example III</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_4.html'>Minimal example IV</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_5.html'>Minimal example V</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_6.html'>Minimal example VI</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/using_the_library.html'>Using the library</a>
+                
+                </li>
+            
+                    </ul>
+                
+                </li>
+            
+            </ul>
+        </div>
+        </div>
+    
+    <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
+        <h2>Phonon dispersions and spectral function</h2>
+<p>Following this example you will calculate the phonon dispersion relations and the phonon spectral function of fcc Al. I assume everything is installed, and that the ´tdep/bin´ folder is added to your path. Navigate to <code>tests/test_1_fcc_al</code>. There you will find</p>
+<ul>
+<li><a href="../files.html#infile.ucposcar">infile.ucposcar</a></li>
+<li><a href="../files.html#infile.ucposcar">infile.ssposcar</a></li>
+<li><a href="../files.html#infile.positions">infile.positions</a></li>
+<li><a href="../files.html#infile.forces">infile.forces</a></li>
+<li><a href="../files.html#infile.meta">infile.meta</a></li>
+<li><a href="../files.html#infile.stat">infile.stat</a></li>
+</ul>
+<p>which are prepared input files. Copy these to a new folder. First, we are interested in the phonon frequencies, and for that we need second order <a href="../../program/extract_forceconstants.html">force constants</a>. We use</p>
+<div class="codehilite"><pre><span></span>extract_forceconstants -rc2 5
+</pre></div>
+
+
+<p>This means we want forceconstants including all neighbours within 5Å. Hopefully, a new file should appear: <code>outfile.forceconstant</code>, along with some other files we ignore for now. Files named <code>infile.something</code> will not get overwritten, but those named <code>outfile.something</code> might. For files to be read by other <a href="../../lists/programs.html">programs</a>, you need to rename it, preferably like this:</p>
+<div class="codehilite"><pre><span></span>ln -s outfile.forceconstant infile.forceconstant
+</pre></div>
+
+
+<p>To get the <a href="../../program/phonon_dispersion_relations.html">phonon dispersion relations</a> we use</p>
+<div class="codehilite"><pre><span></span>phonon_dispersion_relations
+</pre></div>
+
+
+<p>Frequency as a function of q-vector is written to <code>outfile.dispersion_relations</code>. If gnuplot is properly set up (if gnuplot just flashes, it's probably because it is missing the <code>--persist</code> option), you can run</p>
+<div class="codehilite"><pre><span></span>gnuplot outfile.dispersion_relations.gnuplot
+</pre></div>
+
+
+<p>And you should see something like this:</p>
+<p><center>
+<img src="../../../src/media/fcc_Al_dispersions.png" width="500" />
+</center></p>
+<p>If we want to know something about the broadening we need third order force constants. To get these, we rerun</p>
+<div class="codehilite"><pre><span></span>extract_forceconstants -rc2 5 -rc3 3
+</pre></div>
+
+
+<p>And it will produce a new forceconstant file, <code>outfile.forceconstant_thirdorder</code>. Again, we need to copy (or link) it to an infile:</p>
+<div class="codehilite"><pre><span></span>ln -s outfile.forceconstant_thirdorder infile.forceconstant_thirdorder
+</pre></div>
+
+
+<p>Once this is set up, we use the <a href="../../program/lineshape.html">lineshape</a> code to produce the phonon spectral function:</p>
+<div class="codehilite"><pre><span></span>lineshape --path -qg 7 7 7 -ne 600 --temperature 800
+</pre></div>
+
+
+<p>and this produces, among other things, an <code>outfile.sqe</code> (and the hdf5 version of the same data, <code>outfile.sqe.hdf5</code>). I read this into matlab and plotted it with a logarithmic intensity scale, and the results look something like this:</p>
+<p><center>
+<img src="../../../src/media/fcc_Al_sqe.png" width="500" />
+</center></p>
+<p>This is a sample matlab code snippet to produce this plot:</p>
+<div class="codehilite"><pre><span></span><span class="c">% read everything from file</span>
+<span class="n">fn</span><span class="p">=(</span><span class="s">&#39;outfile.sqe.hdf5&#39;</span><span class="p">);</span>
+<span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/q_values&#39;</span><span class="p">);</span>
+<span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/energy_values&#39;</span><span class="p">);</span>
+<span class="n">gz</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/intensity&#39;</span><span class="p">);</span>
+<span class="n">xtck</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/q_ticks&#39;</span><span class="p">);</span>
+<span class="n">xtcklabel</span><span class="p">=</span><span class="n">strsplit</span><span class="p">(</span><span class="n">h5readatt</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/&#39;</span><span class="p">,</span><span class="s">&#39;q_tick_labels&#39;</span><span class="p">));</span>
+<span class="n">energyunit</span><span class="p">=</span><span class="n">h5readatt</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/&#39;</span><span class="p">,</span><span class="s">&#39;energy_unit&#39;</span><span class="p">);</span>
+
+<span class="c">% plot the results</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">clf</span><span class="p">;</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+<span class="p">[</span><span class="n">gy</span><span class="p">,</span><span class="n">gx</span><span class="p">]=</span><span class="nb">meshgrid</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="n">s</span><span class="p">=</span><span class="n">pcolor</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span><span class="n">gy</span><span class="p">,</span><span class="nb">log10</span><span class="p">(</span><span class="n">gz</span><span class="o">+</span><span class="mf">1E-2</span><span class="p">));</span>
+<span class="n">set</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;edgecolor&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;facecolor&#39;</span><span class="p">,</span><span class="s">&#39;interp&#39;</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xtick&#39;</span><span class="p">,</span><span class="n">xtck</span><span class="p">,</span><span class="s">&#39;xticklabel&#39;</span><span class="p">,</span><span class="n">xtcklabel</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">([</span><span class="s">&#39;Energy (&#39;</span> <span class="n">energyunit</span> <span class="s">&#39;)&#39;</span><span class="p">])</span>
+<span class="n">xlim</span><span class="p">([</span><span class="mi">0</span> <span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
+<span class="n">ylim</span><span class="p">([</span><span class="mi">0</span> <span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">)])</span>
+</pre></div>
+
+
+<p>And an equivalent snippet using matplotlib</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">h5py</span> <span class="kn">as</span> <span class="nn">h5</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+
+<span class="c1"># open the sqe file</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">h5</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;outfile.sqe.hdf5&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="c1"># get axes and intensity</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q_values&#39;</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;energy_values&#39;</span><span class="p">))</span>
+<span class="n">gz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intensity&#39;</span><span class="p">))</span>
+<span class="c1"># add a little bit so that the logscale does not go nuts</span>
+<span class="n">gz</span><span class="o">=</span><span class="n">gz</span><span class="o">+</span><span class="mf">1E-2</span>
+<span class="c1"># for plotting, turn the axes into 2d arrays</span>
+<span class="n">gx</span><span class="p">,</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="c1"># x-ticks</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q_ticks&#39;</span><span class="p">))</span>
+<span class="c1"># labels for the x-ticks</span>
+<span class="n">xl</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q_tick_labels&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="c1"># label for y-axis</span>
+<span class="n">yl</span> <span class="o">=</span> <span class="s2">&quot;Energy (&quot;</span><span class="o">+</span><span class="n">f</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;energy_unit&#39;</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gz</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">gz</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">vmax</span><span class="o">=</span><span class="n">gz</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+<span class="c1"># set the limits of the plot to the limits of the data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">xt</span><span class="p">,</span><span class="n">xl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">yl</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Read the documentation for the codes used, and familiarise yourself with their capabilities before moving on. A couple of things that should be very easy, and a final one that requires some thought:</p>
+<ul>
+<li>Change the q-point path through the Brillouin zone. First plot the dispersions along this new path, then the spectralfunction. <a href="../files.html#infile.qpoints_dispersion">hint.</a></li>
+<li>Plot the phonon DOS in units of meV from the second order force constants. Understand the difference between the different ways to integrate. <a href="../../program/phonon_dispersion_relations.html">hint.</a></li>
+<li>Get the broadened phonon DOS at some temperature. Try to understand the difference in integration technique when doing this, and the example above. <a href="../../program/lineshape.html">hint.</a></li>
+<li>Get the phonon free energy at 450K. <a href="../../program/phonon_dispersion_relations.html">hint.</a></li>
+<li>Figure out what depends on what. If you have calculated the spectralfunction at 300K, and want to do it with a tighter q-point grid, from what step do you have to start over? If you want a longer cutoff for the second order force constants, from what step do you have to repeat the procedure?</li>
+</ul>
+    </div>
+</div>
+
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

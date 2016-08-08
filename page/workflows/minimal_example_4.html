@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Minimal example IV &ndash; TDEP</title>
+
+<!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+</div>
+<div class="jumbotron">
+<div class="container-fluid">
+  <h3>Minimal example IV</h3>
+</div>
+</div>
+<div class="container-fluid">
+
+<div class="row">
+    
+        <div class="col-sm-3">
+        <div class="toc">
+            <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Manual</a></li>
+            </ul>
+            <ul class="nav nav-stacked nav-pills">
+            
+                <li role="presentation">
+                <a href='../../page/./0_installation.html'>Installation</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./files.html'>Files</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/index.html'>Workflows</a>
+                
+                    <ul class="nav nav-stacked nav-pills">
+                      
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_1.html'>Minimal example I</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_2.html'>Minimal example II</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_3.html'>Minimal example III</a>
+                
+                </li>
+            
+                <li role="presentation" class="disabled">
+                <a href='../../page/workflows/minimal_example_4.html'>Minimal example IV</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_5.html'>Minimal example V</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_6.html'>Minimal example VI</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/using_the_library.html'>Using the library</a>
+                
+                </li>
+            
+                    </ul>
+                
+                </li>
+            
+            </ul>
+        </div>
+        </div>
+    
+    <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
+        <p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Bother Nina about a nice set of calculations with almost no trouble att all.</div>
+<h3>Basic free energy calculations</h3>
+<p>Navigate to <code>/example_4_free_energy</code>. There you should see 6 folders, each corresponding to a simulation at fix temperature, but different volumes. This particular case is PbTe at 300K. Copy all the contents to a new folder.</p>
+<p>First, we will get the free energy at a single volume. Pick one of the folders, perhaps <code>/volume_1</code>. We will constrain ourselves to second order force constants, run:</p>
+<div class="codehilite"><pre><span></span>extract_forceconstants -rc2 100 -U0
+ln -s outfile.forceconstant infile.forceconstant
+phonon_dispersion_relations -loto --dos -qg 36 36 36 --temperature 300
+</pre></div>
+
+
+<p>This will produce plenty of output. The things you need for the free energy is the renormalized baseline, $U_0$, and the phonon free energy $F_{\textrm{ph}}$. These will be in <a href="../../program/extract_forceconstants.html#outfile.U0">outfile.U0</a> and <a href="../../program/phonon_dispersion_relations.html#outfile.free_energy">outfile.free_energy</a> respectively. I put a decent explanation what the different terms are <a href="../../program/phonon_dispersion_relations.html#sec_tdepthermo">here</a>. If you did things right, these are the numbers to expect:</p>
+<div class="codehilite"><pre><span></span>x=10
+y=15
+</pre></div>
+
+
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Fill this in with numbers.</div>
+<h4>Many volumes</h4>
+<p>Now repeat this procedure in every folder. That should net you a set of 6 volumes and 6 energies. Please ensure that these are the numbers you get:</p>
+<div class="codehilite"><pre><span></span># Volume    Free energy
+3.0         4.5
+3.0         4.5
+3.0         4.5
+3.0         4.5
+3.0         4.5
+3.0         4.5
+</pre></div>
+
+
+<p>If you are lazy, and have infinite computer resources, this is good enough. </p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Fit EOS, say that sometimes this is good enough.</div>
+<h4>We can do it smarter!</h4>
+<p>If you read the thermodynamics section of phonon dispersion relations, you might have noted that I expressed $U_0$ as a shift from the perfect lattice at 0K, $\Delta U_0$. The reson for that is not to confuse you, as you might assume, but numerics.</p>
+<p>In this example, we use a 250 atom supercell. In an ideal world, the energy per atom calculated by a first-principles code from a 250 atom supercell and the 2 atom unit cell should be identical. In reality, that is rarely the case. Finite computing resources put a limit to the numerical accuracy.</p>
+<p>However, empirically I have found that energy <em>differences</em> converge faster than <em>absolute</em> energies. So, by calculating</p>
+<p>$$
+\Delta U = U^{\textrm{fix}}_0 - U^{\textrm{fix}}_{\textrm{stat}}
+$$</p>
+<p>we can use the cancellation of errors to our advantage. Here I used the superscript "fix", to denote that this needs to be calculated with <em>identical</em> parameters, that is the same basis set, the same set of k-points, same pseudopotentials and so on, the only thing that is different is the position of the ions. The only additional cost, in this example, is 6 more static calculations, one at each volume, with energies (per atom) given by:</p>
+<div class="codehilite"><pre><span></span>e1
+e2
+e3
+e4
+e5
+e6
+</pre></div>
+
+
+<p>Now you should be able to plot $\Delta U$ as a function of volume</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Add the plot</div>
+<p>Since we removed the static lattice energy per atom from our free energy, we have to add it again. This is naturally done in terms of the unit cell, where converging the numerics is far cheaper. There is also no need to constrain yourself to just 6 volumes, these calculations are so cheap that you might as well do 20 or 30.</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Explain how to converge unitcell calculations in a meaningful way, that checking that the pressure vs energy plots agree.</div>
+<p>What was the point of this? I want you to realise the sources of numerical noise. In the following plot:</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Plot with $U$,$\Delta U$ and $F$ on the same scale</div>
+<p>you quickly realise that a majority of the energy comes from the static contribution. Luckily, this is also the cheapest to calculate! So, by using a large number of volumes, and high numerical accuracy we can make the calculations more accurate without having to resort to a large number of costly supercell calculations.</p>
+<p>Of course, if you are lazy and get confused by addition and subtraction, you can always just converge everything at the supercell level.</p>
+<h4>Fast and cheating way</h4>
+<p>In case you don't actually care about accuracy at all, you can skip the baseline shift, and the temperature dependence of the forceconstants.</p>
+    </div>
+</div>
+
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

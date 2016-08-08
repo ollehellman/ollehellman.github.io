@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Minimal example II &ndash; TDEP</title>
+
+<!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+</div>
+<div class="jumbotron">
+<div class="container-fluid">
+  <h3>Minimal example II</h3>
+</div>
+</div>
+<div class="container-fluid">
+
+<div class="row">
+    
+        <div class="col-sm-3">
+        <div class="toc">
+            <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Manual</a></li>
+            </ul>
+            <ul class="nav nav-stacked nav-pills">
+            
+                <li role="presentation">
+                <a href='../../page/./0_installation.html'>Installation</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./files.html'>Files</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/index.html'>Workflows</a>
+                
+                    <ul class="nav nav-stacked nav-pills">
+                      
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_1.html'>Minimal example I</a>
+                
+                </li>
+            
+                <li role="presentation" class="disabled">
+                <a href='../../page/workflows/minimal_example_2.html'>Minimal example II</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_3.html'>Minimal example III</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_4.html'>Minimal example IV</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_5.html'>Minimal example V</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/minimal_example_6.html'>Minimal example VI</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/workflows/using_the_library.html'>Using the library</a>
+                
+                </li>
+            
+                    </ul>
+                
+                </li>
+            
+            </ul>
+        </div>
+        </div>
+    
+    <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
+        <h2>Create the input files</h2>
+<p>In this example we want to produce input files similar to those provided in <a href="minimal_example_1.html">the first minimal example</a> by setting up the required files, running VASP and postprocessing. But since this is a tutorial, you do not need to actually run any DFT calculations, the output files are provided in <code>examples/example_2_ScF3</code>.</p>
+<h3>Preparing input</h3>
+<p>Start by making an empty working directory. The first step is to prepare the unit cell. In this particular case, use this and and name it <code>infile.ucposcar</code></p>
+<div class="codehilite"><pre><span></span>ScF3
+   4.011000
+  1.000000000000000   0.000000000000000   0.000000000000000
+  0.000000000000000   1.000000000000000   0.000000000000000
+  0.000000000000000   0.000000000000000   1.000000000000000
+ Sc F
+   1   3
+Direct
+  0.000000000000000   0.000000000000000   0.000000000000000
+  0.500000000000000   0.000000000000000   0.000000000000000
+  0.000000000000000   0.000000000000000   0.500000000000000
+  0.000000000000000   0.500000000000000   0.000000000000000
+</pre></div>
+
+
+<p>The format is specified <a href="../files.html#infile.ucposcar">here</a>. To run molecular dynamics, you need a larger simulation cell. I have provided <a href="../../program/generate_structure.html">tools</a> for that:</p>
+<div class="codehilite"><pre><span></span>generate_structure -d 4 4 4
+</pre></div>
+
+
+<p>again, change the output to input</p>
+<div class="codehilite"><pre><span></span>mv outfile.ssposcar infile.ssposcar
+</pre></div>
+
+
+<p>This is the preferred way of generating supercells. Any script should do, but some of them that exist out there do not use double precision for some odd reason. The <a href="../../program/figure_out_symmetry_things.html">symmetry analysis</a> is rather sensitive, and assumes that the unit- and supercell describe exactly the same lattice, to machine precision. Almost the same is not good enough.</p>
+<p>This can not be stressed enough, in my experience this is the most common source of problems, and it is easily avoided. When in doubt, use at least 12 decimal places. A common problem is that .cif-files sometimes write too few digits for e.g. \(\sqrt(3)/2\) for my codes to correctly differentiate between crystal lattices. For example, this is really bad:</p>
+<div class="codehilite"><pre><span></span>hcp Fe
+ 2.4
+   0.50000  -0.866025  0.00000
+   0.50000   0.866025  0.00000
+   0.00000   0.000000  1.63299
+Fe
+   2
+Direct
+   0.333333333333333   0.666666666666667   0.250000000000000
+   0.666666666666667   0.333333333333333   0.750000000000000
+</pre></div>
+
+
+<p>whereas this is good:</p>
+<div class="codehilite"><pre><span></span>hcp Fe
+ 2.4
+   0.500000000000000  -0.866025403784439  0.000000000000000
+   0.500000000000000   0.866025403784439  0.000000000000000
+   0.000000000000000   0.000000000000000  1.632993161855452
+Fe
+   2
+Direct
+   0.333333333333333   0.666666666666667   0.250000000000000
+   0.666666666666667   0.333333333333333   0.750000000000000
+</pre></div>
+
+
+<p>It is a deliberate choice to set tolerances this tight: there is absolutely no reason why you should not be defining structures to high precision. Loose tolerances can cause subtle errors are far more annoying to track down than entering those extra digits.</p>
+<h4>Use the primitive unit cell</h4>
+<p>The symmetry analysis is clever enough to ensure that you get the same forceconstants regardless of the cell you use, but you should use the smallest possible unit cell. There are <a href="../../program/remap_forceconstant.html">tools</a> available to rearrange forceconstants to larger unit cells, but not from a larger cell to a smaller. So by using the smallest possible cell, you can always change your mind later.</p>
+<h3>Running a VASP simulation</h3>
+<p>With the structure defined, we can run some molecular dynamics. In this pariticular example we do it cooking-show style: the output is already prepared. Nonetheless, this is what the input looks like (INCAR only, there is nothing special in the other input files):</p>
+<div class="codehilite"><pre><span></span>ENCUT = 600
+ISMEAR = 0
+ISIF = 2
+IBRION = 0
+NSW = 10000
+EDIFF = 1E-5
+IALGO = 48
+
+POTIM = 2
+TEBEG = 150
+SMASS = 0
+</pre></div>
+
+
+<p>There are some things that might seem nonstandard. The energy cutoff is very high. I start convergence testing at about double the default, <code>ENCUT = 2*ENMAX</code>, where the default is read from the POTCAR files. You can not use tetrahedron integration, you must use some smearing. Fermi smearing makes the most sense, but requires a really tight k-point grid. It differs from what you might normally do in that we require high-quality forces, and not much else. Speaking of that, the tag <code>ISIF = 2</code> is crucial, since without it forces will not get printed to <code>OUTCAR</code>.</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Link to page about numerics and how many digits are required.</div>
+<p>At this stage, you would run the simulations. Starting molecular dynamics from ideal lattice positions usually require a long equilibration time that has to be discarded. This time can be minimized by using a better seed. A program to do this is provided, see <a href="../../program/initialize_md.html">initialize_md</a>.</p>
+<h3>Parsing VASP output</h3>
+<p>Pretend that you started VASP and let it run for a while, and copy <code>examples/example_2_ScF3/OUTCAR</code> to the working directory and run</p>
+<div class="codehilite"><pre><span></span>process_outcar_5.3.py OUTCAR
+</pre></div>
+
+
+<p>and all the input files should be created. From this point, repeat the steps in <a href="minimal_example_1.html">the first example</a>. Not that these are not converged calculations by any means, the provided example is just 80 time steps using a single k-point for the electron structure calculations (github is really not the place to put large output files).</p>
+<h3>TLDR</h3>
+<p>The short version if you are impatient:</p>
+<ul>
+<li>get a unit cell</li>
+<li>make a supercell</li>
+<li>run VASP</li>
+<li>run <code>process_outcar_5.3.py</code></li>
+</ul>
+<p>I could have started with this, but I wanted you to understand a bit what you should and should not do.</p>
+<h3>Things to understand:</h3>
+<p>Some things to consider:</p>
+<ul>
+<li>Read the documentation for <code>process_outcar_5.3.py</code>, figure out how to stitch a continuation job together.</li>
+<li>Maybe you ran VASP with some settings that makes the OUTCAR parsing fail. Make sure you understand how to construct the input files manually.</li>
+</ul>
+<h3>Parsing other output</h3>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Equivalent guide for other codes.</div>
+    </div>
+</div>
+
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

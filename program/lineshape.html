@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>
+    
+        lineshape &ndash; TDEP
+    
+</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="programs.html" id="programdropdown">Programs<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                    <li>
+                        
+                            <a href="../program/atomic_distribution.html">atomic distribution</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/autocorrelation.html'>autocorrelation</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/canonical_configuration.html">canonical configuration</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/crystal_structure_info.html">crystal structure info</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/extract_forceconstants.html">extract forceconstants</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/generate_structure.html">generate structure</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/lineshape.html'>lineshape</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/phonon_dispersion_relations.html">phonon dispersion relations</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/samples_from_md.html">samples from md</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/thermal_conductivity.html">thermal conductivity</a>
+                        
+                     </li>
+                
+            </ul>
+            </li>
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+
+
+</div>
+
+<div class="jumbotron">
+<div class="container-fluid">
+    
+        <h3>lineshape</h3>
+    
+</div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <!--
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div class="panel panel-default">
+    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
+    <div id="allprogs" class="panel-collapse collapse">
+        <div class="list-group">
+          
+          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+          
+          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+          
+          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+          
+          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+          
+          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+          
+          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+          
+          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+          
+          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+          
+          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+          
+          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+          
+          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+          
+        </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+    -->
+    
+    <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
+    <h3>Short description</h3>
+<p>Calculate the frequency-dependent self-energy and phonon spectral function from many-body perturbation theory. Per default, the self-energy is calculated for a single q-point, but can be calculated along a path in the Brillouin zone for intensity plots, or as a phonon density of states.</p>
+<h3>Command line options:</h3>
+<p>Optional switches:</p>
+<ul>
+<li>
+<p><code>--unit value</code>, value in: <code>thz,mev,icm</code><br>
+    default value thz<br>
+    Choose the output unit. The options are terahertz (in frequency, not angular frequency), inverse cm or meV.</p>
+</li>
+<li>
+<p><code>--loto</code><br>
+    default value .false.<br>
+    Add the corrections due to long-range electrostatic interactions, requires <code>infile.lotosplitting</code> Format is specified <a href="../page/files.html#infile.lotosplitting">here</a>.</p>
+</li>
+<li>
+<p><code>--temperature value</code><br>
+    default value 300<br>
+    Temperature used in the occupation numbers. Should be the same as the temperature the force constants where determined at.</p>
+</li>
+<li>
+<p><code>--n_energies value</code>, <code>-ne value</code><br>
+    default value 600<br>
+    Number of energies for the energy-dependent self-energy.</p>
+</li>
+<li>
+<p><code>--qpoint_grid value#1 value#2 value#3</code>, <code>-qg value#1 value#2 value#3</code><br>
+    default value 26 26 26<br>
+    Density of q-point mesh for Brillouin zone integrations.</p>
+</li>
+<li>
+<p><code>--integrationtype value</code>, <code>-it value</code>, value in: <code>1,2,3</code><br>
+    default value 2<br>
+    Type of integration for the phonon DOS. 1 is Gaussian, 2 adaptive Gaussian and 3 Tetrahedron.</p>
+</li>
+<li>
+<p><code>--sigma value</code><br>
+    default value 1.0<br>
+    Global scaling factor for the Gaussian/adaptive Gaussian smearing. The default is determined procedurally, and scaled by this number.</p>
+</li>
+<li>
+<p><code>--path</code><br>
+    default value .false.<br>
+    Calculate the self-energy and spectral function on a path through the BZ.</p>
+</li>
+<li>
+<p><code>--readpath</code>, <code>-rp</code><br>
+    default value .false.<br>
+    Read the q-point path from <code>infile.qpoints_dispersion</code>. Use <a href="crystal_structure_info.html">crystal structure into</a> to generate an example.</p>
+</li>
+<li>
+<p><code>--nq_on_path value</code>, <code>-nq value</code><br>
+    default value 100<br>
+    Number of q-points between each high symmetry point</p>
+</li>
+<li>
+<p><code>--dos</code><br>
+    default value .false.<br>
+    Calculate the broadened and shifted phonon DOS.</p>
+</li>
+<li>
+<p><code>--dos_qpoint_grid value#1 value#2 value#3</code><br>
+    default value -1 -1 -1<br>
+    Interpolate to a (preferrably) denser q-mesh when calculating the DOS.</p>
+</li>
+<li>
+<p><code>--qpoint value#1 value#2 value#3</code><br>
+    default value 0 0 0<br>
+    Calculate the self-energy at a single q-point, input in fractional coordinates.</p>
+</li>
+<li>
+<p><code>--highsymmetrypoint value</code><br>
+    default value none<br>
+    Samy as above, but you can specify the label of a high-symmetry point instead, e.g. "X" or "L".</p>
+</li>
+<li>
+<p><code>--max_energy value</code><br>
+    default value 1.4<br>
+    Maximum energy where the output is cut off, in multiples of the maximum harmonic frequency.</p>
+</li>
+<li>
+<p><code>--no_isotope_scattering</code><br>
+    default value .false.<br>
+    Switch off isotope (mass disorder) scattering</p>
+</li>
+<li>
+<p><code>--no_thirdorder_scattering</code><br>
+    default value .false.<br>
+    Switch of three-phonon scattering</p>
+</li>
+<li>
+<p><code>--fourthorder</code><br>
+    default value .false.<br>
+    Consider four-phonon contributions to the real part of the self-energy.</p>
+</li>
+<li>
+<p><code>--readiso</code><br>
+    default value .false.<br>
+    Read the isotope distribution from file</p>
+</li>
+<li>
+<p><code>--help</code>, <code>-h</code><br>
+    Print this help message</p>
+</li>
+<li>
+<p><code>--version</code>, <code>-v</code><br>
+    Print version</p>
+</li>
+</ul>
+<h3>Examples</h3>
+<p><code>lineshape --highsymmetrypoint X --temperature 500</code> </p>
+<p><code>lineshape --path -qg 10 10 10 --noisotope</code> </p>
+<p><code>lineshape --dos -qg 10 10 10 --dos_qpoint_grid 24 24 24</code> </p>
+<h3>Long summary</h3>
+<p>This code calculates the energy-dependent self energy from three-phonon scattering, as well as the contributions from mass imperfections and four-phonon scattering. It can produce nice figures like this:</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Nice picture of S(Q,E)</div>
+<h3>Background</h3>
+<p>It is nowadays routine to calculate e.g. <a href="thermal_conductivity.html">lattice thermal conductivity</a> using perturbation theory. At that level of approximation, you calculate the phonon lifetime via the imaginary part of the phonon self-energy at the harmonic frequencies. In general, however, the picture with a well defined phonon, shifted by a small energy $ \Delta $ and broadened by $ \Gamma $ is not enough. In general, the phonon self-energy is energy-dependent,<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup></p>
+<p>$$
+\Sigma(\Omega) = \Delta(\Omega) + i\Gamma(\Omega) \,,
+$$</p>
+<p>where we use $ \Omega $ to distinguish this energy from the eigenvalues of the dynamical matrix, $ \omega^2 $. Inelastic neutron measurements sometimes show scattering cross sections that deviate strongly from a Lorentzian. To reproduce this computationally, start by noting that in an idealised experiment the one-phonon neutron cross section would be measured as<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup></p>
+<p>$$
+\begin{equation}
+\sigma_{\lambda}(\Omega) \propto
+\frac{
+  2 \omega_{\lambda}\Gamma_{\lambda}(\Omega)
+}{
+  \left[\Omega^2-\omega^2_{\lambda}-2\omega_{\lambda}
+  \Delta_{\lambda}(\Omega)\right]^2+4\omega^2_{\lambda}\Gamma_{\lambda}^2(\Omega)}\,.
+\end{equation}
+$$</p>
+<p>Here $\omega^2_{\lambda}$ are the eigenvalues of the dynamical matrix, $\Delta_{\lambda}(\Omega)$ and $\Gamma_{\lambda}(\Omega)$ are the real and imaginary parts of the frequency dependent self-energy, and $\hbar\Omega$ is a probing energy. This is the quantity referred to as the lineshape. If you let $\Delta$ and $\Gamma$ go to a small constant, this reduces to a Lorentzian as expected.</p>
+<p>The energy axis is the probing energy, and the intensity represents the likelihood of exciting a phonon with energy $\hbar\Omega$ and momentum $\textbf{q}$. We can interpret the cross section, or phonon lineshape, as the broadened and shifted phonon frequencies. The term "broadening" is used in the sense of a spectral representation: non-interaction quasiparticles are represented as Dirac $\delta$-functions, but in the interacting case these are replaced by distributions with finite widths.</p>
+<p>Given the third order force constants, the imaginary part of the phonon self-energy can be calculated:<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup><sup>,</sup><sup id="fnref-wallace1998thermodynamics"><a class="footnote-ref" href="#fn-wallace1998thermodynamics">4</a></sup></p>
+<p>$$
+\begin{equation*}
+\begin{split}
+\Gamma_{\lambda}(\Omega) &amp; =  \frac{\hbar\pi}{16}
+%\frac{V}{(2\pi)^3}
+\sum_{\lambda'\lambda''}
+\left|
+\Phi_{\lambda\lambda'\lambda''}
+\right|^2
+\big{\{}(n_{\lambda'}+n_{\lambda''}+1)
+\delta(\Omega-\omega_{\lambda'}-\omega_{\lambda''})+
+\\&amp; +(n_{\lambda'}-n_{\lambda''})
+\left[
+\delta(\Omega-\omega_{\lambda'}+\omega_{\lambda''}) -
+\delta(\Omega+\omega_{\lambda'}-\omega_{\lambda''})
+\right]
+\big{\}}
+\end{split}
+\end{equation*}
+$$</p>
+<p>The imaginary part of the self energy is a sum over all possible three-phonon interactions $ \lambda \lambda' \lambda''$, $n_{\lambda}$ are the Bose-Einstein thermal occupation factors counting the number of phonons in each mode. The expression for the self-energy is then an integral over the allowed processes (conserving energy and momentum), weighted by how many phonons are in each of the different modes, with the scattering strength determined by the three-phonon matrix element:</p>
+<p>$$
+\Phi_{\lambda\lambda'\lambda''} = 
+\sum_{ijk}
+\sum_{\alpha\beta\gamma}
+\frac{
+\epsilon_{\lambda}^{i \alpha}
+\epsilon_{\lambda'}^{j \beta}
+\epsilon_{\lambda''}^{k \gamma}
+}{
+\sqrt{m_{i}m_{j}m_{j}}
+\sqrt{
+    \omega_{\lambda}
+    \omega_{\lambda'}
+    \omega_{\lambda''}}
+}
+\Phi^{\alpha\beta\gamma}_{ijk}
+e^{i \mathbf{q}\cdot\mathbf{r}_i + i \mathbf{q}'\cdot\mathbf{r}_j+i \mathbf{q}''\cdot\mathbf{r}_k}
+$$</p>
+<p>The real part is conveniently calculated via a Kramers-Kronig transform (it can of course be expressed in a similar way as the imaginary part:<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup><sup id="fnref-wallace1998thermodynamics"><a class="footnote-ref" href="#fn-wallace1998thermodynamics">4</a></sup></p>
+<p>$$
+\begin{equation}
+\Delta(\Omega)=\frac{1}{\pi}\int\frac{\Gamma(\omega)}{\omega-\Omega}\mathrm{d}\omega\,.
+\end{equation}
+$$</p>
+<p>A significant deviation from Lorentzian lineshapes indicates anharmonic effects and can be checked by considering phonon spectral representation $\sigma_{\lambda}$.</p>
+<h4>Mass disorder</h4>
+<p>The mass disorder term is also included, stemming from the natural distribution of isotopes. According to Tamura<sup id="fnref-Tamura1983"><a class="footnote-ref" href="#fn-Tamura1983">5</a></sup>, if the isotopes are randomly distributed on the lattice sites then the strength of the isotope effects can be given by a mass variance parameter $g$:</p>
+<p>$$
+g_i=\sum_j c_{i}^j \left(\frac{m_i^j-\bar{m_i}}{\bar{m_i}}\right)^2 
+$$</p>
+<p>where $\bar{m_i}$ is the average isotopic mass( $\bar{m_i}=\sum_j c_i^j m_i^j$ ), $m^j_i$ is the mass of isotope $j$ of atom $i$ and $c^j_i$ is its concentration. We can write an expression for the imaginary part of the isotope self-energy:</p>
+<p>$$
+\Gamma_{\lambda}(\Omega)=
+\frac{\pi}{4} \sum_{\lambda'}
+\Lambda_{\lambda\lambda'} \delta(\Omega-\omega_{\lambda}')
+$$</p>
+<p>where</p>
+<p>$$
+\Lambda_{\lambda\lambda'}=
+\omega_{\lambda}\omega_{\lambda'} \sum_i g_i \left| \epsilon_{\lambda}^{i \dagger} \epsilon_{\lambda'}^{i} \right|^2
+$$</p>
+<p>Per default, the isotope distribution will be the natural distribution. In case some other distribution is desired, this can be specified.</p>
+<h3>Input files</h3>
+<p>Required files:</p>
+<ul>
+<li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
+<li><a href="extract_forceconstants.html">infile.forceconstant</a></li>
+<li><a href="extract_forceconstants.html">infile.forceconstant_thirdorder</a></li>
+</ul>
+<p>Optional files:</p>
+<ul>
+<li><a href="../page/files.html#infile.ssposcar">infile.lotosplitting</a> (for long-range corrections)</li>
+<li><a href="../page/files.html#infile.qpoints_dispersion">infile.qpoints_dispersion</a> (to specify the q-point path)</li>
+<li><a href="../page/files.html#infile.isotopes">infile.isotopes</a> (for non-natural isotope distribution)</li>
+</ul>
+<h3>Output files</h3>
+<p>There are three possible modes for this code: the lineshape at a single q-point (default), along a path in the BZ (<code>--path</code>) or over the full BZ as a phonon DOS (<code>--dos</code>). The output files will differ. For lineshape at a single q, you get</p>
+<h4><code>outfile.selfenergy_*</code></h4>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>This is on it's way to be moved to an hdf5. Fix.</div>
+<h4><code>outfile.sqe.hdf5</code></h4>
+<p>These files represent the properties calculated as a function of \(\textbf{q}\) along high symmetry directions in the Brillouin zone. The file is self-documented. An example how to produce decent-looking plots can be found <a href="../page/workflows/minimal_example_1.html">here</a>.</p>
+<h4><code>outfile.dos_lineshape</code></h4>
+<p>Is identical to <a href="../program/phonon_dispersion_relations.html#outfile.phonon_dos">this</a>.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn-Maradudin1962">
+<p><a href="http://doi.org/10.1103/PhysRev.128.2589">Maradudin, A. A., &amp; Fein, A. (1962). Scattering of Neutrons by an Anharmonic Crystal. Physical Review, 128(6), 2589–2608.</a>&#160;<a class="footnote-backref" href="#fnref-Maradudin1962" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn-RACowley1968">
+<p><a href="http://doi.org/10.1088/0034-4885/31/1/303">Cowley, R. A. (1968). Anharmonic crystals. Reports on Progress in Physics, 31(1), 123–166.</a>&#160;<a class="footnote-backref" href="#fnref-RACowley1968" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Leibfried1961">
+<p><a href="http://doi.org/10.1016/S0081-1947(08)60656-6">Leibfried, G., &amp; Ludwig, W. (1961). Theory of Anharmonic Effects in Crystals. Solid State Physics - Advances in Research and Applications, 12(C), 275–444.</a>&#160;<a class="footnote-backref" href="#fnref-Leibfried1961" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn-wallace1998thermodynamics">
+<p><a href="http://books.google.se/books?id=qLzOmwSgMIsC">Wallace, D. C. (1998). Thermodynamics of crystals. Dover Publications, Incorporated.</a>&#160;<a class="footnote-backref" href="#fnref-wallace1998thermodynamics" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Tamura1983">
+<p><a href="http://doi.org/10.1103/PhysRevB.27.858">Tamura, S. (1983). Isotope scattering of dispersive phonons in Ge. Physical Review B, 27(2), 858–866.</a>&#160;<a class="footnote-backref" href="#fnref-Tamura1983" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+<!--
+    <br>
+    
+  
+    <ul class="list-inline">
+      <li><h4>Uses:</h4></li>
+      
+      <li>constants</li>
+      
+      <li>type_crystalstructure</li>
+      
+      <li>type_forceconstant_secondorder</li>
+      
+      <li>type_forceconstant_thirdorder</li>
+      
+      <li>type_forceconstant_fourthorder</li>
+      
+      <li>type_qpointmesh</li>
+      
+      <li>type_phonon_dispersions</li>
+      
+      <li>type_phonon_dos</li>
+      
+      <li>type_lotosplitting</li>
+      
+      <li>type_phonon_bandstructure</li>
+      
+      <li>helpers</li>
+      
+      <li>dump_data</li>
+      
+      <li>scatteringrates</li>
+      
+      <li>phonondamping</li>
+      
+      <li>options</li>
+      
+      <li>io</li>
+      
+    </ul>
+  
+
+    
+    
+    
+    <br>
+
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+    
+    
+    
+-->    
+    </div>
+  </div>
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

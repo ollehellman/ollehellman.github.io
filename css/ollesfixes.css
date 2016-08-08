@@ -1,0 +1,100 @@
+/* 
+    the html and .wrapper is to push the footer down below the initial viewport 
+    also, I set the global font size here
+*/
+html, body {
+    height: 100%;
+    font-size: 14px;
+}
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto 0;
+}
+.footer, .push {
+    height: 100px;
+    background-color: #2d3047;
+    color: #5A6384;
+    margin: 0 auto 0;
+}
+.footer a{
+    color: #707AA0;
+}
+.navbar {
+  margin-bottom: 0px;
+}
+/* Slightly bolder titles */
+h2 {
+    font-weight: 400;
+}
+h3 {
+    font-weight: 400;
+}
+h4 {
+    font-weight: 400;
+}
+
+/* This is mainly what I use for filenames */
+code {
+    background-color: #FAF3DF;
+    color: #264653;
+}
+
+a {
+    font-weight: 400;
+    color: #707AA0;
+}
+
+/* FORD uses alert-info as @note, alert-success as @todo and something else I don't remember. */
+.alert {
+    border: 0px;
+}
+.alert-info {
+    background-color: #264653;
+}
+.alert-info code{
+    background-color: #326771;
+    color: #FFFFFF;
+}
+
+.alert-success {
+    background-color: #f4a261;
+}
+.alert-success code{
+    background-color: #326771;
+    color: #FFFFFF;
+}
+.alert a{
+  color: #FFE6C8;
+}
+
+
+/* The big red thing at the top of each page */
+.jumbotron {
+    background-color: #e76f51;
+    color: #FFFFFF;
+}
+.jumbotron h1{
+    color: #FFFFFF;
+}
+
+/* same thing, but where I put explanations */
+.jumbotron-explain {
+    background-color: #e76f51;
+}
+.jumbotron-explain p {
+  margin-bottom: 15px;
+  font-size: 12px;
+  font-weight: normal;
+  color: #111111;
+}
+.jumbotron-explain a {
+  color: #84262D;
+}
+
+.well{
+    background-color: #b2dbbf;
+    font-size: 11px;
+}
+

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>
+    
+        autocorrelation &ndash; TDEP
+    
+</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="programs.html" id="programdropdown">Programs<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                    <li>
+                        
+                            <a href="../program/atomic_distribution.html">atomic distribution</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/autocorrelation.html'>autocorrelation</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/canonical_configuration.html">canonical configuration</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/crystal_structure_info.html">crystal structure info</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/extract_forceconstants.html">extract forceconstants</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/generate_structure.html">generate structure</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/lineshape.html'>lineshape</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/phonon_dispersion_relations.html">phonon dispersion relations</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/samples_from_md.html">samples from md</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/thermal_conductivity.html">thermal conductivity</a>
+                        
+                     </li>
+                
+            </ul>
+            </li>
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+
+
+</div>
+
+<div class="jumbotron">
+<div class="container-fluid">
+    
+        <h3>autocorrelation</h3>
+    
+</div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <!--
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div class="panel panel-default">
+    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
+    <div id="allprogs" class="panel-collapse collapse">
+        <div class="list-group">
+          
+          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+          
+          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+          
+          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+          
+          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+          
+          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+          
+          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+          
+          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+          
+          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+          
+          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+          
+          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+          
+          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+          
+        </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+    -->
+    
+    <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
+    <h3>Short description</h3>
+<p>Calculates the power spectra from the velocity autocorrelation function. In addition, it uses forceconstants to fourier-interpolate the q-resolved spectra non the non-exact q-points. What that means is that it can generate continuous spectralfunctions as a function of wavevector not limited to the commensurate modes.</p>
+<h3>Command line options:</h3>
+<p>Optional switches:</p>
+<ul>
+<li>
+<p><code>--noforceconstant</code><br>
+    default value .false.<br>
+    Do not use forceconstants for Fourier interpolation.</p>
+</li>
+<li>
+<p><code>--dos</code><br>
+    default value .false.<br>
+    Outputs the DOS. This requires a specification of a q-point mesh.</p>
+</li>
+<li>
+<p><code>--unit value</code>, value in: <code>thz,mev,icm</code><br>
+    default value thz<br>
+    Choose the output unit. The options are terahertz (in frequency, not angular frequency), inverse cm or meV.</p>
+</li>
+<li>
+<p><code>--loto</code><br>
+    default value .false.<br>
+    Add the corrections due to long-range electrostatic interactions, requires <code>infile.lotosplitting</code> Format is specified <a href="../page/files.html#infile.lotosplitting">here</a>.</p>
+</li>
+<li>
+<p><code>--nq_on_path value</code>, <code>-nq value</code><br>
+    default value 100<br>
+    Number of q-points between each high symmetry point</p>
+</li>
+<li>
+<p><code>--readpath</code>, <code>-rp</code><br>
+    default value .false.<br>
+    Read the q-point path from <code>infile.qpoints_dispersion</code>. Use <a href="crystal_structure_info.html">crystal structure into</a> to generate an example.</p>
+</li>
+<li>
+<p><code>--qpoint_grid value#1 value#2 value#3</code>, <code>-qg value#1 value#2 value#3</code><br>
+    default value 26 26 26<br>
+    Density of q-point mesh for DOS interpolation.</p>
+</li>
+<li>
+<p><code>--maxfrequency value</code><br>
+    default value 1.3<br>
+    Changes the maximum frequency. Default is 1.3 times the maximum frequency determined from the supplied forceconstants.</p>
+</li>
+<li>
+<p><code>--help</code>, <code>-h</code><br>
+    Print this help message</p>
+</li>
+<li>
+<p><code>--version</code>, <code>-v</code><br>
+    Print version</p>
+</li>
+</ul>
+<h3>Examples</h3>
+<p><code>autocorrelation</code> </p>
+<p><code>autocorrelation</code> </p>
+<h3>Long description</h3>
+<p>The (discrete) velocity autocorrelation function is defined for atom $i$ and Cartesian component $\alpha$ as</p>
+<p>$$
+C^{i\alpha}_v(\tau) = 
+\sum_{t=1}^{N_t}
+ v^{\alpha}_{i}(t)v^{\alpha}_{i}(t+\tau)
+$$</p>
+<p>Where $\tau$ is the lag time and $v_i(t)$ the velocity of atom $i$ at time $t $. We want this resolved in reciprocal space in the frequency domain:</p>
+<p>$$
+C(\mathbf{q},\omega) = 
+\sum_\alpha
+\sum_{i}
+\mathcal{F}\left\{\ C^{i\alpha}_v \right\}^2 e^{i\mathbf{q}\cdot \mathbf{R}_i}
+$$</p>
+<p>where $\mathcal{F}$ is the discrete Fourier transform over lag time. Here we exploited the fact that the Fourier transform of a convolution is a product in the frequency domain.</p>
+<p>Without loss of information, the velocities can be transformed to normal mode coordinates:</p>
+<p>$$
+v_{\mathbf{q}s}^{\alpha}
+= \sum_i \epsilon_{\mathbf{q}s}^{i\alpha} v_{i}^{\alpha}
+$$</p>
+<p>where the modes $\mathbf{q}s$ are confined to the exact q-points and modes of the simulation cell. This gives us the mode-resolved velocity autocorrelation function</p>
+<p>$$
+C^{\mathbf{q}s}_v(\tau) = 
+\sum_{\alpha}
+\sum_{t=1}^{N_t}
+ v_{\mathbf{q}s}^{\alpha}(t) v_{\mathbf{q}s}^{\alpha}(t+\tau)
+$$</p>
+<p>and the mode resolved power spectra</p>
+<p>$$
+C(\mathbf{q},s,\omega) = 
+\mathcal{F}\left\{\ C^{\mathbf{q}s}_v(\tau) \right\}^2
+$$</p>
+<p>which is easily interpolated to an arbitrary q-vector. The code will output the raw power spectra as well as the interpolated.</p>
+<h3>Practical considerations</h3>
+<p>Please note that autocorrelation function spectra require careful calculations. It is far better suited for classical molecular dynamics rather than Born-Oppenheimer MD. The frequency resolution scales as the simulation time, requiring very long simulation times. The (typical) small sizes of first principles MD introduce odd artifacts. Some simple convergence tests shows that the phonon lineshapes from <a href="lineshape.html">perturbation theory</a> and correlation functions agree at about 10000 atoms and 1ns simulation times.</p>
+<p>Do not use this code to try to determine phonon lineshapes/lifetimes unless you really know what you are doing.</p>
+<h3>Input files</h3>
+<p>These files are necesarry</p>
+<ul>
+<li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
+<li><a href="../page/files.html#infile.ssposcar">infile.ssposcar</a></li>
+<li><a href="../page/files.html#infile.meta">infile.meta</a></li>
+<li><a href="../page/files.html#infile.stat">infile.stat</a></li>
+<li><a href="../page/files.html#infile.positions">infile.positions</a></li>
+<li><a href="../page/files.html#infile.forces">infile.forces</a></li>
+<li><a href="extract_forceconstants.html">infile.forceconstant</a></li>
+</ul>
+<p>Optional file to specify a path for the phonon dispersions</p>
+<ul>
+<li><a href="../page/files.html#infile.qpoints_dispersion">infile.qpoints_dispersion</a></li>
+</ul>
+<p>For including the electrostatic corrections</p>
+<ul>
+<li><a href="../page/files.html#infile.lotosplitting">infile.lotosplitting</a></li>
+</ul>
+<h3>Output files</h3>
+<h4><code>outfile.acf_sqe.hdf5</code></h4>
+<p>The file is more or less self-explainatory, the following is a matlab snippet that produces a neat plot:</p>
+<div class="codehilite"><pre><span></span><span class="c">% read everything from file</span>
+<span class="n">fn</span><span class="p">=(</span><span class="s">&#39;outfile.acf_sqe.hdf5&#39;</span><span class="p">);</span>
+<span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/q_values&#39;</span><span class="p">);</span>
+<span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/energy_values&#39;</span><span class="p">);</span>
+<span class="n">gz</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/intensity&#39;</span><span class="p">);</span>
+<span class="n">xtck</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/q_ticks&#39;</span><span class="p">);</span>
+<span class="n">xtcklabel</span><span class="p">=</span><span class="n">strsplit</span><span class="p">(</span><span class="n">h5readatt</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/&#39;</span><span class="p">,</span><span class="s">&#39;q_tick_labels&#39;</span><span class="p">));</span>
+<span class="n">energyunit</span><span class="p">=</span><span class="n">h5readatt</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/&#39;</span><span class="p">,</span><span class="s">&#39;energy_unit&#39;</span><span class="p">);</span>
+
+<span class="c">% plot the results</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">clf</span><span class="p">;</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+<span class="p">[</span><span class="n">gy</span><span class="p">,</span><span class="n">gx</span><span class="p">]=</span><span class="nb">meshgrid</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="n">s</span><span class="p">=</span><span class="n">pcolor</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span><span class="n">gy</span><span class="p">,</span><span class="nb">log10</span><span class="p">(</span><span class="n">gz</span><span class="o">+</span><span class="mf">1E-2</span><span class="p">));</span>
+<span class="n">set</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#39;edgecolor&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;facecolor&#39;</span><span class="p">,</span><span class="s">&#39;interp&#39;</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xtick&#39;</span><span class="p">,</span><span class="n">xtck</span><span class="p">,</span><span class="s">&#39;xticklabel&#39;</span><span class="p">,</span><span class="n">xtcklabel</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">([</span><span class="s">&#39;Energy (&#39;</span> <span class="n">energyunit</span> <span class="s">&#39;)&#39;</span><span class="p">])</span>
+<span class="n">xlim</span><span class="p">([</span><span class="mi">0</span> <span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
+<span class="n">ylim</span><span class="p">([</span><span class="mi">0</span> <span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">)])</span>
+</pre></div>
+
+
+<h4><code>outfile.acf_highsymmetrypoint_??</code></h4>
+<p>In case the exact q-points of the simulation cell coincide with high-symmetry points, the spectralfunction at those points will be printed:</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> \( \omega_1 \qquad I_1 \qquad I_2 \qquad \ldots \qquad I_{3\mathbf{N}_{a}} \) </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> \( \omega_2 \qquad I_1 \qquad I_2 \qquad \ldots \qquad I_{3\mathbf{N}_{a}} \) </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>That is, the first column is the energy, the following are intensities per mode.</p>
+<h4><code>outfile.acf_raw_dos</code></h4>
+<p>With option <code>--dos</code> this will be written, containing the raw power spectrum without any interpolation procedure. It usually looks awful.</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    \( \omega_1 \qquad g(\omega_1) \qquad g_1(\omega_1) \qquad \ldots \qquad g_{N_a}(\omega_1) \)
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    \( \omega_2 \qquad g(\omega_2) \qquad g_1(\omega_2) \qquad \ldots \qquad g_{N_a}(\omega_2) \)
+    </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>The first column is energy, the second the total DOS. In case there is more than one atom per unit cell, the site projected DOS is printed as well.</p>
+<h4><code>outfile.acf_interpolated_dos</code></h4>
+<p>The format is identical to the raw dos above.</p>
+
+<!--
+    <br>
+    
+  
+    <ul class="list-inline">
+      <li><h4>Uses:</h4></li>
+      
+      <li>constants</li>
+      
+      <li>helpers</li>
+      
+      <li>dump_data</li>
+      
+      <li>options</li>
+      
+      <li>type_phonon_dispersions</li>
+      
+      <li>type_phonon_dos</li>
+      
+      <li>type_phonon_bandstructure</li>
+      
+      <li>type_forceconstant_secondorder</li>
+      
+      <li>type_qpointmesh</li>
+      
+      <li>type_crystalstructure</li>
+      
+      <li>type_neighbourlist</li>
+      
+      <li>type_mdsim</li>
+      
+      <li>type_lotosplitting</li>
+      
+      <li>type_acf</li>
+      
+      <li>celldimensions</li>
+      
+      <li>fftwrapper</li>
+      
+      <li>interpolatesqe</li>
+      
+      <li>type_fcmd</li>
+      
+    </ul>
+  
+
+    
+    
+    
+    <br>
+
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+    
+    
+    
+-->    
+    </div>
+  </div>
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

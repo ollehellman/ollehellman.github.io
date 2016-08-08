@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>
+    
+        extract forceconstants &ndash; TDEP
+    
+</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="programs.html" id="programdropdown">Programs<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                    <li>
+                        
+                            <a href="../program/atomic_distribution.html">atomic distribution</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/autocorrelation.html'>autocorrelation</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/canonical_configuration.html">canonical configuration</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/crystal_structure_info.html">crystal structure info</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/extract_forceconstants.html">extract forceconstants</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/generate_structure.html">generate structure</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/lineshape.html'>lineshape</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/phonon_dispersion_relations.html">phonon dispersion relations</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/samples_from_md.html">samples from md</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/thermal_conductivity.html">thermal conductivity</a>
+                        
+                     </li>
+                
+            </ul>
+            </li>
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+
+
+</div>
+
+<div class="jumbotron">
+<div class="container-fluid">
+    
+        <h3>extract forceconstants</h3>
+    
+</div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <!--
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div class="panel panel-default">
+    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
+    <div id="allprogs" class="panel-collapse collapse">
+        <div class="list-group">
+          
+          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+          
+          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+          
+          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+          
+          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+          
+          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+          
+          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+          
+          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+          
+          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+          
+          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+          
+          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+          
+          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+          
+        </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+    -->
+    
+    <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
+    <h3>Short description</h3>
+<p>The main algorithm of the TDEP method. Starting with a symmetry analysis, this code finds the irreducible representation of interatomic forceconstants and extracts them from position and force data.</p>
+<h3>Command line options:</h3>
+<p>Optional switches:</p>
+<ul>
+<li>
+<p><code>--secondorder_cutoff value</code>, <code>-rc2 value</code><br>
+    default value 5.0<br>
+    Cutoff for the second order force constants</p>
+</li>
+<li>
+<p><code>--thirdorder_cutoff value</code>, <code>-rc3 value</code><br>
+    default value -1<br>
+    Cutoff for the third order force constants</p>
+</li>
+<li>
+<p><code>--stride value</code>, <code>-s value</code><br>
+    default value 1<br>
+    Use every N configuration instead of all. Useful for long MD simulations with linearly dependent configurations.</p>
+</li>
+<li>
+<p><code>--firstorder</code><br>
+    default value .false.<br>
+    Include the first order force constants. These can be used to find the finite temperature equilibrium structure.</p>
+</li>
+<li>
+<p><code>--readforcemap</code><br>
+    default value .false.<br>
+    Read <code>infile.forcemap.hdf5</code> from file instead of calculating all symmetry relations. Useful for sets of calculations with the same structure.</p>
+</li>
+<li>
+<p><code>--readirreducible</code><br>
+    default value .false.<br>
+    Read the irreducible forceconstants from <code>infile.irrifc_*</code> instead of solving for them.</p>
+</li>
+<li>
+<p><code>--potential_energy_differences</code>, <code>-U0</code><br>
+    default value .false.<br>
+    Calculate the difference in potential energy from the simulation and the forceconstants to determine U0. As referenced in the thermodynamics section of <a href="phonon_dispersion_relations.html">phonon dispersion relations</a> this is the renormalized baseline for the TDEP free energy: $$U_0= \left\langle U^{\textrm{BO}}(t)-\frac{1}{2} \sum_{ij}\sum_{\alpha\beta} \Phi_{ij}^{\alpha\beta} \mathbf{u}^{\alpha}_i(t) \mathbf{u}^{\beta}_j(t) \right\rangle$$ This number should be added to the appropriate phonon free energy.</p>
+</li>
+<li>
+<p><code>--help</code>, <code>-h</code><br>
+    Print this help message</p>
+</li>
+<li>
+<p><code>--version</code>, <code>-v</code><br>
+    Print version</p>
+</li>
+</ul>
+<h3>Examples</h3>
+<p><code>getforceconstants.skript -rc2 5.1</code> </p>
+<p><code>getforceconstants.skript -rc2 4.5 -rc3 3.21 -collmagnetism</code> </p>
+<h3>Longer summary</h3>
+<p>Calculations of the interatomic force constants are the most important part of any lattice dynamics calculation as they are used to calculate many micro and macroscopic properties of the system, e.g. phonon, thermodynamic, and transport properties, etc. This codes takes sets of displacements and forces, and uses these to fit the coefficients in an effective lattice dynamical Hamiltonian. This is by no means a new idea.<sup id="fnref-Klein1972"><a class="footnote-ref" href="#fn-Klein1972">1</a></sup> The main advantage of the TDEP method is in the implementation: it is numerically robust, well tested and general. It is not limited in order, nor limited to simple ordered systems.</p>
+<h3>Lattice dynamics and interatomic force constants</h3>
+<p>A quick recap of lattice dynamical theory:<sup id="fnref-Born1998"><a class="footnote-ref" href="#fn-Born1998">2</a></sup> a displacement $\mathbf{u}$ of an atom $i$ from its ideal lattice position changes the potential energy of the lattice. Temperature disorders the lattice, causing all atoms to be displaced from their equilibrium positions; this effect can be modeled as a Taylor expansion of the potential energy contribution of the instantaneous positions of the atoms in the system, i.e. $U=U({ \mathbf{r} })$. It is convenient to define the atomic positions as displacements $ \mathbf{u} $ from their equilibrium positions $\mathbf{R}_i+\mathbf{\mu}_i$. </p>
+<p>$$
+\begin{equation}
+\textbf{r}_i=\mathbf{R}_i+\mathbf{\mu}_i+\mathbf{u}_i.
+\end{equation}
+$$</p>
+<p>$\mathbf{R}_i$ is a lattice vector and $\mu_i$ is the position in the unit cell. We can then expand the potential energy in terms of displacements as:</p>
+<p>$$
+\begin{equation}
+\begin{split}
+U(\{\textbf{u}\})=&amp; U_0+
+\sum_{i}\sum_\alpha
+\Phi^\alpha_{i} u^\alpha_{i} + 
+\frac{1}{2!} \sum_{ij} \sum_{\alpha\beta} \Phi^{\alpha\beta}_{ij} u^\alpha_{i} u^\beta_{j} + \\
+ + &amp; \frac{1}{3!} \sum_{ijk} \sum_{\alpha\beta\gamma} \Phi^{\alpha\beta\gamma}_{ijk} u^\alpha_{i} u^\beta_{j} u^\gamma_{k}+\ldots
+ \end{split}
+\end{equation}
+$$</p>
+<p>Here, $ \alpha\beta\gamma $ are Cartesian indices and $ U_0 $ is the potential energy of the static lattice. The coefficients of the Taylor expansion are the derivatives of the potential energy with respect to displacement and are called the Born-von Kàrmàn force constants, which can be expressed as tensors of increasing rank:</p>
+<p>$$
+\begin{align}
+\Phi^\alpha_i &amp; = \left. \frac{\partial U}{\partial u_i^\alpha} \right|_{u=0} = 0 \\
+\Phi^{\alpha\beta}_{ij} &amp; = \left. \frac{\partial^2 U}{\partial u_i^\alpha \partial u_j^\beta} \right|_{u=0} \\
+\Phi^{\alpha\beta\gamma}_{ijk} &amp; = \left. \frac{\partial^3 U}{\partial u_i^\alpha \partial u_j^\beta \partial u_k^\gamma} \right|_{u=0}
+\end{align}
+$$</p>
+<p>By increasing rank, the force constants of rank $n$ represent $n$-body interactions, as illustrated in the diagram below:</p>
+<p><center>
+<img src="../media/illustration_of_forceconstants.png" width="500" />
+</center></p>
+<h3>Force constant symmetries</h3>
+<p>Symmetry analysis allows us to greatly reduce the number of values needed to express the force constants (by multiple orders of magnitude, discussed more below) and is therefore crucial for generalizing the TDEP to include higher order terms in the potential energy surface. The symmetries of the force constants are deduced from rotational and translational invariance of the system, in addition to the symmetries of the crystal itself. We start with the transposition symmetries, which is an invariance under the permutation of the indices:<sup id="fnref-Leibfried1961"><a class="footnote-ref" href="#fn-Leibfried1961">4</a></sup><sup id="fnref-Maradudin1968"><a class="footnote-ref" href="#fn-Maradudin1968">3</a></sup></p>
+<p>$$
+\begin{align}
+\label{eq:firstsym}\Phi_{ij}^{\alpha\beta} &amp;= \Phi_{ji}^{\beta\alpha} \\
+\Phi_{ijk}^{\alpha\beta\gamma} = \Phi_{ikj}^{\alpha\gamma\beta} = \Phi_{jik}^{\beta\alpha\gamma}&amp; =
+\Phi_{jki}^{\beta\gamma\alpha} =
+\Phi_{kij}^{\gamma\alpha\beta} =
+\Phi_{kji}^{\gamma\beta\alpha}.
+\end{align}
+$$</p>
+<p>All lattices belong to one of the 230 lattice space groups. The force constants should be invariant under these symmetry operations. Then, if two tensors are related by symmetry operation $S$ their components are related as follows:</p>
+<p>$$
+\begin{align}
+\Phi_{ij}^{\alpha\beta} &amp;= 
+\sum_{\mu\nu}\Phi_{kl}^{\mu\nu}
+S^{\mu\alpha}S^{\nu\beta}  \\
+\Phi_{ijk}^{\alpha\beta\gamma} &amp;= 
+\sum_{\mu\nu\xi}\Phi_{mno}^{\mu\nu\xi}
+S^{\mu\alpha} S^{\nu\beta} S^{\xi\gamma}.\\
+\end{align}
+$$</p>
+<p>where $S^{\alpha\beta}$ is the proper or improper rotation matrix of the symmetry operation $S$. Naturally, this will also enforce the periodic nature of the lattice. Force constants also obey the translational invariance (acoustic sum rules):</p>
+<p>$$
+\begin{align}
+\sum_j \mathbf{\Phi}_{ij} &amp; =0 \quad \forall\, i \\
+\sum_k \mathbf{\Phi}_{ijk} &amp; =0 \quad \forall\, i,j
+\end{align}
+$$</p>
+<p>The rotational invariance gives</p>
+<p>$$
+\begin{align}
+\sum_i \Phi_i^\alpha r_i^\beta &amp; = \sum_i \Phi_i^\beta r_i^\alpha \quad \forall \, \alpha,\beta \\
+\sum_j \Phi_{ij}^{\alpha\beta} r_j^\gamma + \Phi_i^\beta \delta_{\alpha\gamma} &amp; =
+\sum_j \Phi_{ij}^{\alpha\gamma} r_j^\beta + \Phi_i^\gamma \delta_{\alpha\beta} 
+\quad \forall \, \alpha,\beta,\gamma \\
+\sum_k \Phi_{ijk}^{\alpha\beta\gamma}r_k^\lambda +  \Phi_{ij}^{\gamma\beta} \delta_{\alpha\lambda} + \Phi_{ij}^{\alpha\gamma} \delta_{\beta\lambda} &amp;=
+\sum_k \Phi_{ijk}^{\alpha\beta\lambda}r_k^\gamma +  \Phi_{ij}^{\lambda\beta} \delta_{\alpha\gamma} + \Phi_{ij}^{\alpha\lambda} \delta_{\beta\gamma} 
+\quad \forall \, \alpha,\beta,\gamma,\lambda \\
+\end{align}
+$$</p>
+<p>And finally, the Huang invariances</p>
+<p>$$
+\begin{align}
+[\alpha\beta,\gamma\lambda] &amp; = \sum_{ij} \Phi_{ij}^{\alpha\beta} r_{ij}^\gamma r_{ij}^\lambda \\
+[\alpha\beta,\gamma\lambda] &amp; = [\gamma\lambda,\alpha\beta]
+\end{align}
+$$</p>
+<p>Ensure that the second order forceconstants, when taken to the long-wavelength limit, result in the correct number of elastic constants. All the symmetry relations above are naturally satisfied by the force constants produced by this code.</p>
+<h3>Effective Hamiltonian</h3>
+<p>The traditional lattice dynamical Hamiltonian described above has severe limitations, in that it's deduced from the derivatives of zero temperature configuration of the crystal. The form of the Hamiltonian is however beneficial: the second order forceconstants produce an exactly solvable Hamiltonian and with phonon quasiparticles, and the higher order terms can be treated as perturbations. To extend the usefulness of this Hamiltonian, we give up the constraint that the force constants are derivatives of the zero temperature configurations. Instead, the force constant tensors are just parameters in an effective Hamiltonian that are left to be determined.</p>
+<p>Schematically, self-consistent or effective phonon theories can be split into two parts: the first part is revolves around how to sample the Born-Oppenheimer surface, the second part around how to use that data to produce an effective Hamiltonian.</p>
+<h4>Sampling phase space</h4>
+<p>The most straightforward way to sample the Born-Oppenheimer surface is to use molecular dynamics. This can be costly, although I provided some tools to make it faster: parallelizing over different random seeds combined with selective upsampling certainly makes it feasible. For systems with significant nuclear quantum effects, path integral molecular dynamics is preferred. The cost of these can be quite significant, but similar acceleration techniques can be used.</p>
+<p>If you care predominantly about speed, stochastic sampling might be preferred. The way the Born-Oppenheimer surface is sampled does not influence the TDEP algorithms in any way. I even consider stochastic sampling using the zero-point the preferred way of calculating the true zero temperature force constants. The only thing required of the sampling is that it provides a set of forces, $\mathbf{f}^{\textrm{BO}}$, and displacements $\mathbf{u}$.</p>
+<h4>Obtaining an effective Hamiltonian</h4>
+<p>The basic premise is to use a model Hamiltonian (where orders beyond pair interactions are optional) given by</p>
+<p>$$
+\begin{equation}\label{eq:hamiltonian}
+\hat{H}= U_0+\sum_i \frac{\textbf{p}_i^2}{2m_i}+
+\frac{1}{2!}\sum_{ij} \sum_{\alpha\beta}\Phi_{ij}^{\alpha\beta}
+u_i^\alpha u_j^\beta +\frac{1}{3!}
+\sum_{ijk} \sum_{\alpha\beta\gamma}\Phi_{ijk}^{\alpha\beta\gamma}
+u_i^\alpha u_j^\beta u_k^\gamma \ldots
+\end{equation}
+$$</p>
+<p>and match the forces of the model, $\mathbf{f}^{\textrm{M}}$ to $\mathbf{f}^{\textrm{BO}}$.<sup id="fnref-Hellman2013"><a class="footnote-ref" href="#fn-Hellman2013">7</a></sup><sup>,</sup><sup id="fnref-Hellman2013a"><a class="footnote-ref" href="#fn-Hellman2013a">6</a></sup><sup>,</sup><sup id="fnref-Hellman2011"><a class="footnote-ref" href="#fn-Hellman2011">5</a></sup> A brute force minimization is certainly possible, but the current implementation is a bit more sophisticated. The forces of the model Hamiltonian are given by</p>
+<p>$$
+\begin{equation}
+f^{\mathrm{M}}_{i\alpha}=
+-\sum_{j\beta}\Phi_{ij}^{\alpha\beta}u_j^\beta
+-\frac{1}{2}\sum_{jk\beta\gamma}\Phi_{ijk}^{\alpha\beta\gamma}u_j^\beta u_k^\gamma + \ldots
+\end{equation}
+$$</p>
+<p>To exploit the symmetry relations, we populate each tensor component with a symbolic variable, called $\theta$. The index $k$ runs from 1 to the total number of components in all tensors. We include all tensors within a cutoff radius $\textbf{r}_c$ (the maximum cutoff is determined by the simulation cell size). Using symmetries we figure out which tensor components are unique by accounting for those components that are either 0 or equal to another tensor component. This drastically reduces the number of values that have to be determined. With the symmetry irreducible representation at hand, we express the forces in the model Hamiltonian:</p>
+<p>$$
+\begin{equation}
+f^{\mathrm{M}}_{i\alpha}=
+\sum_k \theta_k c_k^{i\alpha}(\mathbf{U}).
+\end{equation}
+$$</p>
+<p>Here $c_k^{i\alpha}(\mathbf{U})$, the coefficient for each $\theta_k$ is a polynomial function of all displacements within $\textbf{R}_c$. The form of this function depends on the crystal at hand (see the minimal example below). For a given supercell, we can express the vector of all forces in the cell as a matrix product:</p>
+<p>$$
+\begin{equation}
+\underbrace{\mathbf{F}^{\mathrm{M}}}_{3N_a \times 1}=
+\underbrace{\mathbf{C}(\mathbf{u})}_{3N_a \times N_{\theta}}
+\underbrace{\mathbf{\Theta}}_{N_{\theta} \times 1}
+\end{equation}
+$$</p>
+<p>where the underbraces denote size of the matrices. The coefficient matrix $\mathbf{C}$ is a function of all the displacements in the supercell. $\mathbf{\Theta}$ is a vector holding all the $\theta_k$. Then we seek the $\mathbf{\Theta}$ that minimizes the difference between the model system and the <em>ab initio</em> one:</p>
+<p>$$
+\begin{equation}
+\begin{split}
+\min_{\Theta}\Delta \mathbf{F} &amp; =
+\frac{1}{N_c} \sum_{c=1}^{N_c}  \left| \mathbf{F}_c^{\textrm{BO}}-\mathbf{F}_c^{\textrm{M}} \right|^2= \\
+&amp; =\frac{1}{N_c} \sum_{c=1}^{N_c} \left| \mathbf{F}_c^{\textrm{BO}}-\mathbf{C}(\mathbf{u}_{c})\mathbf{\Theta} \right|^2 = \\
+&amp; = \frac{1}{N_c} \left\Vert 
+\begin{pmatrix} \mathbf{F}_1^{\textrm{BO}} \\  \vdots \\ \mathbf{F}_{N_c}^{\textrm{BO}} \end{pmatrix}-
+\begin{pmatrix} \mathbf{C}(\mathbf{u}_1) \\ \vdots \\ \mathbf{C}(\mathbf{u}_{N_c}) \end{pmatrix}
+\mathbf{\Theta}
+\right\Vert
+\end{split}
+\end{equation}
+$$</p>
+<p>Here $N_c$ is the number of supercell configurations used to sample the Born-Oppenheimer surface. A least squares solution,</p>
+<p>$$
+\begin{equation}
+\mathbf{\Theta}=
+\begin{pmatrix}
+\mathbf{C}(\mathbf{u}_1) \\
+\vdots \\
+\mathbf{C}(\mathbf{u}_{N_c})
+\end{pmatrix}^{+}
+\begin{pmatrix}
+\mathbf{F}^{\textrm{BO}}_1 \\
+\vdots \\
+\mathbf{F}^{\textrm{BO}}_{N_c}
+\end{pmatrix}
+\end{equation}
+$$</p>
+<p>gives the $\mathbf{\Theta}$ that minimizes these forces. Then, with a simple substitution back into \(\mathbf{\Phi}_{ij}\) and $\mathbf{\Phi}_{ijk}$ we determine the quadratic and cubic force constants. Note all orders of force constants are extracted from the same set of displacements and forces, simultaneously.</p>
+<p></div>
+</div>
+</div>
+<div class="jumbotron jumbotron-explain">
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-offset-1 col-md-10 " id='text'></p>
+<h4>Illustration of the symmetry constrained solver</h4>
+
+<p></div>
+</div>
+<div class="row">
+<div class="col-md-offset-1 col-md-5 " id='text'></p>
+<p>Even for a simple system, such as fcc Al, the matrix $\mathbf{C}$ is in general far too large to print in a meaningful way. I will try to explain the algorithm more schematically: suppose we want to determine the coefficients for a single second order force constant:</p>
+<p>$$
+\begin{equation*}
+\mathbf{\Phi}=
+\begin{pmatrix}
+\theta_1 &amp; \theta_2 &amp; \theta_3 \\
+\theta_4 &amp; \theta_5 &amp; \theta_6 \\
+\theta_7 &amp; \theta_8 &amp; \theta_9 \\
+\end{pmatrix}
+\end{equation*}
+$$</p>
+<p>using a number of displacements and forces. The 9 unknown variables suggest we need at least 9 equations, preferrably more to make the equations overdetermined. With four samples, each providing a force and a displacement, we get</p>
+<p>$$
+\begin{equation*}
+\begin{pmatrix}
+f^1_x &amp; f^1_y &amp; f^1_z \\
+f^2_x &amp; f^2_y &amp; f^2_z \\
+f^3_x &amp; f^3_y &amp; f^3_z \\
+f^4_x &amp; f^4_y &amp; f^4_z
+\end{pmatrix} =
+\begin{pmatrix}
+u^1_x &amp; u^1_y &amp; u^1_z \\
+u^2_x &amp; u^2_y &amp; u^2_z \\
+u^3_x &amp; u^3_y &amp; u^3_z \\
+u^4_x &amp; u^4_y &amp; u^4_z
+\end{pmatrix}
+\begin{pmatrix}
+\theta_1 &amp; \theta_2 &amp; \theta_3 \\
+\theta_4 &amp; \theta_5 &amp; \theta_6 \\
+\theta_7 &amp; \theta_8 &amp; \theta_9 \\
+\end{pmatrix}
+\end{equation*}
+$$</p>
+<p>which can be solved with a pseudoinverse. However, using the symmetry relations we know that the force constants are not all independent, they could have the following form:</p>
+<p>$$
+\begin{equation*}
+\mathbf{\Phi}=
+\begin{pmatrix}
+\theta_1 &amp; \theta_2 &amp; 0\\
+\theta_2 &amp; \theta_1 &amp; 0 \\
+0 &amp; 0 &amp; \theta_1 \\
+\end{pmatrix}
+\end{equation*}
+$$</p>
+<p>Taking the product of the displacement matrix and the force constant matrix yields</p>
+<p>$$
+\begin{equation*}
+\begin{pmatrix}
+f^1_x &amp; f^1_y &amp; f^1_z \\
+f^2_x &amp; f^2_y &amp; f^2_z \\
+f^3_x &amp; f^3_y &amp; f^3_z \\
+f^4_x &amp; f^4_y &amp; f^4_z
+\end{pmatrix} =
+\begin{pmatrix}
+u^1_x\theta_1+u^1_y\theta_2 &amp; u^1_y\theta_1+u^1_x\theta_2 &amp; u^1_z\theta_1 \\
+u^2_x\theta_1+u^2_y\theta_2 &amp; u^2_y\theta_1+u^2_x\theta_2 &amp; u^2_z\theta_1 \\
+u^3_x\theta_1+u^3_y\theta_2 &amp; u^3_y\theta_1+u^3_x\theta_2 &amp; u^3_z\theta_1 \\
+u^4_x\theta_1+u^4_y\theta_2 &amp; u^4_y\theta_1+u^4_x\theta_2 &amp; u^4_z\theta_1 
+\end{pmatrix}
+\end{equation*}
+$$</p>
+<p></div>
+<div class="col-md-5" id='text'></p>
+<p>That can in turn be rewritten as</p>
+<p>$$
+\begin{equation*}
+\begin{pmatrix}
+f^1_x \\ f^1_y \\ f^1_z \\
+f^2_x \\ f^2_y \\ f^2_z \\
+f^3_x \\ f^3_y \\ f^3_z \\
+f^4_x \\ f^4_y \\ f^4_z
+\end{pmatrix}=
+\begin{pmatrix}
+u^1_x &amp;&amp; u^1_y \\
+u^1_y &amp;&amp; u^1_x \\
+u^1_z &amp;&amp; 0 \\
+u^2_x &amp;&amp; u^2_y \\
+u^2_y &amp;&amp; u^2_x \\
+u^2_z &amp;&amp; 0 \\
+u^3_x &amp;&amp; u^3_y \\
+u^3_y &amp;&amp; u^3_x \\
+u^3_z &amp;&amp; 0 \\
+u^4_x &amp;&amp; u^4_y \\
+u^4_y &amp;&amp; u^4_x \\
+u^4_z &amp;&amp; 0 \\
+\end{pmatrix}
+\begin{pmatrix}
+\theta_1 \\
+\theta_2 
+\end{pmatrix}
+\end{equation*}
+$$</p>
+<p>We now have an equation in only the independent components, expressed as a vector of forces, a coefficient matrix and a vector of irreducible forceconstants. In a real system, these equations are built exactly the same way, but for all forceconstants of all orders simultaneously. All the forceconstants are determined from a single set of equations.</p>
+<p>This numerical solver is remarkably stable. Other schemes determine the components one by one, and must later modify the values to comply with the symmetry of the lattice, lending some ambiguity to the results. With this scheme, there is no need to carefully displace atoms one by one, just displace all of them. This is numerically beneficient, numerical noise will be averaged out.
+</div></p>
+<p></div>
+</div>
+</div>
+</div>
+<div class="container-fluid">
+<div class="row" id="text">
+<div class="col-md-offset-2 col-md-7 col-md-offset-3"></p>
+<h3>Practical notes</h3>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Make some plots with numerics, noise and that stuff.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain what forcemap is</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain how to read forceconstants from file</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain the different solvers</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain how to do convergence testing</div>
+<h3>Input files</h3>
+<ul>
+<li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
+<li><a href="../page/files.html#infile.ssposcar">infile.ssposcar</a></li>
+<li><a href="../page/files.html#infile.meta">infile.meta</a></li>
+<li><a href="../page/files.html#infile.stat">infile.stat</a></li>
+<li><a href="../page/files.html#infile.positions">infile.positions</a></li>
+<li><a href="../page/files.html#infile.forces">infile.forces</a></li>
+</ul>
+<p>optional input files include</p>
+<ul>
+<li>infile.forcemap.hdf5</li>
+<li>infile.irrifc_secondorder</li>
+<li>infile.irrifc_thirdorder</li>
+</ul>
+<h3>Output files</h3>
+<p><a name="outfile.forceconstant"></a></p>
+<h4><code>outfile.forceconstant</code></h4>
+<p>This is the second order force constant, in a plain text format. Schematically, it contains a list of pairs originating from each atom in the unit cell. Once generated, any association with a specific simulation supercell is lost. The file looks something like this:</p>
+<div class="codehilite"><pre><span></span>          2               How many atoms per unit cell
+    4.107441758929446     Realspace cutoff (A)
+         19               How many neighbours does atom   1 have
+          2               In the unit cell, what is the index of neighbour  1 of atom  1
+  -1.0000000000000000       -1.0000000000000000        0.0000000000000000
+ -0.22399077464508912        0.0000000000000000        0.0000000000000000
+   0.0000000000000000      -0.22399077464508918        0.0000000000000000
+   0.0000000000000000        0.0000000000000000       -1.3582546804397253
+          2               In the unit cell, what is the index of neighbour  2 of atom  1
+  -1.0000000000000000        0.0000000000000000       -1.0000000000000000
+ -0.22399077464508912        0.0000000000000000        0.0000000000000000
+   0.0000000000000000       -1.3582546804397253        0.0000000000000000
+   0.0000000000000000        0.0000000000000000      -0.22399077464508918
+          1               In the unit cell, what is the index of neighbour  3 of atom  1
+  -1.0000000000000000        0.0000000000000000        0.0000000000000000
+   6.5363921282622556E-002   0.0000000000000000        0.0000000000000000
+   0.0000000000000000      -0.14683417732241597      -0.62709958702233359
+   0.0000000000000000      -0.62709958702233382      -0.14683417732241599
+          2               In the unit cell, what is the index of neighbour  4 of atom  1
+...
+...
+...
+</pre></div>
+
+
+<p>The content of the file is pretty straightforward.</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> \(N_a\), number of atoms in the unitcell </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> \(r_c\), the cutoff radius. </td>
+</tr>
+<tr>
+    <td>3</td>
+    <td> Number of neighbors that atom 1 in the unit cell has within \( r_c \), including itself </td>
+</tr>
+<tr>
+    <td>4</td>
+    <td> For pair 1 from atom 1, which kind of atom in the unit cell does the vector point to </td>
+</tr>
+<tr>
+    <td>5</td>
+    <td> \( \mathbf{R}_x \quad \mathbf{R}_y \quad \mathbf{R}_z \quad \) The lattice vector associated with this pair. </td>
+</tr>
+<tr>
+    <td>6</td>
+    <td> \( \mathbf{\Phi}_{xx} \quad \mathbf{\Phi}_{xy} \quad \mathbf{\Phi}_{xz} \quad \) The force constant associated with this pair. </td>
+</tr>
+<tr>
+    <td>7</td>
+    <td> \( \mathbf{\Phi}_{yx} \quad \mathbf{\Phi}_{yy} \quad \mathbf{\Phi}_{yz} \quad \)</td>
+</tr>
+<tr>
+    <td>8</td>
+    <td> \( \mathbf{\Phi}_{zx} \quad \mathbf{\Phi}_{zy} \quad \mathbf{\Phi}_{zz} \quad \)</td>
+</tr>
+<tr>
+    <td>9</td>
+    <td> For pair 2 from atom 1, which kind of atom in the unit cell does the vector point to </td>
+</tr>
+<tr>
+    <td>10</td>
+    <td> \( \mathbf{R}_x \quad \mathbf{R}_y \quad \mathbf{R}_z \quad \)</td>
+</tr>
+<tr>
+    <td>11</td>
+    <td> \( \mathbf{\Phi}_{xx} \quad \mathbf{\Phi}_{xy} \quad \mathbf{\Phi}_{xz} \quad \)</td>
+</tr>
+<tr>
+    <td>12</td>
+    <td> \( \mathbf{\Phi}_{yx} \quad \mathbf{\Phi}_{yy} \quad \mathbf{\Phi}_{yz} \quad \)</td>
+</tr>
+<tr>
+    <td>13</td>
+    <td> \( \mathbf{\Phi}_{zx} \quad \mathbf{\Phi}_{zy} \quad \mathbf{\Phi}_{zz} \quad \)</td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>repeat for all pairs for atom 1, then the same thing for atom 2, and so on.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Note that the lattice vectors are given in fractional coordinates, but the force constants are in Cartesian coordinates, in eV/A^2.</p>
+<p><a name="outfile.forceconstant_thirdorder"></a></p>
+<h4><code>outfile.forceconstant_thirdorder</code></h4>
+<p>The format for this file is similar to the second order:</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> \(N_a\), number of atoms in the unitcell </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> \(r_c\), the cutoff radius. </td>
+</tr>
+<tr>
+    <td>3</td>
+    <td> Number of triplets that atom 1 in the unit cell has within \( r_c \) </td>
+</tr>
+<tr>
+    <td>4</td>
+    <td> For triplet 1 from atom 1, which kind of atom in the unit cell does first vector point to </td>
+</tr>
+<tr>
+    <td>5</td>
+    <td> For triplet 1 from atom 1, which kind of atom in the unit cell does second vector point to </td>
+</tr>
+<tr>
+    <td>6</td>
+    <td> For triplet 1 from atom 1, which kind of atom in the unit cell does third vector point to </td>
+</tr>
+<tr>
+    <td>7</td>
+    <td> \( \mathbf{R}_x \quad \mathbf{R}_y \quad \mathbf{R}_z \quad \) The first lattice vector for this triplet. </td>
+</tr>
+<tr>
+    <td>8</td>
+    <td> \( \mathbf{R}_x \quad \mathbf{R}_y \quad \mathbf{R}_z \quad \) The second lattice vector for this triplet. </td>
+</tr>
+<tr>
+    <td>9</td>
+    <td> \( \mathbf{R}_x \quad \mathbf{R}_y \quad \mathbf{R}_z \quad \) The third lattice vector for this triplet. </td>
+</tr>
+
+<tr>
+    <td>10</td>
+    <td> \( \mathbf{\Phi}_{xxx} \quad \mathbf{\Phi}_{xxy} \quad \mathbf{\Phi}_{xxz} \quad \) The force constant associated with this triplet. </td>
+</tr>
+<tr>
+    <td>11</td>
+    <td> \( \mathbf{\Phi}_{xyx} \quad \mathbf{\Phi}_{xyy} \quad \mathbf{\Phi}_{xyz} \quad \)</td>
+</tr>
+<tr>
+    <td>12</td>
+    <td> \( \mathbf{\Phi}_{xzx} \quad \mathbf{\Phi}_{xzy} \quad \mathbf{\Phi}_{xzz} \quad \)</td>
+</tr>
+<tr>
+    <td>13</td>
+    <td> \( \mathbf{\Phi}_{yxx} \quad \mathbf{\Phi}_{yxy} \quad \mathbf{\Phi}_{yxz} \quad \)</td>
+</tr>
+<tr>
+    <td>14</td>
+    <td> \( \mathbf{\Phi}_{yyx} \quad \mathbf{\Phi}_{yyy} \quad \mathbf{\Phi}_{yyz} \quad \)</td>
+</tr>
+<tr>
+    <td>15</td>
+    <td> \( \mathbf{\Phi}_{yzx} \quad \mathbf{\Phi}_{yzy} \quad \mathbf{\Phi}_{yzz} \quad \)</td>
+</tr>
+<tr>
+    <td>16</td>
+    <td> \( \mathbf{\Phi}_{zxx} \quad \mathbf{\Phi}_{zxy} \quad \mathbf{\Phi}_{zxz} \quad \)</td>
+</tr>
+<tr>
+    <td>17</td>
+    <td> \( \mathbf{\Phi}_{zyx} \quad \mathbf{\Phi}_{zyy} \quad \mathbf{\Phi}_{zyz} \quad \)</td>
+</tr>
+<tr>
+    <td>18</td>
+    <td> \( \mathbf{\Phi}_{zzx} \quad \mathbf{\Phi}_{zzy} \quad \mathbf{\Phi}_{zzz} \quad \)</td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>and so on, for all triplets and all atoms.</td>
+</tr>
+</tbody>
+</table>
+
+<p><a name="outfile.forcemap.hdf5"></a></p>
+<h4><code>outfile.forcemap.hdf5</code></h4>
+<p>This file contatains all the symmetry operations applied to the crystal structure and the mapping between the unitcell and supercell. Not meant to be human readable.</p>
+<p><a name="outfile.irrifc_secondorder"></a></p>
+<h4><code>outfile.irrifc_secondorder</code></h4>
+<p>These files contain a list of irreducible \(\theta_k\) for the second order force constants, one per row</p>
+<p>$$
+\theta_1 \\
+\theta_2 \\
+... \\
+\theta_n
+$$</p>
+<p><a name="outfile.irrifc_thirdorder"></a></p>
+<h4><code>outfile.irrifc_thirdorder</code></h4>
+<p>These files contain a list of irreducible \(\theta_k\) for the third order force constants, one per row</p>
+<p>$$
+\theta_1 \\
+\theta_2 \\
+... \\
+\theta_n
+$$</p>
+<p><a name="outfile.U0"></a></p>
+<h4><code>outfile.U0</code></h4>
+<p>Optional file (with <code>--potential_energy_differences</code>)</p>
+<div class="codehilite"><pre><span></span>   -4.3457380376000003       -4.3577601020669636       -4.3577575914113229
+</pre></div>
+
+
+<p>Where the values are:</p>
+<p>$$
+\begin{align}
+\left\langle U \right\rangle \qquad
+\left\langle U - \frac{1}{2} \sum_{ij}\Phi_{ij}^{\alpha\beta} u_i^\alpha u_j^\beta \right\rangle \qquad
+\left\langle U 
+- \frac{1}{2} \sum_{ij}\Phi_{ij}^{\alpha\beta} u_i^\alpha u_j^\beta
+- \frac{1}{6} \sum_{ijk}\Phi_{ijk}^{\alpha\beta\gamma} u_i^\alpha u_j^\beta u_k^\gamma
+\right\rangle
+\end{align}
+$$</p>
+<p>The first value is potential energy from simulations averaged over time in eV/atom, and the second value is the difference between the potential energy from MD and the potential energy calculated from second order force constants (eV/atom); the third value is the difference between the potential energy and the potential energy calculated using both the second and third order force constants term (eV/atom).</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn-Klein1972">
+<p><a href="http://doi.org/10.1007/BF00654839">Klein, M. L., &amp; Horton, G. K. (1972). The rise of self-consistent phonon theory. Journal of Low Temperature Physics, 9(3-4), 151–166.</a>&#160;<a class="footnote-backref" href="#fnref-Klein1972" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Born1998">
+<p>Born, M., &amp; Huang, K. (1964). Dynamical theory of crystal lattices. Oxford: Oxford University Press.&#160;<a class="footnote-backref" href="#fnref-Born1998" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Maradudin1968">
+<p><a href="http://doi.org/10.1103/RevModPhys.40.1">Maradudin, A. A., &amp; Vosko, S. (1968). Symmetry Properties of the Normal Vibrations of a Crystal. Reviews of Modern Physics, 40(1), 1–37.</a>&#160;<a class="footnote-backref" href="#fnref-Maradudin1968" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Leibfried1961">
+<p><a href="http://doi.org/10.1016/S0081-1947(08)60656-6">Leibfried, G., &amp; Ludwig, W. (1961). Theory of Anharmonic Effects in Crystals. Solid State Physics - Advances in Research and Applications, 12(C), 275–444.</a>&#160;<a class="footnote-backref" href="#fnref-Leibfried1961" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Hellman2011">
+<p><a href="http://doi.org/10.1103/PhysRevB.84.180301">Hellman, O., Abrikosov, I. A., &amp; Simak, S. I. (2011). Lattice dynamics of anharmonic solids from first principles. Physical Review B, 84(18), 180301.</a>&#160;<a class="footnote-backref" href="#fnref-Hellman2011" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Hellman2013a">
+<p><a href="http://doi.org/10.1103/PhysRevB.88.144301">Hellman, O., &amp; Abrikosov, I. A. (2013). Temperature-dependent effective third-order interatomic force constants from first principles. Physical Review B, 88(14), 144301.</a>&#160;<a class="footnote-backref" href="#fnref-Hellman2013a" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Hellman2013">
+<p><a href="http://doi.org/10.1103/PhysRevB.87.104111">Hellman, O., Steneteg, P., Abrikosov, I. A., &amp; Simak, S. I. (2013). Temperature dependent effective potential method for accurate free energy calculations of solids. Physical Review B, 87(10), 104111.</a>&#160;<a class="footnote-backref" href="#fnref-Hellman2013" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+<!--
+    <br>
+    
+  
+    <ul class="list-inline">
+      <li><h4>Uses:</h4></li>
+      
+      <li>constants</li>
+      
+      <li>type_crystalstructure</li>
+      
+      <li>type_neighbourlist</li>
+      
+      <li>type_symmetrytable</li>
+      
+      <li>type_symmetryoperation</li>
+      
+      <li>type_mdsim</li>
+      
+      <li>helpers</li>
+      
+      <li>options</li>
+      
+      <li>type_forceconstant_secondorder</li>
+      
+      <li>type_forceconstant_thirdorder</li>
+      
+      <li>type_forcemap</li>
+      
+      <li>type_lassosolvers</li>
+      
+      <li>test_constraints</li>
+      
+      <li>relax_structure</li>
+      
+    </ul>
+  
+
+    
+    
+    
+    <br>
+
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+    
+    
+    
+-->    
+    </div>
+  </div>
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

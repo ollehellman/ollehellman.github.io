@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>
+    
+        phonon dispersion relations &ndash; TDEP
+    
+</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="programs.html" id="programdropdown">Programs<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                    <li>
+                        
+                            <a href="../program/atomic_distribution.html">atomic distribution</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/autocorrelation.html'>autocorrelation</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/canonical_configuration.html">canonical configuration</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/crystal_structure_info.html">crystal structure info</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/extract_forceconstants.html">extract forceconstants</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/generate_structure.html">generate structure</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href='../program/lineshape.html'>lineshape</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/phonon_dispersion_relations.html">phonon dispersion relations</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/samples_from_md.html">samples from md</a>
+                        
+                     </li>
+                
+                    <li>
+                        
+                            <a href="../program/thermal_conductivity.html">thermal conductivity</a>
+                        
+                     </li>
+                
+            </ul>
+            </li>
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+
+
+</div>
+
+<div class="jumbotron">
+<div class="container-fluid">
+    
+        <h3>phonon dispersion relations</h3>
+    
+</div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <!--
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div class="panel panel-default">
+    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
+    <div id="allprogs" class="panel-collapse collapse">
+        <div class="list-group">
+          
+          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+          
+          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+          
+          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+          
+          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+          
+          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+          
+          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+          
+          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+          
+          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+          
+          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+          
+          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+          
+          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+          
+        </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+    -->
+    
+    <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
+    <h3>Short description</h3>
+<p>Calculate phonon dispersions and related quantities. Per default, only the dispersions along a default path will be calculated. Options are available for calculating mode gruneisen parameters, phonon density of states projected in a variety of ways, thermodynamic quantities and pure data dumps.</p>
+<h3>Command line options:</h3>
+<p>Optional switches:</p>
+<ul>
+<li>
+<p><code>--unit value</code>, value in: <code>thz,mev,icm</code><br>
+    default value thz<br>
+    Choose the output unit. The options are terahertz (in frequency, not angular frequency), inverse cm or meV.</p>
+</li>
+<li>
+<p><code>--loto</code><br>
+    default value .false.<br>
+    Add the corrections due to long-range electrostatic interactions, requires <code>infile.lotosplitting</code> Format is specified <a href="../page/files.html#infile.lotosplitting">here</a>.</p>
+</li>
+<li>
+<p><code>--nq_on_path value</code>, <code>-nq value</code><br>
+    default value 100<br>
+    Number of q-points between each high symmetry point</p>
+</li>
+<li>
+<p><code>--readpath</code>, <code>-rp</code><br>
+    default value .false.<br>
+    Read the q-point path from <code>infile.qpoints_dispersion</code>. Use <a href="crystal_structure_info.html">crystal structure into</a> to generate an example.</p>
+</li>
+<li>
+<p><code>--dos</code><br>
+    default value .false.<br>
+    Calculate the phonon DOS</p>
+</li>
+<li>
+<p><code>--projected_dos_site</code><br>
+    default value .false.<br>
+    Project the phonon dos onto sites</p>
+</li>
+<li>
+<p><code>--projected_dos_mode</code><br>
+    default value .false.<br>
+    Print the phonon DOS per mode</p>
+</li>
+<li>
+<p><code>--qpoint_grid value#1 value#2 value#3</code>, <code>-qg value#1 value#2 value#3</code><br>
+    default value 26 26 26<br>
+    Density of q-point mesh for Brillouin zone integrations.</p>
+</li>
+<li>
+<p><code>--meshtype value</code>, value in: <code>1,2,3</code><br>
+    default value 1<br>
+    Type of q-point mesh. 1 Is a Monkhorst-Pack mesh, 2 an FFT mesh and 3 my fancy wedge-based mesh with approximately the same density the grid-based meshes.</p>
+</li>
+<li>
+<p><code>--sigma value</code><br>
+    default value 1.0<br>
+    Global scaling factor for the Gaussian/adaptive Gaussian smearing. The default is determined procedurally, and scaled by this number.</p>
+</li>
+<li>
+<p><code>--readqmesh</code><br>
+    default value .false.<br>
+    Read the q-point mesh from file. To generate a q-mesh file, see the genkpoints utility.</p>
+</li>
+<li>
+<p><code>--integrationtype value</code>, <code>-it value</code>, value in: <code>1,2,3</code><br>
+    default value 2<br>
+    Type of integration for the phonon DOS. 1 is Gaussian, 2 adaptive Gaussian and 3 Tetrahedron.</p>
+</li>
+<li>
+<p><code>--dospoints value</code><br>
+    default value 400<br>
+    Number of points on the frequency axis of the phonon dos.</p>
+</li>
+<li>
+<p><code>--temperature value</code><br>
+    default value -1<br>
+    Evaluate thermodynamic phonon properties at a single temperature.</p>
+</li>
+<li>
+<p><code>--temperature_range value#1 value#2 value#3</code><br>
+    default value -1 -1 -1<br>
+    Evaluate thermodynamic phonon properties for a series of temperatures, specify min, max and the number of points.</p>
+</li>
+<li>
+<p><code>--modevib</code><br>
+    default value .false.<br>
+    Write phonon entropies for each branch of the phonon dispersions.</p>
+</li>
+<li>
+<p><code>--sitevib</code><br>
+    default value .false.<br>
+    Write phonon entropy for each site in the unit cell.</p>
+</li>
+<li>
+<p><code>--gruneisen</code><br>
+    default value .false.<br>
+    Use third order force constants to calculate mode Gruneisen parameters.</p>
+</li>
+<li>
+<p><code>--dumpgrid</code><br>
+    default value .false.<br>
+    Write files with q-vectors, frequencies, eigenvectors and group velocities for a grid.</p>
+</li>
+<li>
+<p><code>--help</code>, <code>-h</code><br>
+    Print this help message</p>
+</li>
+<li>
+<p><code>--version</code>, <code>-v</code><br>
+    Print version</p>
+</li>
+</ul>
+<h3>Examples</h3>
+<p><code>phonon_dispersion_relations</code> </p>
+<p><code>phonon_dispersion_relations --dos -qgrid 24 24 24 -loto --integrationtype 2</code> </p>
+<p>This code calculates the phonon dispersions, $ \omega(\mathbf{q}) $. It can output dispersions along a line in the Brillouin zone, calculate the phonon DOS and all thermodynamic quantities accessible from that. In addition it can calculate the mode Grüneisen parameters. By default, very minimal input is needed, but many options to tailor the output exist. Make sure you familiarize yourself with the TDEP way of calculating free energy, it differs from what you might be familiar with from quasiharmonic theory.</p>
+<h3>Equations of motion in a harmonic crystal</h3>
+<p>As detailed in extract force constants we have mapped the Born-Oppenheimer to an effective potential. A model Hamiltonian truncated at the second order (a harmonic Hamiltonian) is given by<sup id="fnref-Born1998"><a class="footnote-ref" href="#fn-Born1998">1</a></sup></p>
+<p>$$
+\begin{equation}
+\hat H=\sum_i \frac{\mathbf{p}_i^2}{2m_i} + \frac{1}{2} \sum_{ij}\sum_{\alpha\beta}  \Phi_{ij}^{\alpha\beta} u^{\alpha}_{i} u^{\beta}_{j}\,,
+\end{equation}
+$$</p>
+<p>Ignoring surface effects, we can write the equations of motion for the ions independent of index $i$:</p>
+<p>$$
+\begin{equation}
+\ddot{\mathbf{u}}_\mu m_\mu = 
+-\sum_{\nu}\sum_l \mathbf{\Phi}_{\mu\nu}(\mathbf{R}_l^{\mu \nu})\mathbf{u}_{l\nu}.
+\end{equation}
+$$</p>
+<p>Here $\mu,\nu$ denote indices in the unit cell. The force constants are defined per set of lattice vectors for each combination of atoms $\mu,\nu$ in the unit cell. We assume a plane wave solution</p>
+<p>$$
+\begin{equation}
+\mathbf{u}_{\mu}=\frac{1}{m_\mu} \sum_{\mathbf{q}} A_{\mathbf{q}} \epsilon_{\mathbf{q}}^{\mu} e^{ i\mathbf{q} \cdot \mathbf{R}_l - \omega t }.
+\end{equation}
+$$</p>
+<p>Here the displacements are expressed as a sum of plane waves, or normal modes, each with wave vector $\mathbf{q}$ and frequency $\omega$. $\epsilon$ is a polarisation vector, and $A_{\mathbf{q}}$ the normal mode amplitude. Substituting this into the equation above and exploiting the orthogonality of planes waves gives,</p>
+<p>$$
+\begin{equation}
+\omega^2(\mathbf{q}) \mathbf{\epsilon}(\mathbf{q})=\mathbf{\Phi}(\mathbf{q})\mathbf{\epsilon}(\mathbf{q})\,,
+\end{equation}
+$$</p>
+<p>where the periodic boundary conditions limit the choices of $\mathbf{q}$ to a wave vector $\mathbf{q}$ in the first Brillouin zone. The dynamical matrix is given by</p>
+<p>$$
+\begin{equation}
+\mathbf{\Phi}(\mathbf{q})=
+\begin{pmatrix}
+\mathbf{\Phi}_{11}(\mathbf{q}) &amp; \cdots &amp; \mathbf{\Phi}_{N 1}(\mathbf{q}) \\
+\vdots &amp; \ddots &amp; \vdots \\
+\mathbf{\Phi}_{N 1}(\mathbf{q}) &amp; \cdots &amp; \mathbf{\Phi}_{N N}(\mathbf{q}) \\
+\end{pmatrix}
+\end{equation}
+$$</p>
+<p>This is the Fourier transform of the force constant matrix, where each $3 \times 3$ submatrix of the full $ 3N \times 3N $ is given by</p>
+<p>$$
+\begin{equation}
+\mathbf{\Phi}_{\mu \nu}(\mathbf{q})=
+\sum_{l}
+\frac{ \mathbf{\Phi}_{\mu\nu}(\mathbf{R}_l) }{\sqrt{m_\mu m_\nu}}  
+e^{i\mathbf{q}\cdot \mathbf{R}_l}.
+\end{equation}
+$$</p>
+<p>The frequencies (eigenvalues) have the same periodicity as the reciprocal lattice; hence it is convenient to limit the solution to all vectors $\mathbf{q}$ in the first Brillouin zone. By calculating the eigenvalues and eigenvectors of the dynamical matrix over the Brillouin zone, all thermodynamic quantities involving the atomic motions can be determined, as far as the harmonic approximation is valid.</p>
+<h3>Harmonic thermodynamics</h3>
+<p>In the previous section, we treated the vibrations of atoms classically, by solving Newton's equations of motion. Quantum-mechanically, vibrational normal modes can be represented as quasi-particles called phonons, quanta of thermal energy. We note that our normal mode transformation is a sum over eigenfunctions of independent harmonic oscillators. This allows us to write the position and momentum operators in terms of creation and annihilation operators (without loss of generality, we can contract the notation for phonon mode $s$ at wave vector $\mathbf{q}$ to a single index $\lambda$):</p>
+<p>$$
+\begin{align}
+\hat{u}_{i\alpha} = &amp; \sqrt{ \frac{\hbar}{2N m_\alpha} }
+\sum_\lambda \frac{\epsilon_\lambda^{i\alpha}}{ \sqrt{ \omega_\lambda} }
+e^{i\mathbf{q}\cdot\mathbf{r}_i}
+\left( \hat{a}^{\mathstrut}_\lambda + \hat{a}^\dagger_\lambda \right) \\
+%
+\hat{p}_{i\alpha} = &amp; \sqrt{ \frac{\hbar m_\alpha}{2N} }
+\sum_\lambda \sqrt{ \omega_\lambda } \epsilon_\lambda^{i\alpha} 
+e^{i\mathbf{q}\cdot\mathbf{r}_i-\pi/2}
+\left( \hat{a}^{\mathstrut}_\lambda - \hat{a}^\dagger_\lambda \right)
+%
+\end{align}
+$$</p>
+<p>and their inverse</p>
+<p>$$
+\begin{align}
+\hat{a}^{\mathstrut}_{\lambda} = &amp; \frac{1}{\sqrt{2N\hbar}} 
+\sum_{i\alpha} \epsilon_\lambda^{i\alpha}
+e^{-i\mathbf{q}\cdot\mathbf{r}_i} \left( \sqrt{m_i \omega_\lambda} \hat{u}_{i\alpha}-i \frac{\hat{p}_{i\alpha}}{ \sqrt{ m_i \omega_\lambda }} \right) \\
+%
+\hat{a}^\dagger_{\lambda} = &amp; \frac{1}{\sqrt{2N\hbar}} 
+\sum_{i\alpha} \epsilon_\lambda^{i\alpha}
+e^{i\mathbf{q}\cdot\mathbf{r}_i} \left( \sqrt{m_i \omega_\lambda} \hat{u}_{i\alpha}-i \frac{\hat{p}_{i\alpha}}{ \sqrt{ m_i \omega_\lambda }} \right)
+\end{align}
+$$</p>
+<p>In terms of these operators, the vibrational Hamiltonian can be written as</p>
+<p>$$
+\begin{equation}
+\hat{H}=\sum_{\lambda}\hbar\omega_\lambda \left( \hat{a}^\dagger_\lambda \hat{a}^{\mathstrut}_\lambda + \frac{1}{2}\right)\,.
+\end{equation}
+$$</p>
+<p>Since $\hat{a}^\dagger_\lambda \hat{a}^{\mathstrut}_\lambda$ are commutative operators, the Hamiltonian is that of a sum of uncoupled harmonic quantum oscillators, each having the partition function</p>
+<p>$$
+\begin{equation}
+Z_{\lambda}=\sum_{n=0}^{\infty}e^{-\beta (n +\frac{1}{2})\hbar\omega_{\lambda} } =
+\frac{ e^{-\beta \hbar\omega_{\lambda}/2 } }{1-e^{-\beta \hbar\omega_{\lambda}}}
+\end{equation}
+$$</p>
+<p>that gives the total</p>
+<p>$$
+\begin{equation}
+Z=\prod_{\lambda} \frac{ e^{-\beta \hbar\omega_{\lambda}/2 } }{1-e^{-\beta \hbar\omega_{\lambda}}}.
+\end{equation}
+$$</p>
+<p>From this we can get the Helmholtz (phonon) free energy:</p>
+<p>$$
+\begin{equation}
+F_{\textrm{ph}}= -k_B T \ln Z = \sum_{\lambda} \frac{\hbar \omega_{\lambda}}{2}+k_B T%
+\ln \left( 1- \exp \left( -\frac{\hbar \omega_{\lambda}}{k_B T} \right) \right)
+\end{equation}
+$$</p>
+<p>In the conventional quasiharmonic approximation, the total free energy of the system (not considering any terms pertaining to magnetic or configurational degrees of freedom) can be expressed as</p>
+<p>$$
+\begin{equation}
+    F = F_{\textrm{el}} + F_{\textrm{ph}}\,.
+\end{equation}
+$$</p>
+<p>In the TDEP formalism it is not quite that simple.</p>
+<h4><a name="sec_tdepthermo"></a> Determining the free energy with TDEP</h4>
+<p>In the TDEP formalism,<sup id="fnref-Hellman2013"><a class="footnote-ref" href="#fn-Hellman2013">4</a></sup><sup>,</sup><sup id="fnref-Hellman2013a"><a class="footnote-ref" href="#fn-Hellman2013a">3</a></sup><sup>,</sup><sup id="fnref-Hellman2011"><a class="footnote-ref" href="#fn-Hellman2011">2</a></sup> with effective force constants, the phonon quasiparticles are different at each temperature. At fix temperature, they behave just like normal bosons, obeying Bose-Einstein statistics and so on. But changing the temperature will change both the occupation numbers and the states that are occupied. Moreover, in the harmonic approximation the baseline energy (with all atoms at their equilibrium positions) is that of the static lattice. With an effective Hamiltonian this baseline is a free parameter. The baseline shift is illustrated in the diagram below:</p>
+<p><center><img src="../media/explain_U0.png" width="600" /></center></p>
+<p>The density depicts the phase space samples used to fit the effective Hamiltonian. The reference energy, or baseline, has been shifted with respect to zero temperature. This baseline is determined by matching the potential energies of the samples of the Born-Oppenheimer surface, $U_{BO}$, and the potential energy of the TDEP model Hamiltonian:</p>
+<p>$$
+\begin{equation}
+\begin{split}
+    \left\langle U_{\textrm{BO}} - U_{\textrm{TDEP}} \right\rangle &amp; = 
+    \left\langle U_{\textrm{BO}} - U_0 -\frac{1}{2} \sum_{ij} \sum_{\alpha\beta} \Phi_{ij}^{\alpha\beta} u^{\alpha}_i u^{\beta}_j  \right\rangle = 0 \\
+    U_0 &amp; = \left\langle U_{\textrm{BO}} - \frac{1}{2} \sum_{ij} \sum_{\alpha\beta} \Phi_{ij}^{\alpha\beta} u^{\alpha}_i u^{\beta}_j \right\rangle
+\end{split}
+\end{equation}
+$$</p>
+<p>Intuitively, this can be interpreted as that the TDEP force constants are determined by matching forces between the real and model system, in a similar manner we match the energies as well. The new baseline is conveniently expressed as a shift:</p>
+<p>$$
+\begin{equation}
+    \Delta U = U_0-U_{\textrm{stat}}
+\end{equation}
+$$</p>
+<p>Where $U_{\textrm{stat}}$ is the energy of the perfect lattice at 0K. The free energy is then (excluding configurational entropy, magnetic entropy etc.)</p>
+<p>$$
+\begin{equation}
+    F = F_{\textrm{el}} + F_{\textrm{ph}} + \Delta U_0\,.
+\end{equation}
+$$</p>
+<p>The entropy and heat capacity is not accessible from a single simulation. Since both the phonon free energy and baseline shift have non-trivial temperature dependencies, a series of calculations for different temperatures are needed, so that the entropy can be calculated via</p>
+<p>$$
+\begin{equation}
+    S = -\left.\frac{dF}{dT}\right|_V
+\end{equation}
+$$</p>
+<p>A series of calculations on a volume-temperature grid is required to calculate Gibbs free energy, with pressure explicitly calculated as</p>
+<p>$$
+\begin{equation}
+    P = -\left.\frac{dF}{dV}\right|_T
+\end{equation}
+$$</p>
+<h4>Other dispersive properties</h4>
+<p>We determine group velocities via the Hellman-Feynmann theorem:</p>
+<p>$$
+\begin{equation}
+    \nabla_{\mathbf{q}} \omega^2_s = \left\langle \epsilon_s(\mathbf{q}) \right| \nabla_{\mathbf{q}} \Phi(\mathbf{q})  \left| \epsilon_s(\mathbf{q}) \right\rangle
+\end{equation}
+$$</p>
+<p>where</p>
+<p>$$
+\begin{equation}
+\frac{\partial \mathbf{\Phi}_{\mu\nu}(\mathbf{q})}{\partial q_\alpha}
+    =
+    \sum_l
+    \frac{\partial }{\partial q_\alpha}
+    \frac{ \mathbf{\Phi}_{\mu\nu}(\mathbf{R}_l) }{\sqrt{m_\mu m_\nu}}
+    e^{ i \mathbf{q} \cdot \mathbf{R}_l }
+    =
+    \sum_l
+    R_{l}^\alpha
+    \frac{ \mathbf{\Phi}_{\mu \nu}(\mathbf{R}_l) }{\sqrt{m_\mu m_\nu}}
+    e^{ i \mathbf{q} \cdot \mathbf{R}_l }
+\end{equation}
+$$</p>
+<p>and</p>
+<p>$$
+\begin{equation}
+\mathbf{v}_{\mathbf{q}s} = \nabla_{\mathbf{q}} \omega_s(\mathbf{q})=
+\frac{1}{2\omega_s} \nabla_{\mathbf{q}} \omega_s^2(\mathbf{q})
+\end{equation}
+$$</p>
+<p>The only complications in using this expression is at wave vectors with degenerate frequencies, in those cases one has to average over the small group of the wave vector to obtain consistent group velocities.</p>
+<p>The mode Grüneisen parameters are a measure of the sensitivity of the vibrational frequencies to volume changes. They are given by</p>
+<p>$$
+\begin{equation}
+\gamma_{\mathbf{q}s}=-\frac{V}{\omega_{\mathbf{q}s}}\frac{\partial \omega_{\mathbf{q}s}}{\partial V}
+\end{equation}
+$$</p>
+<p>where $V$ is the volume and $\omega_{\mathbf{q}s}$ is the frequency of mode $s$ at wave vector $\mathbf{q}$. $\gamma_{\mathbf{q}s}$ can be obtained either by numerical differentiation of the phonon dispersion relations or from the third order force constants based on a perturbation approach:</p>
+<p>$$
+\begin{equation}
+\gamma_{\mathbf{q}s}=-\frac{1}{6\omega_{\mathbf{q}s}^2}\sum_{ijk\alpha\beta\gamma}
+\frac{\epsilon_{i\alpha}^{\mathbf{q}s*} \epsilon_{j\beta}^{\mathbf{q}s}}
+{\sqrt{m_i m_j}}
+r_k^\gamma \Phi_{ijk}^{\alpha\beta\gamma}e^{i\mathbf{q}\cdot\ \mathbf{r}_j}
+\end{equation}
+$$</p>
+<p>Here $\epsilon_{i\alpha}^{\mathbf{q}s}$ is component $\alpha$ associated eigenvector $\epsilon$ for atom $i$. $m_i$ is the mass of atom $i$, and $\mathbf{r}_i$ is the vector locating its position.</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Add general description about numerical integration types somewhere.</div>
+<h3>Input files</h3>
+<ul>
+<li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
+<li><a href="extract_forceconstants.html">infile.forceconstant</a></li>
+</ul>
+<p>Optional files: </p>
+<ul>
+<li><a href="../page/files.html#infile.qpoints_dispersion">infile.qpoints_dispersion</a> (to specify a path for the phonon dispersions)</li>
+<li><a href="../page/files.html#infile.lotosplitting">infile.lotosplitting</a> (including the electrostatic corrections)</li>
+<li><a href="extract_forceconstants.html">infile.forceconstant_thirdorder</a> (for the Grüneisen parameter)</li>
+</ul>
+<h3>Output files</h3>
+<p>Depending on options, the set of output files may differ. We start with the basic files that are written after running this code.</p>
+<h4><code>outfile.dispersion_relations</code></h4>
+<p>This file contains a list of $q$ points (in 1/Å) according to the chosen path (default or specified by the user in <code>infile.qpoints_dispersions</code>) and the frequencies per mode (in the specified units via <code>--unit</code>) for the corresponding points.</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    \( q_1 \qquad \omega_1 \qquad \omega_2 \qquad \ldots \qquad \omega_{3N_a} \)
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    \( q_2 \qquad \omega_1 \qquad \omega_2 \qquad \ldots \qquad \omega_{3N_a} \)    </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>Not that the first column is for plotting purposes only. It serves to ensure that each line segment is scaled properly, since each segment contains a fix number of points.</p>
+<h4><code>outfile.group_velocities</code></h4>
+<p>This file contains the norm of the group velocities as a function of q. Format is identical to that of the dispersions:</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    \( q_1 \qquad |v_1| \qquad |v_2| \qquad \ldots \qquad |v_{3N_a}| \)
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    \( q_2 \qquad |v_1| \qquad |v_2| \qquad \ldots \qquad |v_{3N_a}| \) </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>The units are in km/s.</p>
+<h4><code>outfile.mode_gruneisen_parameters</code></h4>
+<p>In case you used <code>--gruneisen</code>, the mode Grüneisen parameters will be written, in a format similar to the dispersions and group velocities:</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    $ q_1 \qquad \gamma_1 \qquad \gamma_2 \qquad \ldots \qquad \gamma_{3N_a} $
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    $ q_2 \qquad \gamma_1 \qquad \gamma_2 \qquad \ldots \qquad \gamma_{3N_a} $  </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>The units are in km/s.</p>
+<p><a name="outfile.phonon_dos"></a></p>
+<h4><code>outfile.phonon_dos</code></h4>
+<p>The first column is the list of frequencies and the second column in the density of states for this frequency, given in arbitrary units. Note that integrated density of states is normalized. One can calculate partial density of states (<code>--projected_dos_mode</code>); if the user specifies this option, an extra column will be added into the <code>outfile.phonon_dos</code> file for each type of atom. With <code>--projected_dos_site</code> the same thing happens but with an extra column for each atom in the unit cell.</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    $ \omega_1 \qquad g(\omega_1) \qquad g_1(\omega_1) \qquad \ldots \qquad g_{N}(\omega_1) $
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    $ \omega_2 \qquad g(\omega_2) \qquad g_1(\omega_2) \qquad \ldots \qquad g_{N}(\omega_2) $
+    </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>The units are in states per energy unit, depending on choice of <code>--unit</code>. The total DOS normalizes to 3N independent of choice of unit.</p>
+<h4><a name="outfile.free_energy"></a> <code>outfile.free_energy</code></h4>
+<p>If one chooses the option <code>--temperature_range</code> or <code>--temperature</code> then this file will display a list of temperatures with corresponding temperatures, vibrational free energies, vibrational entropies and heat capacities. </p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    $ T_1 \qquad F_{\textrm{vib}} \qquad S_{\textrm{vib}} \qquad C_v $
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    $ T_2 \qquad F_{\textrm{vib}} \qquad S_{\textrm{vib}} \qquad C_v $
+    </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>Temperature is given in K, \( F_{\textrm{vib}} \) in eV/atom, \( S_\textrm{vib} \) in eV/K/atom and heat capacity in eV/K/atom.</p>
+<h4><code>outfile.mode_vibentropies</code></h4>
+<p>Using <code>--modevib</code> gives the mode-projected vibrational entropies:</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    \( T_1 \qquad S_{1} \qquad S_{2} \qquad \ldots \qquad S_{3N_a} \)
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    \( T_1 \qquad S_{1} \qquad S_{2} \qquad \ldots \qquad S_{3N_a} \)
+    </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>Where all entropies are in eV/K/atom.</p>
+<h4><code>outfile.site_vibentropies</code></h4>
+<p>Using <code>--sitevib</code> gives the site-projected vibrational entropies:</p>
+<table class='table table-striped'>
+<thead><tr>
+    <th>Row</th>
+    <th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td> 
+    \( T_1 \qquad S_{1} \qquad S_{2} \qquad \ldots \qquad S_{N_a} \)
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td> 
+    \( T_1 \qquad S_{1} \qquad S_{2} \qquad \ldots \qquad S_{N_a} \)
+    </td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+</tbody>
+</table>
+
+<p>The first column is the temperature, followed by one column per atom. All entropies are in eV/K/atom.</p>
+<h4><code>outfile.grid_dispersions.hdf5</code></h4>
+<p>Using option <code>--dumpgrid</code> writes all phonon properties for a grid in the BZ to an hdf5 file, that is self-documented.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn-Born1998">
+<p>Born, M., &amp; Huang, K. (1964). Dynamical theory of crystal lattices. Oxford: Oxford University Press.&#160;<a class="footnote-backref" href="#fnref-Born1998" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Hellman2011">
+<p><a href="http://doi.org/10.1103/PhysRevB.84.180301">Hellman, O., Abrikosov, I. A., &amp; Simak, S. I. (2011). Lattice dynamics of anharmonic solids from first principles. Physical Review B, 84(18), 180301.</a>&#160;<a class="footnote-backref" href="#fnref-Hellman2011" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Hellman2013a">
+<p><a href="http://doi.org/10.1103/PhysRevB.88.144301">Hellman, O., &amp; Abrikosov, I. A. (2013). Temperature-dependent effective third-order interatomic force constants from first principles. Physical Review B, 88(14), 144301.</a>&#160;<a class="footnote-backref" href="#fnref-Hellman2013a" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Hellman2013">
+<p><a href="http://doi.org/10.1103/PhysRevB.87.104111">Hellman, O., Steneteg, P., Abrikosov, I. A., &amp; Simak, S. I. (2013). Temperature dependent effective potential method for accurate free energy calculations of solids. Physical Review B, 87(10), 104111.</a>&#160;<a class="footnote-backref" href="#fnref-Hellman2013" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+<!--
+    <br>
+    
+  
+    <ul class="list-inline">
+      <li><h4>Uses:</h4></li>
+      
+      <li>constants</li>
+      
+      <li>helpers</li>
+      
+      <li>dump_data</li>
+      
+      <li>options</li>
+      
+      <li>geometryfunctions</li>
+      
+      <li>type_crystalstructure</li>
+      
+      <li>type_forceconstant_secondorder</li>
+      
+      <li>type_forceconstant_thirdorder</li>
+      
+      <li>type_qpointmesh</li>
+      
+      <li>type_phonon_dispersions</li>
+      
+      <li>type_phonon_dos</li>
+      
+      <li>type_phonon_bandstructure</li>
+      
+      <li>type_lotosplitting</li>
+      
+      <li>type_symmetryoperation</li>
+      
+      <li>type_symmetrytable</li>
+      
+      <li>type_sqs</li>
+      
+      <li>densityplots</li>
+      
+      <li>velocitydos</li>
+      
+    </ul>
+  
+
+    
+    
+    
+    <br>
+
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+    
+    
+    
+-->    
+    </div>
+  </div>
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

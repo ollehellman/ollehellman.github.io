@@ -10,7 +10,9 @@
     <meta name="author" content="Olle Hellman" >
     <link rel="icon" href="./favicon.png">
 
-    <title> TDEP </title>
+    <title>
+Search Results &ndash; TDEP
+</title>
 
 <!-- <link href="./css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="./css/bootstrap.css" rel="stylesheet"> 
@@ -89,58 +91,29 @@
 
 <div class="container-fluid">
     
-
-<!-- maybe a jumbotron? -->
-</div>
-<div class="jumbotron jumbotron-index">
-<div class="container-fluid">
-    <h3><p>Temperature dependent effective potential 1.0</p></h3>
-</div>
-</div>
-
-<div class="container-fluid">
-<div class="row" id="text">
-    <div class="col-md-6 col-md-offset-3">
-          <h3>What is this?</h3>
-<p>The TDEP package is a series of tools for finite temperature lattice dynamics. Features include, but are not limited to temperature dependent phonon frequencies, anharmonic free energy and lattice thermal conductivity. The package is released under the MIT license.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>A picture of a goat or turtle or something nice.</div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Also, make sure I do the license thing correct.</div>
-<p></div>
-</div>
-</div>
-<div class="jumbotron" style="background-color: #BFDFF5">
-<div class="container-fluid">
-<div class="row" id="text">
-<div class="col-md-6 col-md-offset-3"></p>
-<h3>Updates</h3>
-
-<p>Well I just made this page, that's new.</p>
-
-<p></div>
-</div>
-</div>
-</div>
-<div class="container-fluid">
-<div class="row" id="text">
-<div class="col-md-6 col-md-offset-3"></p>
-<h3>Showcase</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Add a list of papers, detailing what part of the code was used.</div>
-<h3>Interfaces</h3>
-<p>This is not a stand-alone package. TDEP interfaces with atomistic codes, such as DFT codes or classical forcefields. The basic requirement is that must be able to calculate forces and energies from a given atomic configuration. Current examples include </p>
-<ul>
-<li>VASP</li>
-<li>Abinit</li>
-<li>That strange code Zamaan fixed stuff for</li>
-<li>LAMMPS (I suppose)</li>
-</ul>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Mention that Abinit has by far the best integration, calculating phonons on the fly, with minimal additional input.</div>
-<h3>Howto?</h3>
-<p>If you are new, there is a <a href="page/index.html">getting started guide</a>. There are example workflows, for simple and more complicated things. </p>
-<h3>Credit</h3>
-<p>I did not do all of this myself, but at the moment I am tired and don't want to give credit to anyone.</p>
-    </div>
-</div>
-
+      <div class="row">
+        <div class="col-lg-12">
+			 <h1>Search Results</h1>
+             <div id="tipue_search_content"><div id="tipue_search_loading"></div></div>
+        </div>
+      </div>
+<!--
+    <script>
+      $(document).ready(function() {
+           $('#tipue_search_input').tipuesearch({
+             'mode' : 'static',
+             'show': 10,
+             'newWindow': false,
+             'descriptiveWords': 35,
+         });
+      });
+    </script>
+-->
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch();
+});
+</script>
 
     <br>
     <br>
