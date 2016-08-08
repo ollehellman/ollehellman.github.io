@@ -262,7 +262,6 @@
 <p><code>crystal_structure_info --printsymmetry</code> </p>
 <h2>Long summary</h2>
 <p>This is mainly a diagnostic tool, to make sure that my heuristics are working as they should. For example, if you want to calculate fcc Al, and things look strange, run this code to make sure that the symmetry detection actually identifies it as fcc. As a bonus, the Brillouin zone and the irreducible wedge is printed to file, so that you can make figures like the one below.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Reuse the dump of the BZ to hdf from the fermisurface code and use that instead, much better than the plain text things.</div>
 <p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>When the detection of the high-symmetry points fail for strange lattices, the code should keep going. It's only the label that is off, and noone really cares about that. Maybe even switch to labelling in Miller-indices instead, since noone knows what the symbols mean anyway.</div>
 <p><center>
 <img src="../media/fcc_al_brillouin_zone.png" width="500" />

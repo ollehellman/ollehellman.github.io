@@ -192,12 +192,14 @@
 <div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1"># A central place to put all the important paths. You probably have to modify this to make things work.</span>
 
-<span class="c1"># the path to the cli mathematica interface. Different on each system.</span>
-<span class="nv">MATHEMATICAHEADER</span><span class="o">=</span><span class="s2">&quot;#!/Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script&quot;</span> <span class="c1"># OSX</span>
-<span class="c1"># the folder where Mathematica puts its settings. I have made a Mathematica package, and it needs</span>
-<span class="c1"># to be linked in the correct folder, which differs from system to system.</span>
-<span class="nv">MATHEMATICASETTINGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/Library/Mathematica&quot;</span> <span class="c1"># on OSX</span>
-<span class="c1">#MATHEMATICASETTINGS=&quot;${HOME}/.Mathematica&quot;       # on linux, usually</span>
+<span class="c1"># the fortran compiler</span>
+<span class="nv">FORTRAN_COMPILER</span><span class="o">=</span><span class="s2">&quot;gfortran&quot;</span>
+<span class="c1"># optimization stuff. Go all in.</span>
+<span class="nv">OPTIMIZATION_LEVEL</span><span class="o">=</span><span class="s2">&quot;-Ofast&quot;</span>
+<span class="c1"># the flag that sets the default real to a double.</span>
+<span class="nv">DOUBLE_FLAG</span><span class="o">=</span><span class="s2">&quot;-fdefault-real-8&quot;</span>
+<span class="c1"># The flag that tells the compiler where to put .o and .mod files.</span>
+<span class="nv">MODULE_FLAG</span><span class="o">=</span><span class="s2">&quot;-J&quot;</span>
 
 <span class="c1"># the header to put in python scripts.</span>
 <span class="nv">PYTHONHEADER</span><span class="o">=</span><span class="s2">&quot;#!/usr/bin/python&quot;</span>
@@ -206,14 +208,6 @@
 <span class="nv">GNUPLOTTERMINAL</span><span class="o">=</span><span class="s2">&quot;aqua&quot;</span>  <span class="c1"># nice on OSX, needs aquaterm installed and gnuplot compiled with support for it.</span>
 <span class="c1">#GNUPLOTTERMINAL=&quot;wxt&quot;  # nice on linux.</span>
 <span class="c1">#GNUPLOTTERMINAL=&quot;x11&quot;  # fallback that works but looks kind of bad</span>
-
-<span class="c1"># the fortran compiler</span>
-<span class="nv">FORTRAN_COMPILER</span><span class="o">=</span><span class="s2">&quot;gfortran&quot;</span>
-<span class="nv">OPTIMIZATION_LEVEL</span><span class="o">=</span><span class="s2">&quot;-Ofast&quot;</span>
-<span class="c1"># the flag that sets the default real to a double. I only use it in one place, but can sometimes be</span>
-<span class="c1"># really important for the procedurally generated code</span>
-<span class="nv">DOUBLE_FLAG</span><span class="o">=</span><span class="s2">&quot;-fdefault-real-8&quot;</span>
-<span class="nv">MODULE_FLAG</span><span class="o">=</span><span class="s2">&quot;-J&quot;</span>
 
 <span class="c1"># Precompiler flags. Selecting default gnuplot terminal, and make the progressbars work.</span>
 <span class="nv">PRECOMPILER_FLAGS</span><span class="o">=</span><span class="s2">&quot;-DGP</span><span class="si">${</span><span class="nv">GNUPLOTTERMINAL</span><span class="si">}</span><span class="s2"> -Dgfortranprogressbar&quot;</span> <span class="c1"># for gfortran</span>
@@ -265,6 +259,13 @@
 <span class="c1"># is not easy. But pretty cool, and worth the effort.</span>
 <span class="nv">PATH_TO_CGAL_LIB</span><span class="o">=</span><span class="s2">&quot;-L/Users/olle/software/CGAL-4.8/build/lib -L/usr/local/lib&quot;</span>
 <span class="nv">PATH_TO_CGAL_INC</span><span class="o">=</span><span class="s2">&quot;-I/Users/olle/software/CGAL-4.8/build/include -I/usr/local/include -I/usr/local/include/eigen3&quot;</span>
+
+<span class="c1"># These are not really needed, but I left them in case someone wants to test the legacy version.</span>
+<span class="c1">#MATHEMATICAHEADER=&quot;#!/Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script&quot; # OSX</span>
+<span class="c1"># the folder where Mathematica puts its settings. I have made a Mathematica package, and it needs</span>
+<span class="c1"># to be linked in the correct folder, which differs from system to system.</span>
+<span class="c1">#MATHEMATICASETTINGS=&quot;${HOME}/Library/Mathematica&quot; # on OSX</span>
+<span class="c1">#MATHEMATICASETTINGS=&quot;${HOME}/.Mathematica&quot;       # on linux, usually</span>
 </pre></div>
 
 
