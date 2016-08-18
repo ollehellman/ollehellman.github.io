@@ -11,7 +11,9 @@
     <meta name="sourcefile" content="">
     <link rel="icon" href="../favicon.png">
 
-    <title>Manual &ndash; TDEP</title>
+    <title>
+Todolist &ndash; TDEP
+</title>
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
@@ -57,7 +59,7 @@
         <ul class="nav navbar-nav">
             <!-- manual thingy -->
             
-            <li><a href='../page/index.html'>Manual</a></li>
+            <li><a href='../../page/index.html'>Manual</a></li>
             
             <!-- programs -->
             
@@ -93,111 +95,54 @@
 </div>
 <div class="jumbotron">
 <div class="container-fluid">
-  <h3>Manual</h3>
+    <h3>Todolist</h3>
 </div>
-</div>
-<div class="container-fluid">
-
-<div class="row">
-    
-        <div class="col-sm-3">
-        <div class="toc">
-            <ul class="nav nav-stacked nav-pills">
-            <li role="presentation" class="title disabled"><a href='../page/index.html'>Manual</a></li>
-            </ul>
-            <ul class="nav nav-stacked nav-pills">
-            
-                <li role="presentation">
-                <a href='../page/./0_installation.html'>Installation</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/./1_utilities.html'>Utility scripts</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/./files.html'>Files</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/workflows/index.html'>Workflows</a>
-                
-                    <ul class="nav nav-stacked nav-pills">
-                      
-                <li role="presentation">
-                <a href='../page/workflows/minimal_example_1.html'>Minimal example I</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/workflows/minimal_example_2.html'>Minimal example II</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/workflows/minimal_example_3.html'>Minimal example III</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/workflows/minimal_example_4.html'>Minimal example IV</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/workflows/minimal_example_5.html'>Minimal example V</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/workflows/minimal_example_6.html'>Minimal example VI</a>
-                
-                </li>
-            
-                <li role="presentation">
-                <a href='../page/workflows/using_the_library.html'>Using the library</a>
-                
-                </li>
-            
-                    </ul>
-                
-                </li>
-            
-            </ul>
-        </div>
-        </div>
-    
-    <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
-        <h4>Getting started</h4>
-<p>To get started, make sure you meet the <a href="0_installation.html">dependencies and install</a> everything. While things are compiling, it might be a good idea to familarize yourself with the literature, starting with a shameless plug for my papers:</p>
-<ul>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.84.180301">Hellman, O., Abrikosov, I. A., &amp; Simak, S. I. (2011). Lattice dynamics of anharmonic solids from first principles. Physical Review B, 84(18), 180301.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.88.144301">Hellman, O. &amp; Abrikosov, I. A. (2013). Temperature-dependent effective third-order interatomic force constants from first principles. Physical Review B, 88(14), 144301.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.87.104111">Hellman, O., Steneteg, P., Abrikosov, I. A., &amp; Simak, S. I. (2013). Temperature dependent effective potential method for accurate free energy calculations of solids. Physical Review B, 87(10), 104111.</a></p>
-</li>
-</ul>
-<p>This provides background, but does not accurately reflect all the capabilities of this software package.</p>
-<h4>Usage</h4>
-<p>This software package consist of several programs, meant to be chained together into workflows, depending on property you are interested in. Before trying anything too complicated, make sure you start with the <a href="workflows/minimal_example_1.html">tutorial</a>, everything named <em>minimal example</em>. The descriptions of each program serves as both reference and theoretical background. For things to make sense, read them in this order:</p>
-<ol>
-<li><a href="../program/extract_forceconstants.html">extract forceconstants</a></li>
-<li><a href="../program/phonon_dispersion_relations.html">phonon dispersion relations</a></li>
-<li><a href="../program/lineshape.html">lineshape</a></li>
-<li><a href="../program/thermal_conductivity.html">thermal conductivity</a></li>
-</ol>
-<p>Before trying production quality calculations, it is useful to try some of the real world examples provided:</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Actually add the real world examples. I thought I should take the raw data from what I used in papers. But it has a tendency to become awfully complicated, maybe take someone else data that is not that messy.</p></div>
-    </div>
 </div>
 
+      <div class="row" id='text'>
+        <div class="col-lg-offset-2 col-lg-7" id='text'>
+        <table class="table table-striped">
+        <thead><tr><th>File</th><th>Description</th></tr></thead>
+             <tbody>
+			 
+                <tr><td>src/extract_forceconstants/main.f90</td><td>Make some plots with numerics, noise and that stuff.</td></tr> 
+             
+                <tr><td>src/extract_forceconstants/main.f90</td><td>explain what forcemap is</td></tr> 
+             
+                <tr><td>src/extract_forceconstants/main.f90</td><td>explain how to read forceconstants from file</td></tr> 
+             
+                <tr><td>src/extract_forceconstants/main.f90</td><td>explain the different solvers</td></tr> 
+             
+                <tr><td>src/extract_forceconstants/main.f90</td><td>explain how to do convergence testing</td></tr> 
+             
+                <tr><td>src/phonon_dispersion_relations/main.f90</td><td>Add general description about numerical integration types somewhere.</td></tr> 
+             
+                <tr><td>src/thermal_conductivity/main.f90</td><td>Add a plot what this looks like.</td></tr> 
+             
+                <tr><td>src/thermal_conductivity/main.f90</td><td>Explain convergence.</td></tr> 
+             
+                <tr><td>src/thermal_conductivity/main.f90</td><td>Mention that there is a super-parallel version that is kind of done. Scales to 10000's of cores, useful for systems with many atoms per unit cell.</td></tr> 
+             
+                <tr><td>src/samples_from_md/main.f90</td><td>We can show the histograms of the force magnitudes in FeV, together with the relative error in forces. We compare forces obtained from BOMD to the small displacement method. The small displacement method samples forces at magnitudes where the relative errors is about two orders of magnitude larger than at a thermally relevant state. So not only do we better describe the physics at high temperature, we do it in a numerically superior manner.</td></tr> 
+             
+                <tr><td>src/samples_from_md/main.f90</td><td>Add some some figures from my thesis.</td></tr> 
+             
+                <tr><td>src/samples_from_md/main.f90</td><td>should I write more about Monte carlo?</td></tr> 
+             
+                <tr><td>src/samples_from_md/main.f90</td><td>Add support for other codes as output format.</td></tr> 
+             
+                <tr><td>src/remap_forceconstant/main.f90</td><td>Actually write this</td></tr> 
+             
+                <tr><td>src/lineshape/main.f90</td><td>Nice picture of S(Q,E)</td></tr> 
+             
+                <tr><td>src/lineshape/main.f90</td><td>This is on it's way to be moved to an hdf5. Fix.</td></tr> 
+             
+                <tr><td>src/canonical_configuration/main.f90</td><td>Update this to explain how to do statistical sampling in clever ways, but probably not before I actually publish it.</td></tr> 
+             
+             </tbody>
+        </table>
+        </div>
+      </div>
 
     <br>
     <br>

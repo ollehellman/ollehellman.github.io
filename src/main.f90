@@ -1,4 +1,5 @@
 #include "precompilerdefinitions"
+!! main file for canonical configuration
 program canonical_configuration
 !!{!src/canonical_configuration/manual.md!}
 use constants
@@ -49,14 +50,16 @@ else
 endif
 
 ! Remap force constant to supercell
-if ( uc%alloy ) then
+if ( uc%info%alloy ) then
     write(*,*) '... alloy detected'
+    write(*,*) 'Not done'
+    stop
     ! the unitcell is an alloy, now I have to think a little
-    call sqs%readfromfile('infile.sqs')
-    call alloy%readfromfile('infile.sqs_alloy_supercell')
+    !call sqs%readfromfile('infile.sqs')
+    !call alloy%readfromfile('infile.sqs_alloy_supercell')
     ! the remapping is a bit different
-    alloy%r=sqs%r
-    call fc%remap(uc,alloy,fcss)
+    !alloy%r=sqs%r
+    !call fc%remap(uc,alloy,fcss)
 else
     ! in normal case just remap it
     call fc%remap(uc,ss,fcss)

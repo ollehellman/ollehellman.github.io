@@ -181,58 +181,63 @@
     
 <div id="sidebar">
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <hr>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <div class="panel panel-default">
-    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
-    <div id="allprogs" class="panel-collapse collapse">
-        <div class="list-group">
-          
-          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-          
-          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-          
-          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-          
-          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-          
-          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-          
-          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-          
-          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-          
-          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-          
-          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-          
-          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-          
-          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-          
-        </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
+  <div id="allprogs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+      
+      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+      
+      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+      
+      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+      
+      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+      
+      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+      
+      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+      
+      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+      
+      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+      
+      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+      
+      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+      
     </div>
   </div>
-  
 </div>
+
+
+</div>  
 
     </div>
     -->
@@ -262,6 +267,11 @@
 <p><code>--firstorder</code><br>
     default value .false.<br>
     Include the first order force constants. These can be used to find the finite temperature equilibrium structure.</p>
+</li>
+<li>
+<p><code>--residualfit</code><br>
+    default value .false.<br>
+    Fit the second order first, then the higher orders to the residual.</p>
 </li>
 <li>
 <p><code>--readforcemap</code><br>
@@ -560,11 +570,11 @@ $$</p>
 <div class="row" id="text">
 <div class="col-md-offset-2 col-md-7 col-md-offset-3"></p>
 <h3>Practical notes</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Make some plots with numerics, noise and that stuff.</div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain what forcemap is</div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain how to read forceconstants from file</div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain the different solvers</div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>explain how to do convergence testing</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Make some plots with numerics, noise and that stuff.</p></div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain what forcemap is</p></div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain how to read forceconstants from file</p></div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain the different solvers</p></div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain how to do convergence testing</p></div>
 <h3>Input files</h3>
 <ul>
 <li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
@@ -868,7 +878,8 @@ $$</p>
       <li>relax_structure</li>
       
     </ul>
-  
+    
+    
 
     
     

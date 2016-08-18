@@ -181,58 +181,63 @@
     
 <div id="sidebar">
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <hr>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <div class="panel panel-default">
-    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
-    <div id="allprogs" class="panel-collapse collapse">
-        <div class="list-group">
-          
-          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-          
-          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-          
-          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-          
-          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-          
-          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-          
-          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-          
-          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-          
-          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-          
-          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-          
-          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-          
-          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-          
-        </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
+  <div id="allprogs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+      
+      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+      
+      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+      
+      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+      
+      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+      
+      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+      
+      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+      
+      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+      
+      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+      
+      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+      
+      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+      
     </div>
   </div>
-  
 </div>
+
+
+</div>  
 
     </div>
     -->
@@ -247,6 +252,11 @@
 <p><code>--dimensions value#1 value#2 value#3</code>, <code>-d value#1 value#2 value#3</code><br>
     default value 5 5 5<br>
     Dimensions of supercell.</p>
+</li>
+<li>
+<p><code>--nondiagonal_dimensions value#1 value#2 value#3 value#4 value#5 value#6 value#7 value#8 value#9</code>, <code>-nd value#1 value#2 value#3 value#4 value#5 value#6 value#7 value#8 value#9</code><br>
+    default value 0 0 0 0 0 0 0 0 0<br>
+    Non-diagonal dimensions of supercell.</p>
 </li>
 <li>
 <p><code>--output_format value</code>, <code>-of value</code>, value in: <code>1,2,3</code><br>
@@ -265,7 +275,98 @@
 <h3>Examples</h3>
 <p><code>generate_structure -dim 4 3 5</code> </p>
 <h3>Longer summary</h3>
-<p>This code builds a supercell with user-specified dimensions from the unit cell given in <code>infile.ucposcar</code>. All positions are in fractional coordinates. Note that the lattice parameter is the same in input and output files, and that only the basis vectors are scaled to reflect the greater size of the supercell (relative to the unit cell).</p>
+<p>This code builds a supercell with user-specified dimensions from the unit cell given in <code>infile.ucposcar</code>. All positions are in fractional coordinates.</p>
+<p>The code handles diagonal and non-diagonal cells. The diagonal cells are simple repetitions of the unit cell, making it $N_1 \times N_2 \times N_3$ larger. The non-diagonal cells can be useful when the unit cell has an awkward shape. The supercell will have the lattice vectors</p>
+<p>$$
+\begin{pmatrix}
+\mathbf{A}_1 \\
+\mathbf{A}_2 \\
+\mathbf{A}_3 \\
+\end{pmatrix}
+= \mathbf{M}
+\begin{pmatrix}
+\mathbf{a}_1 \\
+\mathbf{a}_2 \\
+\mathbf{a}_3 
+\end{pmatrix}
+$$</p>
+<p>where $\det( \mathbf{M} )$ is a positive integer. Some useful transformations are, for example, with <code>-nd -n1 n1 n1 n2 -n2 n2 n3 n3 -n3</code>, from a primitive fcc lattice to the conventional cubic</p>
+<p>$$
+\begin{pmatrix}
+n_1 a &amp; 0 &amp; 0 \\
+0 &amp; n_2 a &amp; 0 \\
+0 &amp; 0 &amp; n_3 a
+\end{pmatrix}
+=\begin{pmatrix}
+-n_1 &amp; n_1 &amp; n_1 \\
+n_2 &amp; -n_2 &amp; n_2 \\
+n_3 &amp; n_3 &amp; -n_3
+\end{pmatrix}
+\begin{pmatrix}
+0 &amp; a/2 &amp; a/2 \\
+a/2 &amp; 0 &amp; a/2 \\
+a/2 &amp; a/2 &amp; 0
+\end{pmatrix}
+$$</p>
+<p>Similarly, from a primitive bcc to conventional cubic:</p>
+<p>$$
+\begin{pmatrix}
+n_1 a &amp; 0 &amp; 0 \\
+0 &amp; n_2 a &amp; 0 \\
+0 &amp; 0 &amp; n_3 a
+\end{pmatrix}
+=\begin{pmatrix}
+0 &amp; n_1 &amp; n_1 \\
+n_2 &amp; 0 &amp; n_2 \\
+n_3 &amp; n_3 &amp; 0
+\end{pmatrix}
+\begin{pmatrix}
+-a/2 &amp; a/2 &amp; a/2 \\
+a/2 &amp; -a/2 &amp; a/2 \\
+a/2 &amp; a/2 &amp; -a/2
+\end{pmatrix}
+$$</p>
+<p>There are some non-obvious ones as well, such as converting a hexagonal lattice to an orthorhombic:</p>
+<p>$$
+\begin{pmatrix}
+n_1 a &amp; 0 &amp; 0 \\
+0 &amp; \sqrt{3} n_2 a  &amp; 0 \\
+0 &amp; 0 &amp; n_3 c
+\end{pmatrix}
+=\begin{pmatrix}
+n_1 &amp; n_1 &amp; 0 \\
+-n_2 &amp; n_2 &amp; 0 \\
+0 &amp; 0 &amp; n_3
+\end{pmatrix}
+\begin{pmatrix}
+a/2 &amp; -a\sqrt{3}/2 &amp; 0 \\
+a/2 &amp; a \sqrt{3}/2 &amp; 0 \\
+0 &amp; 0 &amp; c
+\end{pmatrix}
+$$</p>
+<p>or rhombohedral (lattice parameter $a$, angle $\alpha$) to hexagonal:</p>
+<p>$$
+\begin{equation*}
+\begin{split}
+\begin{pmatrix}
+0 &amp; n_1 a \sqrt{2-2 \cos\alpha} &amp; 0  \\
+-n_2 a\sqrt{ \frac{2-2 \cos\alpha}{3} } &amp; -n_2 a \sqrt{2-2 \cos\alpha}  &amp; 0 \\
+0 &amp; 0 &amp; n_3 a \sqrt{3+6\cos\alpha}
+\end{pmatrix}
+= \\ \\ \begin{pmatrix}
+n_1 &amp; n_1 &amp; 0 \\
+-n_2 &amp; n_2 &amp; 0 \\
+0 &amp; 0 &amp; n_3
+\end{pmatrix}
+\begin{pmatrix}
+a\sqrt{2-2\cos\alpha} &amp; 0 &amp; a\sqrt{\frac{1+2\cos\alpha}{3}} \\
+-a\sqrt{\frac{1-\cos\alpha}{2}} &amp; a\sqrt{3\frac{1-\cos\alpha}{2}} &amp; a\sqrt{\frac{1+2\cos\alpha}{3}} \\
+-a\sqrt{\frac{1-\cos\alpha}{2}} &amp; -a\sqrt{3\frac{1-\cos\alpha}{2}} &amp; a\sqrt{\frac{1+2\cos\alpha}{3}} 
+\end{pmatrix}
+\end{split}
+\end{equation*}
+$$</p>
+<p>There are too many ways to build supercells to list here. The examples are suggestions so that you can pick a supercell that is as cubic as possible. Converging results with respect to supercell size goes approximately as the size of the largest sphere you can fit in the cell.</p>
 <h3>Input files</h3>
 <ul>
 <li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
@@ -274,8 +375,6 @@
 <ul>
 <li><a href="../page/files.html#infile.ssposcar">outfile.ssposcar</a></li>
 </ul>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Add description how to generate SQS</div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Add support for non-diagonal supercells</div>
 
 <!--
     <br>
@@ -303,7 +402,8 @@
       <li>type_sqs</li>
       
     </ul>
-  
+    
+    
 
     
     

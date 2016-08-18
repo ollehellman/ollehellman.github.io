@@ -8,6 +8,7 @@
 	 <meta name="description" content="Temperature dependent effective potential 1.0">
     
     <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
     <link rel="icon" href="../favicon.png">
 
     <title>Files &ndash; TDEP</title>
@@ -340,7 +341,7 @@ direct coordinates
 </table>
 
 <p>One line for every configuration in the simulation. The energies are in eV/supercell, temperature in K, pressure and stress in GPa.</p>
-<p></p><div class="alert alert-info" role="alert"><h4>Note</h4>The information in this file is only crucial when calculating the free energy. For other applications this can safely be filled with mock data.</div>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>The information in this file is only crucial when calculating the free energy. For other applications this can safely be filled with mock data.</p></div>
 <h3><a name="infile.meta"></a> infile.meta</h3>
 <p>Some information about the MD run, an example:</p>
 <div class="codehilite"><pre><span></span>240    # N atoms
@@ -351,7 +352,7 @@ direct coordinates
 
 
 <p>The first line is the number of atoms in the simulation, the second line the number of timesteps. Then the timestep and the temperature.</p>
-<p></p><div class="alert alert-info" role="alert"><h4>Note</h4>The timestep and temperature can safely be set to 0, except for <a href="../program/autocorrelation.html">autocorrelation</a> and <a href="../program/atomic_distribution.html">atomic distribution</a></div>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>The timestep and temperature can safely be set to 0, except for <a href="../program/autocorrelation.html">autocorrelation</a> and <a href="../program/atomic_distribution.html">atomic distribution</a></p></div>
 <h3><a name="infile.lotosplitting"></a> infile.lotosplitting</h3>
 <p>This is an example input file for the long-range electrostatic corrections, also for Bi2Te3.</p>
 <div class="codehilite"><pre><span></span> 5.0  0.0  0.0 # three lines for dielectric tensor

@@ -8,6 +8,7 @@
 	 <meta name="description" content="Temperature dependent effective potential 1.0">
     
     <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
     <link rel="icon" href="../favicon.png">
 
     <title>Installation &ndash; TDEP</title>
@@ -183,10 +184,10 @@
 <li>gnuplot, tested with 4+ on OSX with <a href="http://sourceforge.net/projects/aquaterm">aquaterm</a></li>
 <li>this documentation is generated with <a href="https://github.com/cmacmackin/ford">FORD</a>.</li>
 </ul>
-<p></p><div class="alert alert-info" role="alert"><h4>Note</h4>I do all the development in OSX, and install all libraries/dependencies with <a href="http://brew.sh">homebrew</a>. For reference, these are the things I installed, and referred to in the sample important_settings:
-<code>brew install gcc fftw --with-fortran openmpi gnuplot --with-aquaterm hdf5 --with-fortran --with-fortran2003</code> If you do the same, installation should be a breeze.</div>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>I do all the development in OSX, and install all libraries/dependencies with <a href="http://brew.sh">homebrew</a>. For reference, these are the things I installed, and referred to in the sample important_settings:
+<code>brew install gcc fftw --with-fortran openmpi gnuplot --with-aquaterm hdf5 --with-fortran --with-fortran2003</code> If you do the same, installation should be a breeze.</p></div>
 <h3>Download</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Will fix once I make the repository public.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Will fix once I make the repository public.</p></div>
 <h3>Compiling</h3>
 <p>The build system is a little unorthodox, but straightforward. You need to create a file called <code>important_settings</code>, and put it in the root directory of tdep. Several examples are provided, start with the one that seems closest to what you have. An example follows here, for OSX:</p>
 <div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>

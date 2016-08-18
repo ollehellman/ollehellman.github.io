@@ -181,58 +181,63 @@
     
 <div id="sidebar">
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <hr>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <div class="panel panel-default">
-    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
-    <div id="allprogs" class="panel-collapse collapse">
-        <div class="list-group">
-          
-          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-          
-          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-          
-          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-          
-          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-          
-          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-          
-          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-          
-          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-          
-          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-          
-          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-          
-          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-          
-          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-          
-        </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
+  <div id="allprogs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+      
+      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+      
+      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+      
+      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+      
+      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+      
+      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+      
+      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+      
+      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+      
+      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+      
+      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+      
+      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+      
     </div>
   </div>
-  
 </div>
+
+
+</div>  
 
     </div>
     -->
@@ -447,7 +452,7 @@ $$</p>
 <p>$$
 \begin{equation*}
 \begin{split}
-\mathbf{q} + \mathbf{q}' &amp; = \mathbf{q}''+\mathbf{G} \\
+\mathbf{q} + \mathbf{q}' + \mathbf{q}'' &amp; = \mathbf{G} \\
 \omega + \omega' &amp; = \omega'' 
 \end{split}
 \end{equation*}
@@ -517,20 +522,21 @@ $$</p>
 \left(a_{\lambda'}+a_{\lambda'}^\dagger \right)
 \left(a_{\lambda''}+a_{\lambda''}^\dagger \right) 
 \middle\vert i \right\rangle = \\
-= &amp; \left\langle f \middle\vert
+= &amp; \sum_{\lambda\lambda'\lambda''} \left\langle f \middle\vert
 \hat{a}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''} + \hat{a}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''}
 \middle\vert i \right\rangle = \\
-= &amp; \left\langle f \middle\vert 
+= &amp; \sum_{\lambda\lambda'\lambda''} \left\langle f \middle\vert 
 a_{\lambda}a_{\lambda'}a^\dagger_{\lambda''}
 \middle\vert i \right\rangle
- = \sqrt{n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)}
+ = 3 \sqrt{n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)}
 \end{split}
 \end{equation}
 $$</p>
-<p>to get at</p>
+<p>where the factor 3 comes from the multiplicity, to get at</p>
 <p>$$
 \begin{equation}
 {\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle} = 
+\frac{1}{2}
 \sum_{ijk} \sum_{\alpha\beta\gamma}\Phi_{ijk}^{\alpha\beta\gamma}
 \sqrt{n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)}
 %
@@ -549,10 +555,11 @@ $$</p>
 e^{i \mathbf{q}\cdot\mathbf{r}_i + i \mathbf{q}'\cdot\mathbf{r}_j+i \mathbf{q}''\cdot\mathbf{r}_k}
 \end{equation}
 $$</p>
-<p>where, as it happens, we can identify the three-phonon matrix elements and simplify a little bit more</p>
+<p>The initial factor 1/2 is the multiplicity cancelled by the 3! from the Hamiltonian. Here, as it happens, we can identify the three-phonon matrix elements and simplify a little bit more</p>
 <p>$$
 \begin{equation}
 {\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle} = 
+\frac{1}{2}
 \sqrt{n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)}
 \left(\frac{\hbar}{2N}\right)^{3/2} 
 \Phi_{\lambda\lambda'\lambda''}
@@ -562,10 +569,10 @@ $$</p>
 <p>$$
 \begin{equation}
 \begin{split}
-P_{\lambda+\lambda'\rightarrow\lambda''} &amp; =\frac{2\pi}{\hbar}
+P_{\lambda\lambda'\rightarrow\lambda''} &amp; =\frac{2\pi}{\hbar}
 \left|{\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle}\right|^2
 \delta(E_f-E_i) = 
-\frac{\hbar^2\pi}{4N}
+\frac{\hbar^2\pi}{16N}
 n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)
 \left| \Phi_{\lambda\lambda'\lambda''} \right|^2
 \delta(E_f-E_i)
@@ -574,17 +581,17 @@ n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)
 $$</p>
 <p>With near identical reasoning, we can also arrive at</p>
 <p>$$
-\begin{equation}
-P_{\lambda\rightarrow\lambda'+\lambda''} =
-\frac{\hbar^2\pi}{4N}
-(n_{\lambda}+1)(n_{\lambda'}+1)n_{\lambda''}
+\begin{equation}\label{pplus}
+P_{\lambda\rightarrow\lambda'\lambda''} =
+\frac{\hbar^2\pi}{16N}
+n_{\lambda}(n_{\lambda'}+1)(n_{\lambda''}+1)
 \left| \Phi_{\lambda\lambda'\lambda''} \right|^2
 \delta(E_f-E_i)
 \end{equation}
 $$</p>
 <p>for the other kind of three-phonon processes, and</p>
 <p>$$
-\begin{equation}
+\begin{equation}\label{pminus}
 P_{\lambda\rightarrow\lambda'} =\frac{2\pi}{\hbar}\left|\langle f | H^{\textrm{iso}} | i \rangle \right|^2\delta(E_f-E_i) = 
 \frac{\pi\hbar}{2N}  n_{\lambda}(n_{\lambda'}+1) \Lambda_{\lambda\lambda'}\delta(E_f-E_i)
 \end{equation}
@@ -598,57 +605,100 @@ $$</p>
 $$</p>
 <p>Where $\tilde{n}$ is the non-equilibrium occupation number. This is ridiculously complicated. To make life easier, we only consider the terms we outlined above as possible collisions. Gathering all possible events that involve mode $\lambda$ we get</p>
 <p>$$
-\begin{equation}\label{eq:pbesq}
-\left. \frac{\partial \tilde{n}_\lambda }{\partial t} \right|_{\mathrm{coll}}
-= \sum_{\lambda'}
+\begin{equation}\label{manyprob}
+\begin{split}
+\left. \frac{\partial n_{\lambda}}{ \partial t} \right|_{\mathrm{coll}}
+= &amp;  \sum_{\lambda'}
 \left( P_{\lambda\rightarrow\lambda'}-P_{\lambda'\rightarrow\lambda } \right) +
-\sum_{\lambda'\lambda''} \left(
-    P_{\lambda''\rightarrow \lambda\lambda'}-
-    P_{\lambda\lambda' \rightarrow \lambda''}
-\right)
-+\frac{1}{2}\left(
-    P_{\lambda'\lambda'' \rightarrow \lambda}-
-    P_{\lambda \rightarrow \lambda' \lambda''}
-\right)
+\sum_{\lambda'\lambda''}
+- P_{\lambda  \rightarrow \lambda' \lambda'' }
+- P_{\lambda  \rightarrow \lambda''\lambda'  }
++ P_{\lambda' \rightarrow \lambda  \lambda'' }
++ P_{\lambda' \rightarrow \lambda''\lambda   }
++ P_{\lambda''\rightarrow \lambda  \lambda'  }
++ P_{\lambda''\rightarrow \lambda' \lambda   } \\
+&amp; - P_{\lambda   \lambda' \rightarrow \lambda'' }
+- P_{\lambda   \lambda'' \rightarrow \lambda'  }
+- P_{\lambda'  \lambda   \rightarrow \lambda'' }
++ P_{\lambda'  \lambda'' \rightarrow \lambda   }
+- P_{\lambda'' \lambda   \rightarrow \lambda'  }
++ P_{\lambda'' \lambda'  \rightarrow \lambda   }
+\end{split}
 \end{equation}
 $$</p>
-<p>We have no idea how the occupation numbers behave, but we replace them with the identity</p>
+<p>Which does not seem to make life easier. To make it slightly worse, we insert \ref{pplus} and \ref{pminus} into this, and at the same time say that the non-equilibrium distribution functions are the equilibrium, plus a deviation:</p>
 <p>$$
-\begin{equation}\label{eq:devfrombose}
-\tilde{n}_{\lambda}\approx n_{\lambda}-
+\begin{equation}
+\tilde{n}_{\lambda}\approx n_{\lambda}+\epsilon_{\lambda}
+\end{equation}
+$$</p>
+<p>After some <a href="https://reference.wolfram.com/language/ref/FullSimplify.html">hard work</a>, and discarding terms of $\epsilon^2$ and higher, we get</p>
+<p>$$
+\begin{equation}
+\begin{split}
+\left. \frac{\partial n_{\lambda}}{ \partial t} \right|_{\mathrm{coll}}
+= &amp; \sum_{\lambda'\lambda''}
+\frac{\hbar\pi}{8N}
+\left| \Phi_{\lambda\lambda'\lambda''} \right|^2 \Big(
+\left[
+-n_{\lambda} \epsilon_{\lambda'} + n_{\lambda''} (\epsilon_{\lambda} + \epsilon_{\lambda'}) + \epsilon_{\lambda''} + n_{\lambda} \epsilon_{\lambda''} + n_{\lambda'} (-\epsilon_{\lambda} + \epsilon_{\lambda''})
+\right]\delta(\omega_{\lambda}+\omega_{\lambda'}-\omega_{\lambda''}) + \\
+&amp; \left[
+\epsilon_{\lambda'} + n_{\lambda} \epsilon_{\lambda'} + n_{\lambda''} (-\epsilon_{\lambda} + \epsilon_{\lambda'}) - n_{\lambda} \epsilon_{\lambda''} + 
+  n_{\lambda'} (\epsilon_{\lambda} + \epsilon_{\lambda''} )
+\right]\delta(\omega_{\lambda}-\omega_{\lambda'}+\omega_{\lambda''}) - \\
+&amp; \left[(1 + n_{\lambda'} + n_{\lambda''})\epsilon_{\lambda} - n_{\lambda''}\epsilon_{\lambda''} - n_{\lambda'} \epsilon_{\lambda''} + n_{\lambda} (\epsilon_{\lambda'} + \epsilon_{\lambda''} )\right]
+\delta(\omega_{\lambda}-\omega_{\lambda'}-\omega_{\lambda''}) \Big)
+\end{split}
+\end{equation}
+$$</p>
+<p>Which does not seem like a lot of help. If we make another substitution, and say that the deviation from equilibrium behaves sort of like the equilibrium (with no loss of generality, just to make life easier):</p>
+<p>$$
+\begin{equation}
+\epsilon_{\lambda} =
 \frac{\partial n_{\lambda} }{\partial \omega_\lambda}
-\frac{k_B T}{\hbar} \zeta_{\lambda}=n_{\lambda}+n_{\lambda}(n_{\lambda}+1) \zeta_{\lambda}
+\frac{k_B T}{\hbar} \zeta_{\lambda}=-n_{\lambda}(n_{\lambda}+1) \zeta_{\lambda}
 \end{equation}
 $$</p>
-<p>stating that, to first order, the occupation should vary as the Bose-Einstein mean occupation. If we insert this into the equation and do lots of magic algebra we get (using strange relations for occupation numbers that only hold when the deltafunctions in energy are satisfied):</p>
+<p>Inserting this, and more tedious algebra, we get</p>
 <p>$$
-\begin{align}
-P_{\lambda''\rightarrow \lambda \lambda'}-
-P_{\lambda \lambda' \rightarrow \lambda''} &amp; = 
+\begin{equation}
+\begin{split}
+\left. \frac{\partial n_{\lambda}}{ \partial t} \right|_{\mathrm{coll}}
+=&amp; \frac{\hbar\pi}{4N}
+\sum_{\lambda'\lambda''}
+\left| \Phi_{\lambda\lambda'\lambda''} \right|^2 \Big(
+n_{\lambda} n_{\lambda'} (n_{\lambda''}+1) \delta(\omega_{\lambda}+\omega_{\lambda'}-\omega_{\lambda''} )
+\left( \zeta_{\lambda} + \zeta_{\lambda'} - \zeta_{\lambda''} \right) + \\
+&amp; \frac{1}{2} n_{\lambda} (n_{\lambda'}+1) (n_{\lambda''}+1) \delta(\omega_{\lambda}-\omega_{\lambda'}-\omega_{\lambda''})
+\left( \zeta_{\lambda} - \zeta_{\lambda'} -\zeta_{\lambda''} \right) \Big)
+\end{split}
+\end{equation}
+$$</p>
+<p>If we add the isotope term again, that I forgot at some point between the beginning and here, we can rearrange this in terms of scattering rates that should look familiar (using strange relations for occupation numbers that only hold when the deltafunctions in energy are satisfied):</p>
+<p>$$
+\begin{equation}
+\left. \frac{\partial n_{\lambda}}{ \partial t} \right|_{\mathrm{coll}} = 
+\sum_{\lambda'\lambda''}
 \tilde{P}^{+}_{\lambda\lambda'\lambda''} 
 \left( \zeta_{\lambda}+\zeta_{\lambda'}-\zeta_{\lambda''} \right)
-\\
-P_{\lambda'\lambda'' \rightarrow \lambda } -
-P_{\lambda \rightarrow \lambda' \lambda''} &amp; =
-\tilde{P}^{-}_{\lambda\lambda'\lambda''}
-\left( \zeta_{\lambda}-\zeta_{\lambda'}-\zeta_{\lambda''} \right)
-\\ 
-P_{ \lambda \rightarrow \lambda' } - P_{\lambda' \rightarrow \lambda} &amp; =
-\tilde{P}^\textrm{iso}_{\lambda\lambda'}
-\left( \zeta_{\lambda}-\zeta_{\lambda'} \right)
-\end{align}
++\frac{1}{2}\tilde{P}^{-}_{\lambda\lambda'\lambda''}
+\left( \zeta_{\lambda}-\zeta_{\lambda'}-\zeta_{\lambda''} \right)+
+\sum_{\lambda'}
+\tilde{P}^\textrm{iso}_{\lambda\lambda'} \left( \zeta_{\lambda}-\zeta_{\lambda'} \right)
+\end{equation}
 $$</p>
 <p>where</p>
 <p>$$
 \begin{align}
 \tilde{P}^{+}_{\lambda\lambda'\lambda''}&amp;=
 \frac{\hbar \pi}{4 N}
-n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)\left|\Psi_{\lambda\lambda'\lambda''}\right|^2
+n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)\left|\Phi_{\lambda\lambda'\lambda''}\right|^2
 \delta(\omega_{\lambda}+\omega_{\lambda'}-\omega_{\lambda''})
 \\
 \tilde{P}^{-}_{\lambda\lambda'\lambda''}&amp;=
 \frac{\hbar \pi}{4 N}
-n_{\lambda}(n_{\lambda'}+1)(n_{\lambda''}+1)\left|_{\lambda\lambda'\lambda''}\right|^2
+n_{\lambda}(n_{\lambda'}+1)(n_{\lambda''}+1)\left|\Phi_{\lambda\lambda'\lambda''}\right|^2
 \delta(\omega_{\lambda}-\omega_{\lambda'}-\omega_{\lambda''})
 \\
 \tilde{P}^\textrm{iso}_{\lambda\lambda'} &amp;= 
@@ -662,7 +712,7 @@ $$</p>
 \zeta_{\lambda}=\frac{\hbar}{k_B T} \mathbf{F}_{\lambda} \cdot \nabla T
 \end{equation}
 $$</p>
-<p>and insert this into \ref{eq:pbesq} we end up with</p>
+<p>and combine everything we end up with</p>
 <p>$$
 \begin{equation}
 \begin{split}
@@ -806,7 +856,7 @@ $$</p>
 \mathbf{F}^0_{\lambda}
 +
 \frac{1}{Q_{\lambda}}\left[
-\sum_{\mathbf{q}'\mathbf{q}''}\sum_{s's''}
+\sum_{\lambda'\lambda''}
 \tilde{P}^{+}_{\lambda\lambda'\lambda''}
 \left( \mathbf{F}^{i}_{\lambda'}-\mathbf{F}^{i}_{\lambda''} \right)-
 \frac{1}{2}\tilde{P}^{-}_{\lambda\lambda'\lambda''}
@@ -875,7 +925,7 @@ C = &amp; \sum_{v_y=0} x_{\lambda}
 \end{split}
 $$</p>
 <p>where $v_y$ and $v_z$ are the components of the phonon group velocity along the $y$ and $z$ directions, $\tau_{\lambda}$ is the phonon relaxation time. $l^{y}_{\lambda}$ is the $y$ component of the MFP and $d$ is the thickness of the film in $y$-direction. </p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Add a plot what this looks like.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Add a plot what this looks like.</p></div>
 <h3>Input files</h3>
 <p>These files are necesarry:</p>
 <ul>
@@ -889,9 +939,9 @@ $$</p>
 <li><a href="../page/files.html#infile.isotopes">infile.isotopes</a> (for non-natural isotope distribution)</li>
 </ul>
 <h3>Practical considerations</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Explain convergence.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Explain convergence.</p></div>
 <p>Thermal conductivity code is mpi parallel, and has to be used with the appropriate <code>mpirun</code>. Given a reasonable amount of q-points, scales very well.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Mention that there is a super-parallel version that is kind of done. Scales to 10000's of cores, useful for systems with many atoms per unit cell.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Mention that there is a super-parallel version that is kind of done. Scales to 10000's of cores, useful for systems with many atoms per unit cell.</p></div>
 <h3>Output files</h3>
 <p>Depending on options, the set of output files may differ. We start with the basic files that are written after running this code.</p>
 <h4><code>outfile.thermal_conductivity</code></h4>
@@ -1004,7 +1054,8 @@ $$</p>
       <li>mfp</li>
       
     </ul>
-  
+    
+    
 
     
     

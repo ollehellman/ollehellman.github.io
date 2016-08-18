@@ -354,68 +354,6 @@ All Programs &ndash; TDEP
 
 </div>
 
-<!--
-<div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-offset-1 col-sm-10 col-sm-offset-1" id='text'>
-			 <table class="table table-striped">
-                 <thead><tr><th>Program</th><th>Description</th></tr></thead>
-                 <tbody>
-                 
-                   <tr><td><a href='../program/atomic_distribution.html'>atomic_distribution</a></td><td><p>Calculates properties of the atomic distribution from molecular dynamics, such as mean square displacement, pair distribution function, vector distribution functions and probability densities. Useful for analysing simulations close to instabilities/phase transitions to have some idea where the atoms are.</p></td></tr>
-                 
-                   <tr><td><a href='../program/autocorrelation.html'>autocorrelation</a></td><td><p>Calculates the power spectra from the velocity autocorrelation function. In addition, it uses forceconstants to fourier-interpolate the q-resolved spectra non the non-exact q-points. What that means is that it can generate continuous spectralfunctions as a function of wavevector not limited to the commensurate modes.</p></td></tr>
-                 
-                   <tr><td><a href='../program/canonical_configuration.html'>canonical_configuration</a></td><td><p>Use forceconstants or a Debye temperature to generate uncorrelated supercell configurations emulating a canonical ensemble. These configurations can be used to either start ensemble runs of molecular dynamics with negligible equilibration time, or be used to directly sample phase space.</p></td></tr>
-                 
-                   <tr><td><a href='../program/crystal_structure_info.html'>crystal_structure_info</a></td><td><p>This code serves as a diagnostic tool to check that symmetry heuristics are working as they should. The code prints which Bravais lattice was identified, which high symmetry points in the BZ are inequivalent, and so on. The Brillouin zone and its irreducible wedges are printed to files as polyhedra for manual inspection, and the symmetry operations of the lattice can be printed.</p></td></tr>
-                 
-                   <tr><td><a href='../program/extract_forceconstants.html'>extract_forceconstants</a></td><td><p>The main algorithm of the TDEP method. Starting with a symmetry analysis, this code finds the irreducible representation of interatomic forceconstants and extracts them from position and force data.</p></td></tr>
-                 
-                   <tr><td><a href='../program/generate_structure.html'>generate_structure</a></td><td><p>Builds supercells.</p></td></tr>
-                 
-                   <tr><td><a href='../program/lineshape.html'>lineshape</a></td><td><p>Calculate the frequency-dependent self-energy and phonon spectral function from many-body perturbation theory. Per default, the self-energy is calculated for a single q-point, but can be calculated along a path in the Brillouin zone for intensity plots, or as a phonon density of states.</p></td></tr>
-                 
-                   <tr><td><a href='../program/phonon_dispersion_relations.html'>phonon_dispersion_relations</a></td><td><p>Calculate phonon dispersions and related quantities. Per default, only the dispersions along a default path will be calculated. Options are available for calculating mode gruneisen parameters, phonon density of states projected in a variety of ways, thermodynamic quantities and pure data dumps.</p></td></tr>
-                 
-                   <tr><td><a href='../program/remap_forceconstant.html'>remap_forceconstant</a></td><td><p>Takes a set of forceconstants and a unit cell and outputs them for a different unit cell. The lattices must be equivalent, and if the new lattice is rotated with respect to old the rotation matrix has to be specified.</p></td></tr>
-                 
-                   <tr><td><a href='../program/samples_from_md.html'>samples_from_md</a></td><td><p>Choose representative uncorrelated samples from an MD simulation. The samples are chosen to be approximately evenly spaced, and reproduce the average potential energy, average kinetic energy have the same standard deviation of potential and kinetic energy.</p></td></tr>
-                 
-                   <tr><td><a href='../program/thermal_conductivity.html'>thermal_conductivity</a></td><td><p>Calculates the lattice thermal conductivity from the iterative solution of the phonon Boltzmann equation. In addition, cumulative plots and raw data dumps of intermediate values are available.</p></td></tr>
-                 
-                 </tbody>
-            </table>
-			 <thead><tr><th>Program</th><th>Source File</th><th>Description</th></tr></thead>
-			 <tbody>
-			 
-			   <tr><td><a href='../program/atomic_distribution.html'>atomic_distribution</a></td><td><a href='../sourcefile/main.f90%7E5.html'>main.f90</a></td><td><p>Calculates properties of the atomic distribution from molecular dynamics, such as mean square displacement, pair distribution function, vector distribution functions and probability densities. Useful for analysing simulations close to instabilities/phase transitions to have some idea where the atoms are.</p></td></tr>
-			 
-			   <tr><td><a href='../program/autocorrelation.html'>autocorrelation</a></td><td><a href='../sourcefile/main.f90.html'>main.f90</a></td><td><p>Calculates the power spectra from the velocity autocorrelation function. In addition, it uses forceconstants to fourier-interpolate the q-resolved spectra non the non-exact q-points. What that means is that it can generate continuous spectralfunctions as a function of wavevector not limited to the commensurate modes.</p></td></tr>
-			 
-			   <tr><td><a href='../program/canonical_configuration.html'>canonical_configuration</a></td><td><a href='../sourcefile/main.f90%7E11.html'>main.f90</a></td><td><p>Use forceconstants or a Debye temperature to generate uncorrelated supercell configurations emulating a canonical ensemble. These configurations can be used to either start ensemble runs of molecular dynamics with negligible equilibration time, or be used to directly sample phase space.</p></td></tr>
-			 
-			   <tr><td><a href='../program/crystal_structure_info.html'>crystal_structure_info</a></td><td><a href='../sourcefile/main.f90%7E3.html'>main.f90</a></td><td><p>This code serves as a diagnostic tool to check that symmetry heuristics are working as they should. The code prints which Bravais lattice was identified, which high symmetry points in the BZ are inequivalent, and so on. The Brillouin zone and its irreducible wedges are printed to files as polyhedra for manual inspection, and the symmetry operations of the lattice can be printed.</p></td></tr>
-			 
-			   <tr><td><a href='../program/extract_forceconstants.html'>extract_forceconstants</a></td><td><a href='../sourcefile/main.f90%7E2.html'>main.f90</a></td><td><p>The main algorithm of the TDEP method. Starting with a symmetry analysis, this code finds the irreducible representation of interatomic forceconstants and extracts them from position and force data.</p></td></tr>
-			 
-			   <tr><td><a href='../program/generate_structure.html'>generate_structure</a></td><td><a href='../sourcefile/main.f90%7E10.html'>main.f90</a></td><td><p>Builds supercells.</p></td></tr>
-			 
-			   <tr><td><a href='../program/lineshape.html'>lineshape</a></td><td><a href='../sourcefile/main.f90%7E9.html'>main.f90</a></td><td><p>Calculate the frequency-dependent self-energy and phonon spectral function from many-body perturbation theory. Per default, the self-energy is calculated for a single q-point, but can be calculated along a path in the Brillouin zone for intensity plots, or as a phonon density of states.</p></td></tr>
-			 
-			   <tr><td><a href='../program/phonon_dispersion_relations.html'>phonon_dispersion_relations</a></td><td><a href='../sourcefile/main.f90%7E4.html'>main.f90</a></td><td><p>Calculate phonon dispersions and related quantities. Per default, only the dispersions along a default path will be calculated. Options are available for calculating mode gruneisen parameters, phonon density of states projected in a variety of ways, thermodynamic quantities and pure data dumps.</p></td></tr>
-			 
-			   <tr><td><a href='../program/remap_forceconstant.html'>remap_forceconstant</a></td><td><a href='../sourcefile/main.f90%7E8.html'>main.f90</a></td><td><p>Takes a set of forceconstants and a unit cell and outputs them for a different unit cell. The lattices must be equivalent, and if the new lattice is rotated with respect to old the rotation matrix has to be specified.</p></td></tr>
-			 
-			   <tr><td><a href='../program/samples_from_md.html'>samples_from_md</a></td><td><a href='../sourcefile/main.f90%7E7.html'>main.f90</a></td><td><p>Choose representative uncorrelated samples from an MD simulation. The samples are chosen to be approximately evenly spaced, and reproduce the average potential energy, average kinetic energy have the same standard deviation of potential and kinetic energy.</p></td></tr>
-			 
-			   <tr><td><a href='../program/thermal_conductivity.html'>thermal_conductivity</a></td><td><a href='../sourcefile/main.f90%7E6.html'>main.f90</a></td><td><p>Calculates the lattice thermal conductivity from the iterative solution of the phonon Boltzmann equation. In addition, cumulative plots and raw data dumps of intermediate values are available.</p></td></tr>
-			 
-			 </tbody></table>
-        </div>
-      </div>
--->
-
 
     <br>
     <br>

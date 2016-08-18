@@ -8,6 +8,7 @@
 	 <meta name="description" content="Temperature dependent effective potential 1.0">
     
     <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
     <link rel="icon" href="../../favicon.png">
 
     <title>Minimal example V &ndash; TDEP</title>
@@ -178,14 +179,28 @@
 <li><a href="extract_forceconstants.html#infile.forceconstant">infile.forceconstant</a></li>
 <li><a href="extract_forceconstants.html#infile.forceconstant_thirdorder">infile.forceconstant_thirdorder</a></li>
 </ul>
-<p>Note that this example is fcc Al. I chose that since with one atom per unit cell, the thermal conductivity calculations are really fast. Unfortonately, since thermal conductivity in Al is dominated by the electronic component, none of the values can be compared with anything in a meaningful way (but that is not the point of this tutorial anyway).</p>
-<p>To get the thermal conductivity, simply run</p>
+<p>Note that this example is fcc Al. I chose that since with one atom per unit cell, the thermal conductivity calculations are really fast. Unfortunately, since thermal conductivity in Al is dominated by the electronic component, none of the values can be compared with anything in a meaningful way (but that is not the point of this tutorial anyway).</p>
+<p>To get the thermal conductivity, run</p>
 <div class="codehilite"><pre><span></span>mpirun thermal_conductivity -qg 5 5 5 --temperature 300
 </pre></div>
 
 
-<p>and it should appear, rather quickly.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Explain convergence with respect to q, perhaps with the lineshape command.</div>
+<p>and it should appear, rather quickly. Make yourself familiar with the options for <a href="../../program/thermal_conductivity.html">thermal conductivity</a>, there are quite a few. A series of temperatures can be calculated with</p>
+<div class="codehilite"><pre><span></span>mpirun thermal_conductivity -qg 5 5 5 --temperature_range 10 1000 50 --logtempaxis
+</pre></div>
+
+
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Do a simple q-point convergence</p></div>
+<p>Per default, the scattering rates are integrated using the tetrahedron method.<sup id="fnref-Lehmann1972"><a class="footnote-ref" href="#fn-Lehmann1972">1</a></sup></p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Make them test tetrahedron vs gaussian.</p></div>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn-Lehmann1972">
+<p><a href="http://doi.org/10.1002/pssb.2220540211">Lehmann, G., &amp; Taut, M. (1972). On the Numerical Calculation of the Density of States and Related Properties. Physica Status Solidi (B), 54(2), 469–477.</a>&#160;<a class="footnote-backref" href="#fnref-Lehmann1972" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
     </div>
 </div>
 

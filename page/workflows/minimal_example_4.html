@@ -8,6 +8,7 @@
 	 <meta name="description" content="Temperature dependent effective potential 1.0">
     
     <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
     <link rel="icon" href="../../favicon.png">
 
     <title>Minimal example IV &ndash; TDEP</title>
@@ -170,64 +171,81 @@
         </div>
     
     <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
-        <p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Bother Nina about a nice set of calculations with almost no trouble att all.</div>
-<h3>Basic free energy calculations</h3>
-<p>Navigate to <code>/example_4_free_energy</code>. There you should see 6 folders, each corresponding to a simulation at fix temperature, but different volumes. This particular case is PbTe at 300K. Copy all the contents to a new folder.</p>
-<p>First, we will get the free energy at a single volume. Pick one of the folders, perhaps <code>/volume_1</code>. We will constrain ourselves to second order force constants, run:</p>
+        <h3>Basic free energy calculations</h3>
+<p>Navigate to <code>/example_4_free_energy</code>. There you should see 5 folders, each corresponding to a simulation at fix temperature, but different volumes. This particular case is PbTe at 600K. Copy all the contents to a new folder.</p>
+<p>First, we will get the free energy at a single volume. Pick one of the folders, perhaps <code>volume_1</code>. We will constrain ourselves to second order force constants, run:</p>
 <div class="codehilite"><pre><span></span>extract_forceconstants -rc2 100 -U0
 ln -s outfile.forceconstant infile.forceconstant
 phonon_dispersion_relations -loto --dos -qg 36 36 36 --temperature 300
 </pre></div>
 
 
-<p>This will produce plenty of output. The things you need for the free energy is the renormalized baseline, $U_0$, and the phonon free energy $F_{\textrm{ph}}$. These will be in <a href="../../program/extract_forceconstants.html#outfile.U0">outfile.U0</a> and <a href="../../program/phonon_dispersion_relations.html#outfile.free_energy">outfile.free_energy</a> respectively. I put a decent explanation what the different terms are <a href="../../program/phonon_dispersion_relations.html#sec_tdepthermo">here</a>. If you did things right, these are the numbers to expect:</p>
-<div class="codehilite"><pre><span></span>x=10
-y=15
+<p>This will produce plenty of output. The first lines calculates the second order forceconstants, including the option of calculating the renormalized baseline energy. You should have read about <a href="../../program/extract_forceconstants.html">forceconstants</a> already, and perhaps this is a good time to familiarize yourself with free energy calculations a bit. I put a decent explanation of the different terms <a href="../../program/phonon_dispersion_relations.html#sec_tdepthermo">here</a>. Glance through the documentation and see what the different command line options do.</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>I realise now that maybe it would be logical to have an option called <code>--free_energy</code> or equivalent. Maybe add that, or rename an existing one.</p></div>
+<p>The things you need for the free energy is the renormalized baseline, $U_0$, and the phonon free energy $F_{\textrm{ph}}$. These will be in <a href="../../program/extract_forceconstants.html#outfile.U0">outfile.U0</a> and <a href="../../program/phonon_dispersion_relations.html#outfile.free_energy">outfile.free_energy</a> respectively. If everything worked out ok, you should have something like</p>
+<div class="codehilite"><pre><span></span>Fph = -0.26006391 eV/atom 
+U0  = -3.76922936 eV/atom
 </pre></div>
 
 
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Fill this in with numbers.</div>
-<h4>Many volumes</h4>
-<p>Now repeat this procedure in every folder. That should net you a set of 6 volumes and 6 energies. Please ensure that these are the numbers you get:</p>
-<div class="codehilite"><pre><span></span># Volume    Free energy
-3.0         4.5
-3.0         4.5
-3.0         4.5
-3.0         4.5
-3.0         4.5
-3.0         4.5
+<p>So, by adding these numbers you get the Helmholtz free energy. Electronic entropy will be included, provided that it is in $U_0$. It is up to you to ensure that the underlying DFT calculations include that properly.</p>
+<p>You can't get that much useful information from a single point in volume-temperature space, lets get the free energy for all the volumes, conveniently done with a small script:</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Get the forceconstants and free energy for every volume</span>
+<span class="k">for</span> i in <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> 5
+<span class="k">do</span>
+    <span class="nb">cd</span> volume_<span class="si">${</span><span class="nv">i</span><span class="si">}</span>
+        extract_forceconstants -rc2 <span class="m">100</span> -U0
+        ln -sf outfile.forceconstant infile.forceconstant
+        phonon_dispersion_relations --dos --temperature <span class="m">600</span> -qg <span class="m">32</span> <span class="m">32</span> <span class="m">32</span> --loto
+    <span class="nb">cd</span> ..
+<span class="k">done</span>
 </pre></div>
 
 
-<p>If you are lazy, and have infinite computer resources, this is good enough. </p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Fit EOS, say that sometimes this is good enough.</div>
-<h4>We can do it smarter!</h4>
-<p>If you read the thermodynamics section of phonon dispersion relations, you might have noted that I expressed $U_0$ as a shift from the perfect lattice at 0K, $\Delta U_0$. The reson for that is not to confuse you, as you might assume, but numerics.</p>
-<p>In this example, we use a 250 atom supercell. In an ideal world, the energy per atom calculated by a first-principles code from a 250 atom supercell and the 2 atom unit cell should be identical. In reality, that is rarely the case. Finite computing resources put a limit to the numerical accuracy.</p>
-<p>However, empirically I have found that energy <em>differences</em> converge faster than <em>absolute</em> energies. So, by calculating</p>
-<p>$$
-\Delta U = U^{\textrm{fix}}_0 - U^{\textrm{fix}}_{\textrm{stat}}
-$$</p>
-<p>we can use the cancellation of errors to our advantage. Here I used the superscript "fix", to denote that this needs to be calculated with <em>identical</em> parameters, that is the same basis set, the same set of k-points, same pseudopotentials and so on, the only thing that is different is the position of the ions. The only additional cost, in this example, is 6 more static calculations, one at each volume, with energies (per atom) given by:</p>
-<div class="codehilite"><pre><span></span>e1
-e2
-e3
-e4
-e5
-e6
+<p>This should result in a list of volumes and energies (it does not appear magically, you have to fetch the numbers):</p>
+<div class="codehilite"><pre><span></span> Volume        U0           Fph
+ 29.92236913  -3.76922936  -0.26006391 
+ 31.84747692  -3.82606181  -0.27327257 
+ 33.85343312  -3.84306260  -0.28655016 
+ 35.94026710  -3.82961324  -0.30108423 
+ 38.11284394  -3.80467151  -0.30650145 
 </pre></div>
 
 
-<p>Now you should be able to plot $\Delta U$ as a function of volume</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Add the plot</div>
-<p>Since we removed the static lattice energy per atom from our free energy, we have to add it again. This is naturally done in terms of the unit cell, where converging the numerics is far cheaper. There is also no need to constrain yourself to just 6 volumes, these calculations are so cheap that you might as well do 20 or 30.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Explain how to converge unitcell calculations in a meaningful way, that checking that the pressure vs energy plots agree.</div>
-<p>What was the point of this? I want you to realise the sources of numerical noise. In the following plot:</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Plot with $U$,$\Delta U$ and $F$ on the same scale</div>
-<p>you quickly realise that a majority of the energy comes from the static contribution. Luckily, this is also the cheapest to calculate! So, by using a large number of volumes, and high numerical accuracy we can make the calculations more accurate without having to resort to a large number of costly supercell calculations.</p>
-<p>Of course, if you are lazy and get confused by addition and subtraction, you can always just converge everything at the supercell level.</p>
-<h4>Fast and cheating way</h4>
-<p>In case you don't actually care about accuracy at all, you can skip the baseline shift, and the temperature dependence of the forceconstants.</p>
+<p>Plotting this, and fitting to an equation of state (Birch-Murnaghan) should like like this:</p>
+<p><center>
+<img src="../../media/pbte_free_energy.png" width="500" />
+</center></p>
+<p>Make sure you can reproduce this.</p>
+<h4>Small improvement</h4>
+<p>First thing we can improve is how the forceconstants are extracted. In the script above, we do a full symmetry analysis for each of the volumes. That is fine, but unnecessary. The symmetry of each supercell is the same. If we modify the script slightly</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Got to the first volume and do the symmetry analysis</span>
+<span class="nb">cd</span> volume_1
+    extract_forceconstants -rc2 100
+    mv outfile.forcemap.hdf5 ../
+<span class="nb">cd</span> ..
+
+<span class="c1"># Reuse the symmetry analysis and get the free energy</span>
+<span class="k">for</span> i in <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> 5
+<span class="k">do</span>
+    <span class="nb">cd</span> volume_<span class="si">${</span><span class="nv">i</span><span class="si">}</span>
+        ln -sf ../outfile.forcemap.hdf5 infile.forcemap.hdf5
+        extract_forceconstants -rc2 <span class="m">100</span> -U0 --readforcemap
+        ln -sf outfile.forceconstant infile.forceconstant
+        phonon_dispersion_relations --dos --temperature <span class="m">600</span> -qg <span class="m">32</span> <span class="m">32</span> <span class="m">32</span> --loto
+    <span class="nb">cd</span> ..
+<span class="k">done</span>
+</pre></div>
+
+
+<p>If you try it out, you will find that it runs a little faster. Nothing significant in this small case, but for production quality calculations this is useful. Using the same <code>infile.forcemap.hdf5</code> is also a good idea, which will become apparent later.</p>
+<h4>Exercises to try:</h4>
+<ul>
+<li>Rerun things with different q-point grids for the the phonon free energy. What does the convergence look like?</li>
+<li>Use subsets of the simulation to calculate $U_0$ (using <code>--stride</code>, explained <a href="../../program/extract_forceconstants.html">here</a>), what does that convergence look like?</li>
+</ul>
     </div>
 </div>
 

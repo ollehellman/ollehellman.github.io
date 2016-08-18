@@ -8,6 +8,7 @@
 	 <meta name="description" content="Temperature dependent effective potential 1.0">
     
     <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
     <link rel="icon" href="../../favicon.png">
 
     <title>Minimal example II &ndash; TDEP</title>
@@ -248,7 +249,7 @@ SMASS = 0
 
 
 <p>There are some things that might seem nonstandard. The energy cutoff is very high. I start convergence testing at about double the default, <code>ENCUT = 2*ENMAX</code>, where the default is read from the POTCAR files. You can not use tetrahedron integration, you must use some smearing. Fermi smearing makes the most sense, but requires a really tight k-point grid. It differs from what you might normally do in that we require high-quality forces, and not much else. Speaking of that, the tag <code>ISIF = 2</code> is crucial, since without it forces will not get printed to <code>OUTCAR</code>.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Link to page about numerics and how many digits are required.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Link to page about numerics and how many digits are required.</p></div>
 <p>At this stage, you would run the simulations. Starting molecular dynamics from ideal lattice positions usually require a long equilibration time that has to be discarded. This time can be minimized by using a better seed. A program to do this is provided, see <a href="../../program/initialize_md.html">initialize_md</a>.</p>
 <h3>Parsing VASP output</h3>
 <p>Pretend that you started VASP and let it run for a while, and copy <code>examples/example_2_ScF3/OUTCAR</code> to the working directory and run</p>
@@ -273,7 +274,7 @@ SMASS = 0
 <li>Maybe you ran VASP with some settings that makes the OUTCAR parsing fail. Make sure you understand how to construct the input files manually.</li>
 </ul>
 <h3>Parsing other output</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Equivalent guide for other codes.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Equivalent guide for other codes.</p></div>
     </div>
 </div>
 

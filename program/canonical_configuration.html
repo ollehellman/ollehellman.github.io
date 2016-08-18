@@ -181,58 +181,63 @@
     
 <div id="sidebar">
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <hr>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <div class="panel panel-default">
-    <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs">All Programs</a></h3></div>
-    <div id="allprogs" class="panel-collapse collapse">
-        <div class="list-group">
-          
-          <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-          
-          <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-          
-          <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-          
-          <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-          
-          <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-          
-          <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-          
-          <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-          
-          <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-          
-          <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-          
-          <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-          
-          <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-          
-        </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
+  <div id="allprogs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
+      
+      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
+      
+      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
+      
+      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
+      
+      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+      
+      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
+      
+      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
+      
+      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+      
+      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
+      
+      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
+      
+      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
+      
     </div>
   </div>
-  
 </div>
+
+
+</div>  
 
     </div>
     -->
@@ -288,12 +293,13 @@
 <p><code>canonical_configuration -n 20 -t 10 --quantum --debye_temperature 400</code> </p>
 <h3>Longer summary</h3>
 <p>This code takes a second order <a href="extract_forceconstants.html">forceconstant</a> and generates a supercell with the atoms displaced corresponding to a harmonic canonical ensemble. These configurations can be used directly, to generate force-displacement statistics to determine force constants and other thermal properties, or as the starting point for molecular dynamics.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4>Update this to explain how to do statistical sampling in clever ways, but probably not before I actually publish it.</div>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Update this to explain how to do statistical sampling in clever ways, but probably not before I actually publish it.</p></div>
 <h3>Background</h3>
 <p>Born-Oppenheimer molecular dynamics can be expensive for many reasons. Firstly, it requires supercells with more than 100 atoms. Secondly, computation of the electronic ground state at every time step is time consuming. Thirdly, the cell must be fully equilibrated. The precision of the calculations is statistically linked to the number of configurations used: any property $A$ for which we want to calculate the ensemble average $\langle A \rangle$ must be converged with respect to the number of uncorrelated time steps.</p>
 <p>To minimise the equilibration time, the simulation cell can be initialised to a thermally excited state by selecting initial atomic velocities and displacement amplitudes according to the Maxwell-Boltzmann<sup id="fnref-West2006"><a class="footnote-ref" href="#fn-West2006">1</a></sup> or Bose - Einstein distributions.</p>
 <p>Starting with the equations of motion for the supercell (given harmonic <a href="../program/extract_forceconstants.html">force constants</a>)</p>
-<p>$$ 
+<p>$$
+\begin{equation}
 \begin{pmatrix}
 m_1 \ddot{\mathbf{u}}_1 \\
 m_2 \ddot{\mathbf{u}}_2 \\
@@ -312,29 +318,32 @@ m_{N_a} \ddot{\mathbf{u}}_{N_a}
 \vdots \\
 \mathbf{u}_{N_a} \\
 \end{pmatrix}
+\end{equation}
 $$ </p>
 <p>we diagonalise these and get obtaining $3N_a$ eigenvalues $\omega^2_s$ and eigenvectors $\epsilon_s$. In the given cell, we can use this normal mode transformation to express the instantaneous positions and velocities,</p>
 <p>$$
-\begin{align*}
+\begin{align}
 u_i = &amp; \sum_{s=1}^{3N_a} \epsilon_{is} A_{is} \sin( \omega_s t+\delta_s ) \\
 \dot{u}_i = &amp; \sum_{s=1}^{3N_a} \epsilon_{is} A_{is} \omega_s \cos( \omega_s t+\delta_s) 
-\end{align*}
+\end{align}
 $$</p>
 <p>where the normal mode amplitudes $A_s$ and the phase $\delta_s$ will be determined by the following boundary conditions: we require a set of positions and velocities that correspond to a canonical ensemble. We choose $A_s$ so that they are normally distributed around their mean value and that each mode $s$ should contribute, on average, $k_B T/2$ to the internal energy. Then</p>
-<p>$$ 
+<p>$$
+\begin{equation}
 \langle A_{is} \rangle = 
 \sqrt{\frac{\hbar (2n_s+1) }{2 m_i \omega_s}} 
 \approx
 \frac{1}{\omega_s}\sqrt{\frac{k_BT}{m_i}},
+\end{equation}
 $$</p>
 <p>where the approximate result is in the classical limit, $\hbar \omega \ll k_BT $. The appropriate distribution of atomic positions and velocities is given by,</p>
 <p>$$
-\begin{align*}
+\begin{align}
 u_i &amp; = \sum_{s=1}^{3N_a} 
 \epsilon_{is} \langle A_{is} \rangle \sqrt{-2\ln \xi_1}\sin 2\pi\xi_2 \\
 \dot{u}_i &amp; = \sum_{s=1}^{3N_a}
 \omega_s \epsilon_{is} \langle A_{is} \rangle \sqrt{-2\ln \xi_1}\cos 2\pi\xi_2
-\end{align*}
+\end{align}
 $$</p>
 <p>Here, $0 \lt \xi_n \lt 1$, represents a uniform distribution of random numbers, which are transformed to a normal distribution using the standard Box-Muller transform. </p>
 <p>Choosing the mean amplitudes in the classical limit gives us a snapshot in time from a canonical Maxwell-Boltzmann ensemble (within the harmonic approximation), which results in a starting point that reduces the time until equilibration by orders of magnitude. Choosing a Bose-Einstein distribution of mean amplitudes and velocities instead allows us to sample phase space while including quantum thermal disorder at low temperatures.</p>
@@ -346,14 +355,19 @@ $$</p>
 <h4>Matching with a Debye temperature</h4>
 <p>Up until this point we have assumed you have <a href="extract_forceconstants.html">forceconstants</a> to generate the normal mode displacements. If you don't, it's possible to guess them. The following procedure is used: assume a pair potential $U(r)$ which obeys</p>
 <p>$$
+\begin{equation}
 \frac{ \partial U(r)}{\partial r_{ij} }=0
+\end{equation}
 $$</p>
 <p>and</p>
 <p>$$
+\begin{equation}
 \frac{ \partial^2 U(r)}{\partial r_{ij}^2 }=\frac{\alpha}{r_{ij}^4}
+\end{equation}
 $$</p>
 <p>Here $r_{ij}$ is a pair distance in the supercell. Forceconstants can be calculated analytically from a pair potential, in this case they are given by</p>
 <p>$$
+\begin{equation}
 \mathbf{\Phi}(r)=
 -\frac{\alpha}{r^6}
 \begin{pmatrix}
@@ -361,10 +375,13 @@ r_x^2 &amp; r_x r_y &amp; r_x r_z \\
 r_x r_y &amp; r_y^2 &amp; r_y r_z \\
 r_x r_z &amp; r_y r_z &amp; r_z^2  
 \end{pmatrix}
+\end{equation}
 $$</p>
 <p>By definition, this will always produce stable phonons with the correct symmetry. The parameter $\alpha$ is determined by numerically matching the zero-point motion of the phonons to a Debye temperature:</p>
 <p>$$
+\begin{equation}
 \frac{1}{N} \sum_i \frac{\hbar \omega_i(\alpha)}{2} = \frac{9 k_B T_D}{8}
+\end{equation}
 $$</p>
 <p>Using actual forceconstants is of course better, but this procedure generates surprisingly good configurations.</p>
 <h3>Input files</h3>
@@ -424,7 +441,8 @@ $$</p>
       <li>type_lotosplitting</li>
       
     </ul>
-  
+    
+    
 
     
     
