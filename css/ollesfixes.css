@@ -98,3 +98,30 @@ a {
     font-size: 11px;
 }
 
+/* Make the carousel less ugly */
+
+.carousel-control {
+  width: 7%;
+}
+
+.carousel-control.left {
+  background-image: none;
+  position: left;
+}
+.carousel-control.right {
+  background-image: none;
+  position: right;
+}
+
+/* fix so that I can have matematico in the navbar */
+.navbar {
+    text-align: left;
+}
+
+/* Ugly hack */
+.row-eq-height {
+  display:  -webkit-box;
+  display: -webkit-flex;
+  display:  -ms-flexbox;
+  display:         flex;
+}

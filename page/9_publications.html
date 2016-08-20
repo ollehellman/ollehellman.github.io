@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.0">
+    
+    <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
+    <link rel="icon" href="../favicon.png">
+
+    <title>Publications &ndash; TDEP</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
+                
+                
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+</div>
+<div class="jumbotron">
+<div class="container-fluid">
+  <h3>Publications</h3>
+</div>
+</div>
+<div class="container-fluid">
+
+<div class="row">
+    
+        <div class="col-sm-3">
+        <div class="toc">
+            <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../page/index.html'>Manual</a></li>
+            </ul>
+            <ul class="nav nav-stacked nav-pills">
+            
+                <li role="presentation">
+                <a href='../page/./0_installation.html'>Installation</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation" class="disabled">
+                <a href='../page/./9_publications.html'>Publications</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/./files.html'>Files</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/index.html'>Workflows</a>
+                
+                    <ul class="nav nav-stacked nav-pills">
+                      
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_1.html'>Minimal example I</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_2.html'>Minimal example II</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_3.html'>Minimal example III</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_4.html'>Minimal example IV</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_5.html'>Minimal example V</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/minimal_example_6.html'>Minimal example VI</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/workflows/using_the_library.html'>Using the library</a>
+                
+                </li>
+            
+                    </ul>
+                
+                </li>
+            
+            </ul>
+        </div>
+        </div>
+    
+    <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
+        <p>To understand the capabilities of the code, it is useful to browse through the publications that have used it, in one form or another.</p>
+<ul>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevLett.117.076402">Yang, F. C., Muñoz, J. A., Hellman, O., Mauger, L., Lucas, M. S., Tracy, S. J., … Fultz, B. (2016). Thermally Driven Electronic Topological Transition in FeTi. Physical Review Letters, 117(7), 076402.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.94.054111">Mozafari, E., Shulumba, N., Steneteg, P., Alling, B., &amp; Abrikosov, I. A. (2016). Finite-temperature elastic constants of paramagnetic materials within the disordered local moment picture from ab initio molecular dynamics calculations. Physical Review B, 94(5), 054111.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.92.174108">Bouchet, J., &amp; Bottin, F. (2015). Thermal evolution of vibrational properties of alpha-U. Physical Review B, 92(17), 174108.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.91.134108">Dewaele, A., Stutzmann, V., Bouchet, J., Bottin, F., Occelli, F., &amp; Mezouar, M. (2015). High pressure-temperature phase diagram and equation of state of titanium. Physical Review B, 91(13), 134108.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1016/j.matpr.2015.07.349">Isaeva, L., Hellman, O., Lashley, J. C., Abrikosov, I. A., &amp; Eriksson, O. (2015). Dynamic Stabilization of Cubic AuZn. Materials Today: Proceedings, 2, S569–S572.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1063/1.4936896">Shulumba, N., Hellman, O., Rogström, L., Raza, Z., Tasnádi, F., Abrikosov, I. A., &amp; Odén, M. (2015). Temperature-dependent elastic properties of Ti1-xAlxN alloys. Applied Physics Letters, 107(23), 1–4.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.92.174301">Mei, A. B., Hellman, O., Schlepütz, C. M., Rockett, A., Chiang, T.-C., Hultman, L., … Greene, J. E. (2015). Reflection thermal diffuse x-ray scattering for quantitative determination of phonon dispersion relations. Physical Review B, 92(17), 174301.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.92.054304">Lan, T., Li, C. W., Hellman, O., Kim, D. S., Muñoz, J. A., Smith, H., … Fultz, B. (2015). Phonon quarticity induced by changes in phonon-tracked hybridization during lattice expansion and its stabilization of rutile TiO2. Physical Review B, 92(5), 054304.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.91.214310">Romero, A. H., Gross, E. K. U., Verstraete, M. J., &amp; Hellman, O. (2015). Thermal conductivity in PbTe from first principles. Physical Review B, 91(21), 214310.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1080/08957959.2014.992896">Abrikosov, I. A., Ponomareva, A. V., Nikonov, A. Y., Zharmukhambetova, A. M., Mosyagin, I. Y., Lugovskoy, A. V., … Barannikova, S. A. (2015). Theoretical description of pressure-induced phase transitions: a case study of Ti-V alloys. High Pressure Research, 35(1), 42–48.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.91.054101">Mei, A. B., Hellman, O., Wireklint, N., Schlepütz, C. M., Sangiovanni, D. G., Alling, B., … Greene, J. E. (2015). Dynamic and structural stability of cubic vanadium nitride. Physical Review B, 91(5), 054101.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1088/0268-1242/29/12/124002">Miranda, A. L., Xu, B., Hellman, O., Romero, A. H., &amp; Verstraete, M. J. (2014). Ab initio calculation of the thermal conductivity of indium antimonide. Semiconductor Science and Technology, 29(12), 124002.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.90.134309">Hellman, O., &amp; Broido, D. A. (2014). Phonon thermal transport in Bi2Te3 from first principle. Physical Review B, 90(13), 134309.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.89.174108">Shulumba, N., Alling, B., Hellman, O., Mozafari, E., Steneteg, P., Odén, M., &amp; Abrikosov, I. A. (2014). Vibrational free energy and phase stability of paramagnetic and antiferromagnetic CrN from ab initio molecular dynamics. Physical Review B, 89(17), 174108.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevLett.112.175501">Li, C. W., Hellman, O., Ma, J., May, A. F., Cao, H. B., Chen, X., … Delaire, O. (2014). Phonon self-energy and origin of anomalous neutron scattering spectra in SnTe and PbTe thermoelectrics. Physical Review Letters, 112(17), 175501.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.87.104111">Hellman, O., Steneteg, P., Abrikosov, I. A., &amp; Simak, S. I. (2013). Temperature dependent effective potential method for accurate free energy calculations of solids. Physical Review B, 87(10), 104111.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.88.144301">Hellman, O., &amp; Abrikosov, I. A. (2013). Temperature-dependent effective third-order interatomic force constants from first principles. Physical Review B, 88(14), 144301.</a></p>
+</li>
+<li>
+<p><a href="http://doi.org/10.1103/PhysRevB.84.180301">Hellman, O., Abrikosov, I. A., &amp; Simak, S. I. (2011). Lattice dynamics of anharmonic solids from first principles. Physical Review B, 84(18), 180301.</a></p>
+</li>
+</ul>
+    </div>
+</div>
+
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2016 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

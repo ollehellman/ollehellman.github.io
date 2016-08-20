@@ -46,7 +46,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -54,6 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
             <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -117,12 +118,6 @@
                 
                     <li>
                         
-                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
-                        
-                     </li>
-                
-                    <li>
-                        
                             <a href="../program/samples_from_md.html">samples from md</a>
                         
                      </li>
@@ -143,6 +138,8 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
                 
@@ -166,7 +163,7 @@
 
 </div>
 
-<div class="jumbotron">
+<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
 <div class="container-fluid">
     
         <h3>lineshape</h3>
@@ -176,75 +173,9 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!--
-    <div class="col-sm-2">
-    
-<div id="sidebar">
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <hr>
-  
-
-<div class="panel panel-default">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
-  <div id="allprogs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-      
-      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-      
-      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-      
-      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-      
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-      
-      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-      
-      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-      
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-      
-      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-      
-      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-      
-      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-      
-    </div>
-  </div>
-</div>
-
-
-</div>  
-
-    </div>
-    -->
-    
     <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
     <h3>Short description</h3>
-<p>Calculate the frequency-dependent self-energy and phonon spectral function from many-body perturbation theory. Per default, the self-energy is calculated for a single q-point, but can be calculated along a path in the Brillouin zone for intensity plots, or as a phonon density of states.</p>
+<p>Calculate the frequency-dependent self-energy and phonon spectral function from many-body perturbation theory. </p>
 <h3>Command line options:</h3>
 <p>Optional switches:</p>
 <ul>
@@ -265,7 +196,7 @@
 </li>
 <li>
 <p><code>--n_energies value</code>, <code>-ne value</code><br>
-    default value 600<br>
+    default value 1200<br>
     Number of energies for the energy-dependent self-energy.</p>
 </li>
 <li>
@@ -358,7 +289,7 @@
 <p><code>lineshape --dos -qg 10 10 10 --dos_qpoint_grid 24 24 24</code> </p>
 <h3>Long summary</h3>
 <p>This code calculates the energy-dependent self energy from three-phonon scattering, as well as the contributions from mass imperfections and four-phonon scattering. It can produce nice figures like this:</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Nice picture of S(Q,E)</p></div>
+<p><center><img src="../media/lineshape_sqe.png" width="500" /></center></p>
 <h3>Background</h3>
 <p>It is nowadays routine to calculate e.g. <a href="thermal_conductivity.html">lattice thermal conductivity</a> using perturbation theory. At that level of approximation, you calculate the phonon lifetime via the imaginary part of the phonon self-energy at the harmonic frequencies. In general, however, the picture with a well defined phonon, shifted by a small energy $ \Delta $ and broadened by $ \Gamma $ is not enough. In general, the phonon self-energy is energy-dependent,<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup></p>
 <p>$$
@@ -466,10 +397,57 @@ $$</p>
 </ul>
 <h3>Output files</h3>
 <p>There are three possible modes for this code: the lineshape at a single q-point (default), along a path in the BZ (<code>--path</code>) or over the full BZ as a phonon DOS (<code>--dos</code>). The output files will differ. For lineshape at a single q, you get</p>
-<h4><code>outfile.selfenergy_*</code></h4>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>This is on it's way to be moved to an hdf5. Fix.</p></div>
+<h4><code>outfile.lineshape.hdf5</code></h4>
+<p>This file is self-documented. You can produce plots like this:</p>
+<p><center><img src="../media/lineshapes.png" width="600" /></center></p>
+<p>For this plot, I used the following matlab snippet:</p>
+<div class="codehilite"><pre><span></span><span class="c">% read everything from file</span>
+<span class="n">fn</span><span class="p">=(</span><span class="s">&#39;outfile.lineshape.hdf5&#39;</span><span class="p">);</span>
+<span class="c">% lineshape things</span>
+<span class="n">x1</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/intensity_axis&#39;</span><span class="p">);</span>
+<span class="n">y1</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/intensity&#39;</span><span class="p">);</span>
+<span class="c">% self-energies</span>
+<span class="n">x2</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/selfenergy_axis&#39;</span><span class="p">);</span>
+<span class="n">z1</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/imaginary_threephonon_selfenergy&#39;</span><span class="p">);</span>
+<span class="n">z2</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/imaginary_isotope_selfenergy&#39;</span><span class="p">);</span>
+<span class="n">z3</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/real_threephonon_selfenergy&#39;</span><span class="p">);</span>
+<span class="c">% and the unit and bare harmonic frequencies</span>
+<span class="n">energyunit</span><span class="p">=</span><span class="n">h5readatt</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/selfenergy_axis&#39;</span><span class="p">,</span><span class="s">&#39;unit&#39;</span><span class="p">);</span>
+<span class="n">omega</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/harmonic_frequencies&#39;</span><span class="p">);</span>
+<span class="c">% create a legend</span>
+<span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
+    <span class="n">lgd</span><span class="p">{</span><span class="nb">i</span><span class="p">}=[</span><span class="s">&#39;band &#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="nb">i</span><span class="p">)</span> <span class="s">&#39;, \omega = &#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">omega</span><span class="p">(</span><span class="nb">i</span><span class="p">),</span><span class="s">&#39;%10.5f&#39;</span><span class="p">)</span> <span class="n">energyunit</span><span class="p">];</span>
+<span class="k">end</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">clf</span><span class="p">;</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+    <span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Lineshape&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">([</span><span class="s">&#39;\omega (&#39;</span> <span class="n">energyunit</span> <span class="s">&#39;)&#39;</span><span class="p">])</span>
+    <span class="n">ylabel</span><span class="p">([</span><span class="s">&#39;states/&#39;</span> <span class="n">energyunit</span> <span class="p">])</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;yminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;xlim&#39;</span><span class="p">,[</span><span class="mi">0</span> <span class="n">max</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span><span class="o">*</span><span class="mf">1.4</span><span class="p">])</span>
+    <span class="n">legend</span><span class="p">(</span><span class="n">lgd</span><span class="p">,</span><span class="s">&#39;edgecolor&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">z1</span><span class="o">+</span><span class="n">z2</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Imaginary self-energy&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">([</span><span class="s">&#39;\omega (&#39;</span> <span class="n">energyunit</span> <span class="s">&#39;)&#39;</span><span class="p">])</span>
+    <span class="n">ylabel</span><span class="p">([</span><span class="s">&#39;\Gamma (&#39;</span> <span class="n">energyunit</span> <span class="s">&#39;)&#39;</span><span class="p">])</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;yminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;xlim&#39;</span><span class="p">,[</span><span class="mi">0</span> <span class="n">max</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span><span class="o">*</span><span class="mf">1.4</span><span class="p">])</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">z3</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Real self-energy&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">([</span><span class="s">&#39;\omega (&#39;</span> <span class="n">energyunit</span> <span class="s">&#39;)&#39;</span><span class="p">])</span>
+    <span class="n">ylabel</span><span class="p">([</span><span class="s">&#39;\Delta (&#39;</span> <span class="n">energyunit</span> <span class="s">&#39;)&#39;</span><span class="p">])</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;yminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;xlim&#39;</span><span class="p">,[</span><span class="mi">0</span> <span class="n">max</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span><span class="o">*</span><span class="mf">1.4</span><span class="p">])</span>
+</pre></div>
+
+
 <h4><code>outfile.sqe.hdf5</code></h4>
-<p>These files represent the properties calculated as a function of \(\textbf{q}\) along high symmetry directions in the Brillouin zone. The file is self-documented. An example how to produce decent-looking plots can be found <a href="../page/workflows/minimal_example_1.html">here</a>.</p>
+<p>These files represent the properties calculated as a function of \(\textbf{q}\) along high symmetry directions in the Brillouin zone, such as the plot at the top of this page. The file is self-documented. An example how to produce decent-looking plots can be found <a href="../page/workflows/minimal_example_1.html">here</a>.</p>
 <h4><code>outfile.dos_lineshape</code></h4>
 <p>Is identical to <a href="../program/phonon_dispersion_relations.html#outfile.phonon_dos">this</a>.</p>
 <div class="footnote">
@@ -492,72 +470,6 @@ $$</p>
 </li>
 </ol>
 </div>
-
-<!--
-    <br>
-    
-  
-    <ul class="list-inline">
-      <li><h4>Uses:</h4></li>
-      
-      <li>constants</li>
-      
-      <li>type_crystalstructure</li>
-      
-      <li>type_forceconstant_secondorder</li>
-      
-      <li>type_forceconstant_thirdorder</li>
-      
-      <li>type_forceconstant_fourthorder</li>
-      
-      <li>type_qpointmesh</li>
-      
-      <li>type_phonon_dispersions</li>
-      
-      <li>type_phonon_dos</li>
-      
-      <li>type_lotosplitting</li>
-      
-      <li>type_phonon_bandstructure</li>
-      
-      <li>helpers</li>
-      
-      <li>dump_data</li>
-      
-      <li>scatteringrates</li>
-      
-      <li>phonondamping</li>
-      
-      <li>options</li>
-      
-      <li>io</li>
-      
-    </ul>
-    
-    
-
-    
-    
-    
-    <br>
-
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-
-    
-    
-    
--->    
     </div>
   </div>
 

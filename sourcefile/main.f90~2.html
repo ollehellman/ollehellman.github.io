@@ -43,7 +43,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -51,7 +51,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -72,13 +73,15 @@
                 
                 
                 
+                <li><a href="../lists/procedures.html">Procedures</a></li>
+                
                 
                 
             </ul>
             </li>
         </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <form action="../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
         </div>
@@ -110,7 +113,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
 	  data-placement="bottom" data-html="true"
-	  title=" 9.8% of total for source files.">166 statements</a>
+	  title="12.9% of total for source files.">166 statements</a>
      </li> 
      
      
@@ -203,7 +206,13 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E11.html">main.f90</a>
+      <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
       
     </div>
   </div>
@@ -397,8 +406,8 @@
 <a name="ln-130"></a>            <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">sy</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
 <a name="ln-131"></a>            <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">create_constraints</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">rotationalconstraints</span><span class="p">)</span>
 <a name="ln-132"></a>        <span class="n">enddo</span>
-<a name="ln-133"></a>        <span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="s1">&#39;outfile.relaxed_ucposcar&#39;</span><span class="p">)</span>
-<a name="ln-134"></a>        <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="s1">&#39;outfile.relaxed_ssposcar&#39;</span><span class="p">)</span>
+<a name="ln-133"></a>        <span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="s1">&#39;outfile.relaxed_ucposcar&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-134"></a>        <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="s1">&#39;outfile.relaxed_ssposcar&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-135"></a>        <span class="c">! probably stop here for now.</span>
 <a name="ln-136"></a>        <span class="k">stop</span>
 <a name="ln-137"></a><span class="k">    </span><span class="n">endif</span>
@@ -486,7 +495,7 @@
 <a name="ln-219"></a><span class="k">call </span><span class="n">fc2</span><span class="p">%</span><span class="n">get_elastic_constants</span><span class="p">(</span><span class="n">uc</span><span class="p">)</span>
 <a name="ln-220"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;elastic constants:&#39;</span>
 <a name="ln-221"></a><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span>
-<a name="ln-222"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(6(3X,F15.5))&quot;</span><span class="p">)</span> <span class="n">fc2</span><span class="p">%</span><span class="n">elastic_constants_voigt</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="err">1</span><span class="n">E9_flyt</span>
+<a name="ln-222"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(6(3X,F15.5))&quot;</span><span class="p">)</span> <span class="n">lo_chop</span><span class="p">(</span><span class="n">fc2</span><span class="p">%</span><span class="n">elastic_constants_voigt</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="err">1</span><span class="n">E9_flyt</span><span class="p">,</span><span class="n">lo_tol</span><span class="p">)</span>
 <a name="ln-223"></a><span class="n">enddo</span>
 <a name="ln-224"></a>
 <a name="ln-225"></a><span class="c">!</span>
@@ -528,7 +537,13 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E11.html">main.f90</a>
+      <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
       
     </div>
   </div>

@@ -46,7 +46,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -54,6 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
             <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -117,12 +118,6 @@
                 
                     <li>
                         
-                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
-                        
-                     </li>
-                
-                    <li>
-                        
                             <a href="../program/samples_from_md.html">samples from md</a>
                         
                      </li>
@@ -143,6 +138,8 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
                 
@@ -166,7 +163,7 @@
 
 </div>
 
-<div class="jumbotron">
+<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
 <div class="container-fluid">
     
         <h3>thermal conductivity</h3>
@@ -176,72 +173,6 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!--
-    <div class="col-sm-2">
-    
-<div id="sidebar">
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <hr>
-  
-
-<div class="panel panel-default">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
-  <div id="allprogs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-      
-      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-      
-      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-      
-      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-      
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-      
-      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-      
-      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-      
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-      
-      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-      
-      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-      
-      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-      
-    </div>
-  </div>
-</div>
-
-
-</div>  
-
-    </div>
-    -->
-    
     <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
     <h3>Short description</h3>
 <p>Calculates the lattice thermal conductivity from the iterative solution of the phonon Boltzmann equation. In addition, cumulative plots and raw data dumps of intermediate values are available.</p>
@@ -280,7 +211,7 @@
 </li>
 <li>
 <p><code>--integrationtype value</code>, <code>-it value</code>, value in: <code>1,2,3</code><br>
-    default value 2<br>
+    default value 3<br>
     Type of integration for the lifetimes. 1 is fix Gaussian, 2 adaptive Gaussian and 3 Tetrahedron.</p>
 </li>
 <li>
@@ -924,8 +855,7 @@ l^{y}_{\lambda}
 C = &amp; \sum_{v_y=0} x_{\lambda}
 \end{split}
 $$</p>
-<p>where $v_y$ and $v_z$ are the components of the phonon group velocity along the $y$ and $z$ directions, $\tau_{\lambda}$ is the phonon relaxation time. $l^{y}_{\lambda}$ is the $y$ component of the MFP and $d$ is the thickness of the film in $y$-direction. </p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Add a plot what this looks like.</p></div>
+<p>where $v_y$ and $v_z$ are the components of the phonon group velocity along the $y$ and $z$ directions, $\tau_{\lambda}$ is the phonon relaxation time. $l^{y}_{\lambda}$ is the $y$ component of the MFP and $d$ is the thickness of the film in $y$-direction.</p>
 <h3>Input files</h3>
 <p>These files are necesarry:</p>
 <ul>
@@ -939,9 +869,7 @@ $$</p>
 <li><a href="../page/files.html#infile.isotopes">infile.isotopes</a> (for non-natural isotope distribution)</li>
 </ul>
 <h3>Practical considerations</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Explain convergence.</p></div>
-<p>Thermal conductivity code is mpi parallel, and has to be used with the appropriate <code>mpirun</code>. Given a reasonable amount of q-points, scales very well.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Mention that there is a super-parallel version that is kind of done. Scales to 10000's of cores, useful for systems with many atoms per unit cell.</p></div>
+<p>Thermal conductivity code is mpi parallel, and has to be used with the appropriate <code>mpirun</code>. Given a reasonable amount of q-points, it scales very well.</p>
 <h3>Output files</h3>
 <p>Depending on options, the set of output files may differ. We start with the basic files that are written after running this code.</p>
 <h4><code>outfile.thermal_conductivity</code></h4>
@@ -1007,78 +935,6 @@ $$</p>
 </li>
 </ol>
 </div>
-
-<!--
-    <br>
-    
-  
-    <ul class="list-inline">
-      <li><h4>Uses:</h4></li>
-      
-      <li>constants</li>
-      
-      <li>type_crystalstructure</li>
-      
-      <li>type_mdsim</li>
-      
-      <li>type_forceconstant_secondorder</li>
-      
-      <li>type_forceconstant_thirdorder</li>
-      
-      <li>type_symmetryoperation</li>
-      
-      <li>type_qpointmesh</li>
-      
-      <li>type_phonon_dispersions</li>
-      
-      <li>type_phonon_dos</li>
-      
-      <li>type_lotosplitting</li>
-      
-      <li>type_phononscatteringevents</li>
-      
-      <li>helpers</li>
-      
-      <li>dump_data</li>
-      
-      <li>options</li>
-      
-      <li>scatteringstrengths</li>
-      
-      <li>pbe</li>
-      
-      <li>type_lompi</li>
-      
-      <li>phononevents</li>
-      
-      <li>mfp</li>
-      
-    </ul>
-    
-    
-
-    
-    
-    
-    <br>
-
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-
-    
-    
-    
--->    
     </div>
   </div>
 

@@ -46,7 +46,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -54,6 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
             <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -117,12 +118,6 @@
                 
                     <li>
                         
-                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
-                        
-                     </li>
-                
-                    <li>
-                        
                             <a href="../program/samples_from_md.html">samples from md</a>
                         
                      </li>
@@ -143,6 +138,8 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
                 
@@ -166,7 +163,7 @@
 
 </div>
 
-<div class="jumbotron">
+<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
 <div class="container-fluid">
     
         <h3>canonical configuration</h3>
@@ -176,72 +173,6 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!--
-    <div class="col-sm-2">
-    
-<div id="sidebar">
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <hr>
-  
-
-<div class="panel panel-default">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
-  <div id="allprogs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-      
-      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-      
-      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-      
-      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-      
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-      
-      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-      
-      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-      
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-      
-      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-      
-      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-      
-      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-      
-    </div>
-  </div>
-</div>
-
-
-</div>  
-
-    </div>
-    -->
-    
     <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
     <h3>Short description</h3>
 <p>Use forceconstants or a Debye temperature to generate uncorrelated supercell configurations emulating a canonical ensemble. These configurations can be used to either start ensemble runs of molecular dynamics with negligible equilibration time, or be used to directly sample phase space.</p>
@@ -414,58 +345,6 @@ $$</p>
 </li>
 </ol>
 </div>
-
-<!--
-    <br>
-    
-  
-    <ul class="list-inline">
-      <li><h4>Uses:</h4></li>
-      
-      <li>constants</li>
-      
-      <li>helpers</li>
-      
-      <li>options</li>
-      
-      <li>type_qpointmesh</li>
-      
-      <li>type_phonon_dispersions</li>
-      
-      <li>type_crystalstructure</li>
-      
-      <li>type_forceconstant_secondorder</li>
-      
-      <li>type_qpointmesh</li>
-      
-      <li>type_lotosplitting</li>
-      
-    </ul>
-    
-    
-
-    
-    
-    
-    <br>
-
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-
-    
-    
-    
--->    
     </div>
   </div>
 

@@ -43,7 +43,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -51,7 +51,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../../index.html">TDEP <small>1.0</small></a>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../../media/matematico.png"></div>
+                <a class="navbar-brand" href="../../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -72,13 +73,15 @@
                 
                 
                 
+                <li><a href="../../lists/procedures.html">Procedures</a></li>
+                
                 
                 
             </ul>
             </li>
         </ul>
         
-        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <form action="../../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
         </div>
@@ -114,6 +117,11 @@
             
                 <li role="presentation">
                 <a href='../../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../../page/./9_publications.html'>Publications</a>
                 
                 </li>
             
@@ -200,7 +208,7 @@ Direct
 </pre></div>
 
 
-<p>This is the preferred way of generating supercells. Any script should do, but some of them that exist out there do not use double precision for some odd reason. The <a href="../../program/figure_out_symmetry_things.html">symmetry analysis</a> is rather sensitive, and assumes that the unit- and supercell describe exactly the same lattice, to machine precision. Almost the same is not good enough.</p>
+<p>This is the preferred way of generating supercells. Any script should do, but some of them that exist out there do not use double precision for some odd reason. The <a href="../../program/extract_forceconstants.html">symmetry analysis</a> is rather sensitive, and assumes that the unit- and supercell describe exactly the same lattice, to machine precision. Almost the same is not good enough.</p>
 <p>This can not be stressed enough, in my experience this is the most common source of problems, and it is easily avoided. When in doubt, use at least 12 decimal places. A common problem is that .cif-files sometimes write too few digits for e.g. \(\sqrt(3)/2\) for my codes to correctly differentiate between crystal lattices. For example, this is really bad:</p>
 <div class="codehilite"><pre><span></span>hcp Fe
  2.4
@@ -249,7 +257,6 @@ SMASS = 0
 
 
 <p>There are some things that might seem nonstandard. The energy cutoff is very high. I start convergence testing at about double the default, <code>ENCUT = 2*ENMAX</code>, where the default is read from the POTCAR files. You can not use tetrahedron integration, you must use some smearing. Fermi smearing makes the most sense, but requires a really tight k-point grid. It differs from what you might normally do in that we require high-quality forces, and not much else. Speaking of that, the tag <code>ISIF = 2</code> is crucial, since without it forces will not get printed to <code>OUTCAR</code>.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Link to page about numerics and how many digits are required.</p></div>
 <p>At this stage, you would run the simulations. Starting molecular dynamics from ideal lattice positions usually require a long equilibration time that has to be discarded. This time can be minimized by using a better seed. A program to do this is provided, see <a href="../../program/initialize_md.html">initialize_md</a>.</p>
 <h3>Parsing VASP output</h3>
 <p>Pretend that you started VASP and let it run for a while, and copy <code>examples/example_2_ScF3/OUTCAR</code> to the working directory and run</p>
@@ -257,7 +264,7 @@ SMASS = 0
 </pre></div>
 
 
-<p>and all the input files should be created. From this point, repeat the steps in <a href="minimal_example_1.html">the first example</a>. Not that these are not converged calculations by any means, the provided example is just 80 time steps using a single k-point for the electron structure calculations (github is really not the place to put large output files).</p>
+<p>and all the input files should be created. From this point, repeat the steps in <a href="minimal_example_1.html">the first example</a>. Not that these are not converged calculations by any means, the provided example is just 80 time steps using a single k-point for the electronic structure calculations (github is really not the place to put large output files, if I can figure out a place to host large files, I will put production quality files here).</p>
 <h3>TLDR</h3>
 <p>The short version if you are impatient:</p>
 <ul>
@@ -270,11 +277,9 @@ SMASS = 0
 <h3>Things to understand:</h3>
 <p>Some things to consider:</p>
 <ul>
-<li>Read the documentation for <code>process_outcar_5.3.py</code>, figure out how to stitch a continuation job together.</li>
-<li>Maybe you ran VASP with some settings that makes the OUTCAR parsing fail. Make sure you understand how to construct the input files manually.</li>
+<li>Read the <a href="../1_utilities.html">documentation</a> for <code>process_outcar_5.3.py</code>, figure out how to stitch a continuation job together.</li>
+<li>Maybe you ran VASP with some settings that makes the OUTCAR parsing fail. Make sure you understand how to construct the <a href="../files.html">input files</a> manually.</li>
 </ul>
-<h3>Parsing other output</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Equivalent guide for other codes.</p></div>
     </div>
 </div>
 

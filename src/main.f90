@@ -77,13 +77,13 @@ do i=1,opts%nconf
     ! initialize
     call fcss%initialise_cell(p,opts%temperature,opts%zpm,.false.,opts%threshold)
     ! dump to file
-    select case(opts%output_code)
+    select case(opts%output_format)
     case(1) ! vasp output
         fname='contcar_conf'//trim(int2char_padded(i,4))
-        call p%writetofile(trim(fname),write_velocities=.true.)
+        call p%writetofile(trim(fname),opts%output_format,write_velocities=.true.)
     case(2) ! abinit output
         fname='abinput_conf'//trim(int2char_padded(i,4))
-        call p%writetofile_abi(trim(fname),write_velocities=.true.)
+        call p%writetofile(trim(fname),opts%output_format,write_velocities=.true.)
     end select
     ! just measure some stuff, for no good reason
     ek=p%kinetic_energy()/(p%na-1)

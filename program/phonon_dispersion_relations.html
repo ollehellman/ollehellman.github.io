@@ -46,7 +46,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -54,6 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
             <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -117,12 +118,6 @@
                 
                     <li>
                         
-                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
-                        
-                     </li>
-                
-                    <li>
-                        
                             <a href="../program/samples_from_md.html">samples from md</a>
                         
                      </li>
@@ -143,6 +138,8 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
                 
@@ -166,7 +163,7 @@
 
 </div>
 
-<div class="jumbotron">
+<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
 <div class="container-fluid">
     
         <h3>phonon dispersion relations</h3>
@@ -176,72 +173,6 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!--
-    <div class="col-sm-2">
-    
-<div id="sidebar">
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <hr>
-  
-
-<div class="panel panel-default">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
-  <div id="allprogs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-      
-      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-      
-      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-      
-      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-      
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-      
-      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-      
-      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-      
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-      
-      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-      
-      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-      
-      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-      
-    </div>
-  </div>
-</div>
-
-
-</div>  
-
-    </div>
-    -->
-    
     <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
     <h3>Short description</h3>
 <p>Calculate phonon dispersions and related quantities. Per default, only the dispersions along a default path will be calculated. Options are available for calculating mode gruneisen parameters, phonon density of states projected in a variety of ways, thermodynamic quantities and pure data dumps.</p>
@@ -548,7 +479,16 @@ r_k^\gamma \Phi_{ijk}^{\alpha\beta\gamma}e^{i\mathbf{q}\cdot\ \mathbf{r}_j}
 \end{equation}
 $$</p>
 <p>Here $\epsilon_{i\alpha}^{\mathbf{q}s}$ is component $\alpha$ associated eigenvector $\epsilon$ for atom $i$. $m_i$ is the mass of atom $i$, and $\mathbf{r}_i$ is the vector locating its position.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Add general description about numerical integration types somewhere.</p></div>
+<h4>Density of states</h4>
+<p>Using <code>--dos</code> or <code>--projected_dos_*</code> will calculate the phonon density of states, given by</p>
+<p>$$
+g_s(\omega) = \frac{(2\pi)^3}{V} \int_{\mathrm{BZ}} \delta( \omega - \omega_{\mathbf{q}s}) d\mathbf{q}
+$$</p>
+<p>per mode $s$, summing those up yields the total. The site projected density of states is given by</p>
+<p>$$
+g_i(\omega) = \frac{(2\pi)^3}{V} \sum_{s} \int_{\mathrm{BZ}} \left|\epsilon_{\mathbf{q}s}\right|^2 \delta( \omega -  \omega_{\mathbf{q}s}) d\mathbf{q}
+$$</p>
+<p>that, also sums to the total density of states.</p>
 <h3>Input files</h3>
 <ul>
 <li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
@@ -775,76 +715,6 @@ $$</p>
 </li>
 </ol>
 </div>
-
-<!--
-    <br>
-    
-  
-    <ul class="list-inline">
-      <li><h4>Uses:</h4></li>
-      
-      <li>constants</li>
-      
-      <li>helpers</li>
-      
-      <li>dump_data</li>
-      
-      <li>options</li>
-      
-      <li>geometryfunctions</li>
-      
-      <li>type_crystalstructure</li>
-      
-      <li>type_forceconstant_secondorder</li>
-      
-      <li>type_forceconstant_thirdorder</li>
-      
-      <li>type_qpointmesh</li>
-      
-      <li>type_phonon_dispersions</li>
-      
-      <li>type_phonon_dos</li>
-      
-      <li>type_phonon_bandstructure</li>
-      
-      <li>type_lotosplitting</li>
-      
-      <li>type_symmetryoperation</li>
-      
-      <li>type_symmetrytable</li>
-      
-      <li>type_sqs</li>
-      
-      <li>densityplots</li>
-      
-      <li>velocitydos</li>
-      
-    </ul>
-    
-    
-
-    
-    
-    
-    <br>
-
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-
-    
-    
-    
--->    
     </div>
   </div>
 

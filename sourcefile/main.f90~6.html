@@ -43,7 +43,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -51,7 +51,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -72,13 +73,15 @@
                 
                 
                 
+                <li><a href="../lists/procedures.html">Procedures</a></li>
+                
                 
                 
             </ul>
             </li>
         </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <form action="../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
         </div>
@@ -110,7 +113,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
 	  data-placement="bottom" data-html="true"
-	  title="16.1% of total for source files.">274 statements</a>
+	  title="21.3% of total for source files.">274 statements</a>
      </li> 
      
      
@@ -203,7 +206,13 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E11.html">main.f90</a>
+      <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
       
     </div>
   </div>
@@ -544,120 +553,109 @@
 <a name="ln-277"></a>    <span class="c">! Get RTA kappa</span>
 <a name="ln-278"></a>    <span class="n">t0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span>
 <a name="ln-279"></a>    <span class="k">call </span><span class="n">get_kappa</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">kappa</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
-<a name="ln-280"></a>    <span class="c">! call get_quad_kappa(dr,qp,temperature,kappaf,uc)</span>
-<a name="ln-281"></a>    <span class="n">timer_kappa</span><span class="o">=</span><span class="n">timer_kappa</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
-<a name="ln-282"></a>    
-<a name="ln-283"></a>    <span class="c">! Get selfconsistent kappa</span>
-<a name="ln-284"></a>    <span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
-<a name="ln-285"></a> 
-<a name="ln-286"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">scfiterations</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-287"></a><span class="k">        </span><span class="n">f0</span><span class="o">=</span><span class="n">lo_huge</span>
-<a name="ln-288"></a>        <span class="n">f1</span><span class="o">=</span><span class="n">lo_huge</span>
-<a name="ln-289"></a>        <span class="n">f2</span><span class="o">=</span><span class="n">lo_huge</span>
-<a name="ln-290"></a>        <span class="n">f3</span><span class="o">=</span><span class="n">lo_huge</span>
-<a name="ln-291"></a>        <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">scfiterations</span>
-<a name="ln-292"></a>            <span class="c">!        </span>
-<a name="ln-293"></a>            <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-<a name="ln-294"></a>            <span class="c">! SCF iteration</span>
-<a name="ln-295"></a>            <span class="n">t0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span>
-<a name="ln-296"></a>            <span class="k">call </span><span class="n">get_selfconsistent_solution</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">tcmpi</span><span class="p">)</span>
-<a name="ln-297"></a>            <span class="n">timer_scf</span><span class="o">=</span><span class="n">timer_scf</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
-<a name="ln-298"></a>
-<a name="ln-299"></a>            <span class="c">! Communicate</span>
-<a name="ln-300"></a>            <span class="n">t0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span>
-<a name="ln-301"></a>            <span class="k">call </span><span class="n">lo_mpi_allgather_disprel</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span><span class="n">tcmpi</span><span class="p">,</span><span class="n">mw</span><span class="p">)</span>
-<a name="ln-302"></a>            <span class="n">timer_comm</span><span class="o">=</span><span class="n">timer_comm</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
-<a name="ln-303"></a>
-<a name="ln-304"></a>            <span class="c">! Calculate kappa</span>
-<a name="ln-305"></a>            <span class="n">t0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span>
-<a name="ln-306"></a>            <span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
-<a name="ln-307"></a>            <span class="k">call </span><span class="n">get_kappa</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">kappa</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
-<a name="ln-308"></a>            <span class="n">timer_kappa</span><span class="o">=</span><span class="n">timer_kappa</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
-<a name="ln-309"></a>
-<a name="ln-310"></a>            <span class="c">! Check for convergence. I set the threshold to an arbitrary 0.01 of </span>
-<a name="ln-311"></a>            <span class="c">! the absolute value. Probably good enough.</span>
-<a name="ln-312"></a>            <span class="n">f0</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">f1</span><span class="o">-</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-313"></a>            <span class="n">f3</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">f2</span><span class="o">-</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-314"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f3</span><span class="p">)</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="n">lo_tol</span><span class="o">*</span><span class="mi">10</span><span class="mf">0.0_flyt</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="n">lo_tol</span><span class="o">*</span><span class="mi">10</span><span class="mf">0.0_flyt</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-315"></a><span class="k">                </span><span class="n">f2</span><span class="o">=</span><span class="n">f1</span>         <span class="c">! store previous</span>
-<a name="ln-316"></a>                <span class="n">f1</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c">! store current</span>
-<a name="ln-317"></a>            <span class="k">else</span>
-<a name="ln-318"></a><span class="k">                exit</span>
-<a name="ln-319"></a><span class="k">            </span><span class="n">endif</span>
-<a name="ln-320"></a>        <span class="n">enddo</span>
-<a name="ln-321"></a>    <span class="n">endif</span>
-<a name="ln-322"></a>    <span class="c">!</span>
-<a name="ln-323"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-324"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-325"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-326"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<a name="ln-327"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<a name="ln-328"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<a name="ln-329"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-330"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-331"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-332"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-333"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-<a name="ln-334"></a>    <span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
-<a name="ln-335"></a><span class="c">!    thermal_cond_fancy(1,i)=temperature</span>
-<a name="ln-336"></a><span class="c">!    thermal_cond_fancy(2,i)=kappaf(1,1)</span>
-<a name="ln-337"></a><span class="c">!    thermal_cond_fancy(3,i)=kappaf(2,2)</span>
-<a name="ln-338"></a><span class="c">!    thermal_cond_fancy(4,i)=kappaf(3,3)</span>
-<a name="ln-339"></a><span class="c">!    thermal_cond_fancy(5,i)=kappaf(1,3)</span>
-<a name="ln-340"></a><span class="c">!    thermal_cond_fancy(6,i)=kappaf(2,3)</span>
-<a name="ln-341"></a><span class="c">!    thermal_cond_fancy(7,i)=kappaf(1,2)</span>
-<a name="ln-342"></a><span class="c">!    thermal_cond_fancy(8,i)=kappaf(3,1)</span>
-<a name="ln-343"></a><span class="c">!    thermal_cond_fancy(9,i)=kappaf(3,2)</span>
-<a name="ln-344"></a><span class="c">!    thermal_cond_fancy(10,i)=kappaf(2,1)</span>
-<a name="ln-345"></a>    
-<a name="ln-346"></a>    <span class="c">! Get the mean free path plot thingy</span>
-<a name="ln-347"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-348"></a><span class="k">        call </span><span class="n">calculate_mean_free_path</span><span class="p">(</span><span class="n">mf</span><span class="p">%</span><span class="n">temp</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">qp</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">mf</span><span class="p">%</span><span class="n">np</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-349"></a>    <span class="n">endif</span>
-<a name="ln-350"></a>    
-<a name="ln-351"></a>    <span class="c">! And the thin film thing</span>
-<a name="ln-352"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">thinfilm</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-353"></a><span class="k">        call </span><span class="n">calculate_thinfilm_kappa</span><span class="p">(</span><span class="n">mf</span><span class="p">%</span><span class="n">film</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">qp</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">mf</span><span class="p">%</span><span class="n">np</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),[</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="mf">1.0_flyt</span><span class="p">],[</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="mf">1.0_flyt</span><span class="p">,</span><span class="mf">0.0_flyt</span><span class="p">])</span>
-<a name="ln-354"></a>    <span class="n">endif</span>
-<a name="ln-355"></a><span class="n">enddo</span>
-<a name="ln-356"></a>
-<a name="ln-357"></a><span class="c">! Write thermal conductivity to file</span>
-<a name="ln-358"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">call </span><span class="n">lo_dump_gnuplot_2d_real</span><span class="p">(</span><span class="n">thermal_cond</span><span class="p">,</span><span class="s1">&#39;outfile.thermal_conductivity&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;\kappa W/mK&#39;</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Temperature (K)&#39;</span><span class="p">)</span>
-<a name="ln-359"></a><span class="c">!if ( mw%r .eq. 0 ) call lo_dump_gnuplot_2d_real(thermal_cond_fancy,&#39;outfile.thermal_conductivity_fancy&#39;,ylabel=&#39;\kappa W/mK&#39;,xlabel=&#39;Temperature (K)&#39;)</span>
-<a name="ln-360"></a>
-<a name="ln-361"></a><span class="c">! Write the cumulative kappa</span>
-<a name="ln-362"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">call </span><span class="n">write_cumulative_plots</span><span class="p">(</span><span class="n">mf</span><span class="p">)</span>
-<a name="ln-363"></a>
-<a name="ln-364"></a><span class="c">! Maybe dump data on a grid</span>
-<a name="ln-365"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">dumpgrid</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">trangenpts</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-366"></a><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... dumping auxiliary data to files:&#39;</span>
-<a name="ln-367"></a>    <span class="k">call </span><span class="n">dr</span><span class="p">%</span><span class="n">write_to_hdf5</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="s1">&#39;outfile.grid_thermal_conductivity.hdf5&#39;</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<a name="ln-368"></a><span class="n">endif</span>
-<a name="ln-369"></a>
-<a name="ln-370"></a><span class="c">! sum up the total time</span>
-<a name="ln-371"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-372"></a><span class="k">    </span><span class="n">tt0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">tt0</span>
-<a name="ln-373"></a><span class="n">endif</span>
-<a name="ln-374"></a>
-<a name="ln-375"></a><span class="c">! Print timings</span>
-<a name="ln-376"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-377"></a><span class="k">    </span><span class="n">t0</span><span class="o">=</span><span class="n">timer_init</span><span class="o">+</span><span class="n">timer_count</span><span class="o">+</span><span class="n">timer_matrixelements</span><span class="o">+</span><span class="n">timer_qs</span><span class="o">+</span><span class="n">timer_comm</span><span class="o">+</span><span class="n">timer_kappa</span><span class="o">+</span><span class="n">timer_scf</span>
-<a name="ln-378"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-379"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Timings:&#39;</span>
-<a name="ln-380"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;            initialization:&#39;</span><span class="p">,</span><span class="n">timer_init</span><span class="p">,</span>          <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_init</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>
-<a name="ln-381"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;       integration weights:&#39;</span><span class="p">,</span><span class="n">timer_count</span><span class="p">,</span>         <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_count</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span> 
-<a name="ln-382"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;           matrix elements:&#39;</span><span class="p">,</span><span class="n">timer_matrixelements</span><span class="p">,</span><span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_matrixelements</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span> 
-<a name="ln-383"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;            QS calculation:&#39;</span><span class="p">,</span><span class="n">timer_qs</span><span class="p">,</span>            <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_qs</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
-<a name="ln-384"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;             communication:&#39;</span><span class="p">,</span><span class="n">timer_comm</span><span class="p">,</span>          <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_comm</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
-<a name="ln-385"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;                     kappa:&#39;</span><span class="p">,</span><span class="n">timer_kappa</span><span class="p">,</span>         <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_kappa</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
-<a name="ln-386"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;          self consistency:&#39;</span><span class="p">,</span><span class="n">timer_scf</span><span class="p">,</span>           <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_scf</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
-<a name="ln-387"></a>           <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;                     total:&#39;</span><span class="p">,</span><span class="n">tt0</span><span class="p">,</span><span class="s1">&#39; seconds&#39;</span>
-<a name="ln-388"></a><span class="n">endif</span>
-<a name="ln-389"></a>
-<a name="ln-390"></a><span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
-<a name="ln-391"></a><span class="k">call </span><span class="n">mpi_finalize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-392"></a>
-<a name="ln-393"></a><span class="k">end program</span>
+<a name="ln-280"></a>    <span class="n">timer_kappa</span><span class="o">=</span><span class="n">timer_kappa</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
+<a name="ln-281"></a>    
+<a name="ln-282"></a>    <span class="c">! Get selfconsistent kappa</span>
+<a name="ln-283"></a>    <span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
+<a name="ln-284"></a> 
+<a name="ln-285"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">scfiterations</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-286"></a><span class="k">        </span><span class="n">f0</span><span class="o">=</span><span class="n">lo_huge</span>
+<a name="ln-287"></a>        <span class="n">f1</span><span class="o">=</span><span class="n">lo_huge</span>
+<a name="ln-288"></a>        <span class="n">f2</span><span class="o">=</span><span class="n">lo_huge</span>
+<a name="ln-289"></a>        <span class="n">f3</span><span class="o">=</span><span class="n">lo_huge</span>
+<a name="ln-290"></a>        <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">scfiterations</span>
+<a name="ln-291"></a>            <span class="c">!        </span>
+<a name="ln-292"></a>            <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-293"></a>            <span class="c">! SCF iteration</span>
+<a name="ln-294"></a>            <span class="n">t0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span>
+<a name="ln-295"></a>            <span class="k">call </span><span class="n">get_selfconsistent_solution</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">tcmpi</span><span class="p">)</span>
+<a name="ln-296"></a>            <span class="n">timer_scf</span><span class="o">=</span><span class="n">timer_scf</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
+<a name="ln-297"></a>
+<a name="ln-298"></a>            <span class="c">! Communicate</span>
+<a name="ln-299"></a>            <span class="n">t0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span>
+<a name="ln-300"></a>            <span class="k">call </span><span class="n">lo_mpi_allgather_disprel</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span><span class="n">tcmpi</span><span class="p">,</span><span class="n">mw</span><span class="p">)</span>
+<a name="ln-301"></a>            <span class="n">timer_comm</span><span class="o">=</span><span class="n">timer_comm</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
+<a name="ln-302"></a>
+<a name="ln-303"></a>            <span class="c">! Calculate kappa</span>
+<a name="ln-304"></a>            <span class="n">t0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span>
+<a name="ln-305"></a>            <span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
+<a name="ln-306"></a>            <span class="k">call </span><span class="n">get_kappa</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">kappa</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
+<a name="ln-307"></a>            <span class="n">timer_kappa</span><span class="o">=</span><span class="n">timer_kappa</span><span class="o">+</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
+<a name="ln-308"></a>
+<a name="ln-309"></a>            <span class="c">! Check for convergence. I set the threshold to an arbitrary 0.01 of </span>
+<a name="ln-310"></a>            <span class="c">! the absolute value. Probably good enough.</span>
+<a name="ln-311"></a>            <span class="n">f0</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">f1</span><span class="o">-</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-312"></a>            <span class="n">f3</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">f2</span><span class="o">-</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-313"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f3</span><span class="p">)</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="n">lo_tol</span><span class="o">*</span><span class="mi">10</span><span class="mf">0.0_flyt</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="n">lo_tol</span><span class="o">*</span><span class="mi">10</span><span class="mf">0.0_flyt</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-314"></a><span class="k">                </span><span class="n">f2</span><span class="o">=</span><span class="n">f1</span>         <span class="c">! store previous</span>
+<a name="ln-315"></a>                <span class="n">f1</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c">! store current</span>
+<a name="ln-316"></a>            <span class="k">else</span>
+<a name="ln-317"></a><span class="k">                exit</span>
+<a name="ln-318"></a><span class="k">            </span><span class="n">endif</span>
+<a name="ln-319"></a>        <span class="n">enddo</span>
+<a name="ln-320"></a>    <span class="n">endif</span>
+<a name="ln-321"></a>    <span class="c">! Store thermal conductivity tensor</span>
+<a name="ln-322"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-323"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-324"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-325"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-326"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-327"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-328"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-329"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-330"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-331"></a>    <span class="n">thermal_cond</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">=</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-332"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span><span class="kt">real</span><span class="p">(</span><span class="n">kappa</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-333"></a>    <span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
+<a name="ln-334"></a>    
+<a name="ln-335"></a>    <span class="c">! Get the mean free path plot thingy</span>
+<a name="ln-336"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-337"></a><span class="k">        call </span><span class="n">calculate_mean_free_path</span><span class="p">(</span><span class="n">mf</span><span class="p">%</span><span class="n">temp</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">qp</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">mf</span><span class="p">%</span><span class="n">np</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-338"></a>    <span class="n">endif</span>
+<a name="ln-339"></a>    
+<a name="ln-340"></a>    <span class="c">! And the thin film thing</span>
+<a name="ln-341"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">thinfilm</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-342"></a><span class="k">        call </span><span class="n">calculate_thinfilm_kappa</span><span class="p">(</span><span class="n">mf</span><span class="p">%</span><span class="n">film</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">qp</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">mf</span><span class="p">%</span><span class="n">np</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),[</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="mf">1.0_flyt</span><span class="p">],[</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="mf">1.0_flyt</span><span class="p">,</span><span class="mf">0.0_flyt</span><span class="p">])</span>
+<a name="ln-343"></a>    <span class="n">endif</span>
+<a name="ln-344"></a><span class="n">enddo</span>
+<a name="ln-345"></a>
+<a name="ln-346"></a><span class="c">! Write thermal conductivity to file</span>
+<a name="ln-347"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">call </span><span class="n">lo_dump_gnuplot_2d_real</span><span class="p">(</span><span class="n">thermal_cond</span><span class="p">,</span><span class="s1">&#39;outfile.thermal_conductivity&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;\kappa W/mK&#39;</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Temperature (K)&#39;</span><span class="p">)</span>
+<a name="ln-348"></a>
+<a name="ln-349"></a><span class="c">! Write the cumulative kappa</span>
+<a name="ln-350"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">call </span><span class="n">write_cumulative_plots</span><span class="p">(</span><span class="n">mf</span><span class="p">)</span>
+<a name="ln-351"></a>
+<a name="ln-352"></a><span class="c">! Maybe dump data on a grid</span>
+<a name="ln-353"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">dumpgrid</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">trangenpts</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-354"></a><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... dumping auxiliary data to files:&#39;</span>
+<a name="ln-355"></a>    <span class="k">call </span><span class="n">dr</span><span class="p">%</span><span class="n">write_to_hdf5</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="s1">&#39;outfile.grid_thermal_conductivity.hdf5&#39;</span><span class="p">,</span><span class="n">temperatures</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-356"></a><span class="n">endif</span>
+<a name="ln-357"></a>
+<a name="ln-358"></a><span class="c">! sum up the total time</span>
+<a name="ln-359"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-360"></a><span class="k">    </span><span class="n">tt0</span><span class="o">=</span><span class="n">mpi_wtime</span><span class="p">()</span><span class="o">-</span><span class="n">tt0</span>
+<a name="ln-361"></a><span class="n">endif</span>
+<a name="ln-362"></a>
+<a name="ln-363"></a><span class="c">! Print timings</span>
+<a name="ln-364"></a><span class="k">if</span> <span class="p">(</span> <span class="n">mw</span><span class="p">%</span><span class="n">r</span> <span class="p">.</span><span class="n">eq</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-365"></a><span class="k">    </span><span class="n">t0</span><span class="o">=</span><span class="n">timer_init</span><span class="o">+</span><span class="n">timer_count</span><span class="o">+</span><span class="n">timer_matrixelements</span><span class="o">+</span><span class="n">timer_qs</span><span class="o">+</span><span class="n">timer_comm</span><span class="o">+</span><span class="n">timer_kappa</span><span class="o">+</span><span class="n">timer_scf</span>
+<a name="ln-366"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
+<a name="ln-367"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Timings:&#39;</span>
+<a name="ln-368"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;            initialization:&#39;</span><span class="p">,</span><span class="n">timer_init</span><span class="p">,</span>          <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_init</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>
+<a name="ln-369"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;       integration weights:&#39;</span><span class="p">,</span><span class="n">timer_count</span><span class="p">,</span>         <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_count</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span> 
+<a name="ln-370"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;           matrix elements:&#39;</span><span class="p">,</span><span class="n">timer_matrixelements</span><span class="p">,</span><span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_matrixelements</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span> 
+<a name="ln-371"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;            QS calculation:&#39;</span><span class="p">,</span><span class="n">timer_qs</span><span class="p">,</span>            <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_qs</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
+<a name="ln-372"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;             communication:&#39;</span><span class="p">,</span><span class="n">timer_comm</span><span class="p">,</span>          <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_comm</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
+<a name="ln-373"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;                     kappa:&#39;</span><span class="p">,</span><span class="n">timer_kappa</span><span class="p">,</span>         <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_kappa</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
+<a name="ln-374"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A,F7.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;          self consistency:&#39;</span><span class="p">,</span><span class="n">timer_scf</span><span class="p">,</span>           <span class="s1">&#39; seconds, &#39;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">timer_scf</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">tt0</span><span class="p">),</span><span class="s1">&#39;%&#39;</span>  
+<a name="ln-375"></a>           <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(A,F12.3,A)&quot;</span><span class="p">)</span> <span class="s1">&#39;                     total:&#39;</span><span class="p">,</span><span class="n">tt0</span><span class="p">,</span><span class="s1">&#39; seconds&#39;</span>
+<a name="ln-376"></a><span class="n">endif</span>
+<a name="ln-377"></a>
+<a name="ln-378"></a><span class="c">! And we are done!</span>
+<a name="ln-379"></a><span class="k">call </span><span class="n">mpi_barrier</span><span class="p">(</span><span class="n">mw</span><span class="p">%</span><span class="n">comm</span><span class="p">,</span><span class="n">mw</span><span class="p">%</span><span class="n">error</span><span class="p">)</span>
+<a name="ln-380"></a><span class="k">call </span><span class="n">mpi_finalize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-381"></a>
+<a name="ln-382"></a><span class="k">end program</span>
 </pre></div>
 
     </section>
@@ -693,7 +691,13 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E11.html">main.f90</a>
+      <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
       
     </div>
   </div>

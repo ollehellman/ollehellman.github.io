@@ -46,7 +46,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -54,6 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
             <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -117,12 +118,6 @@
                 
                     <li>
                         
-                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
-                        
-                     </li>
-                
-                    <li>
-                        
                             <a href="../program/samples_from_md.html">samples from md</a>
                         
                      </li>
@@ -143,6 +138,8 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
                 
@@ -166,7 +163,7 @@
 
 </div>
 
-<div class="jumbotron">
+<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
 <div class="container-fluid">
     
         <h3>samples from md</h3>
@@ -176,72 +173,6 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!--
-    <div class="col-sm-2">
-    
-<div id="sidebar">
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <hr>
-  
-
-<div class="panel panel-default">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
-  <div id="allprogs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-      
-      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-      
-      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-      
-      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-      
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-      
-      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-      
-      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-      
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-      
-      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-      
-      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-      
-      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-      
-    </div>
-  </div>
-</div>
-
-
-</div>  
-
-    </div>
-    -->
-    
     <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
     <h3>Short description</h3>
 <p>Choose representative uncorrelated samples from an MD simulation. The samples are chosen to be approximately evenly spaced, and reproduce the average potential energy, average kinetic energy have the same standard deviation of potential and kinetic energy.</p>
@@ -252,6 +183,11 @@
 <p><code>--nsamples value</code>, <code>-n value</code><br>
     default value 50<br>
     Number of samples</p>
+</li>
+<li>
+<p><code>--output_format value</code>, <code>-of value</code>, value in: <code>1,2,3</code><br>
+    default value 1<br>
+    Output format. 1 is VASP, 2 Abinit, 3 LAMMPS.</p>
 </li>
 <li>
 <p><code>--help</code>, <code>-h</code><br>
@@ -265,22 +201,15 @@
 <h3>Examples</h3>
 <p><code>samples_from_md -n 100</code> </p>
 <h3>Longer summary</h3>
-<p>When performing BOMD the numerical accuracy of the DFT calculations at each time step is usually lower than that of static calculations. In many cases one needs higher accuracy than is affordable for BOMD because it is so computationally demanding.</p>
-<p>TDEP requires accurate energies and forces. Well converged DFT calculations from a BOMD run are far too costly to achieve a sufficient phase space sampling. If one instead performs BOMD calculations with low accuracy we can sample phase space well. From these low accuracy calculations we choose a set of $n$ uncorrelated samples and correct scalar parameter $a$ as</p>
+<p>Ab initio molecular dynamics are expensive calculations. There will be a tradeoff between numerical precision and the number of timesteps. To work around this, you can run the MD with rather low precision and gather statistics. Then, from the long simulation, choose a set of uncorrelated configurations and recalculate these with high precision.</p>
+<p>From these low accuracy calculations we choose a set of $n$ uncorrelated samples and correct scalar parameter $a$ as</p>
 <p>$$
 \begin{equation}
 a = &lt;a^l&gt; + \frac{1}{n}\sum_{i=1}^n a^h_i-a_i^l,
 \end{equation}
 $$</p>
 <p>where $a^l$ are the low accuracy calculations and $a^h$ are calculations done with high accuracy. This exploits the fact that most omissions of numerical accuracy, such as basis set and k-point selection, lead to additive errors. This technique is well suited to determine the interatomic force constants and resulting thermodynamic/transport properties with high accuracy.</p>
-<p>When it comes to quantities that are not scalar the method is just as useful. In systems that are nearly harmonic the number of uncorrelated configurations needed for convergence of the extracted force constants (and by extension the free energy) is rather low. In these cases the force constant matrices can be extracted from the upsampled configurations alone.</p>
-<p>In systems that are strongly anharmonic one needs a much denser sampling of phase space to converge; sometimes convergence requires such high density that it is impractical to upsample. The procedure still gives us some important insights: the errors in forces due to low accuracy are normally distributed around the converged values, and the standard deviation depends only weakly on the magnitude of the force. </p>
-<p>Because the errors are normally distributed around the fully converged values one can compensate for low accuracy with large numbers of less accurate calculations. The extracted force constants will converge to the same value. Tests have confirmed this visually, showing that phonon dispersion relations agree within line thickness. Convergence with respect to the number of uncorrelated configurations is slower in the low accuracy case, but sometimes it is the only option.</p>
-<p>We also see that sampling forces at a thermally excited state is numerically beneficial. With the absolute error in forces weakly depending on the magnitude the relative error in forces behaves as $\sim|F|^{-1}$.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>We can show the histograms of the force magnitudes in FeV, together with the relative error in forces. We compare forces obtained from BOMD to the small displacement method. The small displacement method samples forces at magnitudes where the relative errors is about two orders of magnitude larger than at a thermally relevant state. So not only do we better describe the physics at high temperature, we do it in a numerically superior manner.</p></div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Add some some figures from my thesis.</p></div>
-<p>This code selects a choice of uncorrelated samples from BOMD via a Monte-Carlo algorithm, assuring the selection is completely random. We start with a calculation of average potential $E_p$, kinetic energies $E_k$, and their standard deviation. We check the distance between samples assuring that chosen samples are not temporally adjacent. The results of this procedure is written in output files (<code>outfile.stat_sample</code>). The average values and distance between selected points depend on the number of desired samples.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>should I write more about Monte carlo?</p></div>
+<p>This code selects a choice of uncorrelated samples from BOMD via a Monte-Carlo algorithm, assuring the selection is not biased. We start with a calculation of average potential $E_p$, kinetic energies $E_k$, and their standard deviation. We check the distance between samples assuring that chosen samples are not temporally adjacent. The results of this procedure is written in output files (<code>outfile.stat_sample</code>). The average values and distance between selected points depend on the number of desired samples.</p>
 <h3>Input files</h3>
 <ul>
 <li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
@@ -292,53 +221,6 @@ $$</p>
 </ul>
 <h3>Output files</h3>
 <p>This code will generate a series of structures given in VASP POSCAR <a href="../page/files.html#infile.ucposcar">format</a> with positions in fractional coordinates and velocities in Å/fs.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Add support for other codes as output format.</p></div>
-
-<!--
-    <br>
-    
-  
-    <ul class="list-inline">
-      <li><h4>Uses:</h4></li>
-      
-      <li>constants</li>
-      
-      <li>type_crystalstructure</li>
-      
-      <li>type_mdsim</li>
-      
-      <li>helpers</li>
-      
-      <li>dump_data</li>
-      
-      <li>options</li>
-      
-    </ul>
-    
-    
-
-    
-    
-    
-    <br>
-
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-
-    
-    
-    
--->    
     </div>
   </div>
 

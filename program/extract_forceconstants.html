@@ -46,7 +46,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -54,6 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
             <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -117,12 +118,6 @@
                 
                     <li>
                         
-                            <a href="../program/remap_forceconstant.html">remap forceconstant</a>
-                        
-                     </li>
-                
-                    <li>
-                        
                             <a href="../program/samples_from_md.html">samples from md</a>
                         
                      </li>
@@ -143,6 +138,8 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
                 
@@ -166,7 +163,7 @@
 
 </div>
 
-<div class="jumbotron">
+<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
 <div class="container-fluid">
     
         <h3>extract forceconstants</h3>
@@ -176,72 +173,6 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!--
-    <div class="col-sm-2">
-    
-<div id="sidebar">
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <hr>
-  
-
-<div class="panel panel-default">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprogs-0">All Programs</a></h3></div>
-  <div id="allprogs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
-      
-      <a class="list-group-item" href="../program/autocorrelation.html">autocorrelation</a>
-      
-      <a class="list-group-item" href="../program/canonical_configuration.html">canonical_configuration</a>
-      
-      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
-      
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
-      
-      <a class="list-group-item" href="../program/generate_structure.html">generate_structure</a>
-      
-      <a class="list-group-item" href="../program/lineshape.html">lineshape</a>
-      
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
-      
-      <a class="list-group-item" href="../program/remap_forceconstant.html">remap_forceconstant</a>
-      
-      <a class="list-group-item" href="../program/samples_from_md.html">samples_from_md</a>
-      
-      <a class="list-group-item" href="../program/thermal_conductivity.html">thermal_conductivity</a>
-      
-    </div>
-  </div>
-</div>
-
-
-</div>  
-
-    </div>
-    -->
-    
     <div class="col-sm-offset-2 col-sm-7 col-sm-offset-3" id='text'>
     <h3>Short description</h3>
 <p>The main algorithm of the TDEP method. Starting with a symmetry analysis, this code finds the irreducible representation of interatomic forceconstants and extracts them from position and force data.</p>
@@ -298,8 +229,8 @@
 </li>
 </ul>
 <h3>Examples</h3>
-<p><code>getforceconstants.skript -rc2 5.1</code> </p>
-<p><code>getforceconstants.skript -rc2 4.5 -rc3 3.21 -collmagnetism</code> </p>
+<p><code>extract_forceconstants -rc2 5.1</code> </p>
+<p><code>extract_forceconstants -rc2 4.5 -rc3 3.21</code> </p>
 <h3>Longer summary</h3>
 <p>Calculations of the interatomic force constants are the most important part of any lattice dynamics calculation as they are used to calculate many micro and macroscopic properties of the system, e.g. phonon, thermodynamic, and transport properties, etc. This codes takes sets of displacements and forces, and uses these to fit the coefficients in an effective lattice dynamical Hamiltonian. This is by no means a new idea.<sup id="fnref-Klein1972"><a class="footnote-ref" href="#fn-Klein1972">1</a></sup> The main advantage of the TDEP method is in the implementation: it is numerically robust, well tested and general. It is not limited in order, nor limited to simple ordered systems.</p>
 <h3>Lattice dynamics and interatomic force constants</h3>
@@ -570,11 +501,21 @@ $$</p>
 <div class="row" id="text">
 <div class="col-md-offset-2 col-md-7 col-md-offset-3"></p>
 <h3>Practical notes</h3>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Make some plots with numerics, noise and that stuff.</p></div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain what forcemap is</p></div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain how to read forceconstants from file</p></div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain the different solvers</p></div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>explain how to do convergence testing</p></div>
+<h4>Forcemaps</h4>
+<p>When running the code, you might notice that it produces a file called <code>outfile.forcemap.hdf5</code>. This file, not meant to be human readable, contains all the symmetry information about the unit- supercell pair. Basically, it contains the map that allows you to create the coefficient matrix $\mathbf{C}$, and the reverse map how to subsitute the values in $\mathbf{\Theta}$ into the forceconstants.</p>
+<p>The reason it is stored on disk is that for complicated geometries, it can take a little while to generate (~5-10 minutes is the worst I have seen so far, for 1000's of atoms). For a set of calculations with varying volume, temperature or some other parameter, it is a good idea to generate this forcemap once, and use the <code>--readforcemap</code> option when running the code.</p>
+<h4>Reading forceconstants from file</h4>
+<p>The option <code>--readirreducible</code> will make the code skip the solution phase, and instead use the values provided in <code>infile.irrifc_*</code> to generate the forceconstants. For a casual user, this has little benefit. For the more advanced users, this provides the means to interpolate forceconstants:</p>
+<ul>
+<li>Perform a set of calculations, varying parameter $\alpha$, where $\alpha$ could be volume, temperature or any external parameter that does not change the spacegroup of the system.</li>
+<li>Get the forceconstants for each calculation, using the forcemap detailed above.</li>
+<li>Gather all the irreducible forceconstants from <code>outfile.irrifc_*</code> and interpolate them as a function of $\alpha$. I do not yet know the best way to interpolate, it seems to be system dependent. Linear interpolation is always a safe bet.</li>
+<li>Print <code>infile.irrifc_*</code> and use option <code>--readirreducible</code> to turn the interpolated values into useable forceconstants</li>
+</ul>
+<p>This is best done wrapped in python or equivalent. It is very powerful, if you have done calculations at 300,600 and 900K, you can use this procedure to get forceconstants at any temperature in between. In general, many quantities are difficult to interpolate, but forceconstants are well behaved!</p>
+<h4>How to test if things are converged</h4>
+<p>The first parameter you want to check is the number of configurations used. This is straightforward, use <code>--stride</code> to reduce the number of calculations considered (or alternatively, temporarily change the number of timesteps in <a href="../page/files.html#infile.meta">infile.meta</a> to a smaller number). Gradually increasing the number of configurations should tell you how converged your forceconstants are with respect to statistical sampling. A rough rule of thumb could be that you want at least 10 equations per irreducible forceconstant. One supercell calculation gives you 3N equations.</p>
+<p>For supercell sizes, I personally never use less than 200 atoms for insulators/semiconductors, or 100 for metals. It sounds costly to use 200 atoms, but remember that the TDEP solver uses all the information in the supercell, so the larger the cell, the fewer configurations you need. For example, a single 250 atom supercell is enough to get decent second and third order forceconstants for bulk Si. You should never use just one cell, since you will have no idea if it is converged or not, but it is a neat observation.</p>
 <h3>Input files</h3>
 <ul>
 <li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
@@ -841,68 +782,6 @@ $$</p>
 </li>
 </ol>
 </div>
-
-<!--
-    <br>
-    
-  
-    <ul class="list-inline">
-      <li><h4>Uses:</h4></li>
-      
-      <li>constants</li>
-      
-      <li>type_crystalstructure</li>
-      
-      <li>type_neighbourlist</li>
-      
-      <li>type_symmetrytable</li>
-      
-      <li>type_symmetryoperation</li>
-      
-      <li>type_mdsim</li>
-      
-      <li>helpers</li>
-      
-      <li>options</li>
-      
-      <li>type_forceconstant_secondorder</li>
-      
-      <li>type_forceconstant_thirdorder</li>
-      
-      <li>type_forcemap</li>
-      
-      <li>type_lassosolvers</li>
-      
-      <li>test_constraints</li>
-      
-      <li>relax_structure</li>
-      
-    </ul>
-    
-    
-
-    
-    
-    
-    <br>
-
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-
-    
-    
-    
--->    
     </div>
   </div>
 

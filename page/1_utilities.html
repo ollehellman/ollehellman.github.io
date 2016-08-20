@@ -43,7 +43,7 @@
 
 <!-- Fixed navbar, defined in macros.html for some reason -->
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -51,7 +51,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -72,13 +73,15 @@
                 
                 
                 
+                <li><a href="../lists/procedures.html">Procedures</a></li>
+                
                 
                 
             </ul>
             </li>
         </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <form action="../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
         </div>
@@ -114,6 +117,11 @@
             
                 <li role="presentation" class="disabled">
                 <a href='../page/./1_utilities.html'>Utility scripts</a>
+                
+                </li>
+            
+                <li role="presentation">
+                <a href='../page/./9_publications.html'>Publications</a>
                 
                 </li>
             
@@ -171,10 +179,72 @@
         </div>
     
     <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
-        <p>Part of the package is a set of small tools that help with preparing input for post-processing.</p>
-<h5>Vasp post-processing</h5>
-<p>The scripts <code>process_outcar.py</code> and <code>process_outcar_5.3.py</code> are used to extract information from <a href="https://www.vasp.at">VASP</a> OUTCAR files.</p>
-<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>Johan was here...</p></div>
+        <p>Part of the package is a set of small tools that help with preparing input for post-processing. What they do is to parse output files and prepare intput files according to this <a href="files.html">format</a>. If you understand the format (and it is not particularly complicated), it is easy to generate a parsing script for any code. The minimal requirements are positions, forces and energies. Other quantities are there mostly for reference, and can safely be set to zero.</p>
+<h4>VASP</h4>
+<p>The scripts <code>process_outcar.py</code> and <code>process_outcar_5.3.py</code> are used to extract information from <a href="https://www.vasp.at">VASP</a> OUTCAR files. The usage is straightforward:</p>
+<div class="codehilite"><pre><span></span>process_outcar_5.3.py OUTCAR
+</pre></div>
+
+
+<p>This will create the relevant <a href="files.hmtl">input files</a>. Alternatively, is you used some statistical sampling method and have many VASP simulations that need to be stitched together, use</p>
+<div class="codehilite"><pre><span></span>process_outcar_5.3.py *OUTCAR
+</pre></div>
+
+
+<p>That is, the script takes any number of OUTCARs as argument. The script assumes you have used <code>ISIF = 2</code>, since without it forces don't get written.</p>
+<h4>Abinit</h4>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Get Antoine to send me his script.</p></div>
+<h4>LAMMPS</h4>
+<p>LAMMPS does not write anything by default. To get usable output, I make sure to add the following to the input file:</p>
+<div class="codehilite"><pre><span></span>units metal
+
+variable          st    equal step
+variable          tm    equal step
+variable          Et    equal etotal-v_baseline
+variable          Ep    equal pe-v_baseline
+variable          Ek    equal ke
+variable          tmp   equal temp
+variable          pr    equal press/10000
+variable          sxx   equal pxx/10000
+variable          syy   equal pyy/10000
+variable          szz   equal pzz/10000
+variable          sxy   equal pxy/10000
+variable          sxz   equal pxz/10000
+variable          syz   equal pyz/10000
+
+fix statdump all print 100 &quot;<span class="cp">${</span><span class="n">st</span><span class="cp">}</span> <span class="cp">${</span><span class="n">tm</span><span class="cp">}</span> <span class="cp">${</span><span class="n">Et</span><span class="cp">}</span> <span class="cp">${</span><span class="n">Ep</span><span class="cp">}</span> <span class="cp">${</span><span class="n">Ek</span><span class="cp">}</span> <span class="cp">${</span><span class="n">tmp</span><span class="cp">}</span> <span class="cp">${</span><span class="n">pr</span><span class="cp">}</span> <span class="cp">${</span><span class="n">sxx</span><span class="cp">}</span> <span class="cp">${</span><span class="n">syy</span><span class="cp">}</span> <span class="cp">${</span><span class="n">szz</span><span class="cp">}</span> <span class="cp">${</span><span class="n">sxy</span><span class="cp">}</span> <span class="cp">${</span><span class="n">sxz</span><span class="cp">}</span> <span class="cp">${</span><span class="n">syz</span><span class="cp">}</span>&quot; screen no file dump.stat
+dump posdump all custom 100 dump.positions xs ys zs
+dump forcedump all custom 100 dump.forces fx fy fz
+dump_modify posdump format &quot;%20.15e %20.15e %20.15e&quot;
+dump_modify forcedump format &quot;%20.15e %20.15e %20.15e&quot;
+</pre></div>
+
+
+<p>The frequency of the dumps and so on can of course be adjusted. Make sure you use <a href="../program/generate_structure.html">generate structure</a> to create the LAMMPS cell file, since it will also create structure input files in the format TDEP needs. These dump files are not exactly the correct format. A small script can rearrange it to the correct format:</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># figure out how many atoms there are</span>
+<span class="nv">na</span><span class="o">=</span><span class="sb">`</span>head -n <span class="m">4</span> dump.forces <span class="p">|</span> tail -n 1<span class="sb">`</span>
+<span class="c1"># remove the header from the stat file</span>
+grep -v <span class="s1">&#39;^#&#39;</span> dump.stat &gt; infile.stat
+<span class="c1"># figure out how many timesteps there are</span>
+<span class="nv">nt</span><span class="o">=</span><span class="sb">`</span>wc -l infile.stat <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span><span class="sb">`</span>
+
+<span class="c1"># create the positions and force files</span>
+<span class="o">[</span> -f infile.forces <span class="o">]</span> <span class="o">&amp;&amp;</span> rm infile.forces
+<span class="o">[</span> -f infile.positions <span class="o">]</span> <span class="o">&amp;&amp;</span> rm infile.positions
+<span class="k">for</span> t in <span class="sb">`</span>seq <span class="m">1</span> <span class="si">${</span><span class="nv">nt</span><span class="si">}</span><span class="sb">`</span>
+<span class="k">do</span>
+    <span class="nv">nl</span><span class="o">=</span><span class="k">$((</span> <span class="si">${</span><span class="nv">na</span><span class="si">}</span><span class="o">+</span><span class="m">9</span><span class="k">))</span>
+    <span class="nv">nll</span><span class="o">=</span><span class="k">$((</span> <span class="si">${</span><span class="nv">nl</span><span class="si">}</span><span class="o">*</span><span class="si">${</span><span class="nv">t</span><span class="si">}</span> <span class="k">))</span>
+    <span class="nb">echo</span> <span class="s2">&quot;t </span><span class="si">${</span><span class="nv">t</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">nl</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">nll</span><span class="si">}</span><span class="s2">&quot;</span>
+    head -n <span class="si">${</span><span class="nv">nll</span><span class="si">}</span> dump.forces <span class="p">|</span> tail -n <span class="si">${</span><span class="nv">na</span><span class="si">}</span> &gt;&gt; infile.forces
+    head -n <span class="si">${</span><span class="nv">nll</span><span class="si">}</span> dump.positions <span class="p">|</span> tail -n <span class="si">${</span><span class="nv">na</span><span class="si">}</span> &gt;&gt; infile.positions
+<span class="k">done</span>
+</pre></div>
+
+
+<p>There are probably far better ways of doing this, happy to take any suggestions.</p>
     </div>
 </div>
 
