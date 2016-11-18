@@ -72,10 +72,14 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                <li><a href="../lists/modules.html">Modules</a></li>
+                
                 
                 <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
+                
+                <li><a href="../lists/types.html">Derived Types</a></li>
                 
             </ul>
             </li>
@@ -113,7 +117,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
 	  data-placement="bottom" data-html="true"
-	  title="11.6% of total for source files.">150 statements</a>
+	  title="11.4% of total for source files.">151 statements</a>
      </li> 
      
      
@@ -185,6 +189,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allfiles-0">All Source Files</a></h3></div>
   <div id="allfiles-0" class="panel-collapse collapse">
     <div class="list-group">
+      
+      <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
       <a class="list-group-item" href="../sourcefile/main.f90.html">main.f90</a>
       
@@ -277,7 +283,7 @@
     <div class="hl"><pre><span></span><a name="ln-1"></a><span class="cp">#include &quot;precompilerdefinitions&quot;</span>
 <a name="ln-2"></a><span class="k">program </span><span class="n">autocorrelation</span>
 <a name="ln-3"></a><span class="c">!!{!src/autocorrelation/manual.md!}</span>
-<a name="ln-4"></a><span class="c">!</span>
+<a name="ln-4"></a>
 <a name="ln-5"></a><span class="k">use </span><span class="n">constants</span>
 <a name="ln-6"></a><span class="k">use </span><span class="n">helpers</span>
 <a name="ln-7"></a><span class="k">use </span><span class="n">dump_data</span>
@@ -322,217 +328,213 @@
 <a name="ln-46"></a><span class="c">!</span>
 <a name="ln-47"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">)</span> <span class="kd">::</span> <span class="n">f0</span>
 <a name="ln-48"></a><span class="kt">integer</span> <span class="kd">::</span> <span class="n">sample</span>
-<a name="ln-49"></a><span class="c">!</span>
+<a name="ln-49"></a>
 <a name="ln-50"></a><span class="c">! Read options</span>
-<a name="ln-51"></a><span class="c">!</span>
-<a name="ln-52"></a><span class="k">call </span><span class="n">lo_seed_random_numbers</span><span class="p">()</span>
-<a name="ln-53"></a><span class="k">call </span><span class="n">opts</span><span class="p">%</span><span class="n">parse</span><span class="p">()</span>
-<a name="ln-54"></a><span class="c">!</span>
-<a name="ln-55"></a><span class="c">! I need the underlying unitcell</span>
-<a name="ln-56"></a><span class="c">!</span>
-<a name="ln-57"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ucposcar&#39;</span><span class="p">)</span>
-<a name="ln-58"></a>
-<a name="ln-59"></a><span class="c">! Read simulation, or create one.</span>
-<a name="ln-60"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">fcmd</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-61"></a>    <span class="c">! Loop over samples</span>
-<a name="ln-62"></a>    <span class="k">allocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nsample</span><span class="p">))</span>
-<a name="ln-63"></a>    <span class="k">do </span><span class="n">sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nsample</span>
-<a name="ln-64"></a>        <span class="c">! initialize the MD cell        </span>
-<a name="ln-65"></a>        <span class="k">call </span><span class="n">fcmd</span><span class="p">%</span><span class="n">setupcell</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_temperature</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_ssdim</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_timestep</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_langevingamma</span><span class="p">)</span>
-<a name="ln-66"></a>        <span class="c">! get an MD simulation</span>
-<a name="ln-67"></a>        <span class="k">call </span><span class="n">fcmd</span><span class="p">%</span><span class="n">equilibrate</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nskip</span><span class="p">)</span>
-<a name="ln-68"></a>        <span class="k">call </span><span class="n">fcmd</span><span class="p">%</span><span class="n">run_md</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">),</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nt</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_storestep</span><span class="p">)</span>
-<a name="ln-69"></a>        <span class="c">! setup stuff for acf</span>
-<a name="ln-70"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">alloy</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-71"></a><span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;not done yet.&#39;</span>
-<a name="ln-72"></a>            <span class="k">stop</span>
-<a name="ln-73"></a>            <span class="c">!ss=fcmd%ss</span>
-<a name="ln-74"></a>            <span class="c">!ss_sqs=fcmd%sqs </span>
-<a name="ln-75"></a>            <span class="c">!call sims(sample)%reorder_timesteps(ss_sqs,ss)</span>
-<a name="ln-76"></a>            <span class="c">!call figure_out_cell_dimensions(uc,ss)</span>
-<a name="ln-77"></a>        <span class="k">else</span>
-<a name="ln-78"></a><span class="k">            </span><span class="n">ss</span><span class="o">=</span><span class="n">fcmd</span><span class="p">%</span><span class="n">ss</span>
-<a name="ln-79"></a>            <span class="k">call </span><span class="n">figure_out_cell_dimensions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
-<a name="ln-80"></a>        <span class="n">endif</span>
-<a name="ln-81"></a>        <span class="c">! Deallocate some of the simulation</span>
-<a name="ln-82"></a>        <span class="k">deallocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">)%</span><span class="n">r</span><span class="p">)</span>
-<a name="ln-83"></a>        <span class="k">deallocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">)%</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-84"></a>        <span class="k">deallocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">)%</span><span class="n">f</span><span class="p">)</span>
-<a name="ln-85"></a>    <span class="n">enddo</span>
-<a name="ln-86"></a><span class="k">else</span>
-<a name="ln-87"></a>    <span class="c">! </span>
-<a name="ln-88"></a>    <span class="c">! In this case, things are read from files.</span>
-<a name="ln-89"></a>    <span class="c">!</span>
-<a name="ln-90"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<a name="ln-91"></a>    <span class="k">call </span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-92"></a>    <span class="c">!</span>
-<a name="ln-93"></a>    <span class="c">! Might need some extra info</span>
-<a name="ln-94"></a>    <span class="c">!</span>
-<a name="ln-95"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">alloy</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-96"></a>        <span class="c">!</span>
-<a name="ln-97"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... its an alloy! Sorting a bit&#39;</span>
-<a name="ln-98"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Also, not done.&#39;</span>
-<a name="ln-99"></a>        <span class="k">stop</span>
-<a name="ln-100"></a>     <span class="c">!   !</span>
-<a name="ln-101"></a>     <span class="c">!   ! Get the perfect positions in alloy thingy</span>
-<a name="ln-102"></a>     <span class="c">!   call ss%readfromfile(&#39;infile.sqs_alloy_supercell&#39;)</span>
-<a name="ln-103"></a>     <span class="c">!   ! and the ideal structure of the sqs</span>
-<a name="ln-104"></a>     <span class="c">!   call ss_sqs%readfromfile(&#39;infile.sqs&#39;)</span>
-<a name="ln-105"></a>     <span class="c">!   ! and now reorder the positions in sim</span>
-<a name="ln-106"></a>     <span class="c">!   call sims(1)%reorder_timesteps(ss_sqs,ss)</span>
-<a name="ln-107"></a>     <span class="c">!   ! and get the cell mapping</span>
-<a name="ln-108"></a>     <span class="c">!   call figure_out_cell_dimensions(uc,ss)</span>
-<a name="ln-109"></a>    <span class="n">elseif</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">vacancies</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-110"></a>        <span class="c">! get the perfect structure</span>
-<a name="ln-111"></a>        <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar_novacancies&#39;</span><span class="p">)</span>
-<a name="ln-112"></a>        <span class="c">! get the perfect structure with vacancies</span>
-<a name="ln-113"></a>        <span class="k">call </span><span class="n">ss_vac</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar&#39;</span><span class="p">)</span>
-<a name="ln-114"></a>        <span class="c">!</span>
-<a name="ln-115"></a>        <span class="k">call </span><span class="n">figure_out_cell_dimensions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
-<a name="ln-116"></a>        <span class="c">!</span>
-<a name="ln-117"></a>    <span class="k">else</span>
-<a name="ln-118"></a><span class="k">        call </span><span class="n">ss</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar&#39;</span><span class="p">)</span>
-<a name="ln-119"></a>        <span class="c">! cell mapping</span>
-<a name="ln-120"></a>        <span class="k">call </span><span class="n">figure_out_cell_dimensions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
-<a name="ln-121"></a>        <span class="c">!</span>
-<a name="ln-122"></a>    <span class="n">endif</span>
-<a name="ln-123"></a>    <span class="c">!</span>
-<a name="ln-124"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... read simulation&#39;</span>
-<a name="ln-125"></a>    <span class="c">!</span>
-<a name="ln-126"></a><span class="n">endif</span>
-<a name="ln-127"></a><span class="c">!</span>
-<a name="ln-128"></a><span class="c">! Get the q-grid</span>
-<a name="ln-129"></a><span class="c">!</span>
-<a name="ln-130"></a><span class="k">call </span><span class="n">qp</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">supercelldimensions</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-131"></a><span class="c">!</span>
-<a name="ln-132"></a><span class="c">! Kill it if there are no forceconstants present</span>
-<a name="ln-133"></a><span class="c">!</span>
-<a name="ln-134"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">useforceconstant</span> <span class="p">.</span><span class="n">eqv</span><span class="p">.</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-135"></a>    <span class="c">!</span>
-<a name="ln-136"></a>    <span class="k">do </span><span class="n">sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-137"></a>        <span class="c">! make space</span>
-<a name="ln-138"></a>        <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">nt</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">ts</span><span class="p">)</span>
-<a name="ln-139"></a>        <span class="c">! sort and transform it</span>
-<a name="ln-140"></a>        <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">sortandtransform</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">),</span><span class="n">ss</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
-<a name="ln-141"></a>    <span class="n">enddo</span>
-<a name="ln-142"></a>    <span class="c">!</span>
-<a name="ln-143"></a>    <span class="c">! Write the raw acf data to file</span>
-<a name="ln-144"></a>    <span class="c">!</span>
-<a name="ln-145"></a>    <span class="k">call </span><span class="n">dump_raw_spectrum</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">dr</span><span class="p">)</span>
-<a name="ln-146"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Now I have done everything there is to do without forceconstants.&#39;</span>
-<a name="ln-147"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Nag on me to fix the output here.&#39;</span>
-<a name="ln-148"></a>    <span class="k">stop</span>
-<a name="ln-149"></a><span class="n">endif</span>
-<a name="ln-150"></a><span class="c">!</span>
-<a name="ln-151"></a><span class="c">! Read the force constants and get the dispersions at the exact q-points</span>
-<a name="ln-152"></a><span class="c">!</span>
-<a name="ln-153"></a><span class="k">call </span><span class="n">fc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="n">uc</span><span class="p">)</span>
-<a name="ln-154"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">loto</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-155"></a><span class="k">    call </span><span class="n">loto</span><span class="p">%</span><span class="n">setoptions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">lotocorrectiontype</span><span class="p">)</span>
-<a name="ln-156"></a><span class="k">else</span>
-<a name="ln-157"></a><span class="k">    call </span><span class="n">loto</span><span class="p">%</span><span class="n">initempty</span><span class="p">()</span>
-<a name="ln-158"></a><span class="n">endif</span>
-<a name="ln-159"></a><span class="k">call </span><span class="n">dr</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">loto</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-160"></a><span class="c">!</span>
-<a name="ln-161"></a><span class="c">! Get dispersions along a path</span>
-<a name="ln-162"></a><span class="c">!</span>
-<a name="ln-163"></a><span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">loto</span><span class="p">,</span><span class="n">npts</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nqpath</span><span class="p">,</span><span class="n">readpathfromfile</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">readpathfromfile</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-164"></a><span class="c">!</span>
-<a name="ln-165"></a><span class="c">! Setup the intensity</span>
-<a name="ln-166"></a><span class="c">!</span>
-<a name="ln-167"></a><span class="n">lo_allocate</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">intensity</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">nptot</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">))</span>
-<a name="ln-168"></a><span class="n">lo_allocate</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">))</span>
-<a name="ln-169"></a><span class="n">bs</span><span class="p">%</span><span class="n">intensity</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-170"></a><span class="k">call </span><span class="n">lo_linspace</span><span class="p">(</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">maxfscale</span><span class="o">*</span><span class="n">dr</span><span class="p">%</span><span class="n">omega_max</span><span class="p">,</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">)</span>
-<a name="ln-171"></a><span class="c">!</span>
-<a name="ln-172"></a><span class="c">! Set up the DOS</span>
-<a name="ln-173"></a><span class="c">!</span>
-<a name="ln-174"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dos</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-175"></a>    <span class="c">!</span>
-<a name="ln-176"></a>    <span class="c">! get the mesh</span>
-<a name="ln-177"></a>    <span class="k">call </span><span class="n">dosqp</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">qgrid</span><span class="p">)</span>
-<a name="ln-178"></a>    <span class="c">! Get the full dispersion relations</span>
-<a name="ln-179"></a>    <span class="k">call </span><span class="n">dosdr</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">dosqp</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">loto</span><span class="p">)</span>
-<a name="ln-180"></a>    <span class="c">!</span>
-<a name="ln-181"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span>
-<a name="ln-182"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">na</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span>
-<a name="ln-183"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">nb</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span>
-<a name="ln-184"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dosmax</span><span class="o">=</span><span class="nb">maxval</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">)</span>
-<a name="ln-185"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dosmin</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-186"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dosprojection</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">projecteddos</span>
-<a name="ln-187"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">omega</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
-<a name="ln-188"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
-<a name="ln-189"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="p">))</span>
-<a name="ln-190"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">pdos_mode</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span><span class="p">))</span>
-<a name="ln-191"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">omega</span><span class="o">=</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span>
-<a name="ln-192"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-193"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-194"></a>    <span class="c">!</span>
-<a name="ln-195"></a>    <span class="c">! Setup the unsmeared DOS</span>
-<a name="ln-196"></a>    <span class="c">!</span>
-<a name="ln-197"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span>
-<a name="ln-198"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">na</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span>
-<a name="ln-199"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">nb</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span>
-<a name="ln-200"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dosmax</span><span class="o">=</span><span class="nb">maxval</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">)</span>
-<a name="ln-201"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dosmin</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-202"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dosprojection</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">projecteddos</span>
-<a name="ln-203"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">omega</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
-<a name="ln-204"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
-<a name="ln-205"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="p">))</span>
-<a name="ln-206"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_mode</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span><span class="p">))</span>
-<a name="ln-207"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">omega</span><span class="o">=</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span>
-<a name="ln-208"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-209"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-210"></a>    <span class="c">!</span>
-<a name="ln-211"></a><span class="n">endif</span>
-<a name="ln-212"></a><span class="c">!</span>
-<a name="ln-213"></a><span class="k">do </span><span class="n">sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-214"></a>    <span class="c">! make space</span>
-<a name="ln-215"></a>    <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">nt</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">ts</span><span class="p">)</span>
-<a name="ln-216"></a>    <span class="c">! sort and transform it</span>
-<a name="ln-217"></a>    <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">sortandtransform</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">),</span><span class="n">ss</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
-<a name="ln-218"></a>    <span class="c">! project onto normal modes</span>
-<a name="ln-219"></a>    <span class="k">call </span><span class="n">project_onto_normalmodes</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">dr</span><span class="p">)</span>
-<a name="ln-220"></a>    <span class="c">! enforce symmetry</span>
-<a name="ln-221"></a>    <span class="k">call </span><span class="n">enforcesymmetry</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
-<a name="ln-222"></a>    <span class="c">! shift lineshapes</span>
-<a name="ln-223"></a>    <span class="k">call </span><span class="n">shift_all_lineshapes_to_harmonic_frequencies</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">maxfscale</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
-<a name="ln-224"></a>    <span class="c">! add them to S(q,E)</span>
-<a name="ln-225"></a>    <span class="k">call </span><span class="n">interpolate_lineshapes_to_path</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">bs</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
-<a name="ln-226"></a>    <span class="c">! maybe add to DOS</span>
-<a name="ln-227"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dos</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-228"></a>        <span class="c">! add the nice interpolated</span>
-<a name="ln-229"></a>        <span class="k">call </span><span class="n">interpolate_lineshapes_to_dos</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">pd</span><span class="p">,</span><span class="n">dosqp</span><span class="p">,</span><span class="n">dosdr</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
-<a name="ln-230"></a>        <span class="c">!</span>
+<a name="ln-51"></a><span class="k">call </span><span class="n">lo_seed_random_numbers</span><span class="p">()</span>
+<a name="ln-52"></a><span class="k">call </span><span class="n">opts</span><span class="p">%</span><span class="n">parse</span><span class="p">()</span>
+<a name="ln-53"></a><span class="c">!</span>
+<a name="ln-54"></a><span class="c">! I need the underlying unitcell</span>
+<a name="ln-55"></a><span class="c">!</span>
+<a name="ln-56"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ucposcar&#39;</span><span class="p">)</span>
+<a name="ln-57"></a>
+<a name="ln-58"></a><span class="c">! Read simulation, or create one.</span>
+<a name="ln-59"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">fcmd</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-60"></a>    <span class="c">! Loop over samples</span>
+<a name="ln-61"></a>    <span class="k">allocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nsample</span><span class="p">))</span>
+<a name="ln-62"></a>    <span class="k">do </span><span class="n">sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nsample</span>
+<a name="ln-63"></a>        <span class="c">! initialize the MD cell        </span>
+<a name="ln-64"></a>        <span class="k">call </span><span class="n">fcmd</span><span class="p">%</span><span class="n">setupcell</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_temperature</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_ssdim</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_timestep</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_langevingamma</span><span class="p">)</span>
+<a name="ln-65"></a>        <span class="c">! get an MD simulation</span>
+<a name="ln-66"></a>        <span class="k">call </span><span class="n">fcmd</span><span class="p">%</span><span class="n">equilibrate</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nskip</span><span class="p">)</span>
+<a name="ln-67"></a>        <span class="k">call </span><span class="n">fcmd</span><span class="p">%</span><span class="n">run_md</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">),</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_nt</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">fcmd_storestep</span><span class="p">)</span>
+<a name="ln-68"></a>        <span class="c">! setup stuff for acf</span>
+<a name="ln-69"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">alloy</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-70"></a><span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;not done yet.&#39;</span>
+<a name="ln-71"></a>            <span class="k">stop</span>
+<a name="ln-72"></a>            <span class="c">!ss=fcmd%ss</span>
+<a name="ln-73"></a>            <span class="c">!ss_sqs=fcmd%sqs </span>
+<a name="ln-74"></a>            <span class="c">!call sims(sample)%reorder_timesteps(ss_sqs,ss)</span>
+<a name="ln-75"></a>            <span class="c">!call figure_out_cell_dimensions(uc,ss)</span>
+<a name="ln-76"></a>        <span class="k">else</span>
+<a name="ln-77"></a><span class="k">            </span><span class="n">ss</span><span class="o">=</span><span class="n">fcmd</span><span class="p">%</span><span class="n">ss</span>
+<a name="ln-78"></a>            <span class="k">call </span><span class="n">figure_out_cell_dimensions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
+<a name="ln-79"></a>        <span class="n">endif</span>
+<a name="ln-80"></a>        <span class="c">! Deallocate some of the simulation</span>
+<a name="ln-81"></a>        <span class="k">deallocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">)%</span><span class="n">r</span><span class="p">)</span>
+<a name="ln-82"></a>        <span class="k">deallocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">)%</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-83"></a>        <span class="k">deallocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">)%</span><span class="n">f</span><span class="p">)</span>
+<a name="ln-84"></a>    <span class="n">enddo</span>
+<a name="ln-85"></a><span class="k">else</span>
+<a name="ln-86"></a>    <span class="c">! </span>
+<a name="ln-87"></a>    <span class="c">! In this case, things are read from files.</span>
+<a name="ln-88"></a>    <span class="c">!</span>
+<a name="ln-89"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-90"></a>    <span class="k">call </span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
+<a name="ln-91"></a>    <span class="c">!</span>
+<a name="ln-92"></a>    <span class="c">! Might need some extra info</span>
+<a name="ln-93"></a>    <span class="c">!</span>
+<a name="ln-94"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">alloy</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-95"></a>        <span class="c">!</span>
+<a name="ln-96"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... its an alloy! Sorting a bit&#39;</span>
+<a name="ln-97"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Also, not done.&#39;</span>
+<a name="ln-98"></a>        <span class="k">stop</span>
+<a name="ln-99"></a>     <span class="c">!   !</span>
+<a name="ln-100"></a>     <span class="c">!   ! Get the perfect positions in alloy thingy</span>
+<a name="ln-101"></a>     <span class="c">!   call ss%readfromfile(&#39;infile.sqs_alloy_supercell&#39;)</span>
+<a name="ln-102"></a>     <span class="c">!   ! and the ideal structure of the sqs</span>
+<a name="ln-103"></a>     <span class="c">!   call ss_sqs%readfromfile(&#39;infile.sqs&#39;)</span>
+<a name="ln-104"></a>     <span class="c">!   ! and now reorder the positions in sim</span>
+<a name="ln-105"></a>     <span class="c">!   call sims(1)%reorder_timesteps(ss_sqs,ss)</span>
+<a name="ln-106"></a>     <span class="c">!   ! and get the cell mapping</span>
+<a name="ln-107"></a>     <span class="c">!   call figure_out_cell_dimensions(uc,ss)</span>
+<a name="ln-108"></a>    <span class="n">elseif</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">vacancies</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-109"></a>        <span class="c">! get the perfect structure</span>
+<a name="ln-110"></a>        <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar_novacancies&#39;</span><span class="p">)</span>
+<a name="ln-111"></a>        <span class="c">! get the perfect structure with vacancies</span>
+<a name="ln-112"></a>        <span class="k">call </span><span class="n">ss_vac</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar&#39;</span><span class="p">)</span>
+<a name="ln-113"></a>        <span class="c">!</span>
+<a name="ln-114"></a>        <span class="k">call </span><span class="n">figure_out_cell_dimensions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
+<a name="ln-115"></a>        <span class="c">!</span>
+<a name="ln-116"></a>    <span class="k">else</span>
+<a name="ln-117"></a><span class="k">        call </span><span class="n">ss</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar&#39;</span><span class="p">)</span>
+<a name="ln-118"></a>        <span class="c">! cell mapping</span>
+<a name="ln-119"></a>        <span class="k">call </span><span class="n">figure_out_cell_dimensions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
+<a name="ln-120"></a>        <span class="c">!</span>
+<a name="ln-121"></a>    <span class="n">endif</span>
+<a name="ln-122"></a>    <span class="c">!</span>
+<a name="ln-123"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... read simulation&#39;</span>
+<a name="ln-124"></a>    <span class="c">!</span>
+<a name="ln-125"></a><span class="n">endif</span>
+<a name="ln-126"></a><span class="c">!</span>
+<a name="ln-127"></a><span class="c">! Get the q-grid</span>
+<a name="ln-128"></a><span class="c">!</span>
+<a name="ln-129"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Fix autocorrelation&#39;</span>
+<a name="ln-130"></a><span class="k">stop</span>
+<a name="ln-131"></a><span class="c">!call qp%generate(uc,ss%info%supercelldimensions,verbosity=opts%verbosity)</span>
+<a name="ln-132"></a><span class="c">!</span>
+<a name="ln-133"></a><span class="c">! Kill it if there are no forceconstants present</span>
+<a name="ln-134"></a><span class="c">!</span>
+<a name="ln-135"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">useforceconstant</span> <span class="p">.</span><span class="n">eqv</span><span class="p">.</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-136"></a>    <span class="c">!</span>
+<a name="ln-137"></a>    <span class="k">do </span><span class="n">sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-138"></a>        <span class="c">! make space</span>
+<a name="ln-139"></a>        <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">nt</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">ts</span><span class="p">)</span>
+<a name="ln-140"></a>        <span class="c">! sort and transform it</span>
+<a name="ln-141"></a>        <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">sortandtransform</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">),</span><span class="n">ss</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
+<a name="ln-142"></a>    <span class="n">enddo</span>
+<a name="ln-143"></a>    <span class="c">!</span>
+<a name="ln-144"></a>    <span class="c">! Write the raw acf data to file</span>
+<a name="ln-145"></a>    <span class="c">!</span>
+<a name="ln-146"></a>    <span class="k">call </span><span class="n">dump_raw_spectrum</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">dr</span><span class="p">)</span>
+<a name="ln-147"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Now I have done everything there is to do without forceconstants.&#39;</span>
+<a name="ln-148"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Nag on me to fix the output here.&#39;</span>
+<a name="ln-149"></a>    <span class="k">stop</span>
+<a name="ln-150"></a><span class="n">endif</span>
+<a name="ln-151"></a><span class="c">!</span>
+<a name="ln-152"></a><span class="c">! Read the force constants and get the dispersions at the exact q-points</span>
+<a name="ln-153"></a><span class="c">!</span>
+<a name="ln-154"></a><span class="k">call </span><span class="n">fc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="s1">&#39;infile.forceconstant&#39;</span><span class="p">)</span>
+<a name="ln-155"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">loto</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-156"></a><span class="k">    call </span><span class="n">loto</span><span class="p">%</span><span class="n">setoptions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">lotocorrectiontype</span><span class="p">)</span>
+<a name="ln-157"></a><span class="k">else</span>
+<a name="ln-158"></a><span class="k">    call </span><span class="n">loto</span><span class="p">%</span><span class="n">initempty</span><span class="p">()</span>
+<a name="ln-159"></a><span class="n">endif</span>
+<a name="ln-160"></a><span class="k">call </span><span class="n">dr</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">loto</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
+<a name="ln-161"></a><span class="c">!</span>
+<a name="ln-162"></a><span class="c">! Get dispersions along a path</span>
+<a name="ln-163"></a><span class="c">!</span>
+<a name="ln-164"></a><span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">loto</span><span class="p">,</span><span class="n">npts</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nqpath</span><span class="p">,</span><span class="n">readpathfromfile</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">readpathfromfile</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
+<a name="ln-165"></a><span class="c">!</span>
+<a name="ln-166"></a><span class="c">! Setup the intensity</span>
+<a name="ln-167"></a><span class="c">!</span>
+<a name="ln-168"></a><span class="n">lo_allocate</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">intensity</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">nptot</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">))</span>
+<a name="ln-169"></a><span class="n">lo_allocate</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">))</span>
+<a name="ln-170"></a><span class="n">bs</span><span class="p">%</span><span class="n">intensity</span><span class="o">=</span><span class="mf">0.0_flyt</span>
+<a name="ln-171"></a><span class="k">call </span><span class="n">lo_linspace</span><span class="p">(</span><span class="mf">0.0_flyt</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">maxfscale</span><span class="o">*</span><span class="n">dr</span><span class="p">%</span><span class="n">omega_max</span><span class="p">,</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">)</span>
+<a name="ln-172"></a><span class="c">!</span>
+<a name="ln-173"></a><span class="c">! Set up the DOS</span>
+<a name="ln-174"></a><span class="c">!</span>
+<a name="ln-175"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dos</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-176"></a>    <span class="c">!</span>
+<a name="ln-177"></a>    <span class="c">! get the mesh</span>
+<a name="ln-178"></a>    <span class="k">call </span><span class="n">dosqp</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">qgrid</span><span class="p">)</span>
+<a name="ln-179"></a>    <span class="c">! Get the full dispersion relations</span>
+<a name="ln-180"></a>    <span class="k">call </span><span class="n">dosdr</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">dosqp</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">loto</span><span class="p">)</span>
+<a name="ln-181"></a>    <span class="c">!</span>
+<a name="ln-182"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span>
+<a name="ln-183"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">na</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span>
+<a name="ln-184"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">nb</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span>
+<a name="ln-185"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dosmax</span><span class="o">=</span><span class="nb">maxval</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">)</span>
+<a name="ln-186"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dosmin</span><span class="o">=</span><span class="mf">0.0_flyt</span>
+<a name="ln-187"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dosprojection</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">projecteddos</span>
+<a name="ln-188"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">omega</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
+<a name="ln-189"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
+<a name="ln-190"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="p">))</span>
+<a name="ln-191"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">pdos_mode</span><span class="p">(</span><span class="n">pd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-192"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">omega</span><span class="o">=</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span>
+<a name="ln-193"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="mf">0.0_flyt</span>
+<a name="ln-194"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="mf">0.0_flyt</span>
+<a name="ln-195"></a>    <span class="c">!</span>
+<a name="ln-196"></a>    <span class="c">! Setup the unsmeared DOS</span>
+<a name="ln-197"></a>    <span class="c">!</span>
+<a name="ln-198"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span>
+<a name="ln-199"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">na</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span>
+<a name="ln-200"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">nb</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span>
+<a name="ln-201"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dosmax</span><span class="o">=</span><span class="nb">maxval</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">)</span>
+<a name="ln-202"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dosmin</span><span class="o">=</span><span class="mf">0.0_flyt</span>
+<a name="ln-203"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dosprojection</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">projecteddos</span>
+<a name="ln-204"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">omega</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
+<a name="ln-205"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">))</span>
+<a name="ln-206"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="p">))</span>
+<a name="ln-207"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_mode</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">ndos</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="o">*</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-208"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">omega</span><span class="o">=</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span>
+<a name="ln-209"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="mf">0.0_flyt</span>
+<a name="ln-210"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="mf">0.0_flyt</span>
+<a name="ln-211"></a>    <span class="c">!</span>
+<a name="ln-212"></a><span class="n">endif</span>
+<a name="ln-213"></a><span class="c">!</span>
+<a name="ln-214"></a><span class="k">do </span><span class="n">sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-215"></a>    <span class="c">! make space</span>
+<a name="ln-216"></a>    <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">nt</span><span class="p">,</span><span class="n">sims</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">ts</span><span class="p">)</span>
+<a name="ln-217"></a>    <span class="c">! sort and transform it</span>
+<a name="ln-218"></a>    <span class="k">call </span><span class="n">acf</span><span class="p">%</span><span class="n">sortandtransform</span><span class="p">(</span><span class="n">sims</span><span class="p">(</span><span class="n">sample</span><span class="p">),</span><span class="n">ss</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
+<a name="ln-219"></a>    <span class="c">! project onto normal modes</span>
+<a name="ln-220"></a>    <span class="k">call </span><span class="n">project_onto_normalmodes</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">dr</span><span class="p">)</span>
+<a name="ln-221"></a>    <span class="c">! enforce symmetry</span>
+<a name="ln-222"></a>    <span class="k">call </span><span class="n">enforcesymmetry</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
+<a name="ln-223"></a>    <span class="c">! shift lineshapes</span>
+<a name="ln-224"></a>    <span class="k">call </span><span class="n">shift_all_lineshapes_to_harmonic_frequencies</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">maxfscale</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">)</span>
+<a name="ln-225"></a>    <span class="c">! add them to S(q,E)</span>
+<a name="ln-226"></a>    <span class="k">call </span><span class="n">interpolate_lineshapes_to_path</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">bs</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
+<a name="ln-227"></a>    <span class="c">! maybe add to DOS</span>
+<a name="ln-228"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dos</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-229"></a>        <span class="c">! add the nice interpolated</span>
+<a name="ln-230"></a>        <span class="k">call </span><span class="n">interpolate_lineshapes_to_dos</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">pd</span><span class="p">,</span><span class="n">dosqp</span><span class="p">,</span><span class="n">dosdr</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
 <a name="ln-231"></a>        <span class="k">call </span><span class="n">add_raw_spectrum_to_dos</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">dr</span><span class="p">,</span><span class="n">rawpd</span><span class="p">)</span>
-<a name="ln-232"></a>        <span class="c">!</span>
-<a name="ln-233"></a>    <span class="n">endif</span>
-<a name="ln-234"></a><span class="n">enddo</span>
-<a name="ln-235"></a><span class="c">!</span>
-<a name="ln-236"></a><span class="c">! Write the lineshapes to file</span>
-<a name="ln-237"></a><span class="c">!</span>
-<a name="ln-238"></a><span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">write_intensity</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="n">omegamax</span><span class="o">=</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">),</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;outfile.acf_sqe&#39;</span><span class="p">)</span>
-<a name="ln-239"></a><span class="c">!</span>
-<a name="ln-240"></a><span class="c">! Dump the named points</span>
-<a name="ln-241"></a><span class="c">!</span>
-<a name="ln-242"></a><span class="k">call </span><span class="n">dump_highsymm_points</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">bs</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">)</span>
-<a name="ln-243"></a><span class="c">!</span>
-<a name="ln-244"></a><span class="c">! Dump the DOS</span>
-<a name="ln-245"></a><span class="c">!</span>
-<a name="ln-246"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dos</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-247"></a>    <span class="c">! the nice dos</span>
-<a name="ln-248"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0_flyt</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<a name="ln-249"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0_flyt</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<a name="ln-250"></a>    <span class="k">call </span><span class="n">pd</span><span class="p">%</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="n">pdfplot</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;outfile.acf_interpolated_dos&#39;</span><span class="p">,</span><span class="n">modeproj</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
-<a name="ln-251"></a>    <span class="c">! the raw dos</span>
-<a name="ln-252"></a>    <span class="n">f0</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">nb</span><span class="o">/</span><span class="n">lo_trapezoid_integration</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">omega</span><span class="p">,</span><span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="p">)</span>
-<a name="ln-253"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="o">*</span><span class="n">f0</span>
-<a name="ln-254"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">*</span><span class="n">f0</span>
-<a name="ln-255"></a>    <span class="k">call </span><span class="n">rawpd</span><span class="p">%</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="n">pdfplot</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;outfile.acf_raw_dos&#39;</span><span class="p">,</span><span class="n">modeproj</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
-<a name="ln-256"></a><span class="n">endif</span>
-<a name="ln-257"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;All done!&#39;</span>
-<a name="ln-258"></a>
-<a name="ln-259"></a><span class="k">end program</span>
+<a name="ln-232"></a>    <span class="n">endif</span>
+<a name="ln-233"></a><span class="n">enddo</span>
+<a name="ln-234"></a>
+<a name="ln-235"></a><span class="c">! Write the lineshapes to file</span>
+<a name="ln-236"></a><span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">write_intensity</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="n">omegamax</span><span class="o">=</span><span class="n">bs</span><span class="p">%</span><span class="n">faxis</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">nf</span><span class="p">),</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;outfile.acf_sqe&#39;</span><span class="p">)</span>
+<a name="ln-237"></a>
+<a name="ln-238"></a><span class="c">! Dump the named points</span>
+<a name="ln-239"></a><span class="k">call </span><span class="n">dump_highsymm_points</span><span class="p">(</span><span class="n">acf</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">bs</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">)</span>
+<a name="ln-240"></a>
+<a name="ln-241"></a><span class="c">! Dump the DOS</span>
+<a name="ln-242"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dos</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-243"></a>    <span class="c">! the nice dos</span>
+<a name="ln-244"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="n">pd</span><span class="p">%</span><span class="n">dos</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0_flyt</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-245"></a>    <span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="n">pd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0_flyt</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-246"></a>    <span class="k">call </span><span class="n">pd</span><span class="p">%</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="n">pdfplot</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;outfile.acf_interpolated_dos&#39;</span><span class="p">,</span><span class="n">modeproj</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+<a name="ln-247"></a>    <span class="c">! the raw dos</span>
+<a name="ln-248"></a>    <span class="n">f0</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">nb</span><span class="o">/</span><span class="n">lo_trapezoid_integration</span><span class="p">(</span><span class="n">rawpd</span><span class="p">%</span><span class="n">omega</span><span class="p">,</span><span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="p">)</span>
+<a name="ln-249"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="o">=</span><span class="n">rawpd</span><span class="p">%</span><span class="n">dos</span><span class="o">*</span><span class="n">f0</span>
+<a name="ln-250"></a>    <span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">=</span><span class="n">rawpd</span><span class="p">%</span><span class="n">pdos_site</span><span class="o">*</span><span class="n">f0</span>
+<a name="ln-251"></a>    <span class="k">call </span><span class="n">rawpd</span><span class="p">%</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="n">pdfplot</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;outfile.acf_raw_dos&#39;</span><span class="p">,</span><span class="n">modeproj</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+<a name="ln-252"></a><span class="n">endif</span>
+<a name="ln-253"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;All done!&#39;</span>
+<a name="ln-254"></a>
+<a name="ln-255"></a><span class="k">end program</span>
 </pre></div>
 
     </section>
@@ -547,6 +549,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allfiles-1">All Source Files</a></h3></div>
   <div id="allfiles-1" class="panel-collapse collapse">
     <div class="list-group">
+      
+      <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
       <a class="list-group-item" href="../sourcefile/main.f90.html">main.f90</a>
       

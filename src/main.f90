@@ -24,7 +24,7 @@ integer :: i
 integer, dimension(3) :: qdim
 real(flyt) :: ep,ek,temp,avgtemp
 real(flyt) :: f0,f1,alpha,step
-character(len=72) :: fname
+character(len=1000) :: fname
 
 ! Get CLI options
 call opts%parse()
@@ -33,12 +33,14 @@ call lo_seed_random_numbers()
 
 ! Read structures
 write(*,*) '... reading infiles'
-call ss%readfromfile('infile.ssposcar')
-call uc%readfromfile('infile.ucposcar')
+call ss%readfromfile('infile.ssposcar',verbosity=opts%verbosity)
+call uc%readfromfile('infile.ucposcar',verbosity=opts%verbosity)
+! Match the supercell to the unitcell, always a good idea
+call ss%classify('supercell',uc)
 
 ! get a forceconstant somehow
 if ( opts%debye_temperature .gt. 0.0_flyt ) then
-    call fc%fake_forceconstant(uc,ss,opts%debye_temperature)
+    call fc%fake_forceconstant(uc,ss,opts%debye_temperature,verbosity=opts%verbosity)
     write(*,*) '... constructed fake forceconstant corresponding to Td=',trim(flyt2char(opts%debye_temperature))
     ! dump the stupid forceconstant
     call fc%writetofile(uc,'outfile.fakeforceconstant')
@@ -46,7 +48,7 @@ if ( opts%debye_temperature .gt. 0.0_flyt ) then
     ! now we have a fake forceconstant and can keep going!
 else
     ! read the forceconstant from file
-    call fc%readfromfile(uc)
+    call fc%readfromfile(uc,'infile.forceconstant')
 endif
 
 ! Remap force constant to supercell
@@ -92,5 +94,7 @@ do i=1,opts%nconf
     avgtemp=avgtemp+temp
     write(*,"(1X,'conf:',I4,' ek:',F10.5,' ep:',F10.5,' temp:',F10.2,' mean temp',F10.2)") i,ek,ep,temp,avgtemp/i
 enddo
+
+contains
 
 end program

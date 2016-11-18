@@ -11,7 +11,7 @@
     <meta name="sourcefile" content="">
     <link rel="icon" href="../favicon.png">
 
-    <title>get_intensity_along_path &ndash; TDEP</title>
+    <title>optimize &ndash; TDEP</title>
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
@@ -99,7 +99,7 @@
     
   
   <div class="row">
-    <h1>get_intensity_along_path
+    <h1>optimize
     <small>Subroutine</small>
     
     </h1>
@@ -115,14 +115,16 @@
     
     
      
-    <li><i class="fa fa-code"></i><a href="../src/phonondamping_path.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/magneticdisorder.f90"> Source File</a></li>
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
-     <li><a href='../sourcefile/phonondamping_path.f90.html'>phonondamping_path.f90</a></li>
+     <li><a href='../sourcefile/magneticdisorder.f90.html'>magneticdisorder.f90</a></li>
   
-     <li class="active">get_intensity_along_path</li>
+     <li><a href='../module/magneticdisorder.html'>magneticdisorder</a></li>
+  
+     <li class="active">optimize</li>
   </ol>
 </div>
 </div>
@@ -204,11 +206,11 @@
 
     
     <h3>Description</h3>
-    <p>calculate the intensity along a path</p>
+    <p>generate optimized configuration</p>
     
 
     <h2>
-subroutine get_intensity_along_path(bs, uc, fc, fct, fcf, qp, dr, loto, opts, mw, lsmpi)
+private subroutine optimize(mag, ss, nconf, nbin)
     
     
 	 
@@ -236,12 +238,12 @@ subroutine get_intensity_along_path(bs, uc, fc, fct, fcf, qp, dr, loto, opts, mw
   
 <tr>
   
-  <td><span class="anchor" id="variable-bs"></span>type(lo_phonon_bandstructure),</td>
+  <td><span class="anchor" id="variable-mag%7E3"></span>class(<a href='../type/lo_magdisorder.html'>lo_magdisorder</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>bs</strong></td><td><p>the bandstructure</p></td>
+  <td><strong>mag</strong></td><td><p>shells and stuff</p></td>
   
 </tr>
 
@@ -251,27 +253,12 @@ subroutine get_intensity_along_path(bs, uc, fc, fct, fcf, qp, dr, loto, opts, mw
   
 <tr>
   
-  <td><span class="anchor" id="variable-uc%7E4"></span>type(lo_crystalstructure),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>uc</strong></td><td><p>crystal structure</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-fc%7E4"></span>type(lo_forceconstant_secondorder),</td>
+  <td><span class="anchor" id="variable-ss"></span>type(lo_crystalstructure),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fc</strong></td><td><p>second order force constant</p></td>
+  <td><strong>ss</strong></td><td><p>crystal structure</p></td>
   
 </tr>
 
@@ -281,12 +268,12 @@ subroutine get_intensity_along_path(bs, uc, fc, fct, fcf, qp, dr, loto, opts, mw
   
 <tr>
   
-  <td><span class="anchor" id="variable-fct%7E3"></span>type(lo_forceconstant_thirdorder),</td>
+  <td><span class="anchor" id="variable-nconf%7E2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fct</strong></td><td><p>third order force constant</p></td>
+  <td><strong>nconf</strong></td><td><p>how many configurations do I want in each bin?</p></td>
   
 </tr>
 
@@ -296,102 +283,12 @@ subroutine get_intensity_along_path(bs, uc, fc, fct, fcf, qp, dr, loto, opts, mw
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcf%7E4"></span>type(lo_forceconstant_fourthorder),</td>
+  <td><span class="anchor" id="variable-nbin%7E2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fcf</strong></td><td><p>fourth order force constant</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-qp%7E4"></span>type(lo_monkhorst_pack_mesh),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>qp</strong></td><td><p>q-point mesh</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-dr%7E4"></span>type(lo_phonon_dispersions),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>dr</strong></td><td><p>harmonic properties on this mesh</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-loto%7E4"></span>type(lo_loto),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>loto</strong></td><td><p>electrostatic corrections</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-opts%7E3"></span>type(lo_opts),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>opts</strong></td><td><p>all settings</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-mw%7E2"></span>type(lo_mpiinfo),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>mw</strong></td><td><p>mpi communicator</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-lsmpi%7E2"></span>type(lo_lsmpi),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>lsmpi</strong></td><td><p>mpi helper</p></td>
+  <td><strong>nbin</strong></td><td><p>how many bins?</p></td>
   
 </tr>
 
@@ -408,106 +305,152 @@ subroutine get_intensity_along_path(bs, uc, fc, fct, fcf, qp, dr, loto, opts, mw
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.38.0 (20140413.2041)
  -->
-<!-- Title: proc~~get_intensity_along_path~~CallsGraph Pages: 1 -->
-<svg id="procget_intensity_along_pathCallsGraph" width="292pt" height="359pt"
- viewBox="0.00 0.00 292.16 358.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~get_intensity_along_path~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 354.5)">
-<title>proc~~get_intensity_along_path~~CallsGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-354.5 288.161,-354.5 288.161,4 -4,4"/>
-<!-- proc~get_intensity_along_path -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node1" class="node"><title>proc~get_intensity_along_path</title>
-<polygon fill="none" stroke="black" points="128.642,-186.255 0.119164,-186.255 0.119164,-164.245 128.642,-164.245 128.642,-186.255"/>
-<text text-anchor="middle" x="64.3806" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50">get_intensity_along_path</text>
+<!-- Title: proc~~optimize~~CallsGraph Pages: 1 -->
+<svg id="procoptimizeCallsGraph" width="422pt" height="482pt"
+ viewBox="0.00 0.00 421.84 481.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~optimize~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 477.5)">
+<title>proc~~optimize~~CallsGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-477.5 417.838,-477.5 417.838,4 -4,4"/>
+<!-- proc~optimize -->
+<g id="proc~~optimize~~CallsGraph_node1" class="node"><title>proc~optimize</title>
+<polygon fill="none" stroke="black" points="54,-247.255 0,-247.255 0,-225.245 54,-225.245 54,-247.255"/>
+<text text-anchor="middle" x="27" y="-233.1" font-family="Helvetica,sans-Serif" font-size="10.50">optimize</text>
 </g>
-<!-- lo_progressbar -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node2" class="node"><title>lo_progressbar</title>
-<polygon fill="#777777" stroke="#777777" points="265.5,-350.255 183.422,-350.255 183.422,-328.245 265.5,-328.245 265.5,-350.255"/>
-<text text-anchor="middle" x="224.461" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_progressbar</text>
+<!-- lo_mean -->
+<g id="proc~~optimize~~CallsGraph_node2" class="node"><title>lo_mean</title>
+<polygon fill="#777777" stroke="#777777" points="185.457,-473.255 131.457,-473.255 131.457,-451.245 185.457,-451.245 185.457,-473.255"/>
+<text text-anchor="middle" x="158.457" y="-459.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_mean</text>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;lo_progressbar -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge1" class="edge"><title>proc~get_intensity_along_path&#45;&gt;lo_progressbar</title>
-<path fill="none" stroke="#000000" d="M70.1301,-186.302C82.0946,-212.882 116.034,-280.937 164.761,-318.25 167.683,-320.487 170.864,-322.501 174.184,-324.31"/>
-<polygon fill="#000000" stroke="#000000" points="172.683,-327.472 183.214,-328.638 175.709,-321.16 172.683,-327.472"/>
+<!-- proc~optimize&#45;&gt;lo_mean -->
+<g id="proc~~optimize~~CallsGraph_edge2" class="edge"><title>proc~optimize&#45;&gt;lo_mean</title>
+<path fill="none" stroke="#000000" d="M27.9454,-247.376C28.3986,-281.425 34.4876,-385.286 90,-441.25 98.4178,-449.736 110.202,-454.805 121.57,-457.828"/>
+<polygon fill="#000000" stroke="#000000" points="120.838,-461.25 131.358,-459.992 122.349,-454.416 120.838,-461.25"/>
 </g>
-<!-- lo_linear_interpolation -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node3" class="node"><title>lo_linear_interpolation</title>
-<polygon fill="#777777" stroke="#777777" points="281.7,-309.255 167.222,-309.255 167.222,-287.245 281.7,-287.245 281.7,-309.255"/>
-<text text-anchor="middle" x="224.461" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_linear_interpolation</text>
+<!-- proc~random_unit_vector -->
+<g id="proc~~optimize~~CallsGraph_node3" class="node"><title>proc~random_unit_vector</title>
+<g id="a_proc~~optimize~~CallsGraph_node3"><a xlink:href="../proc/random_unit_vector.html" xlink:title="random_unit_vector">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="210.76,-432.255 106.153,-432.255 106.153,-410.245 210.76,-410.245 210.76,-432.255"/>
+<text text-anchor="middle" x="158.457" y="-418.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_unit_vector</text>
+</a>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;lo_linear_interpolation -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge2" class="edge"><title>proc~get_intensity_along_path&#45;&gt;lo_linear_interpolation</title>
-<path fill="none" stroke="#000000" d="M73.4201,-186.377C88.8898,-207.047 124.822,-251.594 164.761,-277.25 168.098,-279.393 171.682,-281.353 175.374,-283.139"/>
-<polygon fill="#000000" stroke="#000000" points="174.131,-286.415 184.696,-287.221 176.94,-280.003 174.131,-286.415"/>
 </g>
-<!-- lo_gauss -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node4" class="node"><title>lo_gauss</title>
-<polygon fill="#777777" stroke="#777777" points="251.492,-268.255 197.43,-268.255 197.43,-246.245 251.492,-246.245 251.492,-268.255"/>
-<text text-anchor="middle" x="224.461" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_gauss</text>
+<!-- proc~optimize&#45;&gt;proc~random_unit_vector -->
+<g id="proc~~optimize~~CallsGraph_edge3" class="edge"><title>proc~optimize&#45;&gt;proc~random_unit_vector</title>
+<path fill="none" stroke="#000000" d="M28.9483,-247.654C32.0252,-277.261 44.3592,-357.253 90,-400.25 92.1762,-402.3 94.5495,-404.15 97.0626,-405.82"/>
+<polygon fill="#000000" stroke="#000000" points="95.6231,-409.024 106.063,-410.829 99.0274,-402.908 95.6231,-409.024"/>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;lo_gauss -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge3" class="edge"><title>proc~get_intensity_along_path&#45;&gt;lo_gauss</title>
-<path fill="none" stroke="#000000" d="M81.3234,-186.472C100.481,-199.613 133.91,-221.46 164.761,-236.25 172.035,-239.737 180.049,-242.974 187.756,-245.81"/>
-<polygon fill="#000000" stroke="#000000" points="186.68,-249.142 197.274,-249.178 189.014,-242.543 186.68,-249.142"/>
+<!-- int2char -->
+<g id="proc~~optimize~~CallsGraph_node4" class="node"><title>int2char</title>
+<polygon fill="#777777" stroke="#777777" points="185.457,-391.255 131.457,-391.255 131.457,-369.245 185.457,-369.245 185.457,-391.255"/>
+<text text-anchor="middle" x="158.457" y="-377.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">int2char</text>
 </g>
-<!-- getintensity -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node5" class="node"><title>getintensity</title>
-<polygon fill="#777777" stroke="#777777" points="257.076,-227.255 191.846,-227.255 191.846,-205.245 257.076,-205.245 257.076,-227.255"/>
-<text text-anchor="middle" x="224.461" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">getintensity</text>
+<!-- proc~optimize&#45;&gt;int2char -->
+<g id="proc~~optimize~~CallsGraph_edge4" class="edge"><title>proc~optimize&#45;&gt;int2char</title>
+<path fill="none" stroke="#000000" d="M30.5421,-247.617C36.541,-271.802 53.8726,-328.644 90,-359.25 98.8849,-366.777 110.457,-371.609 121.502,-374.711"/>
+<polygon fill="#000000" stroke="#000000" points="120.862,-378.157 131.404,-377.099 122.504,-371.352 120.862,-378.157"/>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;getintensity -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge4" class="edge"><title>proc~get_intensity_along_path&#45;&gt;getintensity</title>
-<path fill="none" stroke="#000000" d="M108.159,-186.345C131.099,-192.295 159.241,-199.594 181.98,-205.491"/>
-<polygon fill="#000000" stroke="#000000" points="181.126,-208.886 191.685,-208.009 182.884,-202.11 181.126,-208.886"/>
+<!-- conf1 -->
+<g id="proc~~optimize~~CallsGraph_node5" class="node"><title>conf1</title>
+<polygon fill="#777777" stroke="#777777" points="185.457,-350.255 131.457,-350.255 131.457,-328.245 185.457,-328.245 185.457,-350.255"/>
+<text text-anchor="middle" x="158.457" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conf1</text>
 </g>
-<!-- mpi_wtime -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node6" class="node"><title>mpi_wtime</title>
-<polygon fill="#777777" stroke="#777777" points="255.639,-186.255 193.283,-186.255 193.283,-164.245 255.639,-164.245 255.639,-186.255"/>
-<text text-anchor="middle" x="224.461" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_wtime</text>
+<!-- proc~optimize&#45;&gt;conf1 -->
+<g id="proc~~optimize~~CallsGraph_edge5" class="edge"><title>proc~optimize&#45;&gt;conf1</title>
+<path fill="none" stroke="#000000" d="M33.4281,-247.293C42.6376,-264.896 62.9865,-299.265 90,-318.25 99.3734,-324.838 110.887,-329.414 121.731,-332.569"/>
+<polygon fill="#000000" stroke="#000000" points="120.863,-335.96 131.422,-335.085 122.622,-329.184 120.863,-335.96"/>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;mpi_wtime -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge5" class="edge"><title>proc~get_intensity_along_path&#45;&gt;mpi_wtime</title>
-<path fill="none" stroke="#000000" d="M128.767,-175.25C146.946,-175.25 166.276,-175.25 182.7,-175.25"/>
-<polygon fill="#000000" stroke="#000000" points="183.031,-178.75 193.031,-175.25 183.031,-171.75 183.031,-178.75"/>
+<!-- convcheck -->
+<g id="proc~~optimize~~CallsGraph_node6" class="node"><title>convcheck</title>
+<polygon fill="#777777" stroke="#777777" points="189.066,-309.255 127.847,-309.255 127.847,-287.245 189.066,-287.245 189.066,-309.255"/>
+<text text-anchor="middle" x="158.457" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">convcheck</text>
 </g>
-<!-- lo_progressbar_init -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node7" class="node"><title>lo_progressbar_init</title>
-<polygon fill="#777777" stroke="#777777" points="275.263,-145.255 173.659,-145.255 173.659,-123.245 275.263,-123.245 275.263,-145.255"/>
-<text text-anchor="middle" x="224.461" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_progressbar_init</text>
+<!-- proc~optimize&#45;&gt;convcheck -->
+<g id="proc~~optimize~~CallsGraph_edge6" class="edge"><title>proc~optimize&#45;&gt;convcheck</title>
+<path fill="none" stroke="#000000" d="M42.5805,-247.613C54.719,-256.639 72.7451,-269.063 90,-277.25 98.7075,-281.382 108.425,-284.956 117.712,-287.925"/>
+<polygon fill="#000000" stroke="#000000" points="116.967,-291.356 127.553,-290.907 118.998,-284.657 116.967,-291.356"/>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;lo_progressbar_init -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge6" class="edge"><title>proc~get_intensity_along_path&#45;&gt;lo_progressbar_init</title>
-<path fill="none" stroke="#000000" d="M108.159,-164.155C127.569,-159.121 150.702,-153.121 171.136,-147.821"/>
-<polygon fill="#000000" stroke="#000000" points="172.121,-151.181 180.922,-145.283 170.364,-144.406 172.121,-151.181"/>
+<!-- collhist -->
+<g id="proc~~optimize~~CallsGraph_node7" class="node"><title>collhist</title>
+<polygon fill="#777777" stroke="#777777" points="185.457,-268.255 131.457,-268.255 131.457,-246.245 185.457,-246.245 185.457,-268.255"/>
+<text text-anchor="middle" x="158.457" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">collhist</text>
+</g>
+<!-- proc~optimize&#45;&gt;collhist -->
+<g id="proc~~optimize~~CallsGraph_edge7" class="edge"><title>proc~optimize&#45;&gt;collhist</title>
+<path fill="none" stroke="#000000" d="M54.1975,-240.5C73.4991,-243.631 99.9877,-247.928 121.304,-251.385"/>
+<polygon fill="#000000" stroke="#000000" points="120.867,-254.86 131.298,-253.007 121.988,-247.95 120.867,-254.86"/>
+</g>
+<!-- lo_random_int -->
+<g id="proc~~optimize~~CallsGraph_node8" class="node"><title>lo_random_int</title>
+<polygon fill="#777777" stroke="#777777" points="197.501,-227.255 119.412,-227.255 119.412,-205.245 197.501,-205.245 197.501,-227.255"/>
+<text text-anchor="middle" x="158.457" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_random_int</text>
+</g>
+<!-- proc~optimize&#45;&gt;lo_random_int -->
+<g id="proc~~optimize~~CallsGraph_edge8" class="edge"><title>proc~optimize&#45;&gt;lo_random_int</title>
+<path fill="none" stroke="#000000" d="M54.1975,-232.203C69.9066,-229.776 90.3764,-226.613 108.943,-223.745"/>
+<polygon fill="#000000" stroke="#000000" points="109.672,-227.174 119.021,-222.188 108.603,-220.256 109.672,-227.174"/>
+</g>
+<!-- ncconf1 -->
+<g id="proc~~optimize~~CallsGraph_node9" class="node"><title>ncconf1</title>
+<polygon fill="#777777" stroke="#777777" points="185.457,-186.255 131.457,-186.255 131.457,-164.245 185.457,-164.245 185.457,-186.255"/>
+<text text-anchor="middle" x="158.457" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ncconf1</text>
+</g>
+<!-- proc~optimize&#45;&gt;ncconf1 -->
+<g id="proc~~optimize~~CallsGraph_edge9" class="edge"><title>proc~optimize&#45;&gt;ncconf1</title>
+<path fill="none" stroke="#000000" d="M42.6239,-225.187C54.7876,-216.395 72.8264,-204.28 90,-196.25 99.9356,-191.604 111.161,-187.642 121.562,-184.452"/>
+<polygon fill="#000000" stroke="#000000" points="122.595,-187.797 131.213,-181.634 120.633,-181.077 122.595,-187.797"/>
+</g>
+<!-- proc~zerosum -->
+<g id="proc~~optimize~~CallsGraph_node10" class="node"><title>proc~zerosum</title>
+<g id="a_proc~~optimize~~CallsGraph_node10"><a xlink:href="../proc/zerosum.html" xlink:title="zerosum">
+<polygon fill="#d9534f" stroke="#d9534f" points="185.457,-145.255 131.457,-145.255 131.457,-123.245 185.457,-123.245 185.457,-145.255"/>
+<text text-anchor="middle" x="158.457" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">zerosum</text>
+</a>
+</g>
+</g>
+<!-- proc~optimize&#45;&gt;proc~zerosum -->
+<g id="proc~~optimize~~CallsGraph_edge10" class="edge"><title>proc~optimize&#45;&gt;proc~zerosum</title>
+<path fill="none" stroke="#000000" d="M33.6147,-225.06C42.9437,-207.59 63.2853,-173.907 90,-155.25 99.3929,-148.69 110.912,-144.121 121.755,-140.964"/>
+<polygon fill="#000000" stroke="#000000" points="122.645,-144.349 131.443,-138.445 120.883,-137.575 122.645,-144.349"/>
+</g>
+<!-- lo_seed_random_numbers -->
+<g id="proc~~optimize~~CallsGraph_node11" class="node"><title>lo_seed_random_numbers</title>
+<polygon fill="#777777" stroke="#777777" points="226.87,-104.255 90.0434,-104.255 90.0434,-82.2446 226.87,-82.2446 226.87,-104.255"/>
+<text text-anchor="middle" x="158.457" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_seed_random_numbers</text>
+</g>
+<!-- proc~optimize&#45;&gt;lo_seed_random_numbers -->
+<g id="proc~~optimize~~CallsGraph_edge11" class="edge"><title>proc~optimize&#45;&gt;lo_seed_random_numbers</title>
+<path fill="none" stroke="#000000" d="M30.5704,-224.974C36.6244,-200.983 54.0567,-144.599 90,-114.25 92.2404,-112.358 94.6507,-110.637 97.1795,-109.07"/>
+<polygon fill="#000000" stroke="#000000" points="98.9579,-112.089 106.16,-104.318 95.6838,-105.902 98.9579,-112.089"/>
 </g>
 <!-- lo_allocate -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node8" class="node"><title>lo_allocate</title>
-<polygon fill="#777777" stroke="#777777" points="255.664,-104.255 193.257,-104.255 193.257,-82.2446 255.664,-82.2446 255.664,-104.255"/>
-<text text-anchor="middle" x="224.461" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_allocate</text>
+<g id="proc~~optimize~~CallsGraph_node12" class="node"><title>lo_allocate</title>
+<polygon fill="#777777" stroke="#777777" points="189.66,-63.2554 127.253,-63.2554 127.253,-41.2446 189.66,-41.2446 189.66,-63.2554"/>
+<text text-anchor="middle" x="158.457" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_allocate</text>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;lo_allocate -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge7" class="edge"><title>proc~get_intensity_along_path&#45;&gt;lo_allocate</title>
-<path fill="none" stroke="#000000" d="M81.3234,-164.028C100.481,-150.887 133.91,-129.04 164.761,-114.25 170.654,-111.425 177.032,-108.765 183.339,-106.348"/>
-<polygon fill="#000000" stroke="#000000" points="184.928,-109.493 193.111,-102.763 182.517,-102.922 184.928,-109.493"/>
+<!-- proc~optimize&#45;&gt;lo_allocate -->
+<g id="proc~~optimize~~CallsGraph_edge12" class="edge"><title>proc~optimize&#45;&gt;lo_allocate</title>
+<path fill="none" stroke="#000000" d="M28.9712,-224.914C32.1033,-195.484 44.5592,-115.972 90,-73.25 97.5735,-66.1297 107.526,-61.4222 117.451,-58.3105"/>
+<polygon fill="#000000" stroke="#000000" points="118.513,-61.65 127.279,-55.7003 116.716,-54.8845 118.513,-61.65"/>
 </g>
-<!-- omp_set_num_threads -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node9" class="node"><title>omp_set_num_threads</title>
-<polygon fill="#777777" stroke="#777777" points="284.361,-63.2554 164.561,-63.2554 164.561,-41.2446 284.361,-41.2446 284.361,-63.2554"/>
-<text text-anchor="middle" x="224.461" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_set_num_threads</text>
+<!-- noncollhist -->
+<g id="proc~~optimize~~CallsGraph_node13" class="node"><title>noncollhist</title>
+<polygon fill="#777777" stroke="#777777" points="189.071,-22.2554 127.842,-22.2554 127.842,-0.244565 189.071,-0.244565 189.071,-22.2554"/>
+<text text-anchor="middle" x="158.457" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">noncollhist</text>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;omp_set_num_threads -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge8" class="edge"><title>proc~get_intensity_along_path&#45;&gt;omp_set_num_threads</title>
-<path fill="none" stroke="#000000" d="M73.4201,-164.123C88.8898,-143.453 124.822,-98.9056 164.761,-73.25 168.098,-71.1067 171.682,-69.1467 175.374,-67.3614"/>
-<polygon fill="#000000" stroke="#000000" points="176.94,-70.4968 184.696,-63.2789 174.131,-64.0848 176.94,-70.4968"/>
+<!-- proc~optimize&#45;&gt;noncollhist -->
+<g id="proc~~optimize~~CallsGraph_edge13" class="edge"><title>proc~optimize&#45;&gt;noncollhist</title>
+<path fill="none" stroke="#000000" d="M27.964,-225.177C28.4708,-191.29 34.6978,-87.9268 90,-32.25 97.5329,-24.6661 107.754,-19.812 117.961,-16.708"/>
+<polygon fill="#000000" stroke="#000000" points="118.829,-20.0988 127.654,-14.2364 117.099,-13.3159 118.829,-20.0988"/>
 </g>
-<!-- mpi_allreduce -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_node10" class="node"><title>mpi_allreduce</title>
-<polygon fill="#777777" stroke="#777777" points="263.33,-22.2554 185.591,-22.2554 185.591,-0.244565 263.33,-0.244565 263.33,-22.2554"/>
-<text text-anchor="middle" x="224.461" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_allreduce</text>
+<!-- lo_random_gaussian_number -->
+<g id="proc~~optimize~~CallsGraph_node14" class="node"><title>lo_random_gaussian_number</title>
+<polygon fill="#777777" stroke="#777777" points="413.801,-432.255 262.951,-432.255 262.951,-410.245 413.801,-410.245 413.801,-432.255"/>
+<text text-anchor="middle" x="338.376" y="-418.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_random_gaussian_number</text>
 </g>
-<!-- proc~get_intensity_along_path&#45;&gt;mpi_allreduce -->
-<g id="proc~~get_intensity_along_path~~CallsGraph_edge9" class="edge"><title>proc~get_intensity_along_path&#45;&gt;mpi_allreduce</title>
-<path fill="none" stroke="#000000" d="M70.1301,-164.198C82.0946,-137.618 116.034,-69.5634 164.761,-32.25 168.338,-29.5109 172.304,-27.1074 176.437,-25.0026"/>
-<polygon fill="#000000" stroke="#000000" points="177.979,-28.1471 185.668,-20.8582 175.112,-21.7612 177.979,-28.1471"/>
+<!-- proc~random_unit_vector&#45;&gt;lo_random_gaussian_number -->
+<g id="proc~~optimize~~CallsGraph_edge1" class="edge"><title>proc~random_unit_vector&#45;&gt;lo_random_gaussian_number</title>
+<path fill="none" stroke="#000000" d="M210.918,-421.25C223.966,-421.25 238.332,-421.25 252.557,-421.25"/>
+<polygon fill="#000000" stroke="#000000" points="252.868,-424.75 262.868,-421.25 252.868,-417.75 252.868,-424.75"/>
 </g>
 </g>
 </svg>

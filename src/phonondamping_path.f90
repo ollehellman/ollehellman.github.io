@@ -26,7 +26,7 @@ subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
 
     type(lo_phonon_selfenergy) :: se
     real(flyt), dimension(:,:,:), allocatable :: rebuf,imbuf,dumbuf
-    real(flyt), dimension(:,:), allocatable :: intbuf
+    real(flyt), dimension(:,:), allocatable :: intbuf,lwbuf,shbuf
     real(flyt), dimension(:), allocatable :: dum
     real(flyt), dimension(2) :: lsintx,lsinty
     real(flyt) :: t0,f0
@@ -37,7 +37,7 @@ subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
     do q1=1,bs%nptot
         allocate(bs%p(q1)%linewidth(bs%nb))
         allocate(bs%p(q1)%shift(bs%nb))
-        allocate(bs%p(q1)%threephononphasespace(bs%nb))
+        allocate(bs%p(q1)%threephononphasespace(bs%nb))        
     enddo
     ! Space for intensity
     allocate(bs%intensity(bs%nptot,opts%nf))
@@ -65,8 +65,12 @@ subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
     if ( mw%talk ) call lo_progressbar_init()
     allocate(rebuf(bs%nptot,opts%nf,dr%nb))
     allocate(imbuf(bs%nptot,opts%nf,dr%nb))
+    allocate(lwbuf(dr%nb,bs%nptot))
+    allocate(shbuf(dr%nb,bs%nptot))
     rebuf=0.0_flyt
     imbuf=0.0_flyt
+    lwbuf=0.0_flyt
+    shbuf=0.0_flyt
     do q1=1,lsmpi%nq
         ! global q-point index
         lqp=lsmpi%ind(q1)
@@ -78,12 +82,12 @@ subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
                 imbuf(lqp,i,j)=se%im_3ph(i,j)+se%im_iso(i,j)
                 rebuf(lqp,i,j)=se%re_3ph(i,j)+se%re_4ph(i,j)
             enddo
-            ! get the linewidth exactly at the harmonic frequency
-            bs%p(lqp)%linewidth(j)=lo_linear_interpolation(se%faxis,se%im_3ph(:,j)+se%im_iso(:,j),bs%p(lqp)%omega(j))*2.0_flyt
-            ! get the anharmonic shift at the harmonic frequency
-            bs%p(lqp)%shift(j)=lo_linear_interpolation(se%faxis,se%re_3ph(:,j)+se%re_4ph(:,j),bs%p(lqp)%omega(j))
-            ! Also store the phase-space volume at this q-point
-            bs%p(lqp)%threephononphasespace(j)=lo_linear_interpolation(se%faxis,se%twophonondos(:,j),bs%p(lqp)%omega(j))
+           ! get the linewidth exactly at the harmonic frequency
+           lwbuf(j,lqp)=lo_linear_interpolation(se%faxis,se%im_3ph(:,j)+se%im_iso(:,j),bs%p(lqp)%omega(j))*2.0_flyt
+           ! get the anharmonic shift at the harmonic frequency
+           shbuf(j,lqp)=lo_linear_interpolation(se%faxis,se%re_3ph(:,j)+se%re_4ph(:,j),bs%p(lqp)%omega(j))
+           ! Also store the phase-space volume at this q-point
+!          ! bs%p(lqp)%threephononphasespace(j)=lo_linear_interpolation(se%faxis,se%twophonondos(:,j),bs%p(lqp)%omega(j))
         enddo
         if ( mw%talk ) call lo_progressbar(' ... lineshape on path',q1,lsmpi%nq,mpi_wtime()-t0)
     enddo
@@ -91,11 +95,32 @@ subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
     ! Add these up!
     call mpi_allreduce(rebuf,bs%selfenergy_real,bs%nptot*opts%nf*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
     call mpi_allreduce(imbuf,bs%selfenergy_imag,bs%nptot*opts%nf*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
+    allocate(intbuf(dr%nb,bs%nptot))
+    intbuf=0.0_flyt
+    call mpi_allreduce(lwbuf,intbuf,bs%nptot*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
+    do i=1,bs%nptot
+    do j=1,bs%nb
+        bs%p(i)%linewidth(j)=intbuf(j,i)
+    enddo
+    enddo
+    intbuf=0.0_flyt
+    call mpi_allreduce(shbuf,intbuf,bs%nptot*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
+    do i=1,bs%nptot
+    do j=1,bs%nb
+        bs%p(i)%shift(j)=intbuf(j,i)
+    enddo
+    enddo
+    deallocate(intbuf)
+    deallocate(lwbuf)
+    deallocate(shbuf)
+    ! Dump the shifts and widths
+    if ( mw%r .eq. 0 ) then
+        call bs%write_dispersive_property(opts%enhet,'shift','outfile.dispersion_shifts',.false.)
+        call bs%write_dispersive_property(opts%enhet,'linewidth','outfile.dispersion_linewidths',.false.)
+!        call bs%write_dispersive_property(opts%enhet,'threephononphasespace','outfile.dispersion_threephononphasespace',.false.)
+    endif
 
     ! dump some files, they are done now:
-    call bs%write_dispersive_property(opts%enhet,'shift','outfile.dispersion_shifts',.false.)
-    call bs%write_dispersive_property(opts%enhet,'linewidth','outfile.dispersion_linewidths',.false.)
-    call bs%write_dispersive_property(opts%enhet,'threephononphasespace','outfile.dispersion_threephononphasespace',.false.)
 
     rebuf=0.0_flyt
     imbuf=0.0_flyt
@@ -196,7 +221,6 @@ subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
     if ( mw%talk ) call lo_progressbar_init()
     do q1=1,lsmpi%nq
         lqp=lsmpi%ind(q1)
-
         do j=1,bs%nb
             ! Get the lineshape
             dum=0.0_flyt
@@ -223,7 +247,7 @@ subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
     ! Dump to file
     if ( mw%r .eq. 0 ) then
         write(*,*) 'Writing intensity to file'
-        allocate(bs%faxis(se%nf))
+        lo_allocate(bs%faxis(se%nf))
         bs%faxis=se%intensityaxis
         call bs%write_intensity(opts%enhet,logscale=.true.)
     endif

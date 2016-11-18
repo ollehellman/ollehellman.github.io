@@ -11,9 +11,7 @@
     <meta name="sourcefile" content="">
     <link rel="icon" href="../favicon.png">
 
-    <title>
-Todolist &ndash; TDEP
-</title>
+    <title>correlation_function &ndash; TDEP</title>
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
@@ -60,7 +58,7 @@ Todolist &ndash; TDEP
         <ul class="nav navbar-nav">
             <!-- manual thingy -->
             
-            <li><a href='../../page/index.html'>Manual</a></li>
+            <li><a href='../page/index.html'>Manual</a></li>
             
             <!-- programs -->
             
@@ -99,25 +97,228 @@ Todolist &ndash; TDEP
 
 <div class="container-fluid">
     
+  
+  <div class="row">
+    <h1>correlation_function
+    <small>Subroutine</small>
+    
+    </h1>
+	 
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     
+    <li><i class="fa fa-code"></i><a href="../src/magneticdisorder.f90"> Source File</a></li>
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+     <li><a href='../sourcefile/magneticdisorder.f90.html'>magneticdisorder.f90</a></li>
+  
+     <li><a href='../module/magneticdisorder.html'>magneticdisorder</a></li>
+  
+     <li class="active">correlation_function</li>
+  </ol>
 </div>
-<div class="jumbotron">
-<div class="container-fluid">
-    <h3>Todolist</h3>
 </div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <hr>
+  
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprocs-0">All Procedures</a></h3></div>
+  <div id="allprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../proc/correlation_function.html">correlation_function</a>
+      
+      <a class="list-group-item" href="../proc/dump_configurations.html">dump_configurations</a>
+      
+      <a class="list-group-item" href="../proc/fourphonon_selfenergy.html">fourphonon_selfenergy</a>
+      
+      <a class="list-group-item" href="../proc/generate.html">generate</a>
+      
+      <a class="list-group-item" href="../proc/generate%7E2.html">generate</a>
+      
+      <a class="list-group-item" href="../proc/get_intensity_along_path.html">get_intensity_along_path</a>
+      
+      <a class="list-group-item" href="../proc/get_intensity_as_dos.html">get_intensity_as_dos</a>
+      
+      <a class="list-group-item" href="../proc/kramer_kronig_transform_to_get_real_part.html">kramer_kronig_transform_to_get_real_part</a>
+      
+      <a class="list-group-item" href="../proc/optimize.html">optimize</a>
+      
+      <a class="list-group-item" href="../proc/random_unit_vector.html">random_unit_vector</a>
+      
+      <a class="list-group-item" href="../proc/zerosum.html">zerosum</a>
+      
+    </div>
+  </div>
 </div>
 
-      <div class="row" id='text'>
-        <div class="col-lg-offset-2 col-lg-7" id='text'>
-        <table class="table table-striped">
-        <thead><tr><th>File</th><th>Description</th></tr></thead>
-             <tbody>
-			 
-                <tr><td>src/canonical_configuration/main.f90</td><td>Update this to explain how to do statistical sampling in clever ways, but probably not before I actually publish it.</td></tr> 
-             
-             </tbody>
-        </table>
-        </div>
-      </div>
+
+</div>  
+
+    </div>
+    
+    <div class="col-sm-offset-1 col-sm-8 col-sm-offset-1" id='text'>
+
+    
+    <h3>Description</h3>
+    <p>calculate the correlation function</p>
+    
+
+    <h2>
+private subroutine correlation_function(mag, collconf, noncollconf, cf)
+    
+    
+	 
+</h2>
+    
+  
+
+
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mag%7E2"></span>class(<a href='../type/lo_magdisorder.html'>lo_magdisorder</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mag</strong></td><td><p>list of shells and stuff</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-collconf"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>dimension(:)</td><td>::</td>
+  <td><strong>collconf</strong></td><td><p>current collinear magnetic configuration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-noncollconf"></span>real(kind=flyt),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>dimension(:,:)</td><td>::</td>
+  <td><strong>noncollconf</strong></td><td><p>current noncollinear magnetic configuration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-cf"></span>real(kind=flyt),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>dimension(:)</td><td>::</td>
+  <td><strong>cf</strong></td><td><p>the correlation function per shell</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+     
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    </div>
+  </div>
 
     <br>
     <br>

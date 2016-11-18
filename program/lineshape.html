@@ -138,10 +138,14 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                <li><a href="../lists/modules.html">Modules</a></li>
+                
                 
                 <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
+                
+                <li><a href="../lists/types.html">Derived Types</a></li>
                 
             </ul>
             </li>
@@ -284,9 +288,9 @@
 </li>
 </ul>
 <h3>Examples</h3>
-<p><code>lineshape --highsymmetrypoint X --temperature 500</code> </p>
-<p><code>lineshape --path -qg 10 10 10 --noisotope</code> </p>
-<p><code>lineshape --dos -qg 10 10 10 --dos_qpoint_grid 24 24 24</code> </p>
+<p><code>mpirun lineshape --highsymmetrypoint X --temperature 500</code> </p>
+<p><code>mpirun lineshape --path -qg 10 10 10 --noisotope</code> </p>
+<p><code>mpirun lineshape --dos -qg 10 10 10 --dos_qpoint_grid 24 24 24</code> </p>
 <h3>Long summary</h3>
 <p>This code calculates the energy-dependent self energy from three-phonon scattering, as well as the contributions from mass imperfections and four-phonon scattering. It can produce nice figures like this:</p>
 <p><center><img src="../media/lineshape_sqe.png" width="500" /></center></p>

@@ -72,10 +72,14 @@
                 <li><a href="../lists/files.html">Source Files</a></li>
                 
                 
+                <li><a href="../lists/modules.html">Modules</a></li>
+                
                 
                 <li><a href="../lists/procedures.html">Procedures</a></li>
                 
                 
+                
+                <li><a href="../lists/types.html">Derived Types</a></li>
                 
             </ul>
             </li>
@@ -113,7 +117,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
 	  data-placement="bottom" data-html="true"
-	  title="13.1% of total for source files.">169 statements</a>
+	  title="12.7% of total for source files.">169 statements</a>
      </li> 
      
      
@@ -185,6 +189,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allfiles-0">All Source Files</a></h3></div>
   <div id="allfiles-0" class="panel-collapse collapse">
     <div class="list-group">
+      
+      <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
       <a class="list-group-item" href="../sourcefile/main.f90.html">main.f90</a>
       
@@ -333,7 +339,7 @@
 <a name="ln-57"></a><span class="n">endif</span>
 <a name="ln-58"></a>
 <a name="ln-59"></a><span class="c">! Read the force constant</span>
-<a name="ln-60"></a><span class="k">call </span><span class="n">fc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="n">uc</span><span class="p">)</span>
+<a name="ln-60"></a><span class="k">call </span><span class="n">fc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="s1">&#39;infile.forceconstant&#39;</span><span class="p">)</span>
 <a name="ln-61"></a><span class="c">! Perhaps some LO-TO splitting</span>
 <a name="ln-62"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">loto</span> <span class="p">)</span> <span class="k">then</span>
 <a name="ln-63"></a><span class="k">    call </span><span class="n">loto</span><span class="p">%</span><span class="n">setoptions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">lotocorrectiontype</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
@@ -440,9 +446,9 @@
 <a name="ln-164"></a>            <span class="n">f4</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_free_energy_classical</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span>
 <a name="ln-165"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f1</span><span class="o">-</span><span class="mi">12345678</span><span class="mf">9.0_flyt</span><span class="p">)</span> <span class="p">.</span><span class="n">lt</span><span class="p">.</span> <span class="n">lo_tol</span> <span class="p">)</span> <span class="k">then</span>
 <a name="ln-166"></a>                <span class="c">! return NaN if I have imaginary frequencies</span>
-<a name="ln-167"></a>                <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">f0</span><span class="p">,</span><span class="s1">&#39; NaN  NaN  NaN  NaN&#39;</span>
+<a name="ln-167"></a>                <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">f0</span><span class="p">,</span><span class="s1">&#39; NaN  NaN  NaN&#39;</span> <span class="c">!&#39;  NaN&#39;</span>
 <a name="ln-168"></a>            <span class="k">else</span>
-<a name="ln-169"></a><span class="k">                write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="s2">&quot;(5(1X,E18.11))&quot;</span><span class="p">)</span> <span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">f3</span><span class="p">,</span><span class="n">f4</span>
+<a name="ln-169"></a><span class="k">                write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="s2">&quot;(5(1X,E18.11))&quot;</span><span class="p">)</span> <span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">f3</span> <span class="c">!,f4</span>
 <a name="ln-170"></a>            <span class="n">endif</span>
 <a name="ln-171"></a>        <span class="n">enddo</span>
 <a name="ln-172"></a>    <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
@@ -524,6 +530,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allfiles-1">All Source Files</a></h3></div>
   <div id="allfiles-1" class="panel-collapse collapse">
     <div class="list-group">
+      
+      <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
       <a class="list-group-item" href="../sourcefile/main.f90.html">main.f90</a>
       
