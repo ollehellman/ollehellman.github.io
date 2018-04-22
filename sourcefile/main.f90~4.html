@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -117,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
 	  data-placement="bottom" data-html="true"
-	  title="12.7% of total for source files.">169 statements</a>
+	  title=" 3.3% of total for source files.">53 statements</a>
      </li> 
      
      
@@ -153,7 +157,7 @@
   <div id="progs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
       
     </div>
   </div>
@@ -190,6 +194,10 @@
   <div id="allfiles-0" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../sourcefile/autocell.f90.html">autocell.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/dipole.f90.html">dipole.f90</a>
+      
       <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
       <a class="list-group-item" href="../sourcefile/main.f90.html">main.f90</a>
@@ -210,8 +218,6 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E9.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
-      
       <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
@@ -219,6 +225,14 @@
       <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_thermalpath.f90.html">phonondamping_thermalpath.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_gaussian.f90.html">phononevents_gaussian.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_tetrahedron.f90.html">phononevents_tetrahedron.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/test_forceconstant_symmetry.f90.html">test_forceconstant_symmetry.f90</a>
       
     </div>
   </div>
@@ -246,7 +260,7 @@
   <div id="progs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../program/phonon_dispersion_relations.html">phonon_dispersion_relations</a>
+      <a class="list-group-item" href="../program/atomic_distribution.html">atomic_distribution</a>
       
     </div>
   </div>
@@ -281,241 +295,105 @@
     <section>
       <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl"><pre><span></span><a name="ln-1"></a><span class="cp">#include &quot;precompilerdefinitions&quot;</span>
-<a name="ln-2"></a><span class="k">program </span><span class="n">phonon_dispersion_relations</span>
-<a name="ln-3"></a><span class="c">!!{!src/phonon_dispersion_relations/manual.md!}</span>
-<a name="ln-4"></a>
-<a name="ln-5"></a><span class="k">use </span><span class="n">constants</span>
-<a name="ln-6"></a><span class="k">use </span><span class="n">helpers</span>
-<a name="ln-7"></a><span class="k">use </span><span class="n">dump_data</span>
-<a name="ln-8"></a><span class="k">use options</span>
-<a name="ln-9"></a><span class="k">use </span><span class="n">geometryfunctions</span>
-<a name="ln-10"></a><span class="k">use </span><span class="n">type_crystalstructure</span>
-<a name="ln-11"></a><span class="k">use </span><span class="n">type_forceconstant_secondorder</span>
-<a name="ln-12"></a><span class="k">use </span><span class="n">type_forceconstant_thirdorder</span>
-<a name="ln-13"></a><span class="k">use </span><span class="n">type_qpointmesh</span>
-<a name="ln-14"></a><span class="k">use </span><span class="n">type_phonon_dispersions</span>
-<a name="ln-15"></a><span class="k">use </span><span class="n">type_phonon_dos</span>
-<a name="ln-16"></a><span class="k">use </span><span class="n">type_phonon_bandstructure</span>
-<a name="ln-17"></a><span class="k">use </span><span class="n">type_lotosplitting</span>
-<a name="ln-18"></a><span class="k">use </span><span class="n">type_symmetryoperation</span>
-<a name="ln-19"></a><span class="k">use </span><span class="n">type_symmetrytable</span>
-<a name="ln-20"></a><span class="k">use </span><span class="n">type_sqs</span>
-<a name="ln-21"></a><span class="c">! local</span>
-<a name="ln-22"></a><span class="k">use </span><span class="n">densityplots</span>
-<a name="ln-23"></a><span class="k">use </span><span class="n">velocitydos</span>
-<a name="ln-24"></a><span class="c">!</span>
-<a name="ln-25"></a><span class="k">implicit none</span>
-<a name="ln-26"></a><span class="c">! for normal phonon things</span>
-<a name="ln-27"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_opts</span><span class="p">)</span> <span class="kd">::</span> <span class="n">opts</span>
-<a name="ln-28"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_forceconstant_secondorder</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fc</span>
-<a name="ln-29"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_forceconstant_thirdorder</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fct</span>
-<a name="ln-30"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_crystalstructure</span><span class="p">)</span> <span class="kd">::</span> <span class="n">uc</span>
-<a name="ln-31"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_loto</span><span class="p">)</span> <span class="kd">::</span> <span class="n">loto</span>
-<a name="ln-32"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_phonon_bandstructure</span><span class="p">)</span> <span class="kd">::</span> <span class="n">bs</span>
-<a name="ln-33"></a><span class="k">class</span><span class="p">(</span><span class="n">lo_qpoint_mesh</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">qp</span>
-<a name="ln-34"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_phonon_dispersions</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dr</span>
-<a name="ln-35"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_phonon_dos</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pd</span>
-<a name="ln-36"></a><span class="c">! for phonon dos of alloys</span>
-<a name="ln-37"></a><span class="c">!type(lo_symcell) :: sy</span>
-<a name="ln-38"></a><span class="c">!type(lo_forceconstant_secondorder) :: fcalloy</span>
-<a name="ln-39"></a><span class="c">!type(lo_sqs) :: sqs</span>
-<a name="ln-40"></a>
-<a name="ln-41"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v1</span>
-<a name="ln-42"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">)</span> <span class="kd">::</span> <span class="n">f0</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">f3</span><span class="p">,</span><span class="n">f4</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">tstart</span>
-<a name="ln-43"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">dum</span><span class="p">,</span><span class="n">temperatures</span>
-<a name="ln-44"></a><span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">u</span>
-<a name="ln-45"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> <span class="kd">::</span> <span class="n">opf</span>
-<a name="ln-46"></a>
-<a name="ln-47"></a><span class="c">! Get the command line arguments</span>
-<a name="ln-48"></a><span class="n">tstart</span><span class="o">=</span><span class="n">walltime</span><span class="p">()</span>
-<a name="ln-49"></a><span class="k">call </span><span class="n">opts</span><span class="p">%</span><span class="n">parse</span><span class="p">()</span>
-<a name="ln-50"></a>
-<a name="ln-51"></a><span class="c">! Read the crystal structure</span>
-<a name="ln-52"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ucposcar&#39;</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-53"></a><span class="c">! Maybe non-default isotope distribution</span>
-<a name="ln-54"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">readiso</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-55"></a><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... reading isotope distribution from file&#39;</span>
-<a name="ln-56"></a>    <span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readisotopefromfile</span><span class="p">()</span>
-<a name="ln-57"></a><span class="n">endif</span>
-<a name="ln-58"></a>
-<a name="ln-59"></a><span class="c">! Read the force constant</span>
-<a name="ln-60"></a><span class="k">call </span><span class="n">fc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="s1">&#39;infile.forceconstant&#39;</span><span class="p">)</span>
-<a name="ln-61"></a><span class="c">! Perhaps some LO-TO splitting</span>
-<a name="ln-62"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">loto</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-63"></a><span class="k">    call </span><span class="n">loto</span><span class="p">%</span><span class="n">setoptions</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">lotocorrectiontype</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-64"></a><span class="k">else</span>
-<a name="ln-65"></a><span class="k">    call </span><span class="n">loto</span><span class="p">%</span><span class="n">initempty</span><span class="p">()</span>
-<a name="ln-66"></a><span class="n">endif</span>
-<a name="ln-67"></a>
-<a name="ln-68"></a><span class="c">! Perhaps some Gruneisen parameters, in that case we need third order force constants.</span>
-<a name="ln-69"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">gruneisen</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-70"></a><span class="k">    call </span><span class="n">fct</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-71"></a><span class="n">endif</span>
-<a name="ln-72"></a>
-<a name="ln-73"></a><span class="c">! Get the dispersions on the path</span>
-<a name="ln-74"></a><span class="n">t0</span><span class="o">=</span><span class="n">walltime</span><span class="p">()</span>
-<a name="ln-75"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">gruneisen</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-76"></a><span class="k">    call </span><span class="n">bs</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">loto</span><span class="p">,</span><span class="n">fct</span><span class="o">=</span><span class="n">fct</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">,</span><span class="n">npts</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nq</span><span class="p">,</span><span class="n">readpathfromfile</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">readpathfromfile</span><span class="p">)</span>
-<a name="ln-77"></a><span class="k">else</span>
-<a name="ln-78"></a><span class="k">    call </span><span class="n">bs</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">loto</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">,</span><span class="n">npts</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">nq</span><span class="p">,</span><span class="n">readpathfromfile</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">readpathfromfile</span><span class="p">,</span><span class="n">correctionlevel</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<a name="ln-79"></a><span class="n">endif</span>
+<a name="ln-2"></a><span class="k">program </span><span class="n">atomic_distribution</span>
+<a name="ln-3"></a><span class="c">!!{!src/atomic_distribution/manual.md!}</span>
+<a name="ln-4"></a><span class="k">use </span><span class="n">konstanter</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">flyt</span>
+<a name="ln-5"></a><span class="k">use </span><span class="n">type_crystalstructure</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_crystalstructure</span>
+<a name="ln-6"></a><span class="k">use </span><span class="n">type_mdsim</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_mdsim</span>
+<a name="ln-7"></a><span class="k">use </span><span class="n">type_symmetrylist</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_symlist</span>
+<a name="ln-8"></a><span class="k">use </span><span class="n">helpers</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_mpi_helper</span>
+<a name="ln-9"></a><span class="k">use options</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_opts</span>
+<a name="ln-10"></a>
+<a name="ln-11"></a><span class="k">use </span><span class="n">pairmapping</span>
+<a name="ln-12"></a><span class="k">use </span><span class="n">vectordist</span>
+<a name="ln-13"></a><span class="k">use </span><span class="n">pair_distribution</span>
+<a name="ln-14"></a><span class="k">use </span><span class="n">mean_square_displacement</span>
+<a name="ln-15"></a><span class="k">use </span><span class="n">timedistance_correlation</span>
+<a name="ln-16"></a><span class="k">use </span><span class="n">correlationfunction</span>
+<a name="ln-17"></a><span class="k">implicit none</span>
+<a name="ln-18"></a><span class="c">!</span>
+<a name="ln-19"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_opts</span><span class="p">)</span> <span class="kd">::</span> <span class="n">opts</span>
+<a name="ln-20"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_crystalstructure</span><span class="p">)</span> <span class="kd">::</span> <span class="n">uc</span><span class="p">,</span><span class="n">ss</span>
+<a name="ln-21"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_mdsim</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sim</span>
+<a name="ln-22"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_symlist</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sl</span>
+<a name="ln-23"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_vectordist</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vd</span>
+<a name="ln-24"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_pairmapping</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pm</span>
+<a name="ln-25"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_pair_distribution</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pdf</span>
+<a name="ln-26"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_mean_square_displacement</span><span class="p">)</span> <span class="kd">::</span> <span class="n">msd</span>
+<a name="ln-27"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_mpi_helper</span><span class="p">)</span> <span class="kd">::</span> <span class="n">mw</span>
+<a name="ln-28"></a><span class="c">!type(lo_timedistance_correlation) :: tdc</span>
+<a name="ln-29"></a>
+<a name="ln-30"></a><span class="c">! get command line arguments</span>
+<a name="ln-31"></a><span class="k">call </span><span class="n">opts</span><span class="p">%</span><span class="n">parse</span><span class="p">()</span>
+<a name="ln-32"></a><span class="k">call </span><span class="n">mw</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
+<a name="ln-33"></a><span class="c">! read positions</span>
+<a name="ln-34"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ucposcar&#39;</span><span class="p">)</span>
+<a name="ln-35"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... read unitcell&#39;</span>
+<a name="ln-36"></a><span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar&#39;</span><span class="p">)</span>
+<a name="ln-37"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... read supercell&#39;</span>
+<a name="ln-38"></a>
+<a name="ln-39"></a><span class="c">! Get all kinds of symmetry stuff</span>
+<a name="ln-40"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">cutoff</span> <span class="p">.</span><span class="n">lt</span><span class="p">.</span> <span class="mf">0.0_flyt</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-41"></a><span class="k">    </span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff</span><span class="o">=</span><span class="n">ss</span><span class="p">%</span><span class="n">maxcutoff</span><span class="p">()</span>
+<a name="ln-42"></a><span class="n">endif</span>
+<a name="ln-43"></a>
+<a name="ln-44"></a><span class="c">! Get the pair symmetry stuff</span>
+<a name="ln-45"></a><span class="k">call </span><span class="n">sl</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0_flyt</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0_flyt</span><span class="p">,</span><span class="n">transposition</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="n">firstorder</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.,</span><span class="n">polar</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+<a name="ln-46"></a> 
+<a name="ln-47"></a><span class="c">! write(*,*) &#39;... found &#39;//tochar(sy%nun)//&#39; unique atoms&#39;</span>
+<a name="ln-48"></a><span class="c">! do i=1,sy%nun</span>
+<a name="ln-49"></a><span class="c">!     write(*,*) &#39;    atom &#39;,i,uc%atomic_symbol( uc%species(sy%un(i)%atom_in_uc) )</span>
+<a name="ln-50"></a><span class="c">! enddo</span>
+<a name="ln-51"></a> 
+<a name="ln-52"></a><span class="c">! I know the number of unique atoms, and coordination shells. I need a reverse list, sort of.</span>
+<a name="ln-53"></a><span class="c">! I need to know for each atom in the unit cell, and for each pair, which atoms to sum over </span>
+<a name="ln-54"></a><span class="c">! and how they should transform</span>
+<a name="ln-55"></a><span class="k">call </span><span class="n">pm</span><span class="p">%</span><span class="n">setup_symmetry</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
+<a name="ln-56"></a> 
+<a name="ln-57"></a><span class="c">! Also need the actual simulation</span>
+<a name="ln-58"></a><span class="k">call </span><span class="n">sim</span><span class="p">%</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">stride</span><span class="p">)</span>
+<a name="ln-59"></a>
+<a name="ln-60"></a><span class="c">! First we calculate the symmetry-projected radial pair distribution function</span>
+<a name="ln-61"></a><span class="k">call </span><span class="n">pdf</span><span class="p">%</span><span class="n">bin</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span><span class="n">pm</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">nbin</span><span class="p">)</span>
+<a name="ln-62"></a><span class="c">! Write this to file</span>
+<a name="ln-63"></a><span class="k">call </span><span class="n">pdf</span><span class="p">%</span><span class="n">write_to_hdf5</span><span class="p">()</span>
+<a name="ln-64"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Wrote pair distribution function to file&#39;</span>
+<a name="ln-65"></a>
+<a name="ln-66"></a><span class="c">! Then we calculate the mean square displacement, could be useful</span>
+<a name="ln-67"></a><span class="k">call </span><span class="n">msd</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span><span class="n">pm</span><span class="p">,</span><span class="n">sim</span><span class="p">)</span>
+<a name="ln-68"></a><span class="k">call </span><span class="n">msd</span><span class="p">%</span><span class="n">write_to_hdf5</span><span class="p">()</span>
+<a name="ln-69"></a><span class="k">call </span><span class="n">msd</span><span class="p">%</span><span class="n">write_to_plaintext</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
+<a name="ln-70"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Wrote mean square displacement to file&#39;</span>
+<a name="ln-71"></a>
+<a name="ln-72"></a><span class="c">! ! Additionally, I like the time-distance correlation functions. Not exactly sure what they </span>
+<a name="ln-73"></a><span class="c">! ! are good for, but it&#39;s interesting to look at. Only in the non-diffusive case for now.</span>
+<a name="ln-74"></a><span class="c">! if ( opts%timedistance ) then</span>
+<a name="ln-75"></a><span class="c">!     if ( pdf%diffusion .eqv. .false. ) then</span>
+<a name="ln-76"></a><span class="c">!         call tdc%generate(pdf,uc,ss,pm,sim,opts%nbin)</span>
+<a name="ln-77"></a><span class="c">!         call tdc%write_to_hdf5()</span>
+<a name="ln-78"></a><span class="c">!     endif</span>
+<a name="ln-79"></a><span class="c">! endif</span>
 <a name="ln-80"></a>
-<a name="ln-81"></a><span class="c">! Write a small summary</span>
-<a name="ln-82"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-83"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; Settings: &#39;</span>
-<a name="ln-84"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;            add LO-TO splitting: &#39;</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">loto</span>
-<a name="ln-85"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;      mode Gruneisen parameters: &#39;</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">gruneisen</span>
-<a name="ln-86"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;                number of bands: &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">nb</span><span class="p">))</span>
-<a name="ln-87"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;                number of paths: &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">npath</span><span class="p">))</span>
-<a name="ln-88"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;  number of points on each path: &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">npts</span><span class="p">))</span>
-<a name="ln-89"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-90"></a><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">bs</span><span class="p">%</span><span class="n">npath</span>
-<a name="ln-91"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;        path &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">//</span><span class="s1">&#39;: from &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">symb_q_start</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">//</span><span class="s1">&#39; to &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">symb_q_end</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-92"></a>     <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(1X,&#39;  starting point: cartesian&#39;,3(F9.6,&#39; &#39;),&#39;fractional&#39;,3(F9.6,&#39; &#39;))&quot;</span>
-<a name="ln-93"></a>     <span class="n">v1</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">cartesian_to_fractional</span><span class="p">(</span> <span class="n">bs</span><span class="p">%</span><span class="n">segment</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">r1</span><span class="p">,</span> <span class="n">reciprocal</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.,</span><span class="n">pbc</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
-<a name="ln-94"></a>     <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">opf</span><span class="p">)</span> <span class="n">bs</span><span class="p">%</span><span class="n">segment</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">r1</span><span class="p">,</span><span class="n">v1</span>
-<a name="ln-95"></a>     <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(1X,&#39;    ending point: cartesian&#39;,3(F9.6,&#39; &#39;),&#39;fractional&#39;,3(F9.6,&#39; &#39;))&quot;</span>
-<a name="ln-96"></a>     <span class="n">v1</span><span class="o">=</span><span class="n">uc</span><span class="p">%</span><span class="n">cartesian_to_fractional</span><span class="p">(</span> <span class="n">bs</span><span class="p">%</span><span class="n">segment</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">r2</span><span class="p">,</span> <span class="n">reciprocal</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.,</span><span class="n">pbc</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
-<a name="ln-97"></a>     <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">opf</span><span class="p">)</span> <span class="n">bs</span><span class="p">%</span><span class="n">segment</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">r2</span><span class="p">,</span><span class="n">v1</span>
-<a name="ln-98"></a><span class="n">enddo</span>
-<a name="ln-99"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-100"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39; ...            got the phonon bandstructure in &#39;,F12.9,&#39;s&#39; )&quot;</span><span class="p">)</span> <span class="kt">real</span><span class="p">(</span><span class="n">walltime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
-<a name="ln-101"></a>
-<a name="ln-102"></a><span class="c">! Dump things to files for plotting</span>
-<a name="ln-103"></a><span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">write_dispersive_property</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.dispersion_relations&#39;</span><span class="p">,.</span><span class="n">false</span><span class="p">.)</span>
-<a name="ln-104"></a><span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">write_dispersive_property</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="s1">&#39;groupvelocity&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.group_velocities&#39;</span><span class="p">,.</span><span class="n">false</span><span class="p">.)</span>
-<a name="ln-105"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">gruneisen</span> <span class="p">)</span> <span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">write_dispersive_property</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,</span><span class="s1">&#39;gruneisen&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.mode_gruneisen_parameters&#39;</span><span class="p">,.</span><span class="n">false</span><span class="p">.)</span>
-<a name="ln-106"></a>
-<a name="ln-107"></a><span class="c">! The dispersions along the path are done. Perhaps we want the full dispersion relations for something?</span>
-<a name="ln-108"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">fullmesh</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-109"></a><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>    
-<a name="ln-110"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; Calculating phonon dispersion across the Brillouin zone&#39;</span>
-<a name="ln-111"></a>
-<a name="ln-112"></a>    <span class="c">! Get a q-point mesh</span>
-<a name="ln-113"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">readqmesh</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-114"></a><span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... getting q-mesh from file&#39;</span>
-<a name="ln-115"></a>        <span class="k">call </span><span class="n">lo_read_qmesh_from_file</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="s1">&#39;infile.qgrid.hdf5&#39;</span><span class="p">)</span>
-<a name="ln-116"></a>    <span class="k">else</span>
-<a name="ln-117"></a><span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... generating q-mesh&#39;</span>
-<a name="ln-118"></a>        <span class="k">select case</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">meshtype</span><span class="p">)</span>
-<a name="ln-119"></a>        <span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-120"></a>            <span class="k">call </span><span class="n">lo_generate_qmesh</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">qgrid</span><span class="p">,</span><span class="s1">&#39;monkhorst&#39;</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">,</span><span class="n">timereversal</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">timereversal</span><span class="p">)</span>
-<a name="ln-121"></a>        <span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-122"></a>            <span class="k">call </span><span class="n">lo_generate_qmesh</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">qgrid</span><span class="p">,</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">,</span><span class="n">timereversal</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">timereversal</span><span class="p">)</span>
-<a name="ln-123"></a>        <span class="k">case</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<a name="ln-124"></a>            <span class="k">call </span><span class="n">lo_generate_qmesh</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">qgrid</span><span class="p">,</span><span class="s1">&#39;wedge&#39;</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-125"></a>        <span class="k">end select</span>
-<a name="ln-126"></a><span class="k">    </span><span class="n">endif</span>
-<a name="ln-127"></a>    
-<a name="ln-128"></a>    <span class="c">! Get the full dispersion relations</span>
-<a name="ln-129"></a>    <span class="n">t0</span><span class="o">=</span><span class="n">walltime</span><span class="p">()</span>
-<a name="ln-130"></a>    <span class="k">call </span><span class="n">dr</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">loto</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-131"></a><span class="n">endif</span>
-<a name="ln-132"></a>
-<a name="ln-133"></a><span class="c">! Perhaps we want the phonon density of states and related things</span>
-<a name="ln-134"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dos</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-135"></a><span class="k">    </span><span class="n">t0</span><span class="o">=</span><span class="n">walltime</span><span class="p">()</span>
-<a name="ln-136"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">alloydos</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-137"></a>        <span class="c">! for alloys, have to do some special special thingy. But it is old and stupid, so just no.</span>
-<a name="ln-138"></a>        <span class="c">!call pd%generate_alloydos(uc,fc,dr%omega_max*1.6_flyt,opts%qgrid,opts%alloyssdim)</span>
-<a name="ln-139"></a>    <span class="k">else</span>
-<a name="ln-140"></a>        <span class="c">! the normal way, for normal stuff</span>
-<a name="ln-141"></a>        <span class="k">call </span><span class="n">pd</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span><span class="n">qp</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">),</span><span class="n">dosprojection</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">siteprojecteddos</span><span class="p">,&amp;</span>
-<a name="ln-142"></a>                         <span class="n">integrationtype</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">dosintegrationtype</span><span class="p">,</span><span class="n">adaptiveparameter</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">sigma</span><span class="p">,</span><span class="n">ndos</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">dospoints</span><span class="p">)</span>
-<a name="ln-143"></a>    <span class="n">endif</span>
-<a name="ln-144"></a>    <span class="c">! Dump it to file</span>
-<a name="ln-145"></a>    <span class="k">call </span><span class="n">pd</span><span class="p">%</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">enhet</span><span class="p">,.</span><span class="n">false</span><span class="p">.,</span><span class="n">modeproj</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">modeprojecteddos</span><span class="p">)</span>
-<a name="ln-146"></a><span class="n">endif</span>
-<a name="ln-147"></a>
-<a name="ln-148"></a><span class="c">! A positive number of temperatures means I should dump energy</span>
-<a name="ln-149"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">trangenpts</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-150"></a><span class="k">    if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">fullmesh</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-151"></a><span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;I screwed up the heuristics&#39;</span>
-<a name="ln-152"></a>        <span class="k">stop</span>
-<a name="ln-153"></a><span class="k">    </span><span class="n">endif</span>
-<a name="ln-154"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... calculating free energy&#39;</span>
-<a name="ln-155"></a>    <span class="n">lo_allocate</span><span class="p">(</span><span class="n">temperatures</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">trangenpts</span><span class="p">))</span>
-<a name="ln-156"></a>    <span class="k">call </span><span class="n">lo_linspace</span><span class="p">(</span><span class="n">opts</span><span class="p">%</span><span class="n">trangemin</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">trangemax</span><span class="p">,</span><span class="n">temperatures</span><span class="p">)</span>
-<a name="ln-157"></a>    <span class="c">! dump some free energies and entropies</span>
-<a name="ln-158"></a>    <span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.free_energy&#39;</span><span class="p">)</span>
-<a name="ln-159"></a>        <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">trangenpts</span>
-<a name="ln-160"></a>            <span class="n">f0</span><span class="o">=</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-161"></a>            <span class="n">f1</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_free_energy</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span>
-<a name="ln-162"></a>            <span class="n">f2</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_entropy</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span>
-<a name="ln-163"></a>            <span class="n">f3</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_cv</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span>
-<a name="ln-164"></a>            <span class="n">f4</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_free_energy_classical</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span>
-<a name="ln-165"></a>            <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f1</span><span class="o">-</span><span class="mi">12345678</span><span class="mf">9.0_flyt</span><span class="p">)</span> <span class="p">.</span><span class="n">lt</span><span class="p">.</span> <span class="n">lo_tol</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-166"></a>                <span class="c">! return NaN if I have imaginary frequencies</span>
-<a name="ln-167"></a>                <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">f0</span><span class="p">,</span><span class="s1">&#39; NaN  NaN  NaN&#39;</span> <span class="c">!&#39;  NaN&#39;</span>
-<a name="ln-168"></a>            <span class="k">else</span>
-<a name="ln-169"></a><span class="k">                write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="s2">&quot;(5(1X,E18.11))&quot;</span><span class="p">)</span> <span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">f3</span> <span class="c">!,f4</span>
-<a name="ln-170"></a>            <span class="n">endif</span>
-<a name="ln-171"></a>        <span class="n">enddo</span>
-<a name="ln-172"></a>    <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-173"></a>    
-<a name="ln-174"></a>    <span class="c">! If the modevib option is specified, write the contribution of each phonon branch</span>
-<a name="ln-175"></a>    <span class="c">! to the total vibrational entropy for each temperature</span>
-<a name="ln-176"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">modevib</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-177"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;outfile.mode_vibentropies&#39;</span><span class="p">)</span>
-<a name="ln-178"></a>        <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">dr</span><span class="p">%</span><span class="n">nb</span><span class="p">))</span><span class="o">//</span><span class="s2">&quot;(1X,E18.12))&quot;</span>
-<a name="ln-179"></a>        <span class="n">lo_allocate</span><span class="p">(</span><span class="n">dum</span><span class="p">(</span><span class="n">dr</span><span class="p">%</span><span class="n">nb</span><span class="p">))</span>
-<a name="ln-180"></a>        <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">trangenpts</span>
-<a name="ln-181"></a>            <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">dr</span><span class="p">%</span><span class="n">nb</span>
-<a name="ln-182"></a>                <span class="n">dum</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_entropy</span><span class="p">(</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">modenum</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
-<a name="ln-183"></a>            <span class="n">enddo</span>
-<a name="ln-184"></a>            <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">opf</span><span class="p">)</span> <span class="n">dum</span> 
-<a name="ln-185"></a>        <span class="n">enddo</span>
-<a name="ln-186"></a>        <span class="n">lo_deallocate</span><span class="p">(</span><span class="n">dum</span><span class="p">)</span>
-<a name="ln-187"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-188"></a>    <span class="n">endif</span>
-<a name="ln-189"></a>    
-<a name="ln-190"></a>    <span class="c">! If the sitevib option is specified, write the contribution of each unit cells site</span>
-<a name="ln-191"></a>    <span class="c">! to the total vibrational entropy for each temperature</span>
-<a name="ln-192"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">sitevib</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-193"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;outfile.site_vibentropies&#39;</span><span class="p">)</span>
-<a name="ln-194"></a>        <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="p">))</span><span class="o">//</span><span class="s2">&quot;(1X,E18.12))&quot;</span>
-<a name="ln-195"></a>        <span class="n">lo_allocate</span><span class="p">(</span><span class="n">dum</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span><span class="p">))</span>
-<a name="ln-196"></a>        <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">trangenpts</span>
-<a name="ln-197"></a>            <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span>
-<a name="ln-198"></a>                <span class="n">dum</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="n">dr</span><span class="p">%</span><span class="n">phonon_entropy</span><span class="p">(</span><span class="n">temperatures</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">sitenum</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
-<a name="ln-199"></a>            <span class="n">enddo</span>
-<a name="ln-200"></a>            <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">opf</span><span class="p">)</span> <span class="n">dum</span> 
-<a name="ln-201"></a>        <span class="n">enddo</span>
-<a name="ln-202"></a>        <span class="n">lo_deallocate</span><span class="p">(</span><span class="n">dum</span><span class="p">)</span>
-<a name="ln-203"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-204"></a>    <span class="n">endif</span>
-<a name="ln-205"></a><span class="n">endif</span>
-<a name="ln-206"></a>
-<a name="ln-207"></a><span class="c">! Calculate and dump the velocity density of states! </span>
-<a name="ln-208"></a><span class="c">! Actually no, it&#39;s not that exciting. Kind of a stupid idea to begin with.</span>
-<a name="ln-209"></a><span class="c">!call dump_velocity_dos(uc,dr,qp,opts%temperature)</span>
-<a name="ln-210"></a>
-<a name="ln-211"></a><span class="c">! Write everything on the grid to file, for some inexplicable reason.</span>
-<a name="ln-212"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">dumpgrid</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-213"></a>    <span class="c">! small sanity check</span>
-<a name="ln-214"></a>    <span class="k">if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">opts</span><span class="p">%</span><span class="n">fullmesh</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-215"></a><span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;I screwed up the heuristics&#39;</span>
-<a name="ln-216"></a>        <span class="k">stop</span>
-<a name="ln-217"></a><span class="k">    </span><span class="n">endif</span>
-<a name="ln-218"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">gruneisen</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-219"></a><span class="k">        call </span><span class="n">dr</span><span class="p">%</span><span class="n">gruneisen</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="n">fct</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
-<a name="ln-220"></a>    <span class="n">endif</span>
-<a name="ln-221"></a>    <span class="c">! actually write it</span>
-<a name="ln-222"></a>    <span class="k">call </span><span class="n">dr</span><span class="p">%</span><span class="n">write_to_hdf5</span><span class="p">(</span><span class="n">qp</span><span class="p">,</span><span class="s1">&#39;outfile.grid_dispersions.hdf5&#39;</span><span class="p">)</span>
-<a name="ln-223"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... wrote data for the full grid&#39;</span>    
-<a name="ln-224"></a><span class="n">endif</span>
-<a name="ln-225"></a>
-<a name="ln-226"></a><span class="c">! Maybe create some stunt ARCS data. But no, noone cares about this. So no.</span>
-<a name="ln-227"></a><span class="c">!if ( opts%stuntarcs ) then</span>
-<a name="ln-228"></a><span class="c">!    write(*,*) &#39;&#39;</span>
-<a name="ln-229"></a><span class="c">!    write(*,*) &#39;Calculating stunt ARCS data&#39;</span>
-<a name="ln-230"></a><span class="c">!    call generate_theoretical_density_plot(bs,uc,fc,opts,loto)</span>
-<a name="ln-231"></a><span class="c">!endif</span>
-<a name="ln-232"></a>
-<a name="ln-233"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-234"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39;  All done! It took&#39;,F12.3,&#39;s&#39; )&quot;</span><span class="p">)</span> <span class="n">walltime</span><span class="p">()</span><span class="o">-</span><span class="n">tstart</span>
-<a name="ln-235"></a>
-<a name="ln-236"></a><span class="k">end program</span>
+<a name="ln-81"></a><span class="c">! generate the vector distribution (only in case of no diffusion, this makes little sense if things are melted)</span>
+<a name="ln-82"></a><span class="k">if</span> <span class="p">(</span> <span class="n">pdf</span><span class="p">%</span><span class="n">diffusion</span> <span class="p">.</span><span class="n">eqv</span><span class="p">.</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-83"></a><span class="k">    call </span><span class="n">vd</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">bintype</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">transform</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">nbin</span><span class="p">)</span>
+<a name="ln-84"></a>    <span class="k">call </span><span class="n">vd</span><span class="p">%</span><span class="n">write_to_hdf5</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
+<a name="ln-85"></a><span class="k">else</span>
+<a name="ln-86"></a>    <span class="c">! if it&#39;s melted, go with the probability density instead!</span>
+<a name="ln-87"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Probability density function, but not yet. Nag on me to fix this.&#39;</span>
+<a name="ln-88"></a>    <span class="k">call </span><span class="n">mw</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<a name="ln-89"></a>    <span class="k">stop</span>
+<a name="ln-90"></a><span class="n">endif</span>
+<a name="ln-91"></a>
+<a name="ln-92"></a><span class="c">! So I decided to comment it instead of writing the manual.</span>
+<a name="ln-93"></a><span class="c">! realspace velocity-velocity autocorrelation functions</span>
+<a name="ln-94"></a><span class="c">! call cf%generate(uc,ss,pm,sim)</span>
+<a name="ln-95"></a><span class="c">! call cf%write_to_plaintext(pm,uc)</span>
+<a name="ln-96"></a>
+<a name="ln-97"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;All done!&#39;</span>
+<a name="ln-98"></a><span class="k">call </span><span class="n">mw</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<a name="ln-99"></a>
+<a name="ln-100"></a><span class="k">end program</span>
 </pre></div>
 
     </section>
@@ -530,6 +408,10 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allfiles-1">All Source Files</a></h3></div>
   <div id="allfiles-1" class="panel-collapse collapse">
     <div class="list-group">
+      
+      <a class="list-group-item" href="../sourcefile/autocell.f90.html">autocell.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/dipole.f90.html">dipole.f90</a>
       
       <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
@@ -551,8 +433,6 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E9.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
-      
       <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
@@ -560,6 +440,14 @@
       <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_thermalpath.f90.html">phonondamping_thermalpath.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_gaussian.f90.html">phononevents_gaussian.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_tetrahedron.f90.html">phononevents_tetrahedron.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/test_forceconstant_symmetry.f90.html">test_forceconstant_symmetry.f90</a>
       
     </div>
   </div>
@@ -578,8 +466,8 @@
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

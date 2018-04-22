@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -184,9 +188,9 @@
     
     <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
         <h3>Input files</h3>
-<p>This page details the format for all input files. The format of the output files is </p>
+<p>This page details the format for all input files. The format of the output files is</p>
 <h3><a name="infile.ucposcar"></a> infile.ucposcar</h3>
-<p>An example of a crystal structure (this is exactly the VASP 5 file format): </p>
+<p>An example of a crystal structure (this is exactly the VASP 5 file format):</p>
 <div class="codehilite"><pre><span></span>Bi2Te3
 10.314046162
  0.243360208934  0.000000000000  0.969935981757
@@ -231,13 +235,13 @@ direct coordinates
 <tbody>
 <tr>
     <td>\(1\)</td>
-    <td> 
+    <td>
         \( r_1^x \qquad r_1^y \qquad r_1^z \)
     </td>
 </tr>
 <tr>
     <td>\(2\)</td>
-    <td> 
+    <td>
         \( r_2^x \qquad r_2^y \qquad r_2^z \)
     </td>
 </tr>
@@ -253,7 +257,7 @@ direct coordinates
 </tr>
 <tr>
     <td>\(N_a+1\)</td>
-    <td> 
+    <td>
     \( r_1^x \qquad r_1^y \qquad r_1^z \)
     </td>
 </tr>
@@ -263,7 +267,7 @@ direct coordinates
 </tr>
 <tr>
     <td>\(N_aN_c\)</td>
-    <td> 
+    <td>
     \( r_{N_a}^x \qquad r_{N_a}^y \qquad r_{N_a}^z \)
     </td>
 </tr>
@@ -281,13 +285,13 @@ direct coordinates
 <tbody>
 <tr>
     <td>\(1\)</td>
-    <td> 
+    <td>
         \( f_1^x \qquad f_1^y \qquad f_1^z \)
     </td>
 </tr>
 <tr>
     <td>\(2\)</td>
-    <td> 
+    <td>
         \( f_2^x \qquad f_2^y \qquad f_2^z \)
     </td>
 </tr>
@@ -303,7 +307,7 @@ direct coordinates
 </tr>
 <tr>
     <td>\(N_a+1\)</td>
-    <td> 
+    <td>
     \( f_1^x \qquad f_1^y \qquad f_1^z \)
     </td>
 </tr>
@@ -313,7 +317,7 @@ direct coordinates
 </tr>
 <tr>
     <td>\(N_aN_c\)</td>
-    <td> 
+    <td>
     \( f_{N_a}^x \qquad f_{N_a}^y \qquad f_{N_a}^z \)
     </td>
 </tr>
@@ -331,13 +335,13 @@ direct coordinates
 <tbody>
 <tr>
     <td>1</td>
-    <td> 
+    <td>
         \( i \quad t \quad E_t \quad E_p \quad E_k \quad T \quad P \quad \sigma_{xx} \quad \sigma_{yy} \quad \sigma_{zz} \quad \sigma_{xz} \quad \sigma_{yz} \quad \sigma_{xy} \)
     </td>
 </tr>
 <tr>
     <td>2</td>
-    <td> 
+    <td>
         \( i \quad t \quad E_t \quad E_p \quad E_k \quad T \quad P \quad \sigma_{xx} \quad \sigma_{yy} \quad \sigma_{zz} \quad \sigma_{xz} \quad \sigma_{yz} \quad \sigma_{xy} \)   </td>
 </tr>
 <tr>
@@ -346,7 +350,7 @@ direct coordinates
 </tr>
 <tr>
     <td>\( N_c \)</td>
-    <td> 
+    <td>
         \( i \quad t \quad E_t \quad E_p \quad E_k \quad T \quad P \quad \sigma_{xx} \quad \sigma_{yy} \quad \sigma_{zz} \quad \sigma_{xz} \quad \sigma_{yz} \quad \sigma_{xy} \)   </td>
 </tr>
 </tbody>
@@ -368,27 +372,39 @@ direct coordinates
 <h3><a name="infile.lotosplitting"></a> infile.lotosplitting</h3>
 <p>This is an example input file for the long-range electrostatic corrections, also for Bi2Te3.</p>
 <div class="codehilite"><pre><span></span> 5.0  0.0  0.0 # three lines for dielectric tensor
- 0.0  5.0  0.0 
- 0.0  0.0  7.5 
+ 0.0  5.0  0.0
+ 0.0  0.0  7.5
  8.0  0.0  0.0 # Born effective charge for atom 1, three lines
- 0.0  8.0  0.0 
- 0.0  0.0  2.5 
+ 0.0  8.0  0.0
+ 0.0  0.0  2.5
  8.0  0.0  0.0 # Born effective charge for atom 2, three lines
- 0.0  8.0  0.0 
- 0.0  0.0  2.5 
+ 0.0  8.0  0.0
+ 0.0  0.0  2.5
 -4.5  0.0  0.0 # Born effective charge for atom 3, three lines
- 0.0 -4.5  0.0 
- 0.0  0.0 -0.5 
+ 0.0 -4.5  0.0
+ 0.0  0.0 -0.5
 -4.5  0.0  0.0 # Born effective charge for atom 4, three lines
- 0.0 -4.5  0.0 
- 0.0  0.0 -0.5 
+ 0.0 -4.5  0.0
+ 0.0  0.0 -0.5
 -7.0  0.0  0.0 # Born effective charge for atom 5, three lines
- 0.0 -7.0  0.0 
+ 0.0 -7.0  0.0
  0.0  0.0 -5.1
 </pre></div>
 
 
 <p>The first three lines is the dielectric tensor, after that three lines per atom in <a href="#infile.ucposcar">infile.ucposcar</a> with the Born effective charges. The dielectric tensor is unitless, and the Born effective charges are in electron charges.</p>
+<p>It is important to note that in general, the Born effective charges are not necessarily symmetric:</p>
+<p>$$
+Z_i^{\alpha\beta} = \frac{\partial^2 U}{\partial \epsilon_i^{\alpha} \partial u_i^{\beta}}
+$$</p>
+<p>That is derivative with respect to electric field and position. This means it matters how you enter them. In this input file, the convention is as follows:</p>
+<p>$$
+\begin{pmatrix}
+    \partial_{\epsilon x}\partial_{ux} &amp; \partial_{\epsilon x}\partial_{uy} &amp; \partial_{\epsilon x}\partial_{uz} \\
+    \partial_{\epsilon y}\partial_{ux} &amp; \partial_{\epsilon y}\partial_{uy} &amp; \partial_{\epsilon y}\partial_{uz} \\
+    \partial_{\epsilon z}\partial_{ux} &amp; \partial_{\epsilon z}\partial_{uy} &amp; \partial_{\epsilon z}\partial_{uz}
+\end{pmatrix}
+$$</p>
 <h3><a name="infile.qpoints_dispersion"></a> infile.qpoints_dispersion</h3>
 <p>Many programs output properties along a path in the BZ. Per default, this is generated procedurally. In case the default is not satisfactory, you have the possibility to specify a path.</p>
 <div class="codehilite"><pre><span></span>FCC                         ! Bravais lattice type
@@ -439,8 +455,8 @@ GM  L                       !
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

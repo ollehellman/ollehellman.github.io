@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -117,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
 	  data-placement="bottom" data-html="true"
-	  title="13.3% of total for source files.">177 statements</a>
+	  title=" 8.0% of total for source files.">127 statements</a>
      </li> 
      
      
@@ -153,7 +157,7 @@
   <div id="progs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
       
     </div>
   </div>
@@ -190,6 +194,10 @@
   <div id="allfiles-0" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../sourcefile/autocell.f90.html">autocell.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/dipole.f90.html">dipole.f90</a>
+      
       <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
       <a class="list-group-item" href="../sourcefile/main.f90.html">main.f90</a>
@@ -210,8 +218,6 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E9.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
-      
       <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
@@ -219,6 +225,14 @@
       <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_thermalpath.f90.html">phonondamping_thermalpath.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_gaussian.f90.html">phononevents_gaussian.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_tetrahedron.f90.html">phononevents_tetrahedron.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/test_forceconstant_symmetry.f90.html">test_forceconstant_symmetry.f90</a>
       
     </div>
   </div>
@@ -246,7 +260,7 @@
   <div id="progs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../program/extract_forceconstants.html">extract_forceconstants</a>
+      <a class="list-group-item" href="../program/crystal_structure_info.html">crystal_structure_info</a>
       
     </div>
   </div>
@@ -281,286 +295,661 @@
     <section>
       <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl"><pre><span></span><a name="ln-1"></a><span class="cp">#include &quot;precompilerdefinitions&quot;</span>
-<a name="ln-2"></a><span class="k">program </span><span class="n">extract_forceconstants</span>
-<a name="ln-3"></a><span class="c">!!{!src/extract_forceconstants/manual.md!}</span>
-<a name="ln-4"></a><span class="k">use </span><span class="n">constants</span>
-<a name="ln-5"></a><span class="k">use </span><span class="n">type_crystalstructure</span>
-<a name="ln-6"></a><span class="k">use </span><span class="n">type_neighbourlist</span>
-<a name="ln-7"></a><span class="k">use </span><span class="n">type_symmetrytable</span>
-<a name="ln-8"></a><span class="k">use </span><span class="n">type_symmetryoperation</span>
-<a name="ln-9"></a><span class="k">use </span><span class="n">type_mdsim</span>
-<a name="ln-10"></a><span class="k">use </span><span class="n">helpers</span>
-<a name="ln-11"></a><span class="k">use options</span>
-<a name="ln-12"></a><span class="k">use </span><span class="n">type_forceconstant_secondorder</span>
-<a name="ln-13"></a><span class="k">use </span><span class="n">type_forceconstant_thirdorder</span>
-<a name="ln-14"></a><span class="c">!</span>
-<a name="ln-15"></a><span class="k">use </span><span class="n">type_forcemap</span>
-<a name="ln-16"></a><span class="k">use </span><span class="n">type_lassosolvers</span>
-<a name="ln-17"></a><span class="k">use </span><span class="n">test_constraints</span>
-<a name="ln-18"></a><span class="k">use </span><span class="n">relax_structure</span>
-<a name="ln-19"></a><span class="c">!</span>
-<a name="ln-20"></a><span class="k">implicit none</span>
-<a name="ln-21"></a><span class="c">! my types</span>
-<a name="ln-22"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_opts</span><span class="p">)</span> <span class="kd">::</span> <span class="n">opts</span>
-<a name="ln-23"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_crystalstructure</span><span class="p">)</span> <span class="kd">::</span> <span class="n">uc</span><span class="p">,</span><span class="n">ss</span>
-<a name="ln-24"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_symcell</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sy</span>
-<a name="ln-25"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_mdsim</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sim</span>
-<a name="ln-26"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_forcemap</span><span class="p">)</span> <span class="kd">::</span> <span class="n">map</span>
-<a name="ln-27"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_forceconstant_firstorder</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fc1</span>
-<a name="ln-28"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_forceconstant_secondorder</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fc2</span>
-<a name="ln-29"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_forceconstant_thirdorder</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fc3</span>
-<a name="ln-30"></a>
-<a name="ln-31"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(:,:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">dum</span>
-<a name="ln-32"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">)</span> <span class="kd">::</span> <span class="n">t0</span><span class="p">,</span><span class="n">f0</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">f3</span>
-<a name="ln-33"></a><span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">uca</span><span class="p">,</span><span class="n">t</span> 
-<a name="ln-34"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> <span class="kd">::</span> <span class="n">opf</span>
-<a name="ln-35"></a>
-<a name="ln-36"></a><span class="c">! I should determine the general nature of the task here: it could be </span>
-<a name="ln-37"></a><span class="c">! a)</span>
-<a name="ln-38"></a><span class="c">! generate displacements in a smart way</span>
-<a name="ln-39"></a><span class="c">! b) </span>
-<a name="ln-40"></a><span class="c">! get forceconstants from force-displacement data</span>
-<a name="ln-41"></a><span class="c">! c) </span>
-<a name="ln-42"></a><span class="c">! get forceconstants from an input file, for interpolation purposes</span>
-<a name="ln-43"></a>
-<a name="ln-44"></a><span class="n">t0</span><span class="o">=</span><span class="n">walltime</span><span class="p">()</span>
-<a name="ln-45"></a><span class="k">call </span><span class="n">opts</span><span class="p">%</span><span class="n">parse</span><span class="p">()</span>
-<a name="ln-46"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... reading infiles &#39;</span>
-<a name="ln-47"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ucposcar&#39;</span><span class="p">)</span>
-<a name="ln-48"></a><span class="c">! </span>
-<a name="ln-49"></a><span class="c">!</span>
-<a name="ln-50"></a><span class="c">!</span>
-<a name="ln-51"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">readforcemap</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-52"></a><span class="k">    if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">readirreducible</span> <span class="p">.</span><span class="n">eqv</span><span class="p">.</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="p">)</span> <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar&#39;</span><span class="p">)</span>
-<a name="ln-53"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... reading symmetry constrained forcemap from file&#39;</span>
-<a name="ln-54"></a>    <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">read_from_hdf5</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="s1">&#39;infile.forcemap.hdf5&#39;</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">readirreducible</span><span class="p">)</span>
-<a name="ln-55"></a><span class="k">else</span>
-<a name="ln-56"></a>    <span class="c">! If not, calculate it. Figure out more or less everything related to symmetry, </span>
-<a name="ln-57"></a>    <span class="c">! with pairs, triplets quartets and so on.</span>
-<a name="ln-58"></a>    <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ssposcar&#39;</span><span class="p">)</span>
-<a name="ln-59"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... min cutoff: &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">flyt2char</span><span class="p">(</span><span class="n">ss</span><span class="p">%</span><span class="n">mincutoff</span><span class="p">()))</span>
-<a name="ln-60"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... max cutoff: &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">flyt2char</span><span class="p">(</span><span class="n">ss</span><span class="p">%</span><span class="n">maxcutoff</span><span class="p">()))</span>
-<a name="ln-61"></a>    <span class="k">call </span><span class="n">sy</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff2</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff3</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff4</span><span class="p">,&amp;</span>
-<a name="ln-62"></a>                     <span class="n">testscalar</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">collmagnetism</span><span class="p">,</span><span class="n">testvector</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">noncollmagnetism</span><span class="p">,&amp;</span>
-<a name="ln-63"></a>                     <span class="n">testmatrix</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">loto</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">,</span><span class="n">transpositions</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="n">nspace</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.,&amp;</span>
-<a name="ln-64"></a>                     <span class="n">wzdim</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">wzdimensions</span><span class="p">,</span><span class="n">firstorder</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">firstorder</span><span class="p">)</span>
-<a name="ln-65"></a>    <span class="c">! Build the mapping every which way</span>
-<a name="ln-66"></a>    <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">sy</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
-<a name="ln-67"></a>    <span class="c">! Store the map in a file, for future reference</span>
-<a name="ln-68"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... writing forcemap to file&#39;</span>
-<a name="ln-69"></a>    <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">write_to_hdf5</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="s1">&#39;outfile.forcemap.hdf5&#39;</span><span class="p">)</span>
-<a name="ln-70"></a>
-<a name="ln-71"></a>    <span class="c">! Dump some info to stdout, about coordination shells and such.</span>
-<a name="ln-72"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-73"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... found &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">sy</span><span class="p">%</span><span class="n">nun</span><span class="p">)),</span><span class="s1">&#39; unique atom(s):&#39;</span>
-<a name="ln-74"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">sy</span><span class="p">%</span><span class="n">nun</span>
-<a name="ln-75"></a>        <span class="n">uca</span><span class="o">=</span><span class="n">sy</span><span class="p">%</span><span class="n">un</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">atom_in_uc</span>
-<a name="ln-76"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... atom &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">//</span><span class="s1">&#39;: &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">atomic_symbol</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">species</span><span class="p">(</span><span class="n">uca</span><span class="p">))),&amp;</span>
-<a name="ln-77"></a>                   <span class="s1">&#39; at position &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">uca</span><span class="p">))</span>
-<a name="ln-78"></a>    <span class="n">enddo</span>
-<a name="ln-79"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-80"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">secondorder</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... found &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">npairshells</span><span class="p">)),&amp;</span>
-<a name="ln-81"></a>                          <span class="s1">&#39; unique pair coordination shells&#39;</span>
-<a name="ln-82"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-83"></a>        <span class="c">!do i=1,sy%npairshells</span>
-<a name="ln-84"></a>        <span class="c">!    write(*,*) &#39;&#39;</span>
-<a name="ln-85"></a>        <span class="c">!    write(*,*) &#39;shell&#39;,i</span>
-<a name="ln-86"></a>        <span class="c">!    write(*,*) &#39; Carteisian vector:&#39;,lo_chop(sy%pairshell(i)%protpair%v2,lo_sqtol)</span>
-<a name="ln-87"></a>        <span class="c">!    write(*,*) &#39; Fractional vector:&#39;,lo_chop(matmul(uc%inv_latticevectors,sy%pairshell(i)%protpair%v2),lo_sqtol)</span>
-<a name="ln-88"></a>        <span class="c">!    conn: block</span>
-<a name="ln-89"></a>        <span class="c">!        integer :: t,o,a1,a2,i1,i2,l</span>
-<a name="ln-90"></a>        <span class="c">!        real(flyt), dimension(:,:,:), allocatable :: listofM</span>
-<a name="ln-91"></a>        <span class="c">!        a1=sy%pairshell(i)%prot_un_a1</span>
-<a name="ln-92"></a>        <span class="c">!        i1=sy%pairshell(i)%prot_un_i1</span>
-<a name="ln-93"></a>        <span class="c">!        l=0</span>
-<a name="ln-94"></a>        <span class="c">!        do j=1,sy%pairshell(i)%protpair%nconnections</span>
-<a name="ln-95"></a>        <span class="c">!            t= sy%pairshell(i)%protpair%connections(1,j)</span>
-<a name="ln-96"></a>        <span class="c">!            o= sy%pairshell(i)%protpair%connections(2,j)</span>
-<a name="ln-97"></a>        <span class="c">!            a2=sy%pairshell(i)%protpair%connections(3,j)</span>
-<a name="ln-98"></a>        <span class="c">!            i2=sy%pairshell(i)%protpair%connections(4,j)</span>
-<a name="ln-99"></a>        <span class="c">!            if ( i1 .ne. i2 ) cycle</span>
-<a name="ln-100"></a>        <span class="c">!            if ( a1 .ne. a2 ) cycle</span>
-<a name="ln-101"></a>        <span class="c">!            l=l+1</span>
-<a name="ln-102"></a>        <span class="c">!            write(*,*) &#39;connection&#39;,l,&#39;op&#39;,o,&#39;transposition&#39;,t</span>
-<a name="ln-103"></a>        <span class="c">!            do k=1,3</span>
-<a name="ln-104"></a>        <span class="c">!                write(*,*) sy%sym%op(o)%fm(:,k)</span>
-<a name="ln-105"></a>        <span class="c">!            enddo</span>
-<a name="ln-106"></a>        <span class="c">!        enddo</span>
-<a name="ln-107"></a>        <span class="c">!    end block conn</span>
-<a name="ln-108"></a>        <span class="c">!enddo</span>
-<a name="ln-109"></a>        <span class="c">!do i=1,map%npairshells</span>
-<a name="ln-110"></a>        <span class="c">!    write(*,*) &#39;&#39;</span>
-<a name="ln-111"></a>        <span class="c">!    atl1: do j=1,map%nuc</span>
-<a name="ln-112"></a>        <span class="c">!    do k=1,map%uc(j)%npair</span>
-<a name="ln-113"></a>        <span class="c">!        if ( map%uc(j)%pair(k)%irreducible_shell .eq. i ) then</span>
-<a name="ln-114"></a>        <span class="c">!            write(*,*) &#39;shell&#39;,i,&#39;nfc:&#39;,map%uc(j)%pair(k)%nfc</span>
-<a name="ln-115"></a>        <span class="c">!            write(*,*) &#39;  Cartesian vector:&#39;,map%uc(j)%pair(k)%r</span>
-<a name="ln-116"></a>        <span class="c">!            write(*,*) &#39; Fractional vector:&#39;,matmul(uc%inv_latticevectors,map%uc(j)%pair(k)%r)</span>
-<a name="ln-117"></a>        <span class="c">!            exit atl1</span>
-<a name="ln-118"></a>        <span class="c">!        endif</span>
-<a name="ln-119"></a>        <span class="c">!    enddo</span>
-<a name="ln-120"></a>        <span class="c">!    enddo atl1</span>
-<a name="ln-121"></a>        <span class="c">!enddo</span>
-<a name="ln-122"></a>    <span class="n">endif</span>
-<a name="ln-123"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">thirdorder</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... found &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">int2char</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">ntripletshells</span><span class="p">)),&amp;</span>
-<a name="ln-124"></a>                          <span class="s1">&#39; unique triplet coordination shells&#39;</span>
-<a name="ln-125"></a><span class="n">endif</span>
-<a name="ln-126"></a>
-<a name="ln-127"></a><span class="c">! Step two is to get irreducible forceconstants, either solve for them or read from file.</span>
-<a name="ln-128"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">readirreducible</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-129"></a>    <span class="c">! yep, read them</span>
-<a name="ln-130"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">firstorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-131"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;in&#39;</span><span class="p">,</span><span class="s1">&#39;infile.irrifc_firstorder&#39;</span><span class="p">)</span>
-<a name="ln-132"></a>            <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">nfc_singlet</span>
-<a name="ln-133"></a>                <span class="k">read</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">map</span><span class="p">%</span><span class="n">ifc_singlet</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-134"></a>            <span class="n">enddo</span>
-<a name="ln-135"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-136"></a>    <span class="n">endif</span>
-<a name="ln-137"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">secondorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-138"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;in&#39;</span><span class="p">,</span><span class="s1">&#39;infile.irrifc_secondorder&#39;</span><span class="p">)</span>
-<a name="ln-139"></a>            <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">nfc_pair</span>
-<a name="ln-140"></a>                <span class="k">read</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">map</span><span class="p">%</span><span class="n">ifc_pair</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-141"></a>            <span class="n">enddo</span>
-<a name="ln-142"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-143"></a>    <span class="n">endif</span>
-<a name="ln-144"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">thirdorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-145"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;in&#39;</span><span class="p">,</span><span class="s1">&#39;infile.irrifc_thirdorder&#39;</span><span class="p">)</span>
-<a name="ln-146"></a>            <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">nfc_triplet</span>
-<a name="ln-147"></a>                <span class="k">read</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">map</span><span class="p">%</span><span class="n">ifc_triplet</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-148"></a>            <span class="n">enddo</span>
-<a name="ln-149"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-150"></a>    <span class="n">endif</span>
-<a name="ln-151"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... creating constraints&#39;</span>
-<a name="ln-152"></a>    <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">create_constraints</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">rotationalconstraints</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">huanginvariance</span><span class="p">)</span>
-<a name="ln-153"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... enforcing constraints&#39;</span>
-<a name="ln-154"></a>    <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">enforce_constraints</span><span class="p">()</span>
-<a name="ln-155"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;&#39;</span>
-<a name="ln-156"></a><span class="k">else</span>
-<a name="ln-157"></a>    <span class="c">! Read the forces and positions.</span>
-<a name="ln-158"></a>    <span class="k">call </span><span class="n">sim</span><span class="p">%</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">stride</span><span class="p">)</span>
-<a name="ln-159"></a>    <span class="c">! create the constraints</span>
-<a name="ln-160"></a>    <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">create_constraints</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">rotationalconstraints</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">huanginvariance</span><span class="p">)</span>
-<a name="ln-161"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;rot&#39;</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">rotationalconstraints</span>
-<a name="ln-162"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;huang&#39;</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">huanginvariance</span>
-<a name="ln-163"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;nr&#39;</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">nc</span>
-<a name="ln-164"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;nr&#39;</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">neq_rot1</span>
-<a name="ln-165"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;nr&#39;</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">neq_rot2</span>
-<a name="ln-166"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;nr&#39;</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">neq_rot3</span>
-<a name="ln-167"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;nr&#39;</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">neq_asr3</span>
-<a name="ln-168"></a>    <span class="c">! Perhaps turn them off, if desired</span>
-<a name="ln-169"></a><span class="c">!    map%neq_rot1=0</span>
-<a name="ln-170"></a><span class="c">!    map%neq_rot2=0</span>
-<a name="ln-171"></a><span class="c">!    map%neq_rot3=0</span>
-<a name="ln-172"></a><span class="c">!    map%neq_asr3=0</span>
-<a name="ln-173"></a><span class="c">!    map%nc=0</span>
-<a name="ln-174"></a>    <span class="c">!</span>
-<a name="ln-175"></a>    <span class="c">! Perhaps relax the internal coordinates first?</span>
-<a name="ln-176"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">relax</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-177"></a>        <span class="c">! Try to relax everything</span>
-<a name="ln-178"></a>        <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span> 
-<a name="ln-179"></a>            <span class="k">call </span><span class="n">relax_internal_coordinates</span><span class="p">(</span><span class="n">map</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">solver</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">solveralpha</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">rotationalconstraints</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">huanginvariance</span><span class="p">)</span>
-<a name="ln-180"></a>            <span class="c">! If successful, we need to rebuild the forcemap after this since the internal coordinates changed.</span>
-<a name="ln-181"></a>            <span class="k">call </span><span class="n">sy</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff2</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff3</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">cutoff4</span><span class="p">,&amp;</span>
-<a name="ln-182"></a>                     <span class="n">testscalar</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">collmagnetism</span><span class="p">,</span><span class="n">testvector</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">noncollmagnetism</span><span class="p">,&amp;</span>
-<a name="ln-183"></a>                     <span class="n">testmatrix</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">loto</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">,</span><span class="n">transpositions</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="n">nspace</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.,&amp;</span>
-<a name="ln-184"></a>                     <span class="n">wzdim</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">wzdimensions</span><span class="p">,</span><span class="n">firstorder</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">firstorder</span><span class="p">)</span>
-<a name="ln-185"></a>            <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">generate</span><span class="p">(</span><span class="n">sy</span><span class="p">,</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
-<a name="ln-186"></a>            <span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">create_constraints</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">rotationalconstraints</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">huanginvariance</span><span class="p">)</span>
-<a name="ln-187"></a>        <span class="n">enddo</span>
-<a name="ln-188"></a>        <span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="s1">&#39;outfile.relaxed_ucposcar&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-189"></a>        <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="s1">&#39;outfile.relaxed_ssposcar&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-190"></a>        <span class="c">! probably stop here for now.</span>
-<a name="ln-191"></a>        <span class="k">stop</span>
-<a name="ln-192"></a><span class="k">    </span><span class="n">endif</span>
-<a name="ln-193"></a>    <span class="c">! Get the actual forceconstants</span>
-<a name="ln-194"></a>    <span class="k">call </span><span class="n">solve_equations</span><span class="p">(</span><span class="n">map</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">solver</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">solveralpha</span><span class="p">,</span><span class="n">opts</span><span class="p">%</span><span class="n">residualfit</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-195"></a>    <span class="c">! Write the irreducible components to file</span>
-<a name="ln-196"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">firstorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-197"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.irrifc_firstorder&#39;</span><span class="p">)</span>
-<a name="ln-198"></a>            <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">nfc_singlet</span>
-<a name="ln-199"></a>                <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">map</span><span class="p">%</span><span class="n">ifc_singlet</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-200"></a>            <span class="n">enddo</span>
-<a name="ln-201"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-202"></a>    <span class="n">endif</span>
-<a name="ln-203"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">secondorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-204"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.irrifc_secondorder&#39;</span><span class="p">)</span>
-<a name="ln-205"></a>            <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">nfc_pair</span>
-<a name="ln-206"></a>                <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">map</span><span class="p">%</span><span class="n">ifc_pair</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-207"></a>            <span class="n">enddo</span>
-<a name="ln-208"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-209"></a>    <span class="n">endif</span>
-<a name="ln-210"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">thirdorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-211"></a><span class="k">        </span><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.irrifc_thirdorder&#39;</span><span class="p">)</span>
-<a name="ln-212"></a>            <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">map</span><span class="p">%</span><span class="n">nfc_triplet</span>
-<a name="ln-213"></a>                <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">map</span><span class="p">%</span><span class="n">ifc_triplet</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-214"></a>            <span class="n">enddo</span>
-<a name="ln-215"></a>        <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<a name="ln-216"></a>    <span class="n">endif</span>
-<a name="ln-217"></a><span class="n">endif</span>
-<a name="ln-218"></a>
-<a name="ln-219"></a><span class="c">! Step three is to convert the irreducible forceconstants to real forceconstants, and write them to output files.</span>
-<a name="ln-220"></a><span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">firstorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-221"></a><span class="k">    call </span><span class="n">map</span><span class="p">%</span><span class="n">get_firstorder_forceconstant</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc1</span><span class="p">)</span>
-<a name="ln-222"></a><span class="n">endif</span>
-<a name="ln-223"></a><span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">secondorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-224"></a><span class="k">    call </span><span class="n">map</span><span class="p">%</span><span class="n">get_secondorder_forceconstant</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc2</span><span class="p">)</span>
-<a name="ln-225"></a>    <span class="k">call </span><span class="n">fc2</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="s1">&#39;outfile.forceconstant&#39;</span><span class="p">)</span>
-<a name="ln-226"></a><span class="n">endif</span>
-<a name="ln-227"></a><span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">thirdorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-228"></a><span class="k">    call </span><span class="n">map</span><span class="p">%</span><span class="n">get_thirdorder_forceconstant</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">fc3</span><span class="p">)</span>
-<a name="ln-229"></a>    <span class="k">call </span><span class="n">fc3</span><span class="p">%</span><span class="n">writetofile</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="s1">&#39;outfile.forceconstant_thirdorder&#39;</span><span class="p">)</span>
-<a name="ln-230"></a><span class="n">endif</span>
-<a name="ln-231"></a>
-<a name="ln-232"></a><span class="c">! Now we can do some auxiliary things: first perhaps calculate U0</span>
-<a name="ln-233"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">ediff</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-234"></a>    <span class="c">! if I don&#39;t already have read the simulation, do it now</span>
-<a name="ln-235"></a>    <span class="k">if</span> <span class="p">(</span> <span class="nb">allocated</span><span class="p">(</span><span class="n">sim</span><span class="p">%</span><span class="n">r</span><span class="p">)</span> <span class="p">.</span><span class="n">eqv</span><span class="p">.</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-236"></a><span class="k">        call </span><span class="n">sim</span><span class="p">%</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">stride</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">stride</span><span class="p">)</span>
-<a name="ln-237"></a>    <span class="n">endif</span>
-<a name="ln-238"></a>
-<a name="ln-239"></a>    <span class="c">! get U0</span>
-<a name="ln-240"></a>    <span class="k">call </span><span class="n">ss</span><span class="p">%</span><span class="n">classify</span><span class="p">(</span><span class="s1">&#39;supercell&#39;</span><span class="p">,</span><span class="n">uc</span><span class="p">)</span>
-<a name="ln-241"></a>    <span class="k">if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">secondorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-242"></a><span class="k">        if</span> <span class="p">(</span> <span class="n">map</span><span class="p">%</span><span class="n">thirdorder</span> <span class="p">)</span> <span class="k">then</span>
-<a name="ln-243"></a><span class="k">            call </span><span class="n">sim</span><span class="p">%</span><span class="n">forceconstant_potential_energy</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">fc</span><span class="o">=</span><span class="n">fc2</span><span class="p">,</span><span class="n">fct</span><span class="o">=</span><span class="n">fc3</span><span class="p">)</span>
-<a name="ln-244"></a>        <span class="k">else</span>
-<a name="ln-245"></a><span class="k">            call </span><span class="n">sim</span><span class="p">%</span><span class="n">forceconstant_potential_energy</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">fc</span><span class="o">=</span><span class="n">fc2</span><span class="p">)</span>
-<a name="ln-246"></a>        <span class="n">endif</span>
-<a name="ln-247"></a>    <span class="k">else</span>
-<a name="ln-248"></a><span class="k">        call </span><span class="n">sim</span><span class="p">%</span><span class="n">forceconstant_potential_energy</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">fct</span><span class="o">=</span><span class="n">fc3</span><span class="p">)</span>
-<a name="ln-249"></a>    <span class="n">endif</span>
-<a name="ln-250"></a>
-<a name="ln-251"></a>    <span class="c">! dump it to file</span>
-<a name="ln-252"></a>    <span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.U0&#39;</span><span class="p">)</span>
-<a name="ln-253"></a>        <span class="c">! ok, this got a little too complicated for something this simple. </span>
-<a name="ln-254"></a>        <span class="n">lo_allocate</span><span class="p">(</span><span class="n">dum</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">sim</span><span class="p">%</span><span class="n">nt</span><span class="p">))</span>
-<a name="ln-255"></a>        <span class="k">do </span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">sim</span><span class="p">%</span><span class="n">nt</span>
-<a name="ln-256"></a>            <span class="n">dum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">=</span><span class="n">sim</span><span class="p">%</span><span class="nb">stat</span><span class="p">%</span><span class="n">ep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<a name="ln-257"></a>            <span class="n">dum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">=</span><span class="n">sim</span><span class="p">%</span><span class="nb">stat</span><span class="p">%</span><span class="n">ep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="n">sim</span><span class="p">%</span><span class="nb">stat</span><span class="p">%</span><span class="n">harmonic_ep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<a name="ln-258"></a>            <span class="n">dum</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">=</span><span class="n">sim</span><span class="p">%</span><span class="nb">stat</span><span class="p">%</span><span class="n">ep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="n">sim</span><span class="p">%</span><span class="nb">stat</span><span class="p">%</span><span class="n">harmonic_ep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="n">sim</span><span class="p">%</span><span class="nb">stat</span><span class="p">%</span><span class="n">thirdorder_ep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<a name="ln-259"></a>            <span class="n">dum</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">=</span><span class="p">(</span> <span class="n">dum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span>
-<a name="ln-260"></a>        <span class="n">enddo</span>
-<a name="ln-261"></a>        <span class="n">f0</span><span class="o">=</span><span class="n">lo_mean</span><span class="p">(</span><span class="n">dum</span><span class="p">(</span><span class="mi">1</span><span class="p">,:))</span><span class="o">/</span><span class="n">sim</span><span class="p">%</span><span class="n">na</span>
-<a name="ln-262"></a>        <span class="n">f1</span><span class="o">=</span><span class="n">lo_mean</span><span class="p">(</span><span class="n">dum</span><span class="p">(</span><span class="mi">2</span><span class="p">,:))</span>
-<a name="ln-263"></a>        <span class="n">f2</span><span class="o">=</span><span class="n">lo_mean</span><span class="p">(</span><span class="n">dum</span><span class="p">(</span><span class="mi">3</span><span class="p">,:))</span><span class="o">/</span><span class="n">sim</span><span class="p">%</span><span class="n">na</span>
-<a name="ln-264"></a>        <span class="n">f3</span><span class="o">=</span><span class="n">lo_mean</span><span class="p">(</span><span class="n">dum</span><span class="p">(</span><span class="mi">4</span><span class="p">,:))</span>
-<a name="ln-265"></a>        <span class="n">f3</span><span class="o">=</span><span class="p">(</span><span class="n">f1</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">f3</span><span class="p">)</span><span class="o">/</span><span class="n">sim</span><span class="p">%</span><span class="n">na</span>
-<a name="ln-266"></a>        <span class="n">f1</span><span class="o">=</span><span class="n">f1</span><span class="o">/</span><span class="n">sim</span><span class="p">%</span><span class="n">na</span>        
-<a name="ln-267"></a>        <span class="c">!</span>
-<a name="ln-268"></a>        <span class="n">dum</span><span class="o">=</span><span class="mf">0.0_flyt</span>
-<a name="ln-269"></a>        <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="s2">&quot;(4(1X,E18.10))&quot;</span><span class="p">)</span> <span class="n">f0</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">f3</span>
-<a name="ln-270"></a>    <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>    
-<a name="ln-271"></a><span class="n">endif</span>
-<a name="ln-272"></a>
-<a name="ln-273"></a><span class="c">! call test_forceconstant_constraints(map,fc1,fc2,fc3,uc)</span>
-<a name="ln-274"></a><span class="k">call </span><span class="n">fc2</span><span class="p">%</span><span class="n">get_elastic_constants</span><span class="p">(</span><span class="n">uc</span><span class="p">)</span>
-<a name="ln-275"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;elastic constants (GPa):&#39;</span>
-<a name="ln-276"></a><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span>
-<a name="ln-277"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(6(3X,F15.5))&quot;</span><span class="p">)</span> <span class="n">lo_chop</span><span class="p">(</span><span class="n">fc2</span><span class="p">%</span><span class="n">elastic_constants_voigt</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="err">1</span><span class="n">E9_flyt</span><span class="p">,</span><span class="n">lo_tol</span><span class="p">)</span>
-<a name="ln-278"></a><span class="n">enddo</span>
-<a name="ln-279"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;All done in &#39;</span><span class="p">,</span><span class="kt">real</span><span class="p">(</span><span class="n">walltime</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">),</span><span class="s1">&#39;seconds&#39;</span>
-<a name="ln-280"></a>
-<a name="ln-281"></a><span class="k">end program</span>
+<a name="ln-2"></a><span class="k">program </span><span class="n">crystal_structure_info</span>
+<a name="ln-3"></a><span class="c">!!{!src/crystal_structure_info/manual.md!}</span>
+<a name="ln-4"></a><span class="c">! Prints general info about the lattice, high symmetry points and so on.</span>
+<a name="ln-5"></a><span class="k">use </span><span class="n">konstanter</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">flyt</span><span class="p">,</span><span class="n">lo_tol</span><span class="p">,</span><span class="n">lo_sqtol</span><span class="p">,</span><span class="n">lo_bohr_to_A</span>
+<a name="ln-6"></a><span class="k">use </span><span class="n">helpers</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_frobnorm</span><span class="p">,</span><span class="n">lo_mpi_helper</span><span class="p">,</span><span class="n">lo_chop</span><span class="p">,</span><span class="n">open_file</span><span class="p">,</span><span class="n">tochar</span><span class="p">,</span><span class="n">lo_clean_fractional_coordinates</span><span class="p">,</span><span class="n">lo_determ</span><span class="p">,&amp;</span>
+<a name="ln-7"></a>                   <span class="n">lo_fetch_tolerance</span><span class="p">,</span><span class="n">walltime</span><span class="p">,</span><span class="n">lo_return_unique</span><span class="p">,</span><span class="n">lo_invert3x3matrix</span><span class="p">,</span><span class="n">qsort</span>
+<a name="ln-8"></a><span class="k">use options</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_opts</span>
+<a name="ln-9"></a><span class="k">use </span><span class="n">type_crystalstructure</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_crystalstructure</span>
+<a name="ln-10"></a><span class="k">use </span><span class="n">type_qpointmesh</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">lo_bandstructure</span>
+<a name="ln-11"></a><span class="c">!</span>
+<a name="ln-12"></a><span class="k">implicit none</span>
+<a name="ln-13"></a><span class="c">! for normal phonon things</span>
+<a name="ln-14"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_opts</span><span class="p">)</span> <span class="kd">::</span> <span class="n">opts</span>
+<a name="ln-15"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_crystalstructure</span><span class="p">)</span> <span class="kd">::</span> <span class="n">uc</span>
+<a name="ln-16"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_bandstructure</span><span class="p">)</span> <span class="kd">::</span> <span class="n">bs</span>
+<a name="ln-17"></a><span class="k">type</span><span class="p">(</span><span class="n">lo_mpi_helper</span><span class="p">)</span> <span class="kd">::</span> <span class="n">mw</span>
+<a name="ln-18"></a><span class="c">!</span>
+<a name="ln-19"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v0</span><span class="p">,</span><span class="n">v1</span>
+<a name="ln-20"></a><span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tstart</span><span class="p">,</span><span class="n">f0</span> 
+<a name="ln-21"></a><span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">u</span>
+<a name="ln-22"></a><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> <span class="kd">::</span> <span class="n">opf</span>
+<a name="ln-23"></a><span class="c">!</span>
+<a name="ln-24"></a><span class="c">! Get the command line arguments</span>
+<a name="ln-25"></a><span class="c">!</span>
+<a name="ln-26"></a><span class="k">call </span><span class="n">mw</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
+<a name="ln-27"></a><span class="n">tstart</span><span class="o">=</span><span class="n">walltime</span><span class="p">()</span>
+<a name="ln-28"></a><span class="k">call </span><span class="n">opts</span><span class="p">%</span><span class="n">parse</span><span class="p">()</span>
+<a name="ln-29"></a>
+<a name="ln-30"></a><span class="c">! Read unitcell</span>
+<a name="ln-31"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">readfromfile</span><span class="p">(</span><span class="s1">&#39;infile.ucposcar&#39;</span><span class="p">,</span><span class="n">verbosity</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">verbosity</span><span class="p">)</span>
+<a name="ln-32"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">classify</span><span class="p">(</span><span class="s1">&#39;wedge&#39;</span><span class="p">,</span><span class="n">timereversal</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">timereversal</span><span class="p">)</span>
+<a name="ln-33"></a>
+<a name="ln-34"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Info about the crystal structure:&#39;</span>
+<a name="ln-35"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... I believe the basis is &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">bravaislatticelongname</span><span class="p">),</span><span class="s1">&#39; (&#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">bravaislattice</span><span class="p">),</span><span class="s1">&#39;) with the basis vectors&#39;</span>
+<a name="ln-36"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(1X,&#39;a1:&#39;,3(2X,F18.12))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">latticevectors</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">lo_bohr_to_A</span>  
+<a name="ln-37"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(1X,&#39;a2:&#39;,3(2X,F18.12))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">latticevectors</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">lo_bohr_to_A</span>  
+<a name="ln-38"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(1X,&#39;a3:&#39;,3(2X,F18.12))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">latticevectors</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">lo_bohr_to_A</span>  
+<a name="ln-39"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;... and the atoms at these positions (in fractional coordinates)&#39;</span>
+<a name="ln-40"></a><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">na</span>
+<a name="ln-41"></a>     <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(1X,A8,3(2x,F15.13))&#39;</span><span class="p">)</span> <span class="nb">trim</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">atomic_symbol</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">species</span><span class="p">(</span><span class="n">i</span><span class="p">))),</span><span class="n">uc</span><span class="p">%</span><span class="n">r</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-42"></a><span class="n">enddo</span>
+<a name="ln-43"></a><span class="c">! Print what the conventional basis is</span>
+<a name="ln-44"></a><span class="n">f0</span><span class="o">=</span><span class="n">lo_frobnorm</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">latticevectors</span><span class="o">-</span><span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">unique_conventional_basis</span><span class="p">)</span>
+<a name="ln-45"></a><span class="k">if</span> <span class="p">(</span> <span class="n">f0</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="n">lo_tol</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-46"></a><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;I believe this is the conventional lattice:&#39;</span>
+<a name="ln-47"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(1X,&#39;a1:&#39;,3(2X,F18.12))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">unique_conventional_basis</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">lo_bohr_to_A</span> 
+<a name="ln-48"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(1X,&#39;a2:&#39;,3(2X,F18.12))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">unique_conventional_basis</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">lo_bohr_to_A</span> 
+<a name="ln-49"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(1X,&#39;a3:&#39;,3(2X,F18.12))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">unique_conventional_basis</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">lo_bohr_to_A</span> 
+<a name="ln-50"></a><span class="n">endif</span>
+<a name="ln-51"></a>
+<a name="ln-52"></a><span class="c">!! It might not agree with my canonical form.</span>
+<a name="ln-53"></a><span class="c">!f0=lo_frobnorm(uc%latticevectors-uc%info%unique_primitive_basis)</span>
+<a name="ln-54"></a><span class="c">!if ( f0 .gt. lo_tol ) then</span>
+<a name="ln-55"></a><span class="c">!    write(*,*) &#39; &#39;</span>
+<a name="ln-56"></a><span class="c">!    write(*,*) &#39;I like this primitive basis better:&#39;</span>
+<a name="ln-57"></a><span class="c">!    write(*,&quot;(1X,&#39;a1:&#39;,3(2X,F18.12))&quot;) uc%info%unique_primitive_basis(:,1)</span>
+<a name="ln-58"></a><span class="c">!    write(*,&quot;(1X,&#39;a2:&#39;,3(2X,F18.12))&quot;) uc%info%unique_primitive_basis(:,2)</span>
+<a name="ln-59"></a><span class="c">!    write(*,&quot;(1X,&#39;a3:&#39;,3(2X,F18.12))&quot;) uc%info%unique_primitive_basis(:,3)</span>
+<a name="ln-60"></a><span class="c">!    write(*,*) &#39;... with the atoms at these positions (in fractional coordinates)&#39;</span>
+<a name="ln-61"></a><span class="c">!    ! Convert the coordinates    </span>
+<a name="ln-62"></a><span class="c">!    allocate(dum(3,uc%na))</span>
+<a name="ln-63"></a><span class="c">!    do i=1,uc%na</span>
+<a name="ln-64"></a><span class="c">!        ! get the current coordinate</span>
+<a name="ln-65"></a><span class="c">!        v0=uc%r(:,i)</span>
+<a name="ln-66"></a><span class="c">!        v0=matmul(uc%info%permutation_to_unique,v0)</span>
+<a name="ln-67"></a><span class="c">!        v0=lo_chop(lo_clean_fractional_coordinates(v0),lo_sqtol)</span>
+<a name="ln-68"></a><span class="c">!        dum(:,i)=v0</span>
+<a name="ln-69"></a><span class="c">!        write(*,&#39;(1X,A8,3(2x,F15.13))&#39;) trim(uc%atomic_symbol(uc%species(i))),dum(:,i)</span>
+<a name="ln-70"></a><span class="c">!    enddo</span>
+<a name="ln-71"></a><span class="c">!endif</span>
+<a name="ln-72"></a>
+<a name="ln-73"></a><span class="c">! Get the high symmetry points</span>
+<a name="ln-74"></a><span class="k">if</span> <span class="p">(</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">havewedge</span> <span class="p">.</span><span class="n">eqv</span><span class="p">.</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="p">)</span> <span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">classify</span><span class="p">(</span><span class="s1">&#39;wedge&#39;</span><span class="p">,</span><span class="n">timereversal</span><span class="o">=</span><span class="n">opts</span><span class="p">%</span><span class="n">timereversal</span><span class="p">)</span>
+<a name="ln-75"></a>
+<a name="ln-76"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
+<a name="ln-77"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Available high symmetry points:&#39;</span>
+<a name="ln-78"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;(the ones called NP are in fact high symmetry points, but noone has bothered to name them)&#39;</span>
+<a name="ln-79"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;      Cartesian coordinates                        Fractional coordinates&#39;</span>
+<a name="ln-80"></a><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">irrw</span><span class="p">%</span><span class="n">nnodes</span>
+<a name="ln-81"></a>    <span class="n">v0</span><span class="o">=</span><span class="n">lo_chop</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">irrw</span><span class="p">%</span><span class="n">r</span><span class="p">(:,</span><span class="n">i</span><span class="p">),</span><span class="n">lo_tol</span><span class="p">)</span>
+<a name="ln-82"></a>    <span class="n">v1</span><span class="o">=</span><span class="n">lo_chop</span><span class="p">(</span><span class="nb">matmul</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">inv_reciprocal_latticevectors</span><span class="p">,</span><span class="n">v0</span><span class="p">),</span><span class="n">lo_tol</span><span class="p">)</span>
+<a name="ln-83"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(1X,I2,1X,A4,3(1X,F13.10),3X,3(1X,F13.10))&quot;</span><span class="p">)</span> <span class="n">i</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">irrw</span><span class="p">%</span><span class="n">label</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">v0</span><span class="o">/</span><span class="n">lo_bohr_to_A</span><span class="p">,</span><span class="n">v1</span>
+<a name="ln-84"></a><span class="n">enddo</span>
+<a name="ln-85"></a>
+<a name="ln-86"></a><span class="k">call </span><span class="n">uc</span><span class="p">%</span><span class="n">write_bz_to_hdf5</span><span class="p">(</span><span class="s1">&#39;outfile.brillouin_zone.hdf5&#39;</span><span class="p">)</span>
+<a name="ln-87"></a><span class="k">call </span><span class="n">bs</span><span class="p">%</span><span class="n">standardpath</span><span class="p">(</span><span class="n">uc</span><span class="p">)</span>
+<a name="ln-88"></a><span class="n">bs</span><span class="p">%</span><span class="n">npts</span><span class="o">=</span><span class="mi">100</span>
+<a name="ln-89"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
+<a name="ln-90"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Per default, the following path will be used:&#39;</span>
+<a name="ln-91"></a><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">bs</span><span class="p">%</span><span class="n">npath</span>
+<a name="ln-92"></a>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="nb">trim</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">symb_q_start</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="s1">&#39; -&gt; &#39;</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">bs</span><span class="p">%</span><span class="n">symb_q_end</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-93"></a><span class="n">enddo</span>
+<a name="ln-94"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;It is written in &quot;outfile.qpoints_dispersion&quot;, modify and&#39;</span>
+<a name="ln-95"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;copy it to &quot;infile.qpoints_dispersion&quot; if you want&#39;</span>
+<a name="ln-96"></a>
+<a name="ln-97"></a><span class="c">! Dump a path file</span>
+<a name="ln-98"></a><span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.qpoints_dispersion&#39;</span><span class="p">)</span>
+<a name="ln-99"></a>    <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(A5,22X,&#39; ! Bravais lattice type&#39;)&quot;</span>
+<a name="ln-100"></a>    <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">opf</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">info</span><span class="p">%</span><span class="n">bravaislattice</span>
+<a name="ln-101"></a>    <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(I5,22X,&#39; ! Number of points on each path&#39;)&quot;</span>
+<a name="ln-102"></a>    <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">opf</span><span class="p">)</span> <span class="mi">100</span>
+<a name="ln-103"></a>    <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(I5,22X,&#39; ! Number paths between special points&#39;)&quot;</span>
+<a name="ln-104"></a>    <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">opf</span><span class="p">)</span> <span class="n">bs</span><span class="p">%</span><span class="n">npath</span>
+<a name="ln-105"></a>    <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(A3,1X,A3,20X,&#39; ! Starting and ending special point&#39;)&quot;</span>
+<a name="ln-106"></a>    <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">opf</span><span class="p">)</span> <span class="n">bs</span><span class="p">%</span><span class="n">symb_q_start</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">bs</span><span class="p">%</span><span class="n">symb_q_end</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-107"></a>    <span class="n">opf</span><span class="o">=</span><span class="s2">&quot;(A3,1X,A3,20X,&#39; !&#39;)&quot;</span>
+<a name="ln-108"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">bs</span><span class="p">%</span><span class="n">npath</span>
+<a name="ln-109"></a>        <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">opf</span><span class="p">)</span> <span class="n">bs</span><span class="p">%</span><span class="n">symb_q_start</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">bs</span><span class="p">%</span><span class="n">symb_q_end</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-110"></a>    <span class="n">enddo</span>
+<a name="ln-111"></a><span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-112"></a> 
+<a name="ln-113"></a><span class="k">if</span> <span class="p">(</span> <span class="n">opts</span><span class="p">%</span><span class="n">printsymmetry</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-114"></a><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; Symmetry operations:&#39;</span>
+<a name="ln-115"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">n</span>
+<a name="ln-116"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Operation &#39;</span><span class="p">,</span><span class="n">tochar</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">whatkind</span>
+<a name="ln-117"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;        Axis:&#39;</span><span class="p">,</span><span class="n">lo_chop</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">axis</span><span class="p">,</span><span class="n">lo_sqtol</span><span class="p">)</span>
+<a name="ln-118"></a>        <span class="k">if</span> <span class="p">(</span> <span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">fold</span> <span class="p">.</span><span class="n">gt</span><span class="p">.</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;       Angle: &#39;</span><span class="p">,</span><span class="n">tochar</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">anint</span><span class="p">(</span><span class="mi">36</span><span class="mf">0.0_flyt</span><span class="o">/</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">fold</span><span class="p">)))</span>
+<a name="ln-119"></a>        <span class="n">opf</span><span class="o">=</span><span class="s1">&#39;        FMAP:&#39;</span>
+<a name="ln-120"></a>        <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">fmap</span><span class="p">)</span>
+<a name="ln-121"></a>            <span class="n">opf</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">opf</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; &#39;</span><span class="o">//</span><span class="n">tochar</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;-&gt;&#39;</span><span class="o">//</span><span class="n">tochar</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">fmap</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+<a name="ln-122"></a>        <span class="n">enddo</span>
+<a name="ln-123"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="nb">trim</span><span class="p">(</span><span class="n">opf</span><span class="p">)</span>
+<a name="ln-124"></a>        <span class="c">!write(*,*) &#39;        FMAP:&#39;,uc%sym%op(i)%fmap</span>
+<a name="ln-125"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(1X,A,3(1X,F9.6))&#39;</span><span class="p">)</span> <span class="s1">&#39; translation:&#39;</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ftr</span>
+<a name="ln-126"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; ... in Cartesian coordinates&#39;</span>
+<a name="ln-127"></a>        <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+<a name="ln-128"></a>            <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(6(3X,F15.11))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">m</span><span class="p">(</span><span class="n">j</span><span class="p">,:)</span>
+<a name="ln-129"></a>            <span class="c">!write(*,&quot;(3(3X,A10))&quot;) lo_fancy_real2char(uc%sym%op(i)%m(j,1)),lo_fancy_real2char(uc%sym%op(i)%m(j,2)),lo_fancy_real2char(uc%sym%op(i)%m(j,3))</span>
+<a name="ln-130"></a>        <span class="n">enddo</span>
+<a name="ln-131"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; ... in fractional coordinates&#39;</span>
+<a name="ln-132"></a>        <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+<a name="ln-133"></a>            <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(6(3X,F15.11))&quot;</span><span class="p">)</span> <span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">fm</span><span class="p">(</span><span class="n">j</span><span class="p">,:)</span>
+<a name="ln-134"></a>            <span class="c">!write(*,&quot;(6(3X,A3))&quot;) lo_fancy_real2char(uc%sym%op(i)%fm(j,1)),lo_fancy_real2char(uc%sym%op(i)%fm(j,2)),lo_fancy_real2char(uc%sym%op(i)%fm(j,3))</span>
+<a name="ln-135"></a>        <span class="n">enddo</span>
+<a name="ln-136"></a>        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
+<a name="ln-137"></a>    <span class="n">enddo</span>
+<a name="ln-138"></a>
+<a name="ln-139"></a>    <span class="c">! Dump symmetry operations to Mathematica-format, in case you need to play with it</span>
+<a name="ln-140"></a>    <span class="n">u</span><span class="o">=</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span><span class="s1">&#39;outfile.symops_mathematica&#39;</span><span class="p">)</span>
+<a name="ln-141"></a>        <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;ops=ConstantArray[0,{&#39;</span><span class="o">//</span><span class="n">tochar</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;,3,3}];&#39;</span>
+<a name="ln-142"></a>        <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">n</span>
+<a name="ln-143"></a>            <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+<a name="ln-144"></a>                <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;ops[[&#39;</span><span class="o">//</span><span class="n">tochar</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;,&#39;</span><span class="o">//</span><span class="n">tochar</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">//</span><span class="p">&amp;</span>
+<a name="ln-145"></a>                <span class="s1">&#39;]]={ &#39;</span><span class="o">//</span><span class="n">lo_fancy_real2char</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">m</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">))</span> <span class="o">//</span><span class="s1">&#39;,&#39;</span><span class="o">//</span><span class="n">lo_fancy_real2char</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">m</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">//</span><span class="s1">&#39;,&#39;</span><span class="o">//</span><span class="n">lo_fancy_real2char</span><span class="p">(</span><span class="n">uc</span><span class="p">%</span><span class="n">sym</span><span class="p">%</span><span class="n">op</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">m</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">//</span><span class="s1">&#39;};&#39;</span>
+<a name="ln-146"></a>            <span class="n">enddo</span>
+<a name="ln-147"></a>        <span class="n">enddo</span>
+<a name="ln-148"></a>    <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-149"></a><span class="n">endif</span>
+<a name="ln-150"></a>
+<a name="ln-151"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;all done&#39;</span>
+<a name="ln-152"></a><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39; &#39;</span>
+<a name="ln-153"></a><span class="k">call </span><span class="n">mw</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<a name="ln-154"></a>
+<a name="ln-155"></a><span class="k">contains</span>
+<a name="ln-156"></a>
+<a name="ln-157"></a><span class="c">!!&gt; Find the primitive cell</span>
+<a name="ln-158"></a><span class="c">!subroutine find_primitive_cell(basis,r,species,flavor,primbasis,tolerance)</span>
+<a name="ln-159"></a><span class="c">!    !&gt; cell to be reduced</span>
+<a name="ln-160"></a><span class="c">!    real(flyt), dimension(3,3), intent(in) :: basis</span>
+<a name="ln-161"></a><span class="c">!    !&gt; atoms in the cell</span>
+<a name="ln-162"></a><span class="c">!    real(flyt), dimension(:,:), intent(in) :: r</span>
+<a name="ln-163"></a><span class="c">!    !&gt; species classification</span>
+<a name="ln-164"></a><span class="c">!    integer, dimension(:), intent(in) :: species</span>
+<a name="ln-165"></a><span class="c">!    !&gt; flavor classification</span>
+<a name="ln-166"></a><span class="c">!    integer, dimension(:), intent(in) :: flavor</span>
+<a name="ln-167"></a><span class="c">!    !&gt; primitive lattice vectors</span>
+<a name="ln-168"></a><span class="c">!    real(flyt), dimension(3,3), intent(out) :: primbasis</span>
+<a name="ln-169"></a><span class="c">!    !&gt; tolerance</span>
+<a name="ln-170"></a><span class="c">!    real(flyt), intent(in) :: tolerance</span>
+<a name="ln-171"></a><span class="c">!    !</span>
+<a name="ln-172"></a><span class="c">!    real(flyt), dimension(:,:), allocatable :: r0,r1</span>
+<a name="ln-173"></a><span class="c">!    real(flyt), dimension(3,3) :: basis0,basis1</span>
+<a name="ln-174"></a><span class="c">!    integer, dimension(:), allocatable :: species0,flavor0,species1,flavor1</span>
+<a name="ln-175"></a><span class="c">!    integer :: i,na</span>
+<a name="ln-176"></a><span class="c">!    !</span>
+<a name="ln-177"></a><span class="c">!    na=size(r,2)</span>
+<a name="ln-178"></a><span class="c">!    allocate(r0(3,na))</span>
+<a name="ln-179"></a><span class="c">!    allocate(species0(na))</span>
+<a name="ln-180"></a><span class="c">!    allocate(flavor0(na))</span>
+<a name="ln-181"></a><span class="c">!    basis0=basis</span>
+<a name="ln-182"></a><span class="c">!    r0=r</span>
+<a name="ln-183"></a><span class="c">!    species0=species</span>
+<a name="ln-184"></a><span class="c">!    flavor0=flavor</span>
+<a name="ln-185"></a><span class="c">!</span>
+<a name="ln-186"></a><span class="c">!    ! Recursively find a smaller cell</span>
+<a name="ln-187"></a><span class="c">!    redloop: do</span>
+<a name="ln-188"></a><span class="c">!        ! Try to find a smaller cell</span>
+<a name="ln-189"></a><span class="c">!        call reduce_cell(basis0,r0,species0,flavor0,basis1,r1,species1,flavor1,tolerance)</span>
+<a name="ln-190"></a><span class="c">!        if ( abs(abs(lo_determ(basis0))-abs(lo_determ(basis1))) .lt. tolerance ) then</span>
+<a name="ln-191"></a><span class="c">!            ! this means no new cell, we are converged.</span>
+<a name="ln-192"></a><span class="c">!            exit redloop</span>
+<a name="ln-193"></a><span class="c">!        else</span>
+<a name="ln-194"></a><span class="c">!            ! this means a new cell, update and try again!</span>
+<a name="ln-195"></a><span class="c">!            if ( allocated(r0) )       deallocate(r0)</span>
+<a name="ln-196"></a><span class="c">!            if ( allocated(species0) ) deallocate(species0)</span>
+<a name="ln-197"></a><span class="c">!            if ( allocated(flavor0) )  deallocate(flavor0)</span>
+<a name="ln-198"></a><span class="c">!            i=size(r1,2)</span>
+<a name="ln-199"></a><span class="c">!            allocate(r0(3,i))</span>
+<a name="ln-200"></a><span class="c">!            allocate(species0(i))</span>
+<a name="ln-201"></a><span class="c">!            allocate(flavor0(i))</span>
+<a name="ln-202"></a><span class="c">!            basis0=basis1</span>
+<a name="ln-203"></a><span class="c">!            r0=r1</span>
+<a name="ln-204"></a><span class="c">!            species0=species1</span>
+<a name="ln-205"></a><span class="c">!            flavor0=flavor1</span>
+<a name="ln-206"></a><span class="c">!            if ( allocated(r1) )       deallocate(r1)</span>
+<a name="ln-207"></a><span class="c">!            if ( allocated(species1) ) deallocate(species1)</span>
+<a name="ln-208"></a><span class="c">!            if ( allocated(flavor1) )  deallocate(flavor1)</span>
+<a name="ln-209"></a><span class="c">!        endif</span>
+<a name="ln-210"></a><span class="c">!    enddo redloop</span>
+<a name="ln-211"></a><span class="c">!</span>
+<a name="ln-212"></a><span class="c">!    ! Here we should be done.</span>
+<a name="ln-213"></a><span class="c">!    primbasis=basis0</span>
+<a name="ln-214"></a><span class="c">!</span>
+<a name="ln-215"></a><span class="c">!    if ( allocated(r0) )       deallocate(r0)</span>
+<a name="ln-216"></a><span class="c">!    if ( allocated(r1) )       deallocate(r1)</span>
+<a name="ln-217"></a><span class="c">!    if ( allocated(species0) ) deallocate(species0)</span>
+<a name="ln-218"></a><span class="c">!    if ( allocated(species1) ) deallocate(species1)</span>
+<a name="ln-219"></a><span class="c">!    if ( allocated(flavor0) )  deallocate(flavor0)</span>
+<a name="ln-220"></a><span class="c">!    if ( allocated(flavor1) )  deallocate(flavor1)</span>
+<a name="ln-221"></a><span class="c">!end subroutine</span>
+<a name="ln-222"></a>
+<a name="ln-223"></a><span class="c">!    !&gt; single iteration of the cell reduction</span>
+<a name="ln-224"></a><span class="c">!    subroutine reduce_cell(latticevectors,r,species,flavor,newlatticevectors,newr,newspecies,newflavor,tolerance)</span>
+<a name="ln-225"></a><span class="c">!        !&gt; original lattice vectors</span>
+<a name="ln-226"></a><span class="c">!        real(flyt), dimension(3,3), intent(in) :: latticevectors</span>
+<a name="ln-227"></a><span class="c">!        !&gt; original positions</span>
+<a name="ln-228"></a><span class="c">!        real(flyt), dimension(:,:), intent(in) :: r</span>
+<a name="ln-229"></a><span class="c">!        !&gt; original species</span>
+<a name="ln-230"></a><span class="c">!        integer, dimension(:), intent(in) :: species</span>
+<a name="ln-231"></a><span class="c">!        !&gt; additional flavor for symmetry thing</span>
+<a name="ln-232"></a><span class="c">!        integer, dimension(:), intent(in) :: flavor</span>
+<a name="ln-233"></a><span class="c">!        !&gt; tolerance</span>
+<a name="ln-234"></a><span class="c">!        real(flyt), intent(in) :: tolerance</span>
+<a name="ln-235"></a><span class="c">!</span>
+<a name="ln-236"></a><span class="c">!        real(flyt), dimension(3,3), intent(out) :: newlatticevectors</span>
+<a name="ln-237"></a><span class="c">!        real(flyt), dimension(:,:), allocatable, intent(out) :: newr</span>
+<a name="ln-238"></a><span class="c">!        integer, dimension(:), allocatable, intent(out) :: newspecies</span>
+<a name="ln-239"></a><span class="c">!        integer, dimension(:), allocatable,intent(out) :: newflavor</span>
+<a name="ln-240"></a><span class="c">!</span>
+<a name="ln-241"></a><span class="c">!        real(flyt), dimension(:,:), allocatable :: vecs,dum</span>
+<a name="ln-242"></a><span class="c">!        real(flyt), dimension(3,3) :: m0,m1</span>
+<a name="ln-243"></a><span class="c">!        real(flyt) :: vol,f0,tol,reltol,frtol</span>
+<a name="ln-244"></a><span class="c">!        integer :: i,j,k,l,nvecs,na</span>
+<a name="ln-245"></a><span class="c">!        logical :: cellvalid</span>
+<a name="ln-246"></a><span class="c">!</span>
+<a name="ln-247"></a><span class="c">!        ! set the tolerance</span>
+<a name="ln-248"></a><span class="c">!        call lo_fetch_tolerance(tolerance,latticevectors,realspace_cart_tol=tol,realspace_fractional_tol=frtol,relative_tol=reltol)</span>
+<a name="ln-249"></a><span class="c">!</span>
+<a name="ln-250"></a><span class="c">!        na=size(r,2)</span>
+<a name="ln-251"></a><span class="c">!        ! Get a list of possible lattice vectors: All the vectors in the cell + old latticevectors</span>
+<a name="ln-252"></a><span class="c">!        l=na+3</span>
+<a name="ln-253"></a><span class="c">!        allocate(dum(3,na+3))</span>
+<a name="ln-254"></a><span class="c">!        dum(:,1:na)=lo_clean_fractional_coordinates(r,frtol**2)</span>
+<a name="ln-255"></a><span class="c">!        do i=1,na</span>
+<a name="ln-256"></a><span class="c">!            dum(:,i)=matmul(latticevectors,dum(:,i))</span>
+<a name="ln-257"></a><span class="c">!        enddo</span>
+<a name="ln-258"></a><span class="c">!        do i=1,3</span>
+<a name="ln-259"></a><span class="c">!            dum(:,i+na)=latticevectors(:,i)</span>
+<a name="ln-260"></a><span class="c">!        enddo</span>
+<a name="ln-261"></a><span class="c">!        ! Reduce these to the unique. Should not be necessary, but never hurts.</span>
+<a name="ln-262"></a><span class="c">!        call lo_return_unique(dum,vecs,frtol)</span>
+<a name="ln-263"></a><span class="c">!        nvecs=size(vecs,2)</span>
+<a name="ln-264"></a><span class="c">!</span>
+<a name="ln-265"></a><span class="c">!        ! volume of original cell</span>
+<a name="ln-266"></a><span class="c">!        vol=abs(lo_determ(latticevectors))</span>
+<a name="ln-267"></a><span class="c">!        ! Loop over all vectors to try to find a new cell.</span>
+<a name="ln-268"></a><span class="c">!        vl1: do i=1,nvecs</span>
+<a name="ln-269"></a><span class="c">!        vl2: do j=i+1,nvecs</span>
+<a name="ln-270"></a><span class="c">!        vl3: do k=j+1,nvecs</span>
+<a name="ln-271"></a><span class="c">!            ! possible new set of lattice vectors</span>
+<a name="ln-272"></a><span class="c">!            m0(:,1)=vecs(:,i)</span>
+<a name="ln-273"></a><span class="c">!            m0(:,2)=vecs(:,j)</span>
+<a name="ln-274"></a><span class="c">!            m0(:,3)=vecs(:,k)</span>
+<a name="ln-275"></a><span class="c">!            ! some quick tests to see if there is any point in continuing:</span>
+<a name="ln-276"></a><span class="c">!            f0=abs(lo_determ(m0))</span>
+<a name="ln-277"></a><span class="c">!            if ( f0 .lt. tol ) cycle vl3                           ! stupid cell if volume is zero</span>
+<a name="ln-278"></a><span class="c">!            if ( abs(mod(vol/f0,1.0_flyt)) .gt. reltol ) cycle vl3 ! has to be an integer division</span>
+<a name="ln-279"></a><span class="c">!            if ( int(anint(vol/f0)) .eq. 1 ) cycle vl3             ! has to make the cell smaller, not the same</span>
+<a name="ln-280"></a><span class="c">!            ! I can get really retarded cells from this, do the Delaunay thing on it</span>
+<a name="ln-281"></a><span class="c">!            call reduce_basis_to_something_decent(m0,m1)</span>
+<a name="ln-282"></a><span class="c">!            ! Now do an actual test</span>
+<a name="ln-283"></a><span class="c">!            call test_cell(latticevectors,r,species,flavor,m1,cellvalid,newr,newspecies,newflavor,tolerance)</span>
+<a name="ln-284"></a><span class="c">!            if ( cellvalid ) then</span>
+<a name="ln-285"></a><span class="c">!                ! If I find a new cell, we will exit this routine and start over. Makes things way way faster.</span>
+<a name="ln-286"></a><span class="c">!                newlatticevectors=m1</span>
+<a name="ln-287"></a><span class="c">!                deallocate(vecs)</span>
+<a name="ln-288"></a><span class="c">!                return</span>
+<a name="ln-289"></a><span class="c">!            endif</span>
+<a name="ln-290"></a><span class="c">!        enddo vl3</span>
+<a name="ln-291"></a><span class="c">!        enddo vl2</span>
+<a name="ln-292"></a><span class="c">!        enddo vl1</span>
+<a name="ln-293"></a><span class="c">!        ! If we made it here, the cell is already the smallest. Return the same basis again.</span>
+<a name="ln-294"></a><span class="c">!        newlatticevectors=latticevectors</span>
+<a name="ln-295"></a><span class="c">!    end subroutine</span>
+<a name="ln-296"></a><span class="c">!</span>
+<a name="ln-297"></a><span class="c">!    !&gt; test if a new cell is a smaller unit cell</span>
+<a name="ln-298"></a><span class="c">!    subroutine test_cell(oldcell,oldr,oldspecies,oldflavor,cell,valid,newr,newspecies,newflavor,tolerance)</span>
+<a name="ln-299"></a><span class="c">!        !&gt; original cell</span>
+<a name="ln-300"></a><span class="c">!        real(flyt), dimension(3,3), intent(in) :: oldcell</span>
+<a name="ln-301"></a><span class="c">!        !&gt; original positions</span>
+<a name="ln-302"></a><span class="c">!        real(flyt), dimension(:,:), intent(in) :: oldr</span>
+<a name="ln-303"></a><span class="c">!        !&gt; original species</span>
+<a name="ln-304"></a><span class="c">!        integer, dimension(:), intent(in) :: oldspecies</span>
+<a name="ln-305"></a><span class="c">!        !&gt; original flavor</span>
+<a name="ln-306"></a><span class="c">!        integer, dimension(:), intent(in) :: oldflavor</span>
+<a name="ln-307"></a><span class="c">!        !&gt; new cell</span>
+<a name="ln-308"></a><span class="c">!        real(flyt), dimension(3,3), intent(in) :: cell</span>
+<a name="ln-309"></a><span class="c">!        !&gt; is it a new cell?</span>
+<a name="ln-310"></a><span class="c">!        logical, intent(out) :: valid</span>
+<a name="ln-311"></a><span class="c">!        !&gt; new positions in case of a valid cell</span>
+<a name="ln-312"></a><span class="c">!        real(flyt), dimension(:,:), allocatable, intent(out) :: newr</span>
+<a name="ln-313"></a><span class="c">!        !&gt; new species in case of a valid cell</span>
+<a name="ln-314"></a><span class="c">!        integer, dimension(:), allocatable, intent(out) :: newspecies</span>
+<a name="ln-315"></a><span class="c">!        !&gt; new flavor in case of a valid cell</span>
+<a name="ln-316"></a><span class="c">!        integer, dimension(:), allocatable, intent(out) :: newflavor</span>
+<a name="ln-317"></a><span class="c">!        !&gt; tolerance</span>
+<a name="ln-318"></a><span class="c">!        real(flyt), intent(in) :: tolerance</span>
+<a name="ln-319"></a><span class="c">!        !</span>
+<a name="ln-320"></a><span class="c">!        real(flyt), dimension(3,3) :: icell,m0</span>
+<a name="ln-321"></a><span class="c">!        real(flyt), dimension(:,:), allocatable :: dumr1,dumr2</span>
+<a name="ln-322"></a><span class="c">!        real(flyt) :: tol,sqtol</span>
+<a name="ln-323"></a><span class="c">!        integer :: i,j,l,mult,oldna,newna</span>
+<a name="ln-324"></a><span class="c">!</span>
+<a name="ln-325"></a><span class="c">!        ! set the tolerance</span>
+<a name="ln-326"></a><span class="c">!        call lo_fetch_tolerance(tolerance,oldcell,realspace_fractional_tol=tol)</span>
+<a name="ln-327"></a><span class="c">!        sqtol=tol**2</span>
+<a name="ln-328"></a><span class="c">!</span>
+<a name="ln-329"></a><span class="c">!        valid=.false.</span>
+<a name="ln-330"></a><span class="c">!        ! How many atoms should I get of each?</span>
+<a name="ln-331"></a><span class="c">!        mult=int(anint(abs(lo_determ(oldcell)/lo_determ(cell))))</span>
+<a name="ln-332"></a><span class="c">!</span>
+<a name="ln-333"></a><span class="c">!        ! m0 is a matrix that converts to fractional coordinates in the new cell</span>
+<a name="ln-334"></a><span class="c">!        icell=lo_invert3x3matrix( cell )</span>
+<a name="ln-335"></a><span class="c">!        m0=matmul(icell,oldcell)</span>
+<a name="ln-336"></a><span class="c">!</span>
+<a name="ln-337"></a><span class="c">!        ! convert coordinates to fractional with respect to the new cell. Also</span>
+<a name="ln-338"></a><span class="c">!        ! I decorate the positions with the species and flavor, to keep track of that.</span>
+<a name="ln-339"></a><span class="c">!        oldna=size(oldr,2)</span>
+<a name="ln-340"></a><span class="c">!        allocate(dumr1(5,oldna))</span>
+<a name="ln-341"></a><span class="c">!        do i=1,oldna</span>
+<a name="ln-342"></a><span class="c">!            dumr1(1:3,i)=lo_clean_fractional_coordinates(matmul(m0,oldr(:,i)),sqtol)</span>
+<a name="ln-343"></a><span class="c">!            dumr1(4:5,i)=[oldspecies(i),oldflavor(i)]</span>
+<a name="ln-344"></a><span class="c">!        enddo</span>
+<a name="ln-345"></a><span class="c">!        ! Reduce this to the union of the list, the unique</span>
+<a name="ln-346"></a><span class="c">!        call lo_return_unique(dumr1,dumr2,tol)</span>
+<a name="ln-347"></a><span class="c">!</span>
+<a name="ln-348"></a><span class="c">!        ! Did it become the correct number of atoms?</span>
+<a name="ln-349"></a><span class="c">!        if ( abs(size(dumr2,2)*mult-oldna) .ne. 0 ) then</span>
+<a name="ln-350"></a><span class="c">!            valid=.false.</span>
+<a name="ln-351"></a><span class="c">!            return</span>
+<a name="ln-352"></a><span class="c">!        endif</span>
+<a name="ln-353"></a><span class="c">!</span>
+<a name="ln-354"></a><span class="c">!        ! Slightly better check: Each of the atoms in the reduced cell must appear</span>
+<a name="ln-355"></a><span class="c">!        ! exactly mult times in the old cell.</span>
+<a name="ln-356"></a><span class="c">!        do i=1,size(dumr2,2)</span>
+<a name="ln-357"></a><span class="c">!            l=0</span>
+<a name="ln-358"></a><span class="c">!            do j=1,oldna</span>
+<a name="ln-359"></a><span class="c">!                if ( sum(abs(dumr1(:,j)-dumr2(:,i))) .lt. tol ) l=l+1</span>
+<a name="ln-360"></a><span class="c">!            enddo</span>
+<a name="ln-361"></a><span class="c">!            ! kill if not true</span>
+<a name="ln-362"></a><span class="c">!            if ( l .ne. mult ) then</span>
+<a name="ln-363"></a><span class="c">!                valid=.false.</span>
+<a name="ln-364"></a><span class="c">!                return</span>
+<a name="ln-365"></a><span class="c">!            endif</span>
+<a name="ln-366"></a><span class="c">!        enddo</span>
+<a name="ln-367"></a><span class="c">!</span>
+<a name="ln-368"></a><span class="c">!        ! ok, now I say this is valid, return the new cell</span>
+<a name="ln-369"></a><span class="c">!        newna=size(dumr2,2)</span>
+<a name="ln-370"></a><span class="c">!        allocate(newr(3,newna))</span>
+<a name="ln-371"></a><span class="c">!        allocate(newspecies(newna))</span>
+<a name="ln-372"></a><span class="c">!        allocate(newflavor(newna))</span>
+<a name="ln-373"></a><span class="c">!        newr=dumr2(1:3,:)</span>
+<a name="ln-374"></a><span class="c">!        newspecies=int(anint(dumr2(4,:)))</span>
+<a name="ln-375"></a><span class="c">!        newflavor=int(anint(dumr2(5,:)))</span>
+<a name="ln-376"></a><span class="c">!        valid=.true.</span>
+<a name="ln-377"></a><span class="c">!    end subroutine</span>
+<a name="ln-378"></a>
+<a name="ln-379"></a><span class="c">!!&gt; reduce a set of lattice vectors to canonical form</span>
+<a name="ln-380"></a><span class="c">!subroutine reduce_basis_to_something_decent(basis,canonical_basis)</span>
+<a name="ln-381"></a><span class="c">!    !&gt; original lattice vectors</span>
+<a name="ln-382"></a><span class="c">!    real(flyt), dimension(3,3), intent(in) :: basis</span>
+<a name="ln-383"></a><span class="c">!    !&gt; canonical lattice vectors</span>
+<a name="ln-384"></a><span class="c">!    real(flyt), dimension(3,3), intent(out) :: canonical_basis</span>
+<a name="ln-385"></a><span class="c">!</span>
+<a name="ln-386"></a><span class="c">!    real(flyt), dimension(3,4) :: ext_basis</span>
+<a name="ln-387"></a><span class="c">!    real(flyt), dimension(3,7) :: dum</span>
+<a name="ln-388"></a><span class="c">!    real(flyt), dimension(7) :: d</span>
+<a name="ln-389"></a><span class="c">!    real(flyt) :: f0</span>
+<a name="ln-390"></a><span class="c">!    integer, dimension(7) :: ind</span>
+<a name="ln-391"></a><span class="c">!    integer :: i,j,k</span>
+<a name="ln-392"></a><span class="c">!</span>
+<a name="ln-393"></a><span class="c">!    ! First do the Delaunay reduction thing</span>
+<a name="ln-394"></a><span class="c">!    ext_basis=0.0_flyt</span>
+<a name="ln-395"></a><span class="c">!    ext_basis(:,1:3)=basis</span>
+<a name="ln-396"></a><span class="c">!    do i=1,3</span>
+<a name="ln-397"></a><span class="c">!        ext_basis(:,4)=ext_basis(:,4)-basis(:,i)</span>
+<a name="ln-398"></a><span class="c">!    enddo</span>
+<a name="ln-399"></a><span class="c">!    ! Iterate and stuff</span>
+<a name="ln-400"></a><span class="c">!    iterloop: do</span>
+<a name="ln-401"></a><span class="c">!        do i=1,4</span>
+<a name="ln-402"></a><span class="c">!        do j=i+1,4</span>
+<a name="ln-403"></a><span class="c">!            ! check scalar product</span>
+<a name="ln-404"></a><span class="c">!            f0=dot_product(ext_basis(:,i),ext_basis(:,j))</span>
+<a name="ln-405"></a><span class="c">!            if ( f0 .gt. lo_sqtol ) then</span>
+<a name="ln-406"></a><span class="c">!                ! subtract i from all not i and j</span>
+<a name="ln-407"></a><span class="c">!                do k=1,4</span>
+<a name="ln-408"></a><span class="c">!                    if ( k .ne. i .and. k .ne. j ) then</span>
+<a name="ln-409"></a><span class="c">!                        ext_basis(:,k)=ext_basis(:,k)+ext_basis(:,i)</span>
+<a name="ln-410"></a><span class="c">!                    endif</span>
+<a name="ln-411"></a><span class="c">!                enddo</span>
+<a name="ln-412"></a><span class="c">!                ! flip sign of i</span>
+<a name="ln-413"></a><span class="c">!                ext_basis(:,i)=-ext_basis(:,i)</span>
+<a name="ln-414"></a><span class="c">!                ! start over!</span>
+<a name="ln-415"></a><span class="c">!                cycle iterloop</span>
+<a name="ln-416"></a><span class="c">!            endif</span>
+<a name="ln-417"></a><span class="c">!        enddo</span>
+<a name="ln-418"></a><span class="c">!        enddo</span>
+<a name="ln-419"></a><span class="c">!        ! If we make it here, we are done!</span>
+<a name="ln-420"></a><span class="c">!        exit iterloop</span>
+<a name="ln-421"></a><span class="c">!    enddo iterloop</span>
+<a name="ln-422"></a><span class="c">!</span>
+<a name="ln-423"></a><span class="c">!    ! Look through all variants to get shortest vectors</span>
+<a name="ln-424"></a><span class="c">!    dum=0.0_flyt</span>
+<a name="ln-425"></a><span class="c">!    dum(:,1:4)=ext_basis</span>
+<a name="ln-426"></a><span class="c">!    dum(:,5)=ext_basis(:,1)+ext_basis(:,2)</span>
+<a name="ln-427"></a><span class="c">!    dum(:,6)=ext_basis(:,2)+ext_basis(:,3)</span>
+<a name="ln-428"></a><span class="c">!    dum(:,7)=ext_basis(:,1)+ext_basis(:,3)</span>
+<a name="ln-429"></a><span class="c">!    do i=1,7</span>
+<a name="ln-430"></a><span class="c">!        d(i)=norm2(dum(:,i))</span>
+<a name="ln-431"></a><span class="c">!    enddo</span>
+<a name="ln-432"></a><span class="c">!    call qsort(d,ind)</span>
+<a name="ln-433"></a><span class="c">!    !</span>
+<a name="ln-434"></a><span class="c">!    do i=3,7</span>
+<a name="ln-435"></a><span class="c">!        canonical_basis(:,1)=dum(:,ind(1))</span>
+<a name="ln-436"></a><span class="c">!        canonical_basis(:,2)=dum(:,ind(2))</span>
+<a name="ln-437"></a><span class="c">!        canonical_basis(:,3)=dum(:,ind(i))</span>
+<a name="ln-438"></a><span class="c">!        if ( abs(lo_determ(canonical_basis)) .gt. lo_tol ) exit</span>
+<a name="ln-439"></a><span class="c">!    enddo</span>
+<a name="ln-440"></a><span class="c">!    if ( lo_determ(canonical_basis) .lt. 0.0_flyt ) canonical_basis=-canonical_basis</span>
+<a name="ln-441"></a><span class="c">!end subroutine</span>
+<a name="ln-442"></a>
+<a name="ln-443"></a><span class="c">! !&gt; Check if an array has repeated values</span>
+<a name="ln-444"></a><span class="c">! logical function lo_is_vector_degenerate_brute(v,thres)</span>
+<a name="ln-445"></a><span class="c">!     !&gt; array to test</span>
+<a name="ln-446"></a><span class="c">!     real(flyt), dimension(:), intent(in) :: v</span>
+<a name="ln-447"></a><span class="c">!     !&gt; tolerance</span>
+<a name="ln-448"></a><span class="c">!     real(flyt), intent(in) :: thres</span>
+<a name="ln-449"></a><span class="c">!     !</span>
+<a name="ln-450"></a><span class="c">!     integer :: i,j</span>
+<a name="ln-451"></a><span class="c">!     real(flyt) :: f0,f1</span>
+<a name="ln-452"></a><span class="c">!     !</span>
+<a name="ln-453"></a><span class="c">!     f0=lo_huge</span>
+<a name="ln-454"></a><span class="c">!     do i=1,size(v,1)</span>
+<a name="ln-455"></a><span class="c">!         do j=i+1,size(v,1)</span>
+<a name="ln-456"></a><span class="c">!             f1=abs(v(i)-v(j))</span>
+<a name="ln-457"></a><span class="c">!             if ( f1 .lt. f0 ) f0=f1</span>
+<a name="ln-458"></a><span class="c">!         enddo</span>
+<a name="ln-459"></a><span class="c">!     enddo</span>
+<a name="ln-460"></a><span class="c">!     !</span>
+<a name="ln-461"></a><span class="c">!     if ( f0 .lt. thres ) then</span>
+<a name="ln-462"></a><span class="c">!         lo_is_vector_degenerate_brute=.true.</span>
+<a name="ln-463"></a><span class="c">!     else</span>
+<a name="ln-464"></a><span class="c">!         lo_is_vector_degenerate_brute=.false.</span>
+<a name="ln-465"></a><span class="c">!     endif</span>
+<a name="ln-466"></a><span class="c">! end function</span>
+<a name="ln-467"></a><span class="c">! </span>
+<a name="ln-468"></a><span class="c">! !&gt; Check if an array has repeated values</span>
+<a name="ln-469"></a><span class="c">! logical function lo_is_vector_degenerate_qsort(v,thres)</span>
+<a name="ln-470"></a><span class="c">!     !&gt; array to test</span>
+<a name="ln-471"></a><span class="c">!     real(flyt), dimension(:), intent(in) :: v</span>
+<a name="ln-472"></a><span class="c">!     !&gt; tolerance</span>
+<a name="ln-473"></a><span class="c">!     real(flyt), intent(in) :: thres</span>
+<a name="ln-474"></a><span class="c">!     !</span>
+<a name="ln-475"></a><span class="c">!     integer :: i,j</span>
+<a name="ln-476"></a><span class="c">!     real(flyt) :: f0,f1</span>
+<a name="ln-477"></a><span class="c">!     real(flyt), dimension(:), allocatable :: dum</span>
+<a name="ln-478"></a><span class="c">!     !</span>
+<a name="ln-479"></a><span class="c">!     lo_allocate(dum(size(v,1)))</span>
+<a name="ln-480"></a><span class="c">!     dum=v</span>
+<a name="ln-481"></a><span class="c">!     call qsort(dum)</span>
+<a name="ln-482"></a><span class="c">!     !</span>
+<a name="ln-483"></a><span class="c">!     lo_is_vector_degenerate_qsort=.false.</span>
+<a name="ln-484"></a><span class="c">!     do i=1,size(dum,1)-1</span>
+<a name="ln-485"></a><span class="c">!         if ( abs(dum(i)-dum(i+1)) .lt. thres ) then</span>
+<a name="ln-486"></a><span class="c">!             lo_is_vector_degenerate_qsort=.true.</span>
+<a name="ln-487"></a><span class="c">!             return</span>
+<a name="ln-488"></a><span class="c">!         endif</span>
+<a name="ln-489"></a><span class="c">!     enddo</span>
+<a name="ln-490"></a><span class="c">! end function</span>
+<a name="ln-491"></a>
+<a name="ln-492"></a><span class="c">!&gt; converts a double to a character, and tries to find well defined numbers</span>
+<a name="ln-493"></a><span class="k">function </span><span class="n">lo_fancy_real2char</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">tolerance</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a name="ln-494"></a>    <span class="c">!&gt; number to be converted</span>
+<a name="ln-495"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-496"></a>    <span class="c">!&gt; optional tolerance</span>
+<a name="ln-497"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">optional</span> <span class="kd">::</span> <span class="n">tolerance</span>
+<a name="ln-498"></a>    <span class="c">!&gt; the string</span>
+<a name="ln-499"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">s</span>
+<a name="ln-500"></a>
+<a name="ln-501"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tol</span>
+<a name="ln-502"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">flyt</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="mi">67</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">welldefined</span><span class="o">=</span><span class="p">[&amp;</span>
+<a name="ln-503"></a>          <span class="mf">0.0000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-504"></a>          <span class="mf">0.1000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-505"></a>         <span class="o">-</span><span class="mf">0.1000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-506"></a>          <span class="mf">0.1111111111111111_flyt</span><span class="p">,&amp;</span>
+<a name="ln-507"></a>         <span class="o">-</span><span class="mf">0.1111111111111111_flyt</span><span class="p">,&amp;</span>
+<a name="ln-508"></a>          <span class="mf">0.1250000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-509"></a>         <span class="o">-</span><span class="mf">0.1250000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-510"></a>          <span class="mf">0.1428571428571428_flyt</span><span class="p">,&amp;</span>
+<a name="ln-511"></a>         <span class="o">-</span><span class="mf">0.1428571428571428_flyt</span><span class="p">,&amp;</span>
+<a name="ln-512"></a>          <span class="mf">0.1666666666666667_flyt</span><span class="p">,&amp;</span>
+<a name="ln-513"></a>         <span class="o">-</span><span class="mf">0.1666666666666667_flyt</span><span class="p">,&amp;</span>
+<a name="ln-514"></a>          <span class="mf">0.2000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-515"></a>         <span class="o">-</span><span class="mf">0.2000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-516"></a>          <span class="mf">0.2222222222222222_flyt</span><span class="p">,&amp;</span>
+<a name="ln-517"></a>         <span class="o">-</span><span class="mf">0.2222222222222222_flyt</span><span class="p">,&amp;</span>
+<a name="ln-518"></a>          <span class="mf">0.2500000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-519"></a>         <span class="o">-</span><span class="mf">0.2500000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-520"></a>          <span class="mf">0.2857142857142857_flyt</span><span class="p">,&amp;</span>
+<a name="ln-521"></a>         <span class="o">-</span><span class="mf">0.2857142857142857_flyt</span><span class="p">,&amp;</span>
+<a name="ln-522"></a>          <span class="mf">0.3000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-523"></a>         <span class="o">-</span><span class="mf">0.3000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-524"></a>          <span class="mf">0.3333333333333333_flyt</span><span class="p">,&amp;</span>
+<a name="ln-525"></a>         <span class="o">-</span><span class="mf">0.3333333333333333_flyt</span><span class="p">,&amp;</span>
+<a name="ln-526"></a>          <span class="mf">0.3750000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-527"></a>         <span class="o">-</span><span class="mf">0.3750000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-528"></a>          <span class="mf">0.4000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-529"></a>         <span class="o">-</span><span class="mf">0.4000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-530"></a>          <span class="mf">0.4285714285714285_flyt</span><span class="p">,&amp;</span>
+<a name="ln-531"></a>         <span class="o">-</span><span class="mf">0.4285714285714285_flyt</span><span class="p">,&amp;</span>
+<a name="ln-532"></a>          <span class="mf">0.4444444444444444_flyt</span><span class="p">,&amp;</span>
+<a name="ln-533"></a>         <span class="o">-</span><span class="mf">0.4444444444444444_flyt</span><span class="p">,&amp;</span>
+<a name="ln-534"></a>          <span class="mf">0.5000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-535"></a>         <span class="o">-</span><span class="mf">0.5000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-536"></a>          <span class="mf">0.5555555555555556_flyt</span><span class="p">,&amp;</span>
+<a name="ln-537"></a>         <span class="o">-</span><span class="mf">0.5555555555555556_flyt</span><span class="p">,&amp;</span>
+<a name="ln-538"></a>          <span class="mf">0.5714285714285714_flyt</span><span class="p">,&amp;</span>
+<a name="ln-539"></a>         <span class="o">-</span><span class="mf">0.5714285714285714_flyt</span><span class="p">,&amp;</span>
+<a name="ln-540"></a>          <span class="mf">0.6000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-541"></a>         <span class="o">-</span><span class="mf">0.6000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-542"></a>          <span class="mf">0.6250000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-543"></a>         <span class="o">-</span><span class="mf">0.6250000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-544"></a>          <span class="mf">0.6666666666666667_flyt</span><span class="p">,&amp;</span>
+<a name="ln-545"></a>         <span class="o">-</span><span class="mf">0.6666666666666667_flyt</span><span class="p">,&amp;</span>
+<a name="ln-546"></a>          <span class="mf">0.7000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-547"></a>         <span class="o">-</span><span class="mf">0.7000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-548"></a>          <span class="mf">0.7142857142857143_flyt</span><span class="p">,&amp;</span>
+<a name="ln-549"></a>         <span class="o">-</span><span class="mf">0.7142857142857143_flyt</span><span class="p">,&amp;</span>
+<a name="ln-550"></a>          <span class="mf">0.7500000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-551"></a>         <span class="o">-</span><span class="mf">0.7500000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-552"></a>          <span class="mf">0.7777777777777778_flyt</span><span class="p">,&amp;</span>
+<a name="ln-553"></a>         <span class="o">-</span><span class="mf">0.7777777777777778_flyt</span><span class="p">,&amp;</span>
+<a name="ln-554"></a>          <span class="mf">0.8000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-555"></a>         <span class="o">-</span><span class="mf">0.8000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-556"></a>          <span class="mf">0.8333333333333334_flyt</span><span class="p">,&amp;</span>
+<a name="ln-557"></a>         <span class="o">-</span><span class="mf">0.8333333333333334_flyt</span><span class="p">,&amp;</span>
+<a name="ln-558"></a>          <span class="mf">0.8571428571428571_flyt</span><span class="p">,&amp;</span>
+<a name="ln-559"></a>         <span class="o">-</span><span class="mf">0.8571428571428571_flyt</span><span class="p">,&amp;</span>
+<a name="ln-560"></a>          <span class="mf">0.8660254037844386_flyt</span><span class="p">,&amp;</span>
+<a name="ln-561"></a>         <span class="o">-</span><span class="mf">0.8660254037844386_flyt</span><span class="p">,&amp;</span>
+<a name="ln-562"></a>          <span class="mf">0.8750000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-563"></a>         <span class="o">-</span><span class="mf">0.8750000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-564"></a>          <span class="mf">0.8888888888888888_flyt</span><span class="p">,&amp;</span>
+<a name="ln-565"></a>         <span class="o">-</span><span class="mf">0.8888888888888888_flyt</span><span class="p">,&amp;</span>
+<a name="ln-566"></a>          <span class="mf">0.9000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-567"></a>         <span class="o">-</span><span class="mf">0.9000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-568"></a>          <span class="mf">1.0000000000000000_flyt</span><span class="p">,&amp;</span>
+<a name="ln-569"></a>         <span class="o">-</span><span class="mf">1.0000000000000000_flyt</span><span class="p">]</span>
+<a name="ln-570"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">12</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="mi">67</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">welldefined_string</span><span class="o">=</span><span class="p">[&amp;</span>
+<a name="ln-571"></a>      <span class="s1">&#39;0          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.0000000000000000_flyt,&amp;</span>
+<a name="ln-572"></a>      <span class="s1">&#39;1/10       &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.1000000000000000_flyt,&amp;</span>
+<a name="ln-573"></a>      <span class="s1">&#39;-1/10      &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.1000000000000000_flyt,&amp;</span>
+<a name="ln-574"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.1111111111111111_flyt,&amp;</span>
+<a name="ln-575"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.1111111111111111_flyt,&amp;</span>
+<a name="ln-576"></a>      <span class="s1">&#39;1/8        &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.1250000000000000_flyt,&amp;</span>
+<a name="ln-577"></a>      <span class="s1">&#39;/1/8       &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.1250000000000000_flyt,&amp;</span>
+<a name="ln-578"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.1428571428571428_flyt,&amp;</span>
+<a name="ln-579"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.1428571428571428_flyt,&amp;</span>
+<a name="ln-580"></a>      <span class="s1">&#39;1/6        &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.1666666666666667_flyt,&amp;</span>
+<a name="ln-581"></a>      <span class="s1">&#39;-1/6       &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.1666666666666667_flyt,&amp;</span>
+<a name="ln-582"></a>      <span class="s1">&#39;1/5        &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.2000000000000000_flyt,&amp;</span>
+<a name="ln-583"></a>      <span class="s1">&#39;-1/5       &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.2000000000000000_flyt,&amp;</span>
+<a name="ln-584"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.2222222222222222_flyt,&amp;</span>
+<a name="ln-585"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.2222222222222222_flyt,&amp;</span>
+<a name="ln-586"></a>      <span class="s1">&#39;1/4        &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.2500000000000000_flyt,&amp;</span>
+<a name="ln-587"></a>      <span class="s1">&#39;-1/4       &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.2500000000000000_flyt,&amp;</span>
+<a name="ln-588"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.2857142857142857_flyt,&amp;</span>
+<a name="ln-589"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.2857142857142857_flyt,&amp;</span>
+<a name="ln-590"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.3000000000000000_flyt,&amp;</span>
+<a name="ln-591"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.3000000000000000_flyt,&amp;</span>
+<a name="ln-592"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.3333333333333333_flyt,&amp;</span>
+<a name="ln-593"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.3333333333333333_flyt,&amp;</span>
+<a name="ln-594"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.3750000000000000_flyt,&amp;</span>
+<a name="ln-595"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.3750000000000000_flyt,&amp;</span>
+<a name="ln-596"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.4000000000000000_flyt,&amp;</span>
+<a name="ln-597"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.4000000000000000_flyt,&amp;</span>
+<a name="ln-598"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.4285714285714285_flyt,&amp;</span>
+<a name="ln-599"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.4285714285714285_flyt,&amp;</span>
+<a name="ln-600"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.4444444444444444_flyt,&amp;</span>
+<a name="ln-601"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.4444444444444444_flyt,&amp;</span>
+<a name="ln-602"></a>      <span class="s1">&#39;1/2        &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.5000000000000000_flyt,&amp;</span>
+<a name="ln-603"></a>      <span class="s1">&#39;-1/2       &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.5000000000000000_flyt,&amp;</span>
+<a name="ln-604"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.5555555555555556_flyt,&amp;</span>
+<a name="ln-605"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.5555555555555556_flyt,&amp;</span>
+<a name="ln-606"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.5714285714285714_flyt,&amp;</span>
+<a name="ln-607"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.5714285714285714_flyt,&amp;</span>
+<a name="ln-608"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.6000000000000000_flyt,&amp;</span>
+<a name="ln-609"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.6000000000000000_flyt,&amp;</span>
+<a name="ln-610"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.6250000000000000_flyt,&amp;</span>
+<a name="ln-611"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.6250000000000000_flyt,&amp;</span>
+<a name="ln-612"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.6666666666666667_flyt,&amp;</span>
+<a name="ln-613"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.6666666666666667_flyt,&amp;</span>
+<a name="ln-614"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.7000000000000000_flyt,&amp;</span>
+<a name="ln-615"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.7000000000000000_flyt,&amp;</span>
+<a name="ln-616"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.7142857142857143_flyt,&amp;</span>
+<a name="ln-617"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.7142857142857143_flyt,&amp;</span>
+<a name="ln-618"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.7500000000000000_flyt,&amp;</span>
+<a name="ln-619"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.7500000000000000_flyt,&amp;</span>
+<a name="ln-620"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.7777777777777778_flyt,&amp;</span>
+<a name="ln-621"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.7777777777777778_flyt,&amp;</span>
+<a name="ln-622"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.8000000000000000_flyt,&amp;</span>
+<a name="ln-623"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.8000000000000000_flyt,&amp;</span>
+<a name="ln-624"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.8333333333333334_flyt,&amp;</span>
+<a name="ln-625"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.8333333333333334_flyt,&amp;</span>
+<a name="ln-626"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.8571428571428571_flyt,&amp;</span>
+<a name="ln-627"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.8571428571428571_flyt,&amp;</span>
+<a name="ln-628"></a>      <span class="s1">&#39;Sqrt[3]/2  &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.8660254037844386_flyt,&amp;</span>
+<a name="ln-629"></a>      <span class="s1">&#39;-Sqrt[3]/2 &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.8660254037844386_flyt,&amp;</span>
+<a name="ln-630"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.8750000000000000_flyt,&amp;</span>
+<a name="ln-631"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.8750000000000000_flyt,&amp;</span>
+<a name="ln-632"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.8888888888888888_flyt,&amp;</span>
+<a name="ln-633"></a>      <span class="s1">&#39;x          &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.8888888888888888_flyt,&amp;</span>
+<a name="ln-634"></a>      <span class="s1">&#39;9/10       &#39;</span><span class="p">,&amp;</span> <span class="c">!    0.9000000000000000_flyt,&amp;</span>
+<a name="ln-635"></a>      <span class="s1">&#39;-9/10      &#39;</span><span class="p">,&amp;</span> <span class="c">!   -0.9000000000000000_flyt,&amp;</span>
+<a name="ln-636"></a>      <span class="s1">&#39;1          &#39;</span><span class="p">,&amp;</span> <span class="c">!    1.0000000000000000_flyt,&amp;</span>
+<a name="ln-637"></a>      <span class="s1">&#39;-1         &#39;</span><span class="p">]</span> <span class="c">!   -1.0000000000000000_flyt]</span>
+<a name="ln-638"></a>    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>
+<a name="ln-639"></a>
+<a name="ln-640"></a>    <span class="k">if</span> <span class="p">(</span> <span class="nb">present</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-641"></a><span class="k">        </span><span class="n">tol</span><span class="o">=</span><span class="n">tolerance</span>
+<a name="ln-642"></a>    <span class="k">else</span>
+<a name="ln-643"></a><span class="k">        </span><span class="n">tol</span><span class="o">=</span><span class="n">lo_sqtol</span>
+<a name="ln-644"></a>    <span class="n">endif</span>
+<a name="ln-645"></a>    
+<a name="ln-646"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">67</span>
+<a name="ln-647"></a>        <span class="k">if</span> <span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">welldefined</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">.</span><span class="n">lt</span><span class="p">.</span> <span class="n">tol</span> <span class="p">)</span> <span class="k">then</span>
+<a name="ln-648"></a><span class="k">            </span><span class="n">s</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">welldefined_string</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-649"></a>            <span class="k">return</span>
+<a name="ln-650"></a><span class="k">        </span><span class="n">endif</span>
+<a name="ln-651"></a>    <span class="n">enddo</span>
+<a name="ln-652"></a>    <span class="n">s</span><span class="o">=</span><span class="s1">&#39;dunno&#39;</span>
+<a name="ln-653"></a>
+<a name="ln-654"></a><span class="k">end function</span>
+<a name="ln-655"></a>
+<a name="ln-656"></a><span class="k">end program</span>
 </pre></div>
 
     </section>
@@ -575,6 +964,10 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allfiles-1">All Source Files</a></h3></div>
   <div id="allfiles-1" class="panel-collapse collapse">
     <div class="list-group">
+      
+      <a class="list-group-item" href="../sourcefile/autocell.f90.html">autocell.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/dipole.f90.html">dipole.f90</a>
       
       <a class="list-group-item" href="../sourcefile/magneticdisorder.f90.html">magneticdisorder.f90</a>
       
@@ -596,8 +989,6 @@
       
       <a class="list-group-item" href="../sourcefile/main.f90%7E9.html">main.f90</a>
       
-      <a class="list-group-item" href="../sourcefile/main.f90%7E10.html">main.f90</a>
-      
       <a class="list-group-item" href="../sourcefile/phonondamping_dos.f90.html">phonondamping_dos.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_fourthorder.f90.html">phonondamping_fourthorder.f90</a>
@@ -605,6 +996,14 @@
       <a class="list-group-item" href="../sourcefile/phonondamping_generation.f90.html">phonondamping_generation.f90</a>
       
       <a class="list-group-item" href="../sourcefile/phonondamping_path.f90.html">phonondamping_path.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phonondamping_thermalpath.f90.html">phonondamping_thermalpath.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_gaussian.f90.html">phononevents_gaussian.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/phononevents_tetrahedron.f90.html">phononevents_tetrahedron.f90</a>
+      
+      <a class="list-group-item" href="../sourcefile/test_forceconstant_symmetry.f90.html">test_forceconstant_symmetry.f90</a>
       
     </div>
   </div>
@@ -623,8 +1022,8 @@
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

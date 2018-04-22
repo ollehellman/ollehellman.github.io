@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -200,13 +204,25 @@
 <code>brew install gcc fftw --with-fortran openmpi gnuplot --with-aquaterm hdf5 --with-fortran --with-fortran2003</code> If you do the same, installation should be a breeze.</p></div>
 <h3>Download</h3>
 <p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Will fix once I make the repository public.</p></div>
+<h3>Dependencies</h3>
+<h4>MPI</h4>
+<p>Nothing special is required by the MPI installation, except that it needs to support <code>MPI_IN_PLACE</code>. I have never had any issues with specific MPI implementations.</p>
+<h4>hdf5</h4>
+<p>It is likely that the cluster you use already has hdf5 installed. If not, compiling is a breeze (except on Cray systems) usually, I use</p>
+<div class="codehilite"><pre><span></span>./configure <span class="nv">FC</span><span class="o">=</span>XX <span class="nv">CC</span><span class="o">=</span>XX --with-fortran --with-fortran2003 --prefix<span class="o">=</span>XX
+make
+make install
+</pre></div>
+
+
+<p>Note that the fortran compiler needs to be exactly the same as the one used to compile TDEP later on.</p>
 <h3>Compiling</h3>
 <p>The build system is a little unorthodox, but straightforward. You need to create a file called <code>important_settings</code>, and put it in the root directory of tdep. Several examples are provided, start with the one that seems closest to what you have. An example follows here, for OSX:</p>
 <div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1"># A central place to put all the important paths. You probably have to modify this to make things work.</span>
 
 <span class="c1"># the fortran compiler</span>
-<span class="nv">FORTRAN_COMPILER</span><span class="o">=</span><span class="s2">&quot;gfortran&quot;</span>
+<span class="nv">FORTRAN_COMPILER</span><span class="o">=</span><span class="s2">&quot;gfortran-7&quot;</span>
 <span class="c1"># optimization stuff. Go all in.</span>
 <span class="nv">OPTIMIZATION_LEVEL</span><span class="o">=</span><span class="s2">&quot;-Ofast&quot;</span>
 <span class="c1"># the flag that sets the default real to a double.</span>
@@ -219,34 +235,25 @@
 
 <span class="c1"># Which gnuplot terminal to use by default.</span>
 <span class="nv">GNUPLOTTERMINAL</span><span class="o">=</span><span class="s2">&quot;aqua&quot;</span>  <span class="c1"># nice on OSX, needs aquaterm installed and gnuplot compiled with support for it.</span>
-<span class="c1">#GNUPLOTTERMINAL=&quot;wxt&quot;  # nice on linux.</span>
-<span class="c1">#GNUPLOTTERMINAL=&quot;x11&quot;  # fallback that works but looks kind of bad</span>
 
 <span class="c1"># Precompiler flags. Selecting default gnuplot terminal, and make the progressbars work.</span>
-<span class="nv">PRECOMPILER_FLAGS</span><span class="o">=</span><span class="s2">&quot;-DGP</span><span class="si">${</span><span class="nv">GNUPLOTTERMINAL</span><span class="si">}</span><span class="s2"> -Dgfortranprogressbar&quot;</span> <span class="c1"># for gfortran</span>
-<span class="c1">#PRECOMPILER_FLAGS=&quot;-DGP${GNUPLOTTERMINAL} -Difortprogressbar&quot; # for ifort</span>
+<span class="nv">PRECOMPILER_FLAGS</span><span class="o">=</span><span class="s2">&quot;-DGP</span><span class="si">${</span><span class="nv">GNUPLOTTERMINAL</span><span class="si">}</span><span class="s2"> -Dgfortranprogressbar&quot;</span>
+<span class="c1">#PRECOMPILER_FLAGS=&quot;-DGP${GNUPLOTTERMINAL} -Dgfortranprogressbar -DAGRESSIVE_SANITY&quot;</span>
 
 <span class="c1"># these are the flags that are needed for gfortran</span>
 <span class="nv">FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-Wl,-commons,use_dylibs -ffree-line-length-none -std=f2008 -fall-intrinsics -cpp -fopenmp&quot;</span>
 
-<span class="c1"># These are the BLAS/LAPACK libraries. On OSX with gfortran, use the built-in</span>
-<span class="c1"># where you just specify -framework accelerate and everything works. On other systems</span>
-<span class="c1"># you might have to specify this manally</span>
+<span class="c1"># These are the BLAS/LAPACK libraries. On OSX with gfortran, use the built-in &#39;framework accelerate&#39;</span>
 <span class="nv">PATH_TO_BLASLAPACK_LIB</span><span class="o">=</span><span class="s2">&quot; &quot;</span>
-<span class="c1">#PATH_TO_BLASLAPACK_LIB=&quot;-L/path_to_somehwere &quot; </span>
 <span class="nv">PATH_TO_BLASLAPACK_INC</span><span class="o">=</span><span class="s2">&quot; &quot;</span>
-<span class="c1">#PATH_TO_BLASLAPACK_INC=&quot;-I/path_to_somewhere&quot;  </span>
 <span class="nv">BLASLAPACK_LIBS</span><span class="o">=</span><span class="s2">&quot;-framework accelerate&quot;</span> 
-<span class="c1">#BLASLAPACK_LIBS=&quot;-lblas -llapack &quot; # add whatever library lines needed for your blas/lapack installation</span>
 
-<span class="c1"># For the autocorrelation code, I use fast Fourier transforms. fftw needs to be installed and</span>
-<span class="c1"># linked. This is where homebrew installed mine on osx</span>
+<span class="c1"># I use fftw for Fourier transforms.</span>
 <span class="nv">PATH_TO_FFTW_LIB</span><span class="o">=</span><span class="s2">&quot;-L/usr/local/lib&quot;</span>
 <span class="nv">PATH_TO_FFTW_INC</span><span class="o">=</span><span class="s2">&quot;-I/usr/local/include&quot;</span>
 <span class="nv">FFTW_LIBS</span><span class="o">=</span><span class="s2">&quot;-lfftw3&quot;</span>
 
-<span class="c1"># The thermal conductivity is MPI parallel. Then you need an mpi installation. This one points to </span>
-<span class="c1"># openmpi installed by homebrew in it&#39;s default location</span>
+<span class="c1"># Also need MPI</span>
 <span class="nv">PATH_TO_MPI_LIB</span><span class="o">=</span><span class="s2">&quot;-L/usr/local/lib&quot;</span>
 <span class="nv">PATH_TO_MPI_INC</span><span class="o">=</span><span class="s2">&quot;-I/usr/local/include&quot;</span>
 <span class="nv">MPI_LIBS</span><span class="o">=</span><span class="s2">&quot;-lmpi_mpifh -lmpi&quot;</span>
@@ -257,28 +264,27 @@
 <span class="nv">HDF5_LIBS</span><span class="o">=</span><span class="s2">&quot;-lhdf5 -lhdf5_fortran&quot;</span>
 
 <span class="c1"># We also need a C-compiler</span>
-<span class="nv">C_COMPILER</span><span class="o">=</span><span class="s2">&quot;gcc-5&quot;</span>
+<span class="nv">C_COMPILER</span><span class="o">=</span><span class="s2">&quot;gcc-7&quot;</span>
 
+<span class="c1"># Things below this line is strictly optional, and not really needed except for testing purposes.</span>
 <span class="c1"># If you want to try and use CGAL. Not recommended for people who do not like to sort out compiler errors. </span>
 <span class="nv">USECGAL</span><span class="o">=</span><span class="s2">&quot;no&quot;</span>
 
 <span class="c1"># CGAL is written in c++. I have wrapper functions in C, that I call from Fortran.</span>
-<span class="nv">CPP_COMPILER</span><span class="o">=</span><span class="s2">&quot;gcc-5&quot;</span>
+<span class="nv">CPP_COMPILER</span><span class="o">=</span><span class="s2">&quot;gcc-7&quot;</span>
 <span class="nv">CPP_FLAGS</span><span class="o">=</span><span class="s2">&quot;--std=c++0x -frounding-math -O3 -Dusecgal -DCGAL_USE_GMP -DCGAL_USE_MPFR -DCGAL_EIGEN3_ENABLED -DNDEBUG -DBOOST_PARAMETER_MAX_ARITY=12 -Wno-deprecated-declarations&quot;</span>
 <span class="nv">CGALLINKLINE</span><span class="o">=</span><span class="s2">&quot;-lstdc++ -lCGAL -lmpfr -lgmp -lboost_system -lboost_thread-mt&quot;</span>
 
 <span class="c1"># It&#39;s important at least a majority of these libraries are compiled with the same c++ compiler </span>
 <span class="c1"># as above. You can get strange, strange errors otherwise. As I said, getting this up and running</span>
-<span class="c1"># is not easy. But pretty cool, and worth the effort.</span>
-<span class="nv">PATH_TO_CGAL_LIB</span><span class="o">=</span><span class="s2">&quot;-L/Users/olle/software/CGAL-4.8/build/lib -L/usr/local/lib&quot;</span>
-<span class="nv">PATH_TO_CGAL_INC</span><span class="o">=</span><span class="s2">&quot;-I/Users/olle/software/CGAL-4.8/build/include -I/usr/local/include -I/usr/local/include/eigen3&quot;</span>
+<span class="c1"># is not easy.</span>
+<span class="nv">PATH_TO_CGAL_LIB</span><span class="o">=</span><span class="s2">&quot;-L/Users/olle/software/CGAL-4.9/build/lib -L/usr/local/lib&quot;</span>
+<span class="nv">PATH_TO_CGAL_INC</span><span class="o">=</span><span class="s2">&quot;-I/Users/olle/software/CGAL-4.9/build/include -I/usr/local/include -I/usr/local/include/eigen3&quot;</span>
 
-<span class="c1"># These are not really needed, but I left them in case someone wants to test the legacy version.</span>
-<span class="c1">#MATHEMATICAHEADER=&quot;#!/Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script&quot; # OSX</span>
-<span class="c1"># the folder where Mathematica puts its settings. I have made a Mathematica package, and it needs</span>
-<span class="c1"># to be linked in the correct folder, which differs from system to system.</span>
-<span class="c1">#MATHEMATICASETTINGS=&quot;${HOME}/Library/Mathematica&quot; # on OSX</span>
-<span class="c1">#MATHEMATICASETTINGS=&quot;${HOME}/.Mathematica&quot;       # on linux, usually</span>
+<span class="c1"># If I want to link with AIMS, I have to specify where it is</span>
+<span class="nv">PATH_TO_AIMS_LIB</span><span class="o">=</span><span class="s2">&quot;-L/Users/olle/software/aims/lib&quot;</span>
+<span class="nv">PATH_TO_AIMS_INC</span><span class="o">=</span><span class="s2">&quot;-I/Users/olle/software/aims/src&quot;</span>
+<span class="nv">AIMS_LIBS</span><span class="o">=</span><span class="s2">&quot;-laims.170824.mpi&quot;</span>
 </pre></div>
 
 
@@ -298,16 +304,14 @@
 </pre></div>
 
 
-<p>If this is set up, you are good to go. </p>
+<p>If this is set up, you are good to go.</p>
 <h3>Complicated dependencies</h3>
 <h4>CGAL</h4>
-<p>You might have noticed that there is an optional dependency on <a href="http://http://www.cgal.org/">CGAL</a> in the provided <code>important_settings</code>. I wrote a Fortran interface to (a very small subset of) CGAL that can be used to generate meshes, triangulations and other things. The reason it is not enabled by default is that making CGAL and Fortran talk to each other nicely is not that fun. I can only describe how I got it to work. I don't know if all of these steps are necessary, or if there is some other thing I did that got it to work. This is all for OSX 10.11.4</p>
+<p>You might have noticed that there is an optional dependency on <a href="http://http://www.cgal.org/">CGAL</a> in the provided <code>important_settings</code>. I wrote a Fortran interface to (a very small subset of) CGAL that can be used to generate meshes, triangulations and other things. The reason it is not enabled by default is that making CGAL and Fortran talk to each other is not straightforward. I can only describe how I got it to work. I don't know if all of these steps are necessary, or if there is some other thing I did that got it to work. This is all for OSX 10.11.4</p>
 <ul>
-<li>get the latest CGAL source, I used 4.8, and read the manual installation.</li>
-<li>compile boost with gcc</li>
-<li>compile eigen with gcc</li>
-<li>when configuring cgal with cmake, specify C and c++ compilers manually to gcc-5 (I never got it working with clang, my guess is that linking becomes easier if the fortran, C and c++ compilers are all gcc.)</li>
-<li>configure cgal to produce static libraries</li>
+<li>get the latest CGAL source, I used 4.11, and read the manual installation.</li>
+<li>when configuring cgal with cmake, specify C and c++ compilers manually to <code>gcc-7</code> and <code>g++-7</code>, installed via homebrew. (I never got it working with clang, my guess is that linking becomes easier if the fortran, C and c++ compilers are all gcc.)</li>
+<li>configure cgal to produce static libraries (untick the box that says <code>BUILD_SHARED_LIBS</code>)</li>
 <li>add <code>-DBOOST_PARAMETER_MAX_ARITY=12</code> to the compile line</li>
 </ul>
 <p>If this made no sense whatsoever, you probably do not want to try and enable this.</p>
@@ -325,8 +329,8 @@
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

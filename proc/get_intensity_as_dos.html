@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -179,15 +183,33 @@
       
       <a class="list-group-item" href="../proc/generate%7E2.html">generate</a>
       
-      <a class="list-group-item" href="../proc/get_intensity_along_path.html">get_intensity_along_path</a>
-      
       <a class="list-group-item" href="../proc/get_intensity_as_dos.html">get_intensity_as_dos</a>
+      
+      <a class="list-group-item" href="../proc/get_thermally_broadened_intensity_along_path.html">get_thermally_broadened_intensity_along_path</a>
+      
+      <a class="list-group-item" href="../proc/histfit.html">histfit</a>
+      
+      <a class="list-group-item" href="../proc/iso_gaussian_fft_oneqp.html">iso_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/iso_tetrahedron_fft_oneqp.html">iso_tetrahedron_fft_oneqp</a>
       
       <a class="list-group-item" href="../proc/kramer_kronig_transform_to_get_real_part.html">kramer_kronig_transform_to_get_real_part</a>
       
       <a class="list-group-item" href="../proc/optimize.html">optimize</a>
       
       <a class="list-group-item" href="../proc/random_unit_vector.html">random_unit_vector</a>
+      
+      <a class="list-group-item" href="../proc/return_supercellmatrix.html">return_supercellmatrix</a>
+      
+      <a class="list-group-item" href="../proc/spectralfunction_along_path.html">spectralfunction_along_path</a>
+      
+      <a class="list-group-item" href="../proc/subtract_longrange_interactions.html">subtract_longrange_interactions</a>
+      
+      <a class="list-group-item" href="../proc/test_forceconstant_constraints.html">test_forceconstant_constraints</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_gaussian_fft_oneqp.html">threephonon_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_tetrahedron_fft_oneqp.html">threephonon_tetrahedron_fft_oneqp</a>
       
       <a class="list-group-item" href="../proc/zerosum.html">zerosum</a>
       
@@ -208,7 +230,7 @@
     
 
     <h2>
-subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, mw, lsmpi)
+subroutine get_intensity_as_dos(pd, qpd, drd, uc, fc, fct, fcf, qp, dr, opts, mw)
     
     
 	 
@@ -236,7 +258,22 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-qpd"></span>type(lo_monkhorst_pack_mesh),</td>
+  <td><span class="anchor" id="variable-pd"></span>type(lo_phonon_dos),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pd</strong></td><td><p>phonon density of states</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-qpd"></span>class(lo_qpoint_mesh),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -252,7 +289,7 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
 <tr>
   
   <td><span class="anchor" id="variable-drd"></span>type(lo_phonon_dispersions),</td>
-  <td>intent(in)</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -266,7 +303,7 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-uc"></span>type(lo_crystalstructure),</td>
+  <td><span class="anchor" id="variable-uc%7E4"></span>type(lo_crystalstructure),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -281,8 +318,8 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-fc"></span>type(lo_forceconstant_secondorder),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-fc%7E4"></span>type(lo_forceconstant_secondorder),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -296,7 +333,7 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-fct"></span>type(lo_forceconstant_thirdorder),</td>
+  <td><span class="anchor" id="variable-fct%7E4"></span>type(lo_forceconstant_thirdorder),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -311,7 +348,7 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcf"></span>type(lo_forceconstant_fourthorder),</td>
+  <td><span class="anchor" id="variable-fcf%7E4"></span>type(lo_forceconstant_fourthorder),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -326,7 +363,7 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-qp"></span>type(lo_monkhorst_pack_mesh),</td>
+  <td><span class="anchor" id="variable-qp%7E8"></span>class(lo_qpoint_mesh),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -341,7 +378,7 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-dr"></span>type(lo_phonon_dispersions),</td>
+  <td><span class="anchor" id="variable-dr%7E8"></span>type(lo_phonon_dispersions),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -356,22 +393,7 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-loto"></span>type(lo_loto),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>loto</strong></td><td><p>electrostatic corrections</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-opts"></span>type(lo_opts),</td>
+  <td><span class="anchor" id="variable-opts%7E4"></span>type(lo_opts),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -386,27 +408,12 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-mw"></span>type(lo_mpiinfo),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-mw%7E4"></span>type(lo_mpi_helper),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>mw</strong></td><td><p>mpi communicator</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-lsmpi"></span>type(lo_lsmpi),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>lsmpi</strong></td><td><p>mpi helper</p></td>
+  <td><strong>mw</strong></td><td><p>mpi helper</p></td>
   
 </tr>
 
@@ -421,118 +428,151 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
                 <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: proc~~get_intensity_as_dos~~CallsGraph Pages: 1 -->
-<svg id="procget_intensity_as_dosCallsGraph" width="305pt" height="400pt"
- viewBox="0.00 0.00 305.01 399.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~get_intensity_as_dos~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 395.5)">
+<svg id="procget_intensity_as_dosCallsGraph" width="279pt" height="441pt"
+ viewBox="0.00 0.00 278.73 440.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_intensity_as_dos~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 436.5)">
 <title>proc~~get_intensity_as_dos~~CallsGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-395.5 301.009,-395.5 301.009,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-436.5 274.7332,-436.5 274.7332,4 -4,4"/>
 <!-- proc~get_intensity_as_dos -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node1" class="node"><title>proc~get_intensity_as_dos</title>
-<polygon fill="none" stroke="black" points="110.48,-206.255 0.173041,-206.255 0.173041,-184.245 110.48,-184.245 110.48,-206.255"/>
-<text text-anchor="middle" x="55.3264" y="-192.1" font-family="Helvetica,sans-Serif" font-size="10.50">get_intensity_as_dos</text>
-</g>
-<!-- lo_progressbar -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node2" class="node"><title>lo_progressbar</title>
-<polygon fill="#777777" stroke="#777777" points="262.87,-391.255 180.791,-391.255 180.791,-369.245 262.87,-369.245 262.87,-391.255"/>
-<text text-anchor="middle" x="221.831" y="-377.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_progressbar</text>
-</g>
-<!-- proc~get_intensity_as_dos&#45;&gt;lo_progressbar -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge1" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;lo_progressbar</title>
-<path fill="none" stroke="#000000" d="M59.1982,-206.373C67.4318,-235.995 93.9808,-317.381 146.653,-359.25 153.732,-364.878 162.243,-368.997 170.935,-372.013"/>
-<polygon fill="#000000" stroke="#000000" points="170.175,-375.44 180.76,-374.971 172.193,-368.737 170.175,-375.44"/>
-</g>
-<!-- mpi_allreduce -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node3" class="node"><title>mpi_allreduce</title>
-<polygon fill="#777777" stroke="#777777" points="260.7,-350.255 182.961,-350.255 182.961,-328.245 260.7,-328.245 260.7,-350.255"/>
-<text text-anchor="middle" x="221.831" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_allreduce</text>
-</g>
-<!-- proc~get_intensity_as_dos&#45;&gt;mpi_allreduce -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge2" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;mpi_allreduce</title>
-<path fill="none" stroke="#000000" d="M61.3241,-206.358C72.783,-230.541 103.338,-288.193 146.653,-318.25 154.569,-323.743 163.899,-327.808 173.222,-330.812"/>
-<polygon fill="#000000" stroke="#000000" points="172.298,-334.188 182.875,-333.576 174.225,-327.459 172.298,-334.188"/>
-</g>
-<!-- lo_gauss -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node4" class="node"><title>lo_gauss</title>
-<polygon fill="#777777" stroke="#777777" points="248.862,-309.255 194.8,-309.255 194.8,-287.245 248.862,-287.245 248.862,-309.255"/>
-<text text-anchor="middle" x="221.831" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_gauss</text>
-</g>
-<!-- proc~get_intensity_as_dos&#45;&gt;lo_gauss -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge3" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;lo_gauss</title>
-<path fill="none" stroke="#000000" d="M65.4096,-206.287C80.4762,-223.883 112.39,-258.242 146.653,-277.25 158.381,-283.757 172.294,-288.387 184.884,-291.613"/>
-<polygon fill="#000000" stroke="#000000" points="184.094,-295.023 194.63,-293.909 185.699,-288.209 184.094,-295.023"/>
-</g>
-<!-- getintensity -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node5" class="node"><title>getintensity</title>
-<polygon fill="#777777" stroke="#777777" points="254.446,-268.255 189.215,-268.255 189.215,-246.245 254.446,-246.245 254.446,-268.255"/>
-<text text-anchor="middle" x="221.831" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">getintensity</text>
-</g>
-<!-- proc~get_intensity_as_dos&#45;&gt;getintensity -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge4" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;getintensity</title>
-<path fill="none" stroke="#000000" d="M78.2115,-206.305C96.2689,-215.152 122.719,-227.487 146.653,-236.25 157.141,-240.09 168.674,-243.659 179.456,-246.724"/>
-<polygon fill="#000000" stroke="#000000" points="178.524,-250.097 189.096,-249.391 180.391,-243.351 178.524,-250.097"/>
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node1" class="node">
+<title>proc~get_intensity_as_dos</title>
+<polygon fill="none" stroke="#000000" points="110.4798,-227.2554 .173,-227.2554 .173,-205.2446 110.4798,-205.2446 110.4798,-227.2554"/>
+<text text-anchor="middle" x="55.3264" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">get_intensity_as_dos</text>
 </g>
 <!-- lo_trapezoid_integration -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node6" class="node"><title>lo_trapezoid_integration</title>
-<polygon fill="#777777" stroke="#777777" points="283.911,-227.255 159.75,-227.255 159.75,-205.245 283.911,-205.245 283.911,-227.255"/>
-<text text-anchor="middle" x="221.831" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_trapezoid_integration</text>
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node2" class="node">
+<title>lo_trapezoid_integration</title>
+<polygon fill="#777777" stroke="#777777" points="270.7733,-432.2554 146.6126,-432.2554 146.6126,-410.2446 270.7733,-410.2446 270.7733,-432.2554"/>
+<text text-anchor="middle" x="208.693" y="-418.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_trapezoid_integration</text>
 </g>
 <!-- proc~get_intensity_as_dos&#45;&gt;lo_trapezoid_integration -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge5" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;lo_trapezoid_integration</title>
-<path fill="none" stroke="#000000" d="M110.647,-202.184C123.176,-203.784 136.686,-205.508 149.808,-207.183"/>
-<polygon fill="#000000" stroke="#000000" points="149.381,-210.657 159.743,-208.452 150.267,-203.714 149.381,-210.657"/>
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge1" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;lo_trapezoid_integration</title>
+<path fill="none" stroke="#000000" d="M57.7559,-227.619C65.1744,-259.6005 90.53,-351.2016 146.6528,-400.25 148.6756,-402.0178 150.8535,-403.6382 153.1405,-405.1233"/>
+<polygon fill="#000000" stroke="#000000" points="151.955,-408.4651 162.4058,-410.2065 155.322,-402.328 151.955,-408.4651"/>
 </g>
-<!-- mpi_wtime -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node7" class="node"><title>mpi_wtime</title>
-<polygon fill="#777777" stroke="#777777" points="253.009,-186.255 190.653,-186.255 190.653,-164.245 253.009,-164.245 253.009,-186.255"/>
-<text text-anchor="middle" x="221.831" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_wtime</text>
+<!-- siteproj -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node3" class="node">
+<title>siteproj</title>
+<polygon fill="#777777" stroke="#777777" points="235.693,-391.2554 181.693,-391.2554 181.693,-369.2446 235.693,-369.2446 235.693,-391.2554"/>
+<text text-anchor="middle" x="208.693" y="-377.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">siteproj</text>
 </g>
-<!-- proc~get_intensity_as_dos&#45;&gt;mpi_wtime -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge6" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;mpi_wtime</title>
-<path fill="none" stroke="#000000" d="M110.647,-188.646C133.384,-185.881 159.353,-182.724 180.366,-180.17"/>
-<polygon fill="#000000" stroke="#000000" points="181.049,-183.612 190.553,-178.931 180.204,-176.664 181.049,-183.612"/>
+<!-- proc~get_intensity_as_dos&#45;&gt;siteproj -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge2" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;siteproj</title>
+<path fill="none" stroke="#000000" d="M59.3953,-227.3587C69.7336,-254.0645 99.5747,-322.3783 146.6528,-359.25 153.9377,-364.9556 162.86,-369.1557 171.6426,-372.2311"/>
+<polygon fill="#000000" stroke="#000000" points="170.8168,-375.6391 181.4043,-375.2455 172.8822,-368.9507 170.8168,-375.6391"/>
 </g>
-<!-- lo_allocate -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node8" class="node"><title>lo_allocate</title>
-<polygon fill="#777777" stroke="#777777" points="253.034,-145.255 190.627,-145.255 190.627,-123.245 253.034,-123.245 253.034,-145.255"/>
-<text text-anchor="middle" x="221.831" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_allocate</text>
+<!-- lsbuf -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node4" class="node">
+<title>lsbuf</title>
+<polygon fill="#777777" stroke="#777777" points="235.693,-350.2554 181.693,-350.2554 181.693,-328.2446 235.693,-328.2446 235.693,-350.2554"/>
+<text text-anchor="middle" x="208.693" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lsbuf</text>
 </g>
-<!-- proc~get_intensity_as_dos&#45;&gt;lo_allocate -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge7" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;lo_allocate</title>
-<path fill="none" stroke="#000000" d="M78.9802,-184.15C97.0331,-175.566 123.1,-163.751 146.653,-155.25 157.545,-151.319 169.546,-147.646 180.664,-144.507"/>
-<polygon fill="#000000" stroke="#000000" points="181.856,-147.809 190.569,-141.781 179.998,-141.06 181.856,-147.809"/>
+<!-- proc~get_intensity_as_dos&#45;&gt;lsbuf -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge3" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;lsbuf</title>
+<path fill="none" stroke="#000000" d="M62.4549,-227.4733C76.2384,-248.3038 108.5663,-293.1076 146.6528,-318.25 154.3063,-323.3023 163.2948,-327.2555 172.0176,-330.3007"/>
+<polygon fill="#000000" stroke="#000000" points="171.0774,-333.6743 181.6677,-333.3631 173.1948,-327.0022 171.0774,-333.6743"/>
 </g>
-<!-- lo_put_function_on_new_axis -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node9" class="node"><title>lo_put_function_on_new_axis</title>
-<polygon fill="#777777" stroke="#777777" points="297.187,-104.255 146.474,-104.255 146.474,-82.2446 297.187,-82.2446 297.187,-104.255"/>
-<text text-anchor="middle" x="221.831" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_put_function_on_new_axis</text>
+<!-- getintensity -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node5" class="node">
+<title>getintensity</title>
+<polygon fill="#777777" stroke="#777777" points="241.3083,-309.2554 176.0777,-309.2554 176.0777,-287.2446 241.3083,-287.2446 241.3083,-309.2554"/>
+<text text-anchor="middle" x="208.693" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">getintensity</text>
 </g>
-<!-- proc~get_intensity_as_dos&#45;&gt;lo_put_function_on_new_axis -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge8" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;lo_put_function_on_new_axis</title>
-<path fill="none" stroke="#000000" d="M65.6863,-184.07C80.8943,-166.612 112.705,-132.948 146.653,-114.25 150.899,-111.911 155.428,-109.814 160.076,-107.937"/>
-<polygon fill="#000000" stroke="#000000" points="161.552,-111.123 169.729,-104.385 159.135,-104.553 161.552,-111.123"/>
+<!-- proc~get_intensity_as_dos&#45;&gt;getintensity -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge4" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;getintensity</title>
+<path fill="none" stroke="#000000" d="M69.4766,-227.4284C86.8428,-240.7283 117.5745,-262.9289 146.6528,-277.25 152.8213,-280.288 159.5371,-283.0625 166.1976,-285.5284"/>
+<polygon fill="#000000" stroke="#000000" points="165.2513,-288.9055 175.8461,-288.9153 167.5698,-282.3006 165.2513,-288.9055"/>
 </g>
-<!-- omp_set_num_threads -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node10" class="node"><title>omp_set_num_threads</title>
-<polygon fill="#777777" stroke="#777777" points="281.731,-63.2554 161.931,-63.2554 161.931,-41.2446 281.731,-41.2446 281.731,-63.2554"/>
-<text text-anchor="middle" x="221.831" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">omp_set_num_threads</text>
+<!-- lo_progressbar -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node6" class="node">
+<title>lo_progressbar</title>
+<polygon fill="#777777" stroke="#777777" points="249.7323,-268.2554 167.6537,-268.2554 167.6537,-246.2446 249.7323,-246.2446 249.7323,-268.2554"/>
+<text text-anchor="middle" x="208.693" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar</text>
 </g>
-<!-- proc~get_intensity_as_dos&#45;&gt;omp_set_num_threads -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge9" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;omp_set_num_threads</title>
-<path fill="none" stroke="#000000" d="M61.3495,-184.233C72.8588,-160.247 103.508,-103.065 146.653,-73.25 149.753,-71.1076 153.069,-69.1824 156.515,-67.4526"/>
-<polygon fill="#000000" stroke="#000000" points="158.15,-70.5568 165.883,-63.315 155.322,-64.1535 158.15,-70.5568"/>
+<!-- proc~get_intensity_as_dos&#45;&gt;lo_progressbar -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge5" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;lo_progressbar</title>
+<path fill="none" stroke="#000000" d="M96.8296,-227.3452C115.5744,-232.3563 137.8998,-238.3246 157.6577,-243.6066"/>
+<polygon fill="#000000" stroke="#000000" points="156.8579,-247.0156 167.4226,-246.217 158.6658,-240.2531 156.8579,-247.0156"/>
+</g>
+<!-- lo_linspace -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node7" class="node">
+<title>lo_linspace</title>
+<polygon fill="#777777" stroke="#777777" points="240.7305,-227.2554 176.6554,-227.2554 176.6554,-205.2446 240.7305,-205.2446 240.7305,-227.2554"/>
+<text text-anchor="middle" x="208.693" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_linspace</text>
+</g>
+<!-- proc~get_intensity_as_dos&#45;&gt;lo_linspace -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge6" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;lo_linspace</title>
+<path fill="none" stroke="#000000" d="M110.6953,-216.25C129.0271,-216.25 149.1244,-216.25 166.3213,-216.25"/>
+<polygon fill="#000000" stroke="#000000" points="166.6124,-219.7501 176.6124,-216.25 166.6123,-212.7501 166.6124,-219.7501"/>
+</g>
+<!-- walltime -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node8" class="node">
+<title>walltime</title>
+<polygon fill="#777777" stroke="#777777" points="235.693,-186.2554 181.693,-186.2554 181.693,-164.2446 235.693,-164.2446 235.693,-186.2554"/>
+<text text-anchor="middle" x="208.693" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">walltime</text>
+</g>
+<!-- proc~get_intensity_as_dos&#45;&gt;walltime -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge7" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;walltime</title>
+<path fill="none" stroke="#000000" d="M96.8296,-205.1548C120.2161,-198.9028 149.1761,-191.1608 171.7701,-185.1207"/>
+<polygon fill="#000000" stroke="#000000" points="172.9034,-188.4407 181.6602,-182.4768 171.0955,-181.6782 172.9034,-188.4407"/>
+</g>
+<!-- lo_deallocate -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node9" class="node">
+<title>lo_deallocate</title>
+<polygon fill="#777777" stroke="#777777" points="245.5754,-145.2554 171.8106,-145.2554 171.8106,-123.2446 245.5754,-123.2446 245.5754,-145.2554"/>
+<text text-anchor="middle" x="208.693" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_deallocate</text>
+</g>
+<!-- proc~get_intensity_as_dos&#45;&gt;lo_deallocate -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge8" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;lo_deallocate</title>
+<path fill="none" stroke="#000000" d="M69.4766,-205.0716C86.8428,-191.7717 117.5745,-169.5711 146.6528,-155.25 151.5621,-152.8322 156.8181,-150.5813 162.1169,-148.5199"/>
+<polygon fill="#000000" stroke="#000000" points="163.4582,-151.7559 171.6355,-145.0193 161.042,-145.1861 163.4582,-151.7559"/>
+</g>
+<!-- sitebuf -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node10" class="node">
+<title>sitebuf</title>
+<polygon fill="#777777" stroke="#777777" points="235.693,-104.2554 181.693,-104.2554 181.693,-82.2446 235.693,-82.2446 235.693,-104.2554"/>
+<text text-anchor="middle" x="208.693" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">sitebuf</text>
+</g>
+<!-- proc~get_intensity_as_dos&#45;&gt;sitebuf -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge9" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;sitebuf</title>
+<path fill="none" stroke="#000000" d="M62.4549,-205.0267C76.2384,-184.1962 108.5663,-139.3924 146.6528,-114.25 154.3063,-109.1977 163.2948,-105.2445 172.0176,-102.1993"/>
+<polygon fill="#000000" stroke="#000000" points="173.1948,-105.4978 181.6677,-99.1369 171.0774,-98.8257 173.1948,-105.4978"/>
 </g>
 <!-- lo_progressbar_init -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_node11" class="node"><title>lo_progressbar_init</title>
-<polygon fill="#777777" stroke="#777777" points="272.633,-22.2554 171.029,-22.2554 171.029,-0.244565 272.633,-0.244565 272.633,-22.2554"/>
-<text text-anchor="middle" x="221.831" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_progressbar_init</text>
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node11" class="node">
+<title>lo_progressbar_init</title>
+<polygon fill="#777777" stroke="#777777" points="259.4947,-63.2554 157.8913,-63.2554 157.8913,-41.2446 259.4947,-41.2446 259.4947,-63.2554"/>
+<text text-anchor="middle" x="208.693" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar_init</text>
 </g>
 <!-- proc~get_intensity_as_dos&#45;&gt;lo_progressbar_init -->
-<g id="proc~~get_intensity_as_dos~~CallsGraph_edge10" class="edge"><title>proc~get_intensity_as_dos&#45;&gt;lo_progressbar_init</title>
-<path fill="none" stroke="#000000" d="M59.2193,-184.194C67.5054,-154.75 94.1732,-73.8553 146.653,-32.25 151.222,-28.6278 156.384,-25.6303 161.804,-23.1498"/>
-<polygon fill="#000000" stroke="#000000" points="163.116,-26.3947 171.113,-19.4442 160.527,-19.8911 163.116,-26.3947"/>
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge10" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;lo_progressbar_init</title>
+<path fill="none" stroke="#000000" d="M59.3953,-205.1413C69.7336,-178.4355 99.5747,-110.1217 146.6528,-73.25 149.1245,-71.3142 151.7846,-69.5517 154.5639,-67.9476"/>
+<polygon fill="#000000" stroke="#000000" points="156.384,-70.9506 163.7606,-63.3455 153.2514,-64.6906 156.384,-70.9506"/>
+</g>
+<!-- lo_allocate -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_node12" class="node">
+<title>lo_allocate</title>
+<polygon fill="#777777" stroke="#777777" points="239.8965,-22.2554 177.4895,-22.2554 177.4895,-.2446 239.8965,-.2446 239.8965,-22.2554"/>
+<text text-anchor="middle" x="208.693" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_allocate</text>
+</g>
+<!-- proc~get_intensity_as_dos&#45;&gt;lo_allocate -->
+<g id="proc~~get_intensity_as_dos~~CallsGraph_edge11" class="edge">
+<title>proc~get_intensity_as_dos&#45;&gt;lo_allocate</title>
+<path fill="none" stroke="#000000" d="M57.7559,-204.881C65.1744,-172.8995 90.53,-81.2984 146.6528,-32.25 152.7333,-26.936 160.2145,-22.9542 167.8513,-19.9745"/>
+<polygon fill="#000000" stroke="#000000" points="169.1597,-23.2269 177.5142,-16.7112 166.92,-16.5949 169.1597,-23.2269"/>
 </g>
 </g>
 </svg>
@@ -551,43 +591,49 @@ subroutine get_intensity_as_dos(qpd, drd, uc, fc, fct, fcf, qp, dr, loto, opts, 
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: Graph Key Pages: 1 -->
 <svg width="550pt" height="31pt"
  viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-26.5 546.248,-26.5 546.248,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 546.2477,-26.5 546.2477,4 -4,4"/>
 <!-- Subroutine -->
-<g id="node1" class="node"><title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 0.105843,-22.2554 0.105843,-0.244565 62.6818,-0.244565 62.6818,-22.2554"/>
-<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 .1058,-22.2554 .1058,-.2446 62.6818,-.2446 62.6818,-22.2554"/>
+<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
 </g>
 <!-- Function -->
-<g id="node2" class="node"><title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="134.394,-22.2554 80.3938,-22.2554 80.3938,-0.244565 134.394,-0.244565 134.394,-22.2554"/>
-<text text-anchor="middle" x="107.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.3938,-22.2554 80.3938,-22.2554 80.3938,-.2446 134.3938,-.2446 134.3938,-22.2554"/>
+<text text-anchor="middle" x="107.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
 </g>
 <!-- Interface -->
-<g id="node3" class="node"><title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="206.394,-22.2554 152.394,-22.2554 152.394,-0.244565 206.394,-0.244565 206.394,-22.2554"/>
-<text text-anchor="middle" x="179.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.3938,-22.2554 152.3938,-22.2554 152.3938,-.2446 206.3938,-.2446 206.3938,-22.2554"/>
+<text text-anchor="middle" x="179.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Interface</text>
 </g>
 <!-- Unknown Procedure Type -->
-<g id="node4" class="node"><title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="356.532,-22.2554 224.256,-22.2554 224.256,-0.244565 356.532,-0.244565 356.532,-22.2554"/>
-<text text-anchor="middle" x="290.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.5315,-22.2554 224.2561,-22.2554 224.2561,-.2446 356.5315,-.2446 356.5315,-22.2554"/>
+<text text-anchor="middle" x="290.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node"><title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.394,-22.2554 374.394,-22.2554 374.394,-0.244565 428.394,-0.244565 428.394,-22.2554"/>
-<text text-anchor="middle" x="401.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.3938,-22.2554 374.3938,-22.2554 374.3938,-.2446 428.3938,-.2446 428.3938,-22.2554"/>
+<text text-anchor="middle" x="401.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node"><title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="542.102,-22.2554 446.686,-22.2554 446.686,-0.244565 542.102,-0.244565 542.102,-22.2554"/>
-<text text-anchor="middle" x="494.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="542.102,-22.2554 446.6856,-22.2554 446.6856,-.2446 542.102,-.2446 542.102,-22.2554"/>
+<text text-anchor="middle" x="494.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
@@ -637,8 +683,8 @@ implementation in a submodule of an interface in a parent module.
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

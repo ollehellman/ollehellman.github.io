@@ -25,14 +25,40 @@ html, body {
   margin-bottom: 0px;
 }
 /* Slightly bolder titles */
+h1 {
+    font-family: proxima-nova-condensed, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+}
 h2 {
-    font-weight: 400;
+    /*font-weight: 400;*/
+    font-family: proxima-nova-condensed, sans-serif;
+    font-style: normal;
+    font-weight: 600;
 }
 h3 {
-    font-weight: 400;
+    /*font-weight: 400;*/
+    font-family: proxima-nova-condensed, sans-serif;
+    font-style: normal;
+    font-weight: 600;
 }
 h4 {
-    font-weight: 400;
+    /*font-weight: 400;*/
+    font-family: proxima-nova-condensed, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+}
+h5 {
+    /*font-weight: 400;*/
+    font-family: proxima-nova-condensed, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+}
+h6 {
+    /*font-weight: 400;*/
+    font-family: proxima-nova-condensed, sans-serif;
+    font-style: normal;
+    font-weight: 500;
 }
 
 /* This is mainly what I use for filenames */

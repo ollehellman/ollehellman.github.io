@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -184,65 +188,34 @@
     
     <div class="col-sm-offset-1 col-sm-6 col-sm-offset-2" id='text'>
         <p>To understand the capabilities of the code, it is useful to browse through the publications that have used it, in one form or another.</p>
-<ul>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevLett.117.076402">Yang, F. C., Muñoz, J. A., Hellman, O., Mauger, L., Lucas, M. S., Tracy, S. J., … Fultz, B. (2016). Thermally Driven Electronic Topological Transition in FeTi. Physical Review Letters, 117(7), 076402.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.94.054111">Mozafari, E., Shulumba, N., Steneteg, P., Alling, B., &amp; Abrikosov, I. A. (2016). Finite-temperature elastic constants of paramagnetic materials within the disordered local moment picture from ab initio molecular dynamics calculations. Physical Review B, 94(5), 054111.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.92.174108">Bouchet, J., &amp; Bottin, F. (2015). Thermal evolution of vibrational properties of alpha-U. Physical Review B, 92(17), 174108.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.91.134108">Dewaele, A., Stutzmann, V., Bouchet, J., Bottin, F., Occelli, F., &amp; Mezouar, M. (2015). High pressure-temperature phase diagram and equation of state of titanium. Physical Review B, 91(13), 134108.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1016/j.matpr.2015.07.349">Isaeva, L., Hellman, O., Lashley, J. C., Abrikosov, I. A., &amp; Eriksson, O. (2015). Dynamic Stabilization of Cubic AuZn. Materials Today: Proceedings, 2, S569–S572.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1063/1.4936896">Shulumba, N., Hellman, O., Rogström, L., Raza, Z., Tasnádi, F., Abrikosov, I. A., &amp; Odén, M. (2015). Temperature-dependent elastic properties of Ti1-xAlxN alloys. Applied Physics Letters, 107(23), 1–4.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.92.174301">Mei, A. B., Hellman, O., Schlepütz, C. M., Rockett, A., Chiang, T.-C., Hultman, L., … Greene, J. E. (2015). Reflection thermal diffuse x-ray scattering for quantitative determination of phonon dispersion relations. Physical Review B, 92(17), 174301.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.92.054304">Lan, T., Li, C. W., Hellman, O., Kim, D. S., Muñoz, J. A., Smith, H., … Fultz, B. (2015). Phonon quarticity induced by changes in phonon-tracked hybridization during lattice expansion and its stabilization of rutile TiO2. Physical Review B, 92(5), 054304.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.91.214310">Romero, A. H., Gross, E. K. U., Verstraete, M. J., &amp; Hellman, O. (2015). Thermal conductivity in PbTe from first principles. Physical Review B, 91(21), 214310.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1080/08957959.2014.992896">Abrikosov, I. A., Ponomareva, A. V., Nikonov, A. Y., Zharmukhambetova, A. M., Mosyagin, I. Y., Lugovskoy, A. V., … Barannikova, S. A. (2015). Theoretical description of pressure-induced phase transitions: a case study of Ti-V alloys. High Pressure Research, 35(1), 42–48.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.91.054101">Mei, A. B., Hellman, O., Wireklint, N., Schlepütz, C. M., Sangiovanni, D. G., Alling, B., … Greene, J. E. (2015). Dynamic and structural stability of cubic vanadium nitride. Physical Review B, 91(5), 054101.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1038/nature13865">Budai, J. D., Hong, J., Manley, M. E., Specht, E. D., Li, C. W., Tischler, J. Z., … Delaire, O. (2014). Metallization of vanadium dioxide driven by large phonon entropy. Nature, 515(7528), 535–539.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1088/0268-1242/29/12/124002">Miranda, A. L., Xu, B., Hellman, O., Romero, A. H., &amp; Verstraete, M. J. (2014). Ab initio calculation of the thermal conductivity of indium antimonide. Semiconductor Science and Technology, 29(12), 124002.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.90.134309">Hellman, O., &amp; Broido, D. A. (2014). Phonon thermal transport in Bi2Te3 from first principle. Physical Review B, 90(13), 134309.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.89.174108">Shulumba, N., Alling, B., Hellman, O., Mozafari, E., Steneteg, P., Odén, M., &amp; Abrikosov, I. A. (2014). Vibrational free energy and phase stability of paramagnetic and antiferromagnetic CrN from ab initio molecular dynamics. Physical Review B, 89(17), 174108.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevLett.112.175501">Li, C. W., Hellman, O., Ma, J., May, A. F., Cao, H. B., Chen, X., … Delaire, O. (2014). Phonon self-energy and origin of anomalous neutron scattering spectra in SnTe and PbTe thermoelectrics. Physical Review Letters, 112(17), 175501.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.87.104111">Hellman, O., Steneteg, P., Abrikosov, I. A., &amp; Simak, S. I. (2013). Temperature dependent effective potential method for accurate free energy calculations of solids. Physical Review B, 87(10), 104111.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.88.144301">Hellman, O., &amp; Abrikosov, I. A. (2013). Temperature-dependent effective third-order interatomic force constants from first principles. Physical Review B, 88(14), 144301.</a></p>
-</li>
-<li>
-<p><a href="http://doi.org/10.1103/PhysRevB.84.180301">Hellman, O., Abrikosov, I. A., &amp; Simak, S. I. (2011). Lattice dynamics of anharmonic solids from first principles. Physical Review B, 84(18), 180301.</a></p>
-</li>
-</ul>
+<ol>
+<li><a href="https://link.aps.org/doi/10.1103/PhysRevB.84.180301">Hellman, O., Abrikosov, I. A. &amp; Simak, S. I. <em>Lattice dynamics of anharmonic solids from first principles</em>. <strong>Phys. Rev. B</strong> 84, 180301 (2011).</a></li>
+<li><a href="http://www.pnas.org/lookup/doi/10.1073/pnas.1707745115">Kim, D. S. et al. <em>Nuclear quantum effect with pure anharmonicity and the anomalous thermal expansion of silicon</em>. <strong>Proc. Natl. Acad. Sci.</strong> 201707745 (2018).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.95.014302">Shulumba, N., Hellman, O. &amp; Minnich, A. J. <em>Intrinsic localized mode and low thermal conductivity of PbSe</em>. <strong>Phys. Rev. B</strong> 95, 14302 (2017).</a></li>
+<li><a href="https://link.aps.org/doi/10.1103/PhysRevB.95.024308">Mauger, L. et al. <em>Phonons and elasticity of cementite through the Curie temperature</em>. <strong>Phys. Rev. B</strong> 95, 24308 (2017).</a></li>
+<li><a href="https://link.aps.org/doi/10.1103/PhysRevLett.119.185901">Shulumba, N., Hellman, O. &amp; Minnich, A. J. <em>Lattice Thermal Conductivity of Polyethylene Molecular Crystals from First-Principles Including Nuclear Quantum Effects</em>. <strong>Phys. Rev. Lett.</strong> 119, 185901 (2017).</a></li>
+<li><a href="https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.117.076402">Yang, F. C. et al. <em>Thermally Driven Electronic Topological Transition in FeTi</em>. <strong>Phys. Rev. Lett.</strong> 117, 76402 (2016).</a></li>
+<li><a href="http://pubs.acs.org/doi/abs/10.1021/acsnano.6b05577">Björkman, T. et al. <em>Vibrational Properties of a Two-Dimensional Silica Kagome Lattice</em>. <strong>ACS Nano</strong> 10, 10929–10935 (2016).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.94.054111">Mozafari, E., Shulumba, N., Steneteg, P., Alling, B. &amp; Abrikosov, I. A. <em>Finite-temperature elastic constants of paramagnetic materials within the disordered local moment picture from ab initio molecular dynamics calculations</em>. <strong>Phys. Rev. B</strong> 94, 54111 (2016).</a></li>
+<li><a href="https://link.aps.org/doi/10.1103/PhysRevLett.117.205502">Shulumba, N. et al. <em>Lattice Vibrations Change the Solid Solubility of an Alloy at High Temperatures</em>. <strong>Phys. Rev. Lett.</strong> 117, 205502 (2016).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.91.134108">Dewaele, A. et al. <em>High pressure-temperature phase diagram and equation of state of titanium</em>. <strong>Phys. Rev. B</strong> 91, 134108 (2015).</a></li>
+<li><a href="http://linkinghub.elsevier.com/retrieve/pii/S2214785315005945">Isaeva, L., Hellman, O., Lashley, J. C., Abrikosov, I. A. &amp; Eriksson, O. <em>Dynamic Stabilization of Cubic AuZn</em>. <strong>Mater. Today Proc.</strong> 2, S569–S572 (2015).</a></li>
+<li><a href="http://scitation.aip.org/content/aip/journal/apl/107/23/10.1063/1.4936896">Shulumba, N. et al. <em>Temperature-dependent elastic properties of Ti1-xAlxN alloys</em>. <strong>Appl. Phys. Lett.</strong> 107, 1–4 (2015).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.92.174301">Mei, A. B. et al. <em>Reflection thermal diffuse x-ray scattering for quantitative determination of phonon dispersion relations</em>. <strong>Phys. Rev. B</strong> 92, 174301 (2015).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.92.054304">Lan, T. et al. <em>Phonon quarticity induced by changes in phonon-tracked hybridization during lattice expansion and its stabilization of rutile TiO2</em>. <strong>Phys. Rev. B</strong> 92, 54304 (2015).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.91.214310">Romero, A. H., Gross, E. K. U., Verstraete, M. J. &amp; Hellman, O. <em>Thermal conductivity in PbTe from first principles</em>. <strong>Phys. Rev. B</strong> 91, 214310 (2015).</a></li>
+<li><a href="http://www.tandfonline.com/doi/abs/10.1080/08957959.2014.992896">Abrikosov, I. A. et al. <em>Theoretical description of pressure-induced phase transitions: a case study of Ti-V alloys</em>. <strong>High Press. Res.</strong> 35, 42–48 (2015).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.91.054101">Mei, A. B. et al. <em>Dynamic and structural stability of cubic vanadium nitride</em>. <strong>Phys. Rev. B</strong> 91, 54101 (2015).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.92.174108">Bouchet, J. &amp; Bottin, F. <em>Thermal evolution of vibrational properties of alpha-U</em>. <strong>Phys. Rev. B</strong> 92, 174108 (2015).</a></li>
+<li><a href="http://www.nature.com/doifinder/10.1038/nature13865">Budai, J. D. et al. <em>Metallization of vanadium dioxide driven by large phonon entropy</em>. <strong>Nature</strong> 515, 535–539 (2014).</a></li>
+<li><a href="http://stacks.iop.org/0268-1242/29/i=12/a=124002?key=crossref.9197f22c0cf5e36999e8e3148f1d15f3">Miranda, A. L., Xu, B., Hellman, O., Romero, A. H. &amp; Verstraete, M. J. <em>Ab initio calculation of the thermal conductivity of indium antimonide</em>. <strong>Semicond. Sci. Technol.</strong> 29, 124002 (2014).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.90.134309">Hellman, O. &amp; Broido, D. A. <em>Phonon thermal transport in Bi2Te3 from first principles</em>. <strong>Phys. Rev. B</strong> 90, 134309 (2014).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.89.174108">Shulumba, N. et al. <em>Vibrational free energy and phase stability of paramagnetic and antiferromagnetic CrN from ab initio molecular dynamics</em>. <strong>Phys. Rev. B</strong> 89, 174108 (2014).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevLett.112.175501">Li, C. W. et al. <em>Phonon self-energy and origin of anomalous neutron scattering spectra in SnTe and PbTe thermoelectrics</em>. <strong>Phys. Rev. Lett.</strong> 112, 175501 (2014).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.87.104111">Hellman, O., Steneteg, P., Abrikosov, I. A. &amp; Simak, S. I. <em>Temperature dependent effective potential method for accurate free energy calculations of solids</em>. <strong>Phys. Rev. B</strong> 87, 104111 (2013).</a></li>
+<li><a href="http://link.aps.org/doi/10.1103/PhysRevB.87.094114">Steneteg, P. et al. <em>Temperature dependence of TiN elastic constants from ab initio molecular dynamics simulations</em>. <strong>Phys. Rev. B</strong> 87, 94114 (2013).</a></li>
+<li><a href="https://link.aps.org/doi/10.1103/PhysRevB.88.144301">Hellman, O. &amp; Abrikosov, I. A. <em>Temperature-dependent effective third-order interatomic force constants from first principles</em>. <strong>Phys. Rev. B</strong> 88, 144301 (2013).</a></li>
+</ol>
     </div>
 </div>
 
@@ -257,8 +230,8 @@
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

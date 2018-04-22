@@ -1,255 +1,349 @@
 
-!> calculate the intensity along a path
-subroutine get_intensity_along_path(bs,uc,fc,fct,fcf,qp,dr,loto,opts,mw,lsmpi)
+!> Calculate the spectral function along a path in the BZ
+subroutine spectralfunction_along_path(bs,uc,fc,fct,fcf,qp,dr,opts,mw)
     !> the bandstructure
     type(lo_phonon_bandstructure), intent(inout) :: bs
     !> crystal structure
     type(lo_crystalstructure), intent(inout) :: uc
     !> second order force constant
-    type(lo_forceconstant_secondorder), intent(in) :: fc
+    type(lo_forceconstant_secondorder), intent(inout) :: fc
     !> third order force constant
     type(lo_forceconstant_thirdorder), intent(in) :: fct
     !> fourth order force constant
     type(lo_forceconstant_fourthorder), intent(in) :: fcf
     !> q-point mesh
-    type(lo_monkhorst_pack_mesh), intent(in) :: qp
+    class(lo_qpoint_mesh), intent(in) :: qp
     !> harmonic properties on this mesh
     type(lo_phonon_dispersions), intent(in) :: dr
-    !> electrostatic corrections
-    type(lo_loto), intent(in) :: loto
     !> all settings
     type(lo_opts), intent(in) :: opts
     !> mpi communicator
-    type(lo_mpiinfo), intent(in) :: mw
-    !> mpi helper
-    type(lo_lsmpi), intent(in) :: lsmpi
+    type(lo_mpi_helper), intent(inout) :: mw
 
-    type(lo_phonon_selfenergy) :: se
-    real(flyt), dimension(:,:,:), allocatable :: rebuf,imbuf,dumbuf
-    real(flyt), dimension(:,:), allocatable :: intbuf,lwbuf,shbuf
-    real(flyt), dimension(:), allocatable :: dum
-    real(flyt), dimension(2) :: lsintx,lsinty
-    real(flyt) :: t0,f0
-    integer :: q1,nb,lqp,i,j,path,ii,jj,k
+    real(flyt), parameter :: timereport=30.0_flyt
+    real(flyt), dimension(:,:,:), allocatable :: imbuf,rebuf
+    real(flyt), dimension(:), allocatable :: seax,inax
+    real(flyt) :: timer,minsmear
 
-    t0=mpi_wtime()
-    ! Make space for linewidths
-    do q1=1,bs%nptot
-        allocate(bs%p(q1)%linewidth(bs%nb))
-        allocate(bs%p(q1)%shift(bs%nb))
-        allocate(bs%p(q1)%threephononphasespace(bs%nb))        
-    enddo
-    ! Space for intensity
-    allocate(bs%intensity(bs%nptot,opts%nf))
-    allocate(bs%selfenergy_real(bs%nptot,opts%nf,dr%nb))
-    allocate(bs%selfenergy_imag(bs%nptot,opts%nf,dr%nb))
-
-    bs%intensity=0.0_flyt
-    bs%selfenergy_real=0.0_flyt
-    bs%selfenergy_imag=0.0_flyt
-
-    ! Dump some general info
-    if ( mw%talk ) then
-        write(*,*) '        isotope:',opts%isotopescattering
-        write(*,*) '    threephonon:',opts%thirdorder
-        write(*,*) '     fourphonon:',opts%fourthorder
-        write(*,*) '           loto:',opts%loto
-        write(*,*) 'integrationtype:',opts%integrationtype
-    endif
-
-    ! Turn off openmp
-    call omp_set_num_threads(1)
-
-
-    ! Calculate self energy
-    if ( mw%talk ) call lo_progressbar_init()
-    allocate(rebuf(bs%nptot,opts%nf,dr%nb))
-    allocate(imbuf(bs%nptot,opts%nf,dr%nb))
-    allocate(lwbuf(dr%nb,bs%nptot))
-    allocate(shbuf(dr%nb,bs%nptot))
-    rebuf=0.0_flyt
-    imbuf=0.0_flyt
-    lwbuf=0.0_flyt
-    shbuf=0.0_flyt
-    do q1=1,lsmpi%nq
-        ! global q-point index
-        lqp=lsmpi%ind(q1)
-        ! get the actual self-energy
-        call se%generate(bs%q(lqp),bs%p(lqp),uc,fc,fct,fcf,qp,dr,loto,opts)
-        ! Add it to the intensity
-        do j=1,bs%nb
-            do i=2,se%nf
-                imbuf(lqp,i,j)=se%im_3ph(i,j)+se%im_iso(i,j)
-                rebuf(lqp,i,j)=se%re_3ph(i,j)+se%re_4ph(i,j)
-            enddo
-           ! get the linewidth exactly at the harmonic frequency
-           lwbuf(j,lqp)=lo_linear_interpolation(se%faxis,se%im_3ph(:,j)+se%im_iso(:,j),bs%p(lqp)%omega(j))*2.0_flyt
-           ! get the anharmonic shift at the harmonic frequency
-           shbuf(j,lqp)=lo_linear_interpolation(se%faxis,se%re_3ph(:,j)+se%re_4ph(:,j),bs%p(lqp)%omega(j))
-           ! Also store the phase-space volume at this q-point
-!          ! bs%p(lqp)%threephononphasespace(j)=lo_linear_interpolation(se%faxis,se%twophonondos(:,j),bs%p(lqp)%omega(j))
-        enddo
-        if ( mw%talk ) call lo_progressbar(' ... lineshape on path',q1,lsmpi%nq,mpi_wtime()-t0)
-    enddo
-
-    ! Add these up!
-    call mpi_allreduce(rebuf,bs%selfenergy_real,bs%nptot*opts%nf*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
-    call mpi_allreduce(imbuf,bs%selfenergy_imag,bs%nptot*opts%nf*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
-    allocate(intbuf(dr%nb,bs%nptot))
-    intbuf=0.0_flyt
-    call mpi_allreduce(lwbuf,intbuf,bs%nptot*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
-    do i=1,bs%nptot
-    do j=1,bs%nb
-        bs%p(i)%linewidth(j)=intbuf(j,i)
-    enddo
-    enddo
-    intbuf=0.0_flyt
-    call mpi_allreduce(shbuf,intbuf,bs%nptot*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
-    do i=1,bs%nptot
-    do j=1,bs%nb
-        bs%p(i)%shift(j)=intbuf(j,i)
-    enddo
-    enddo
-    deallocate(intbuf)
-    deallocate(lwbuf)
-    deallocate(shbuf)
-    ! Dump the shifts and widths
-    if ( mw%r .eq. 0 ) then
-        call bs%write_dispersive_property(opts%enhet,'shift','outfile.dispersion_shifts',.false.)
-        call bs%write_dispersive_property(opts%enhet,'linewidth','outfile.dispersion_linewidths',.false.)
-!        call bs%write_dispersive_property(opts%enhet,'threephononphasespace','outfile.dispersion_threephononphasespace',.false.)
-    endif
-
-    ! dump some files, they are done now:
-
-    rebuf=0.0_flyt
-    imbuf=0.0_flyt
-    t0=mpi_wtime()
-    ! Figure out some neat interpolation of self-energy for really small q
-    if ( mw%talk ) call lo_progressbar_init()
-    do q1=1,lsmpi%nq
-        lqp=lsmpi%ind(q1)
-        ! what path am I on?
-        path=bs%q(lqp)%path
-        ! does it contain gamma?
-        if ( norm2(bs%segment(path)%r1) .gt. lo_tol .and. norm2(bs%segment(path)%r2) .gt. lo_tol ) cycle
-        ! seems it does, have to fix this, maybe.
-        ! Good small number to use
-        f0=(se%intensityaxis(2)-se%intensityaxis(1))*0.25_flyt ! smallest selfenergy
-        ! Is it in the beginning or the end?
-        if ( norm2(bs%segment(path)%r1) .lt. lo_tol ) then
-            ! Index of gamma
-            ii=(path-1)*bs%npts+1
-            ! Fix the acoustic branches
-            do j=1,3
-                ! Find index of point that is ok
-                do i=ii,ii+bs%npts-1
-                    if ( bs%p(i)%omega(j) .gt. dr%omega_min*0.5_flyt ) then
-                        jj=i
-                        exit
-                    endif
-                enddo
-                ! now I know that things are zero at ii, and ok at jj
-                bs%selfenergy_imag(ii,:,j)=f0       ! set imaginary at gamma
-                bs%selfenergy_real(ii,:,j)=0.0_flyt ! set real at gamma
-                lsintx(1)=bs%q_axis(ii)-lo_sqtol
-                lsintx(2)=bs%q_axis(jj)+lo_sqtol
-                ! Interpolate the missing self-energies at this point
-                do k=1,se%nf
-                    ! y-axis for interpolation, imaginary part
-                    lsinty(1)=bs%selfenergy_imag(ii,k,j)
-                    lsinty(2)=bs%selfenergy_imag(jj,k,j)
-                    imbuf(lqp,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(lqp))
-                    ! y-axis for interpolation, real part
-                    lsinty(1)=bs%selfenergy_real(ii,k,j)
-                    lsinty(2)=bs%selfenergy_real(jj,k,j)
-                    rebuf(lqp,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(lqp))
-                enddo
-            enddo
-        else
-            ! Same thing again, but this time gamma is at the end.
-            ii=path*bs%npts
-            ! loop over the three lowest branches
-            do j=1,3
-                jj=0
-                do i=ii,(path-1)*bs%npts+1,-1
-                    if ( bs%p(i)%omega(j) .gt. dr%omega_min*0.5_flyt ) then
-                        jj=i
-                        exit
-                    endif
-                enddo
-                ! Interpolate this, somehow
-                bs%selfenergy_imag(ii,:,j)=f0       ! set imaginary at gamma
-                bs%selfenergy_real(ii,:,j)=0.0_flyt ! set real at gamma
-                ! x-axis for interpolation
-                lsintx(2)=bs%q_axis(ii)-lo_sqtol
-                lsintx(1)=bs%q_axis(jj)+lo_sqtol
-                ! interpolate to missing points
-                do k=1,se%nf
-                    ! y-axis for interpolation
-                    lsinty(2)=bs%selfenergy_imag(ii,k,j)
-                    lsinty(1)=bs%selfenergy_imag(jj,k,j)
-                    imbuf(lqp,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(lqp))
-                    ! y-axis for interpolation
-                    lsinty(2)=bs%selfenergy_real(ii,k,j)
-                    lsinty(1)=bs%selfenergy_real(jj,k,j)
-                    rebuf(lqp,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(lqp))
-                enddo
-            enddo
+    ! Make some space and things like that
+    init: block
+        real(flyt) :: f0
+        integer :: i,j,k,l
+        
+        timer=walltime()
+        ! Figure out how much space is needed to store the buffers, and maybe print a warning
+        ! in case it's some really large amount
+        f0=4*dr%nb*opts%nf*bs%nptot*4.0_flyt/1024/1024
+        if ( f0 .gt. 20.0_flyt .and. mw%talk ) then
+            write(*,*) '... Will use at least ',tochar(int(f0)),'MB memory per rank, probably a lot more.'
         endif
-        !
-        if ( mw%talk ) call lo_progressbar(' ... fixing tiny q',q1,lsmpi%nq,mpi_wtime()-t0)
-        !
-    enddo
+        ! Make space for linewidth, shifts and so on
+        do i=1,bs%nptot
+            allocate(bs%p(i)%linewidth(bs%nb))
+            allocate(bs%p(i)%shift3(bs%nb))
+            allocate(bs%p(i)%shift4(bs%nb))
+            bs%p(i)%linewidth=0.0_flyt
+            bs%p(i)%shift3=0.0_flyt
+            bs%p(i)%shift4=0.0_flyt
+        enddo
+        ! Space for intensity
+        allocate(bs%intensity(bs%nptot,opts%nf))
+        allocate(bs%selfenergy_real(bs%nptot,opts%nf,dr%nb))
+        allocate(bs%selfenergy_imag(bs%nptot,opts%nf,dr%nb))
+        allocate(rebuf(bs%nptot,opts%nf,dr%nb))
+        allocate(imbuf(bs%nptot,opts%nf,dr%nb))
+        allocate(bs%faxis(opts%nf))
+        bs%faxis=0.0_flyt
+        bs%selfenergy_real=0.0_flyt
+        bs%selfenergy_imag=0.0_flyt
+        bs%intensity=0.0_flyt
+        lo_allocate(seax(opts%nf))
+        lo_allocate(inax(opts%nf))
+        seax=0.0_flyt
+        inax=0.0_flyt
+    end block init
 
-    ! Add this together, and add it to the self energy
-    allocate(dumbuf(bs%nptot,opts%nf,dr%nb))
-    dumbuf=0.0_flyt
-    call mpi_allreduce(rebuf,dumbuf,bs%nptot*opts%nf*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
-    bs%selfenergy_real=bs%selfenergy_real+dumbuf
-    dumbuf=0.0_flyt
-    call mpi_allreduce(imbuf,dumbuf,bs%nptot*opts%nf*bs%nb,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
-    bs%selfenergy_imag=bs%selfenergy_imag+dumbuf
-    deallocate(dumbuf)
+    ! Get the self-energies
+    selfenergy: block
+        type(lo_phonon_selfenergy) :: se
+        real(flyt), dimension(:), allocatable :: x,y,z
+        real(flyt) :: f0,f1,t0
+        integer :: i,j,k,l,ctr,path,q,nq_per_path,band
 
-    ! Now all the self-energies are nice, time to get the intensities
-    allocate(intbuf(bs%nptot,opts%nf))
-    allocate(dum(opts%nf))
-    intbuf=0.0_flyt
-    t0=mpi_wtime()
+        t0=walltime()
+
+        ! Count q-points per path, and make space for dummy arrays
+        nq_per_path=0
+        do q=1,bs%npts,opts%stride
+            nq_per_path=nq_per_path+1
+        enddo
+        lo_allocate(x(nq_per_path))
+        lo_allocate(y(nq_per_path))
+        lo_allocate(z(nq_per_path))
+
+        rebuf=0.0_flyt
+        imbuf=0.0_flyt
+        if ( mw%talk ) call lo_progressbar_init()
+        do path=1,bs%npath
+        do q=1,bs%npts,opts%stride
+            i=(path-1)*bs%npts+q
+            ! get the self-energies
+            call se%generate(bs%q(i),bs%p(i),uc,fc,fct,fcf,qp,dr,opts,mw)
+        
+            minsmear=(se%faxis(2)-se%faxis(1))*opts%minsmear
+            ! store them
+            rebuf(i,:,:)=se%re_3ph+se%re_4ph
+            imbuf(i,:,:)=se%im_3ph+se%im_iso
+            ! add minimum smearing
+            do j=1,se%nb
+            do k=1,opts%nf
+                imbuf(i,k,j)=max(imbuf(i,k,j),minsmear)
+            enddo
+            enddo
+
+            ! Interpolate the shifts
+            do j=1,se%nb
+                bs%p(i)%shift3(j)=lo_linear_interpolation( se%faxis,se%re_3ph(:,j),bs%p(i)%omega(j) )
+                bs%p(i)%shift4(j)=lo_linear_interpolation( se%faxis,se%re_4ph(:,j),bs%p(i)%omega(j) )
+            enddo
+
+            if ( mw%talk ) then
+                if ( walltime()-t0 .gt. timereport ) then
+                    call lo_looptimer('... spectralfunction along path',timer,walltime(),i,bs%nptot)
+                    t0=walltime()
+                endif
+            endif
+        enddo
+        enddo
+
+        if ( opts%stride .gt. 1 ) then
+            t0=walltime()
+            bs%selfenergy_real=0.0_flyt
+            bs%selfenergy_imag=0.0_flyt
+            ! Interpolate the self-energy to all q
+            ctr=0
+            if ( mw%talk ) call lo_progressbar_init()
+            do path=1,bs%npath
+                ! fetch the x-values for this path
+                l=0
+                do q=1,bs%npts,opts%stride
+                    i=(path-1)*bs%npts+q
+                    l=l+1
+                    x(l)=bs%q_axis(i)
+                enddo
+                
+                do band=1,dr%nb
+                    do j=1,opts%nf
+                        ! fetch self-energies
+                        l=0
+                        y=0.0_flyt
+                        z=0.0_flyt
+                        do q=1,bs%npts,opts%stride
+                            i=(path-1)*bs%npts+q
+                            l=l+1
+                            y(l)=rebuf(i,j,band)
+                            z(l)=imbuf(i,j,band)
+                        enddo
+                        ! interpolate self-energies
+                        do q=1,bs%npts
+                            i=(path-1)*bs%npts+q
+                            f0=lo_linear_interpolation(x,y,bs%q_axis(i))
+                            f1=lo_linear_interpolation(x,z,bs%q_axis(i))
+                            bs%selfenergy_real(i,j,band)=f0
+                            bs%selfenergy_imag(i,j,band)=max(f1,0.0_flyt)
+                        enddo
+                    enddo
+                    ctr=ctr+1
+                    if ( mw%talk ) call lo_progressbar(' ... interpolating selfenergy',ctr,bs%npath*dr%nb,walltime()-t0)
+                enddo
+            enddo
+            rebuf=bs%selfenergy_real
+            imbuf=bs%selfenergy_imag
+        endif
+        ! and the different intensity axes
+        seax=se%faxis
+        inax=se%intensityaxis
+    end block selfenergy
+
     ! Figure out some neat interpolation of self-energy for really small q
-    if ( mw%talk ) call lo_progressbar_init()
-    do q1=1,lsmpi%nq
-        lqp=lsmpi%ind(q1)
-        do j=1,bs%nb
-            ! Get the lineshape
-            dum=0.0_flyt
-            if ( bs%p(lqp)%omega(j) .gt. lo_freqtol ) then
-                call getintensity(se%faxis,bs%selfenergy_imag(lqp,:,j),bs%selfenergy_real(lqp,:,j),&
-                bs%p(lqp)%omega(j),se%intensityaxis,dum)
+    smallq: block
+        real(flyt), dimension(:), allocatable :: dumre,dumim
+        real(flyt), dimension(3) :: qv1,qv2
+        real(flyt), dimension(2) :: lsintx,lsinty
+        real(flyt) :: f0,t0
+        integer :: q,path,ii,jj,i,j,k
+
+        ! Temporarily store self-energies
+        lo_allocate(dumre(opts%nf))
+        lo_allocate(dumim(opts%nf))
+        ! Set smallest imaginary selfenergy
+        dumre=0.0_flyt
+        dumim=0.0_flyt
+        ! Good small number to use
+        f0=(seax(2)-seax(1))*0.5_flyt ! smallest selfenergy
+        t0=walltime()
+        !
+        if ( mw%talk ) call lo_progressbar_init()
+        do q=1,bs%nptot
+            ! what path am I on?
+            path=bs%q(q)%path
+            ! The start and end-points
+            qv1=bs%segment(path)%r1-uc%bz%gshift( bs%segment(path)%r1 + lo_degenvector )
+            qv2=bs%segment(path)%r2-uc%bz%gshift( bs%segment(path)%r2 + lo_degenvector )
+            ! does it contain gamma?
+            if ( norm2(qv1) .gt. lo_tol .and. norm2(qv2) .gt. lo_tol ) cycle
+            ! Is it in the beginning or the end?
+            if ( norm2(qv1) .lt. lo_tol ) then
+                ! Index of gamma
+                ii=(path-1)*bs%npts+1
+                ! Fix the acoustic branches
+                do j=1,dr%nb
+                    ! skip if omega too large
+                    if ( bs%p(q)%omega(j) .gt. dr%omega_min*0.5_flyt ) cycle
+                    ! Find index of point that is ok
+                    jj=ii+bs%npts-1
+                    do i=ii,ii+bs%npts-1
+                        if ( bs%p(i)%omega(j) .gt. dr%omega_min*0.5_flyt ) then
+                            jj=i
+                            exit
+                        endif
+                    enddo
+                    ! Fetch real and imaginary at this q
+                    dumre=bs%selfenergy_real(jj,:,j)
+                    dumim=bs%selfenergy_imag(jj,:,j)
+                    ! now I know that things are zero at ii, and ok at jj
+                    lsintx(1)=bs%q_axis(ii)-lo_sqtol
+                    lsintx(2)=bs%q_axis(jj)+lo_sqtol
+                    ! Interpolate the missing self-energies at this point
+                    do k=1,opts%nf
+                        ! y-axis for interpolation, imaginary part
+                        lsinty(1)=f0
+                        lsinty(2)=dumim(k) 
+                        imbuf(q,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(q))
+                        ! y-axis for interpolation, real part
+                        lsinty(1)=0.0_flyt
+                        lsinty(2)=dumre(k) 
+                        rebuf(q,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(q))
+                    enddo
+                enddo
             else
-                ! acoustic branch at Gamma. Add a gaussian at 0 to no make it disappear.
-                do i=1,se%nf
-                    dum(i)=lo_gauss(se%intensityaxis(i),0.0_flyt,se%intensityaxis(2)-se%intensityaxis(1))
+                ! Same thing again, but this time gamma is at the end.
+                ii=path*bs%npts
+                ! loop over the three lowest branches
+                do j=1,dr%nb
+                    ! skip if omega too large
+                    if ( bs%p(q)%omega(j) .gt. dr%omega_min*0.5_flyt ) cycle
+                    jj=(path-1)*bs%npts+1
+                    do i=ii,(path-1)*bs%npts+1,-1
+                        if ( bs%p(i)%omega(j) .gt. dr%omega_min*0.5_flyt ) then
+                            jj=i
+                            exit
+                        endif
+                    enddo
+                    ! Fetch real and imaginary at this q
+                    dumre=bs%selfenergy_real(jj,:,j)
+                    dumim=bs%selfenergy_imag(jj,:,j)
+                    ! x-axis for interpolation
+                    lsintx(2)=bs%q_axis(ii)-lo_sqtol
+                    lsintx(1)=bs%q_axis(jj)+lo_sqtol
+                    ! interpolate to missing points
+                    do k=1,opts%nf
+                        ! y-axis for interpolation
+                        lsinty(2)=f0
+                        lsinty(1)=dumim(k) 
+                        imbuf(q,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(q))
+                        ! y-axis for interpolation
+                        lsinty(2)=0.0_flyt 
+                        lsinty(1)=dumre(k) 
+                        rebuf(q,k,j)=lo_linear_interpolation(lsintx,lsinty,bs%q_axis(q))
+                    enddo
                 enddo
             endif
-            ! Add it to the intensity
-            intbuf(lqp,:)=intbuf(lqp,:)+dum
+            if ( mw%talk ) call lo_progressbar(' ... fixing tiny q',q,bs%nptot,walltime()-t0)
         enddo
-        !
-        if ( mw%talk ) call lo_progressbar(' ... intensities',q1,lsmpi%nq,mpi_wtime()-t0)
-    enddo
-    ! add them up
-    call mpi_allreduce(intbuf,bs%intensity,bs%nptot*opts%nf,MPI_DOUBLE_PRECISION,MPI_SUM,mw%comm,mw%error)
-    deallocate(intbuf)
-    deallocate(dum)
+        ! Store the self-energies
+        bs%selfenergy_real=rebuf
+        bs%selfenergy_imag=imbuf
+    end block smallq
 
-    ! Dump to file
-    if ( mw%r .eq. 0 ) then
-        write(*,*) 'Writing intensity to file'
-        lo_allocate(bs%faxis(se%nf))
-        bs%faxis=se%intensityaxis
-        call bs%write_intensity(opts%enhet,logscale=.true.)
-    endif
-    ! And it is done!
+    ! Smear the self-energies in q-and energy direction, just a little 
+    smearse: block
+        integer :: i,j,band,i1,i2,j1,j2,ii,jj,iii,jjj,ctr
+        real(flyt), dimension(5,5) :: kernel
+        real(flyt), dimension(2) :: v0
+        !
+        do i=1,5
+        do j=1,5
+            v0=[i-3,j-3]*1.0_flyt
+            kernel(j,i)=lo_gauss(norm2(v0),0.0_flyt,2.6_flyt)
+        enddo
+        enddo
+        kernel=kernel/sum(kernel)
+        !
+        rebuf=0.0_flyt
+        imbuf=0.0_flyt
+        ctr=0
+        if ( mw%talk ) call lo_progressbar_init()
+        do band=1,dr%nb
+            do i=1,bs%nptot
+                do j=1,opts%nf
+                    i1=max(1,i-2)
+                    i2=min(i+2,bs%nptot)
+                    j1=max(1,j-2)
+                    j2=min(opts%nf,j+2)
+                    do ii=i1,i2
+                    do jj=j1,j2
+                        iii=ii-i+3
+                        jjj=jj-j+3
+                        rebuf(ii,jj,band)=rebuf(ii,jj,band)+kernel(iii,jjj)*bs%selfenergy_real(i,j,band)
+                        imbuf(ii,jj,band)=imbuf(ii,jj,band)+kernel(iii,jjj)*bs%selfenergy_imag(i,j,band)
+                    enddo
+                    enddo
+                enddo
+                ctr=ctr+1
+            enddo
+        enddo
+        bs%selfenergy_real=rebuf
+        bs%selfenergy_imag=imbuf
+    end block smearse
+
+    ! Get the intensities
+    intensities: block
+        real(flyt), dimension(:), allocatable :: dum
+        real(flyt) :: f0,f1
+        integer :: i,j,k
+        ! put something at gamma to make the intensities not weird.
+        f0=(seax(2)-seax(1))*0.25_flyt
+        f1=(seax(2)-seax(1))*opts%minsmear
+
+        lo_allocate(dum(opts%nf))
+        do i=1,bs%nptot
+        do j=1,dr%nb
+            if ( bs%p(i)%omega(j) .gt. lo_freqtol ) then
+                call getintensity(seax,imbuf(i,:,j),rebuf(i,:,j),bs%p(i)%omega(j),inax,dum)
+            else
+                do k=1,opts%nf
+                    dum(k)=lo_lorentz(inax(k),0.0_flyt,f0)
+                enddo
+            endif
+            bs%intensity(i,:)=bs%intensity(i,:)+dum/lo_trapezoid_integration(inax,dum)
+        enddo
+        enddo
+        bs%faxis=inax
+
+        ! Also store the linewidth at the harmonic frequencies, as well as
+        ! the shifts
+        do i=1,bs%nptot
+        do j=1,dr%nb
+            if ( bs%p(i)%omega(j) .gt. lo_freqtol ) then
+                f0=lo_linear_interpolation(seax,imbuf(i,:,j),bs%p(i)%omega(j))
+                bs%p(i)%linewidth(j)=f0
+            else
+                bs%p(i)%linewidth(j)=0.0_flyt
+            endif 
+        enddo
+        enddo
+    end block intensities
+
 end subroutine
+

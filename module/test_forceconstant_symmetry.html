@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
+    
+    <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
+    <link rel="icon" href="../favicon.png">
+
+    <title>test_forceconstant_symmetry &ndash; TDEP</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                <li><a href="../lists/modules.html">Modules</a></li>
+                
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
+                
+                
+                
+                <li><a href="../lists/types.html">Derived Types</a></li>
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+  
+  <div class="row">
+    <h1>test_forceconstant_symmetry 
+    <small>Module</small>
+    
+    </h1>
+	 
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     
+    <li><i class="fa fa-code"></i><a href="../src/test_forceconstant_symmetry.f90"> Source File</a></li>
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+     <li><a href='../sourcefile/test_forceconstant_symmetry.f90.html'>test_forceconstant_symmetry.f90</a></li>
+  
+     <li class="active">test_forceconstant_symmetry</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/test_forceconstant_symmetry.html#proc-test_forceconstant_constraints">test_forceconstant_constraints</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+  <hr>
+  
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allmods-0">All Modules</a></h3></div>
+  <div id="allmods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/autocell.html">autocell</a>
+      
+      <a class="list-group-item" href="../module/dipole.html">dipole</a>
+      
+      <a class="list-group-item" href="../module/magneticdisorder.html">magneticdisorder</a>
+      
+      <a class="list-group-item" href="../module/test_forceconstant_symmetry.html">test_forceconstant_symmetry</a>
+      
+    </div>
+  </div>
+</div>
+
+
+</div>  
+
+    </div>
+    
+    <div class="col-sm-offset-1 col-sm-8 col-sm-offset-1" id='text'>
+    
+    
+    
+  
+    <ul class="list-inline">
+      <li><h4>Uses:</h4></li>
+      
+      <li>konstanter</li>
+      
+      <li>helpers</li>
+      
+      <li>type_crystalstructure</li>
+      
+      <li>type_forceconstant_firstorder</li>
+      
+      <li>type_forceconstant_secondorder</li>
+      
+      <li>type_forceconstant_thirdorder</li>
+      
+      <li>type_forceconstant_fourthorder</li>
+      
+      <li>type_forcemap</li>
+      
+    </ul>
+    
+                <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: module~~test_forceconstant_symmetry~~UsesGraph Pages: 1 -->
+<svg id="moduletest_forceconstant_symmetryUsesGraph" width="358pt" height="318pt"
+ viewBox="0.00 0.00 358.07 317.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~test_forceconstant_symmetry~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 313.5)">
+<title>module~~test_forceconstant_symmetry~~UsesGraph</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-313.5 354.0676,-313.5 354.0676,4 -4,4"/>
+<!-- module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node1" class="node">
+<title>module~test_forceconstant_symmetry</title>
+<polygon fill="none" stroke="#000000" points="350.1356,-165.2554 200.864,-165.2554 200.864,-143.2446 350.1356,-143.2446 350.1356,-165.2554"/>
+<text text-anchor="middle" x="275.4998" y="-151.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">test_forceconstant_symmetry</text>
+</g>
+<!-- type_forcemap -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node2" class="node">
+<title>type_forcemap</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="123.4221,-309.2554 41.5098,-309.2554 41.5098,-287.2446 123.4221,-287.2446 123.4221,-309.2554"/>
+<text text-anchor="middle" x="82.4659" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forcemap</text>
+</g>
+<!-- type_forcemap&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge1" class="edge">
+<title>type_forcemap&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M123.3506,-292.7837C137.2484,-289.675 152.4168,-284.8195 164.9319,-277.25 208.6682,-250.797 245.0418,-201.6593 263.1446,-174.1755"/>
+<polygon fill="#000000" stroke="#000000" points="266.3035,-175.7341 268.768,-165.4299 260.4156,-171.9482 266.3035,-175.7341"/>
+</g>
+<!-- helpers -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node3" class="node">
+<title>helpers</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="109.4659,-268.2554 55.4659,-268.2554 55.4659,-246.2446 109.4659,-246.2446 109.4659,-268.2554"/>
+<text text-anchor="middle" x="82.4659" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">helpers</text>
+</g>
+<!-- helpers&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge2" class="edge">
+<title>helpers&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M109.7473,-253.0621C126.2679,-249.8632 147.4524,-244.5589 164.9319,-236.25 200.1832,-219.4932 235.4577,-190.7426 256.3783,-172.1217"/>
+<polygon fill="#000000" stroke="#000000" points="258.855,-174.6008 263.9171,-165.2935 254.1558,-169.4125 258.855,-174.6008"/>
+</g>
+<!-- type_forceconstant_fourthorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node4" class="node">
+<title>type_forceconstant_fourthorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="161.3893,-227.2554 3.5426,-227.2554 3.5426,-205.2446 161.3893,-205.2446 161.3893,-227.2554"/>
+<text text-anchor="middle" x="82.4659" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_fourthorder</text>
+</g>
+<!-- type_forceconstant_fourthorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge3" class="edge">
+<title>type_forceconstant_fourthorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.3726,-205.2201C141.0565,-202.2221 153.5074,-198.8119 164.9319,-195.25 189.8474,-187.482 217.3656,-177.2839 238.7165,-169.002"/>
+<polygon fill="#000000" stroke="#000000" points="240.0227,-172.2494 248.0608,-165.3473 237.4729,-165.7303 240.0227,-172.2494"/>
+</g>
+<!-- konstanter -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node5" class="node">
+<title>konstanter</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="112.995,-186.2554 51.9369,-186.2554 51.9369,-164.2446 112.995,-164.2446 112.995,-186.2554"/>
+<text text-anchor="middle" x="82.4659" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">konstanter</text>
+</g>
+<!-- konstanter&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge4" class="edge">
+<title>konstanter&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M113.0527,-171.9225C134.072,-169.6358 163.0825,-166.4798 190.7778,-163.4668"/>
+<polygon fill="#000000" stroke="#000000" points="191.3417,-166.9262 200.9045,-162.3652 190.5846,-159.9673 191.3417,-166.9262"/>
+</g>
+<!-- type_forceconstant_firstorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node6" class="node">
+<title>type_forceconstant_firstorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="156.4532,-145.2554 8.4786,-145.2554 8.4786,-123.2446 156.4532,-123.2446 156.4532,-145.2554"/>
+<text text-anchor="middle" x="82.4659" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_firstorder</text>
+</g>
+<!-- type_forceconstant_firstorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge5" class="edge">
+<title>type_forceconstant_firstorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M156.5458,-141.9253C167.6165,-143.0723 179.1042,-144.2626 190.3813,-145.431"/>
+<polygon fill="#000000" stroke="#000000" points="190.3532,-148.9467 200.6606,-146.496 191.0746,-141.984 190.3532,-148.9467"/>
+</g>
+<!-- type_crystalstructure -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node7" class="node">
+<title>type_crystalstructure</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="136.8347,-104.2554 28.0972,-104.2554 28.0972,-82.2446 136.8347,-82.2446 136.8347,-104.2554"/>
+<text text-anchor="middle" x="82.4659" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_crystalstructure</text>
+</g>
+<!-- type_crystalstructure&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge6" class="edge">
+<title>type_crystalstructure&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.3528,-104.3438C141.0372,-107.3402 153.4933,-110.7337 164.9319,-114.25 189.3565,-121.7582 216.331,-131.4875 237.5221,-139.4706"/>
+<polygon fill="#000000" stroke="#000000" points="236.5309,-142.838 247.1221,-143.1163 239.0161,-136.294 236.5309,-142.838"/>
+</g>
+<!-- type_forceconstant_thirdorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node8" class="node">
+<title>type_forceconstant_thirdorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="158.466,-63.2554 6.4658,-63.2554 6.4658,-41.2446 158.466,-41.2446 158.466,-63.2554"/>
+<text text-anchor="middle" x="82.4659" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_thirdorder</text>
+</g>
+<!-- type_forceconstant_thirdorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge7" class="edge">
+<title>type_forceconstant_thirdorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M138.0536,-63.2891C147.245,-65.9903 156.514,-69.2788 164.9319,-73.25 199.89,-89.742 235.0014,-117.917 255.9967,-136.3087"/>
+<polygon fill="#000000" stroke="#000000" points="253.784,-139.025 263.5781,-143.0655 258.4414,-133.7992 253.784,-139.025"/>
+</g>
+<!-- type_forceconstant_secondorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node9" class="node">
+<title>type_forceconstant_secondorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="164.8978,-22.2554 .034,-22.2554 .034,-.2446 164.8978,-.2446 164.8978,-22.2554"/>
+<text text-anchor="middle" x="82.4659" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_secondorder</text>
+</g>
+<!-- type_forceconstant_secondorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge8" class="edge">
+<title>type_forceconstant_secondorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M143.1371,-22.3037C150.7584,-24.9447 158.2237,-28.2113 164.9319,-32.25 208.5253,-58.4958 244.9547,-107.231 263.1048,-134.4887"/>
+<polygon fill="#000000" stroke="#000000" points="260.3589,-136.6864 268.7442,-143.1623 266.2276,-132.8707 260.3589,-136.6864"/>
+</g>
+</g>
+</svg>
+</div>
+                <div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div>
+                <div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 479.8539,-26.5 479.8539,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.2554 0,-22.2554 0,-.2446 54,-.2446 54,-22.2554"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.6205,-22.2554 72.3795,-22.2554 72.3795,-.2446 137.6205,-.2446 137.6205,-22.2554"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.288,-22.2554 155.712,-22.2554 155.712,-.2446 218.288,-.2446 218.288,-22.2554"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.2554 236,-22.2554 236,-.2446 290,-.2446 290,-22.2554"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.2554 308,-22.2554 308,-.2446 362,-.2446 362,-22.2554"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="475.7082,-22.2554 380.2918,-22.2554 380.2918,-.2446 475.7082,-.2446 475.7082,-22.2554"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+
+<p>Solid arrows point from a parent (sub)module to the submodule which is
+descended from it. Dashed arrows point from a module being used to the
+module or program unit using it.
+</p>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+    
+
+    
+                <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: module~~test_forceconstant_symmetry~~UsesGraph Pages: 1 -->
+<svg id="moduletest_forceconstant_symmetryUsesGraph" width="358pt" height="318pt"
+ viewBox="0.00 0.00 358.07 317.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~test_forceconstant_symmetry~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 313.5)">
+<title>module~~test_forceconstant_symmetry~~UsesGraph</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-313.5 354.0676,-313.5 354.0676,4 -4,4"/>
+<!-- module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node1" class="node">
+<title>module~test_forceconstant_symmetry</title>
+<polygon fill="none" stroke="#000000" points="350.1356,-165.2554 200.864,-165.2554 200.864,-143.2446 350.1356,-143.2446 350.1356,-165.2554"/>
+<text text-anchor="middle" x="275.4998" y="-151.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">test_forceconstant_symmetry</text>
+</g>
+<!-- type_forcemap -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node2" class="node">
+<title>type_forcemap</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="123.4221,-309.2554 41.5098,-309.2554 41.5098,-287.2446 123.4221,-287.2446 123.4221,-309.2554"/>
+<text text-anchor="middle" x="82.4659" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forcemap</text>
+</g>
+<!-- type_forcemap&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge1" class="edge">
+<title>type_forcemap&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M123.3506,-292.7837C137.2484,-289.675 152.4168,-284.8195 164.9319,-277.25 208.6682,-250.797 245.0418,-201.6593 263.1446,-174.1755"/>
+<polygon fill="#000000" stroke="#000000" points="266.3035,-175.7341 268.768,-165.4299 260.4156,-171.9482 266.3035,-175.7341"/>
+</g>
+<!-- helpers -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node3" class="node">
+<title>helpers</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="109.4659,-268.2554 55.4659,-268.2554 55.4659,-246.2446 109.4659,-246.2446 109.4659,-268.2554"/>
+<text text-anchor="middle" x="82.4659" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">helpers</text>
+</g>
+<!-- helpers&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge2" class="edge">
+<title>helpers&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M109.7473,-253.0621C126.2679,-249.8632 147.4524,-244.5589 164.9319,-236.25 200.1832,-219.4932 235.4577,-190.7426 256.3783,-172.1217"/>
+<polygon fill="#000000" stroke="#000000" points="258.855,-174.6008 263.9171,-165.2935 254.1558,-169.4125 258.855,-174.6008"/>
+</g>
+<!-- type_forceconstant_fourthorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node4" class="node">
+<title>type_forceconstant_fourthorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="161.3893,-227.2554 3.5426,-227.2554 3.5426,-205.2446 161.3893,-205.2446 161.3893,-227.2554"/>
+<text text-anchor="middle" x="82.4659" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_fourthorder</text>
+</g>
+<!-- type_forceconstant_fourthorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge3" class="edge">
+<title>type_forceconstant_fourthorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.3726,-205.2201C141.0565,-202.2221 153.5074,-198.8119 164.9319,-195.25 189.8474,-187.482 217.3656,-177.2839 238.7165,-169.002"/>
+<polygon fill="#000000" stroke="#000000" points="240.0227,-172.2494 248.0608,-165.3473 237.4729,-165.7303 240.0227,-172.2494"/>
+</g>
+<!-- konstanter -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node5" class="node">
+<title>konstanter</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="112.995,-186.2554 51.9369,-186.2554 51.9369,-164.2446 112.995,-164.2446 112.995,-186.2554"/>
+<text text-anchor="middle" x="82.4659" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">konstanter</text>
+</g>
+<!-- konstanter&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge4" class="edge">
+<title>konstanter&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M113.0527,-171.9225C134.072,-169.6358 163.0825,-166.4798 190.7778,-163.4668"/>
+<polygon fill="#000000" stroke="#000000" points="191.3417,-166.9262 200.9045,-162.3652 190.5846,-159.9673 191.3417,-166.9262"/>
+</g>
+<!-- type_forceconstant_firstorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node6" class="node">
+<title>type_forceconstant_firstorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="156.4532,-145.2554 8.4786,-145.2554 8.4786,-123.2446 156.4532,-123.2446 156.4532,-145.2554"/>
+<text text-anchor="middle" x="82.4659" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_firstorder</text>
+</g>
+<!-- type_forceconstant_firstorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge5" class="edge">
+<title>type_forceconstant_firstorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M156.5458,-141.9253C167.6165,-143.0723 179.1042,-144.2626 190.3813,-145.431"/>
+<polygon fill="#000000" stroke="#000000" points="190.3532,-148.9467 200.6606,-146.496 191.0746,-141.984 190.3532,-148.9467"/>
+</g>
+<!-- type_crystalstructure -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node7" class="node">
+<title>type_crystalstructure</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="136.8347,-104.2554 28.0972,-104.2554 28.0972,-82.2446 136.8347,-82.2446 136.8347,-104.2554"/>
+<text text-anchor="middle" x="82.4659" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_crystalstructure</text>
+</g>
+<!-- type_crystalstructure&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge6" class="edge">
+<title>type_crystalstructure&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.3528,-104.3438C141.0372,-107.3402 153.4933,-110.7337 164.9319,-114.25 189.3565,-121.7582 216.331,-131.4875 237.5221,-139.4706"/>
+<polygon fill="#000000" stroke="#000000" points="236.5309,-142.838 247.1221,-143.1163 239.0161,-136.294 236.5309,-142.838"/>
+</g>
+<!-- type_forceconstant_thirdorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node8" class="node">
+<title>type_forceconstant_thirdorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="158.466,-63.2554 6.4658,-63.2554 6.4658,-41.2446 158.466,-41.2446 158.466,-63.2554"/>
+<text text-anchor="middle" x="82.4659" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_thirdorder</text>
+</g>
+<!-- type_forceconstant_thirdorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge7" class="edge">
+<title>type_forceconstant_thirdorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M138.0536,-63.2891C147.245,-65.9903 156.514,-69.2788 164.9319,-73.25 199.89,-89.742 235.0014,-117.917 255.9967,-136.3087"/>
+<polygon fill="#000000" stroke="#000000" points="253.784,-139.025 263.5781,-143.0655 258.4414,-133.7992 253.784,-139.025"/>
+</g>
+<!-- type_forceconstant_secondorder -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_node9" class="node">
+<title>type_forceconstant_secondorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="164.8978,-22.2554 .034,-22.2554 .034,-.2446 164.8978,-.2446 164.8978,-22.2554"/>
+<text text-anchor="middle" x="82.4659" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_secondorder</text>
+</g>
+<!-- type_forceconstant_secondorder&#45;&gt;module~test_forceconstant_symmetry -->
+<g id="module~~test_forceconstant_symmetry~~UsesGraph_edge8" class="edge">
+<title>type_forceconstant_secondorder&#45;&gt;module~test_forceconstant_symmetry</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M143.1371,-22.3037C150.7584,-24.9447 158.2237,-28.2113 164.9319,-32.25 208.5253,-58.4958 244.9547,-107.231 263.1048,-134.4887"/>
+<polygon fill="#000000" stroke="#000000" points="260.3589,-136.6864 268.7442,-143.1623 266.2276,-132.8707 260.3589,-136.6864"/>
+</g>
+</g>
+</svg>
+</div>
+                <div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div>
+                <div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 479.8539,-26.5 479.8539,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.2554 0,-22.2554 0,-.2446 54,-.2446 54,-22.2554"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.6205,-22.2554 72.3795,-22.2554 72.3795,-.2446 137.6205,-.2446 137.6205,-22.2554"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.288,-22.2554 155.712,-22.2554 155.712,-.2446 218.288,-.2446 218.288,-22.2554"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.2554 236,-22.2554 236,-.2446 290,-.2446 290,-22.2554"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.2554 308,-22.2554 308,-.2446 362,-.2446 362,-22.2554"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="475.7082,-22.2554 380.2918,-22.2554 380.2918,-.2446 475.7082,-.2446 475.7082,-22.2554"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+
+<p>Solid arrows point from a parent (sub)module to the submodule which is
+descended from it. Dashed arrows point from a module being used to the
+module or program unit using it.
+</p>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-test_forceconstant_constraints"></span><h3>
+public subroutine <a href='../proc/test_forceconstant_constraints.html'>test_forceconstant_constraints</a>(map, fc1, fc2, fc3, fc4, uc)
+    
+    
+	 
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_forcemap),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>map</strong></td><td><p>all the forceconstant metadata</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_forceconstant_firstorder),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fc1</strong></td><td><p>firstorder forceconstant</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_forceconstant_secondorder),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fc2</strong></td><td><p>secondorder forceconstant</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_forceconstant_thirdorder),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fc3</strong></td><td><p>thirdorder forceconstant</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_forceconstant_fourthorder),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fc4</strong></td><td><p>fourthorder forceconstant</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_crystalstructure),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>uc</strong></td><td><p>crystal structure</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

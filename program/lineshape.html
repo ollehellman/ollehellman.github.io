@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <link rel="icon" href="../favicon.png">
@@ -55,7 +55,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -71,12 +71,6 @@
                     <li>
                         
                             <a href="../program/atomic_distribution.html">atomic distribution</a>
-                        
-                     </li>
-                
-                    <li>
-                        
-                            <a href='../program/autocorrelation.html'>autocorrelation</a>
                         
                      </li>
                 
@@ -167,7 +161,7 @@
 
 </div>
 
-<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
+<div class="jumbotron">
 <div class="container-fluid">
     
         <h3>lineshape</h3>
@@ -187,11 +181,6 @@
 <p><code>--unit value</code>, value in: <code>thz,mev,icm</code><br>
     default value thz<br>
     Choose the output unit. The options are terahertz (in frequency, not angular frequency), inverse cm or meV.</p>
-</li>
-<li>
-<p><code>--loto</code><br>
-    default value .false.<br>
-    Add the corrections due to long-range electrostatic interactions, requires <code>infile.lotosplitting</code> Format is specified <a href="../page/files.html#infile.lotosplitting">here</a>.</p>
 </li>
 <li>
 <p><code>--temperature value</code><br>
@@ -269,14 +258,19 @@
     Switch of three-phonon scattering</p>
 </li>
 <li>
-<p><code>--fourthorder</code><br>
-    default value .false.<br>
-    Consider four-phonon contributions to the real part of the self-energy.</p>
-</li>
-<li>
 <p><code>--readiso</code><br>
     default value .false.<br>
     Read the isotope distribution from file</p>
+</li>
+<li>
+<p><code>--meshtype value</code>, value in: <code>1,2,3</code><br>
+    default value 1<br>
+    Type of q-point mesh. 1 Is a Monkhorst-Pack mesh, 2 an FFT mesh and 3 my fancy wedge-based mesh with approximately the same density the grid-based meshes.</p>
+</li>
+<li>
+<p><code>--readqmesh</code><br>
+    default value .false.<br>
+    Read the q-point mesh from file. To generate a q-mesh file, see the genkpoints utility.</p>
 </li>
 <li>
 <p><code>--help</code>, <code>-h</code><br>
@@ -301,7 +295,7 @@
 \Sigma(\Omega) = \Delta(\Omega) + i\Gamma(\Omega) \,,
 \end{equation}
 $$</p>
-<p>where we use $ \Omega $ to distinguish this energy from the eigenvalues of the dynamical matrix, $ \omega^2 $. Inelastic neutron measurements sometimes show scattering cross sections that deviate strongly from a Lorentzian. To reproduce this computationally, start by noting that in an idealised experiment the one-phonon neutron cross section would be measured as<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup></p>
+<p>where we use $ \Omega $ to distinguish this energy from the eigenvalues of the dynamical matrix, $ \omega^2 $. Inelastic neutron measurements sometimes show scattering cross sections that deviate strongly from a Lorentzian. To reproduce this computationally, start by noting that in an idealised experiment the one-phonon neutron cross section would be measured as<sup id="fnref2-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref2-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup></p>
 <p>$$
 \begin{equation}
 \sigma_{\lambda}(\Omega) \propto
@@ -314,7 +308,7 @@ $$</p>
 $$</p>
 <p>Here $\omega^2_{\lambda}$ are the eigenvalues of the dynamical matrix, $\Delta_{\lambda}(\Omega)$ and $\Gamma_{\lambda}(\Omega)$ are the real and imaginary parts of the frequency dependent self-energy, and $\hbar\Omega$ is a probing energy. This is the quantity referred to as the lineshape. If you let $\Delta$ and $\Gamma$ go to a small constant, this reduces to a Lorentzian as expected.</p>
 <p>The energy axis is the probing energy, and the intensity represents the likelihood of exciting a phonon with energy $\hbar\Omega$ and momentum $\textbf{q}$. We can interpret the cross section, or phonon lineshape, as the broadened and shifted phonon frequencies. The term "broadening" is used in the sense of a spectral representation: non-interaction quasiparticles are represented as Dirac $\delta$-functions, but in the interacting case these are replaced by distributions with finite widths.</p>
-<p>Given the third order force constants, the imaginary part of the phonon self-energy can be calculated:<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup><sup>,</sup><sup id="fnref-wallace1998thermodynamics"><a class="footnote-ref" href="#fn-wallace1998thermodynamics">4</a></sup></p>
+<p>Given the third order force constants, the imaginary part of the phonon self-energy can be calculated:<sup id="fnref3-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref3-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup><sup>,</sup><sup id="fnref-wallace1998thermodynamics"><a class="footnote-ref" href="#fn-wallace1998thermodynamics">4</a></sup></p>
 <p>$$
 \begin{equation}
 \begin{split}
@@ -338,7 +332,7 @@ $$</p>
 <p>The imaginary part of the self energy is a sum over all possible three-phonon interactions $ \lambda \lambda' \lambda''$, $n_{\lambda}$ are the Bose-Einstein thermal occupation factors counting the number of phonons in each mode. The expression for the self-energy is then an integral over the allowed processes (conserving energy and momentum), weighted by how many phonons are in each of the different modes, with the scattering strength determined by the three-phonon matrix element:</p>
 <p>$$
 \begin{equation}
-\Phi_{\lambda\lambda'\lambda''} = 
+\Phi_{\lambda\lambda'\lambda''} =
 \sum_{ijk}
 \sum_{\alpha\beta\gamma}
 \frac{
@@ -356,7 +350,7 @@ $$</p>
 e^{i \mathbf{q}\cdot\mathbf{r}_i + i \mathbf{q}'\cdot\mathbf{r}_j+i \mathbf{q}''\cdot\mathbf{r}_k}
 \end{equation}
 $$</p>
-<p>The real part is conveniently calculated via a Kramers-Kronig transform (it can of course be expressed in a similar way as the imaginary part:<sup id="fnref-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup><sup>,</sup><sup id="fnref-wallace1998thermodynamics"><a class="footnote-ref" href="#fn-wallace1998thermodynamics">4</a></sup></p>
+<p>The real part is conveniently calculated via a Kramers-Kronig transform (it can of course be expressed in a similar way as the imaginary part:<sup id="fnref4-Maradudin1962"><a class="footnote-ref" href="#fn-Maradudin1962">1</a></sup><sup>,</sup><sup id="fnref4-RACowley1968"><a class="footnote-ref" href="#fn-RACowley1968">2</a></sup><sup>,</sup><sup id="fnref2-wallace1998thermodynamics"><a class="footnote-ref" href="#fn-wallace1998thermodynamics">4</a></sup></p>
 <p>$$
 \begin{equation}
 \Delta(\Omega)=\frac{1}{\pi}\int\frac{\Gamma(\omega)}{\omega-\Omega}\mathrm{d}\omega\,.
@@ -367,7 +361,7 @@ $$</p>
 <p>The mass disorder term is also included, stemming from the natural distribution of isotopes. According to Tamura<sup id="fnref-Tamura1983"><a class="footnote-ref" href="#fn-Tamura1983">5</a></sup>, if the isotopes are randomly distributed on the lattice sites then the strength of the isotope effects can be given by a mass variance parameter $g$:</p>
 <p>$$
 \begin{equation}
-g_i=\sum_j c_{i}^j \left(\frac{m_i^j-\bar{m_i}}{\bar{m_i}}\right)^2 
+g_i=\sum_j c_{i}^j \left(\frac{m_i^j-\bar{m_i}}{\bar{m_i}}\right)^2
 \end{equation}
 $$</p>
 <p>where $\bar{m_i}$ is the average isotopic mass( $\bar{m_i}=\sum_j c_i^j m_i^j$ ), $m^j_i$ is the mass of isotope $j$ of atom $i$ and $c^j_i$ is its concentration. We can write an expression for the imaginary part of the isotope self-energy:</p>
@@ -458,16 +452,16 @@ $$</p>
 <hr>
 <ol>
 <li id="fn-Maradudin1962">
-<p><a href="http://doi.org/10.1103/PhysRev.128.2589">Maradudin, A. A., &amp; Fein, A. (1962). Scattering of Neutrons by an Anharmonic Crystal. Physical Review, 128(6), 2589–2608.</a>&#160;<a class="footnote-backref" href="#fnref-Maradudin1962" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p><a href="http://doi.org/10.1103/PhysRev.128.2589">Maradudin, A. A., &amp; Fein, A. (1962). Scattering of Neutrons by an Anharmonic Crystal. Physical Review, 128(6), 2589–2608.</a>&#160;<a class="footnote-backref" href="#fnref-Maradudin1962" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2-Maradudin1962" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3-Maradudin1962" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4-Maradudin1962" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn-RACowley1968">
-<p><a href="http://doi.org/10.1088/0034-4885/31/1/303">Cowley, R. A. (1968). Anharmonic crystals. Reports on Progress in Physics, 31(1), 123–166.</a>&#160;<a class="footnote-backref" href="#fnref-RACowley1968" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p><a href="http://doi.org/10.1088/0034-4885/31/1/303">Cowley, R. A. (1968). Anharmonic crystals. Reports on Progress in Physics, 31(1), 123–166.</a>&#160;<a class="footnote-backref" href="#fnref-RACowley1968" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2-RACowley1968" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3-RACowley1968" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4-RACowley1968" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 <li id="fn-Leibfried1961">
 <p><a href="http://doi.org/10.1016/S0081-1947(08)60656-6">Leibfried, G., &amp; Ludwig, W. (1961). Theory of Anharmonic Effects in Crystals. Solid State Physics - Advances in Research and Applications, 12(C), 275–444.</a>&#160;<a class="footnote-backref" href="#fnref-Leibfried1961" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 <li id="fn-wallace1998thermodynamics">
-<p><a href="http://books.google.se/books?id=qLzOmwSgMIsC">Wallace, D. C. (1998). Thermodynamics of crystals. Dover Publications, Incorporated.</a>&#160;<a class="footnote-backref" href="#fnref-wallace1998thermodynamics" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+<p><a href="http://books.google.se/books?id=qLzOmwSgMIsC">Wallace, D. C. (1998). Thermodynamics of crystals. Dover Publications, Incorporated.</a>&#160;<a class="footnote-backref" href="#fnref-wallace1998thermodynamics" title="Jump back to footnote 4 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2-wallace1998thermodynamics" title="Jump back to footnote 4 in the text">&#8617;</a></p>
 </li>
 <li id="fn-Tamura1983">
 <p><a href="http://doi.org/10.1103/PhysRevB.27.858">Tamura, S. (1983). Isotope scattering of dispersive phonons in Ge. Physical Review B, 27(2), 858–866.</a>&#160;<a class="footnote-backref" href="#fnref-Tamura1983" title="Jump back to footnote 5 in the text">&#8617;</a></p>
@@ -487,8 +481,8 @@ $$</p>
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

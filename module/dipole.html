@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
+    
+    <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
+    <link rel="icon" href="../favicon.png">
+
+    <title>dipole &ndash; TDEP</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                <li><a href="../lists/modules.html">Modules</a></li>
+                
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
+                
+                
+                
+                <li><a href="../lists/types.html">Derived Types</a></li>
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+  
+  <div class="row">
+    <h1>dipole 
+    <small>Module</small>
+    
+    </h1>
+	 
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     
+    <li><i class="fa fa-code"></i><a href="../src/dipole.f90"> Source File</a></li>
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+     <li><a href='../sourcefile/dipole.f90.html'>dipole.f90</a></li>
+  
+     <li class="active">dipole</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dipole.html#proc-histfit">histfit</a>
+      
+      <a class="list-group-item" href="../module/dipole.html#proc-subtract_longrange_interactions">subtract_longrange_interactions</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+  <hr>
+  
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allmods-0">All Modules</a></h3></div>
+  <div id="allmods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/autocell.html">autocell</a>
+      
+      <a class="list-group-item" href="../module/dipole.html">dipole</a>
+      
+      <a class="list-group-item" href="../module/magneticdisorder.html">magneticdisorder</a>
+      
+      <a class="list-group-item" href="../module/test_forceconstant_symmetry.html">test_forceconstant_symmetry</a>
+      
+    </div>
+  </div>
+</div>
+
+
+</div>  
+
+    </div>
+    
+    <div class="col-sm-offset-1 col-sm-8 col-sm-offset-1" id='text'>
+    
+    
+    
+  
+    <ul class="list-inline">
+      <li><h4>Uses:</h4></li>
+      
+      <li>konstanter</li>
+      
+      <li>helpers</li>
+      
+      <li>type_crystalstructure</li>
+      
+      <li>type_forceconstant_secondorder</li>
+      
+      <li>type_forcemap</li>
+      
+      <li>type_mdsim</li>
+      
+      <li>quadratures_stencils</li>
+      
+    </ul>
+    
+                <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: module~~dipole~~UsesGraph Pages: 1 -->
+<svg id="moduledipoleUsesGraph" width="263pt" height="277pt"
+ viewBox="0.00 0.00 262.93 276.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~dipole~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 272.5)">
+<title>module~~dipole~~UsesGraph</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-272.5 258.9319,-272.5 258.9319,4 -4,4"/>
+<!-- module~dipole -->
+<g id="module~~dipole~~UsesGraph_node1" class="node">
+<title>module~dipole</title>
+<polygon fill="none" stroke="#000000" points="254.9319,-145.2554 200.9319,-145.2554 200.9319,-123.2446 254.9319,-123.2446 254.9319,-145.2554"/>
+<text text-anchor="middle" x="227.9319" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">dipole</text>
+</g>
+<!-- type_forcemap -->
+<g id="module~~dipole~~UsesGraph_node2" class="node">
+<title>type_forcemap</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="123.4221,-268.2554 41.5098,-268.2554 41.5098,-246.2446 123.4221,-246.2446 123.4221,-268.2554"/>
+<text text-anchor="middle" x="82.4659" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forcemap</text>
+</g>
+<!-- type_forcemap&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge1" class="edge">
+<title>type_forcemap&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M123.3249,-253.1905C137.5318,-250.2141 152.905,-245.0823 164.9319,-236.25 193.0094,-215.6305 211.3018,-178.3748 220.6026,-155.0489"/>
+<polygon fill="#000000" stroke="#000000" points="223.9799,-156.0131 224.2461,-145.4216 217.4331,-153.5353 223.9799,-156.0131"/>
+</g>
+<!-- type_mdsim -->
+<g id="module~~dipole~~UsesGraph_node3" class="node">
+<title>type_mdsim</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="116.5687,-227.2554 48.3632,-227.2554 48.3632,-205.2446 116.5687,-205.2446 116.5687,-227.2554"/>
+<text text-anchor="middle" x="82.4659" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_mdsim</text>
+</g>
+<!-- type_mdsim&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge2" class="edge">
+<title>type_mdsim&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M116.8638,-211.6141C132.2656,-208.5244 150.2272,-203.4619 164.9319,-195.25 183.8649,-184.6768 201.2327,-166.9852 212.9159,-153.3697"/>
+<polygon fill="#000000" stroke="#000000" points="215.7352,-155.4528 219.4189,-145.5189 210.3444,-150.9874 215.7352,-155.4528"/>
+</g>
+<!-- helpers -->
+<g id="module~~dipole~~UsesGraph_node4" class="node">
+<title>helpers</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="109.4659,-186.2554 55.4659,-186.2554 55.4659,-164.2446 109.4659,-164.2446 109.4659,-186.2554"/>
+<text text-anchor="middle" x="82.4659" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">helpers</text>
+</g>
+<!-- helpers&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge3" class="edge">
+<title>helpers&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M109.6861,-168.7397C125.8105,-164.7785 146.6072,-159.4871 164.9319,-154.25 173.4175,-151.8249 182.4903,-149.0518 191.0318,-146.3588"/>
+<polygon fill="#000000" stroke="#000000" points="192.2842,-149.6332 200.7477,-143.2598 190.157,-142.9642 192.2842,-149.6332"/>
+</g>
+<!-- quadratures_stencils -->
+<g id="module~~dipole~~UsesGraph_node5" class="node">
+<title>quadratures_stencils</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="136.8552,-145.2554 28.0767,-145.2554 28.0767,-123.2446 136.8552,-123.2446 136.8552,-145.2554"/>
+<text text-anchor="middle" x="82.4659" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">quadratures_stencils</text>
+</g>
+<!-- quadratures_stencils&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge4" class="edge">
+<title>quadratures_stencils&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M137.046,-134.25C154.9016,-134.25 174.3167,-134.25 190.6006,-134.25"/>
+<polygon fill="#000000" stroke="#000000" points="190.8014,-137.7501 200.8014,-134.25 190.8014,-130.7501 190.8014,-137.7501"/>
+</g>
+<!-- konstanter -->
+<g id="module~~dipole~~UsesGraph_node6" class="node">
+<title>konstanter</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="112.995,-104.2554 51.9369,-104.2554 51.9369,-82.2446 112.995,-82.2446 112.995,-104.2554"/>
+<text text-anchor="middle" x="82.4659" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">konstanter</text>
+</g>
+<!-- konstanter&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge5" class="edge">
+<title>konstanter&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M113.1268,-100.6083C128.7003,-104.4595 147.8857,-109.3783 164.9319,-114.25 173.4175,-116.6751 182.4903,-119.4482 191.0318,-122.1412"/>
+<polygon fill="#000000" stroke="#000000" points="190.157,-125.5358 200.7477,-125.2402 192.2842,-118.8668 190.157,-125.5358"/>
+</g>
+<!-- type_crystalstructure -->
+<g id="module~~dipole~~UsesGraph_node7" class="node">
+<title>type_crystalstructure</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="136.8347,-63.2554 28.0972,-63.2554 28.0972,-41.2446 136.8347,-41.2446 136.8347,-63.2554"/>
+<text text-anchor="middle" x="82.4659" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_crystalstructure</text>
+</g>
+<!-- type_crystalstructure&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge6" class="edge">
+<title>type_crystalstructure&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M137.246,-61.9258C146.8138,-64.7971 156.4187,-68.4958 164.9319,-73.25 183.8649,-83.8232 201.2327,-101.5148 212.9159,-115.1303"/>
+<polygon fill="#000000" stroke="#000000" points="210.3444,-117.5126 219.4189,-122.9811 215.7352,-113.0472 210.3444,-117.5126"/>
+</g>
+<!-- type_forceconstant_secondorder -->
+<g id="module~~dipole~~UsesGraph_node8" class="node">
+<title>type_forceconstant_secondorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="164.8978,-22.2554 .034,-22.2554 .034,-.2446 164.8978,-.2446 164.8978,-22.2554"/>
+<text text-anchor="middle" x="82.4659" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_secondorder</text>
+</g>
+<!-- type_forceconstant_secondorder&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge7" class="edge">
+<title>type_forceconstant_secondorder&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M146.843,-22.3389C153.2826,-24.9723 159.4543,-28.2274 164.9319,-32.25 193.0094,-52.8695 211.3018,-90.1252 220.6026,-113.4511"/>
+<polygon fill="#000000" stroke="#000000" points="217.4331,-114.9647 224.2461,-123.0784 223.9799,-112.4869 217.4331,-114.9647"/>
+</g>
+</g>
+</svg>
+</div>
+                <div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div>
+                <div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 479.8539,-26.5 479.8539,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.2554 0,-22.2554 0,-.2446 54,-.2446 54,-22.2554"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.6205,-22.2554 72.3795,-22.2554 72.3795,-.2446 137.6205,-.2446 137.6205,-22.2554"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.288,-22.2554 155.712,-22.2554 155.712,-.2446 218.288,-.2446 218.288,-22.2554"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.2554 236,-22.2554 236,-.2446 290,-.2446 290,-22.2554"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.2554 308,-22.2554 308,-.2446 362,-.2446 362,-22.2554"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="475.7082,-22.2554 380.2918,-22.2554 380.2918,-.2446 475.7082,-.2446 475.7082,-22.2554"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+
+<p>Solid arrows point from a parent (sub)module to the submodule which is
+descended from it. Dashed arrows point from a module being used to the
+module or program unit using it.
+</p>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+    
+
+    
+                <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: module~~dipole~~UsesGraph Pages: 1 -->
+<svg id="moduledipoleUsesGraph" width="263pt" height="277pt"
+ viewBox="0.00 0.00 262.93 276.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~dipole~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 272.5)">
+<title>module~~dipole~~UsesGraph</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-272.5 258.9319,-272.5 258.9319,4 -4,4"/>
+<!-- module~dipole -->
+<g id="module~~dipole~~UsesGraph_node1" class="node">
+<title>module~dipole</title>
+<polygon fill="none" stroke="#000000" points="254.9319,-145.2554 200.9319,-145.2554 200.9319,-123.2446 254.9319,-123.2446 254.9319,-145.2554"/>
+<text text-anchor="middle" x="227.9319" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">dipole</text>
+</g>
+<!-- type_forcemap -->
+<g id="module~~dipole~~UsesGraph_node2" class="node">
+<title>type_forcemap</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="123.4221,-268.2554 41.5098,-268.2554 41.5098,-246.2446 123.4221,-246.2446 123.4221,-268.2554"/>
+<text text-anchor="middle" x="82.4659" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forcemap</text>
+</g>
+<!-- type_forcemap&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge1" class="edge">
+<title>type_forcemap&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M123.3249,-253.1905C137.5318,-250.2141 152.905,-245.0823 164.9319,-236.25 193.0094,-215.6305 211.3018,-178.3748 220.6026,-155.0489"/>
+<polygon fill="#000000" stroke="#000000" points="223.9799,-156.0131 224.2461,-145.4216 217.4331,-153.5353 223.9799,-156.0131"/>
+</g>
+<!-- type_mdsim -->
+<g id="module~~dipole~~UsesGraph_node3" class="node">
+<title>type_mdsim</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="116.5687,-227.2554 48.3632,-227.2554 48.3632,-205.2446 116.5687,-205.2446 116.5687,-227.2554"/>
+<text text-anchor="middle" x="82.4659" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_mdsim</text>
+</g>
+<!-- type_mdsim&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge2" class="edge">
+<title>type_mdsim&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M116.8638,-211.6141C132.2656,-208.5244 150.2272,-203.4619 164.9319,-195.25 183.8649,-184.6768 201.2327,-166.9852 212.9159,-153.3697"/>
+<polygon fill="#000000" stroke="#000000" points="215.7352,-155.4528 219.4189,-145.5189 210.3444,-150.9874 215.7352,-155.4528"/>
+</g>
+<!-- helpers -->
+<g id="module~~dipole~~UsesGraph_node4" class="node">
+<title>helpers</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="109.4659,-186.2554 55.4659,-186.2554 55.4659,-164.2446 109.4659,-164.2446 109.4659,-186.2554"/>
+<text text-anchor="middle" x="82.4659" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">helpers</text>
+</g>
+<!-- helpers&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge3" class="edge">
+<title>helpers&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M109.6861,-168.7397C125.8105,-164.7785 146.6072,-159.4871 164.9319,-154.25 173.4175,-151.8249 182.4903,-149.0518 191.0318,-146.3588"/>
+<polygon fill="#000000" stroke="#000000" points="192.2842,-149.6332 200.7477,-143.2598 190.157,-142.9642 192.2842,-149.6332"/>
+</g>
+<!-- quadratures_stencils -->
+<g id="module~~dipole~~UsesGraph_node5" class="node">
+<title>quadratures_stencils</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="136.8552,-145.2554 28.0767,-145.2554 28.0767,-123.2446 136.8552,-123.2446 136.8552,-145.2554"/>
+<text text-anchor="middle" x="82.4659" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">quadratures_stencils</text>
+</g>
+<!-- quadratures_stencils&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge4" class="edge">
+<title>quadratures_stencils&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M137.046,-134.25C154.9016,-134.25 174.3167,-134.25 190.6006,-134.25"/>
+<polygon fill="#000000" stroke="#000000" points="190.8014,-137.7501 200.8014,-134.25 190.8014,-130.7501 190.8014,-137.7501"/>
+</g>
+<!-- konstanter -->
+<g id="module~~dipole~~UsesGraph_node6" class="node">
+<title>konstanter</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="112.995,-104.2554 51.9369,-104.2554 51.9369,-82.2446 112.995,-82.2446 112.995,-104.2554"/>
+<text text-anchor="middle" x="82.4659" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">konstanter</text>
+</g>
+<!-- konstanter&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge5" class="edge">
+<title>konstanter&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M113.1268,-100.6083C128.7003,-104.4595 147.8857,-109.3783 164.9319,-114.25 173.4175,-116.6751 182.4903,-119.4482 191.0318,-122.1412"/>
+<polygon fill="#000000" stroke="#000000" points="190.157,-125.5358 200.7477,-125.2402 192.2842,-118.8668 190.157,-125.5358"/>
+</g>
+<!-- type_crystalstructure -->
+<g id="module~~dipole~~UsesGraph_node7" class="node">
+<title>type_crystalstructure</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="136.8347,-63.2554 28.0972,-63.2554 28.0972,-41.2446 136.8347,-41.2446 136.8347,-63.2554"/>
+<text text-anchor="middle" x="82.4659" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_crystalstructure</text>
+</g>
+<!-- type_crystalstructure&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge6" class="edge">
+<title>type_crystalstructure&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M137.246,-61.9258C146.8138,-64.7971 156.4187,-68.4958 164.9319,-73.25 183.8649,-83.8232 201.2327,-101.5148 212.9159,-115.1303"/>
+<polygon fill="#000000" stroke="#000000" points="210.3444,-117.5126 219.4189,-122.9811 215.7352,-113.0472 210.3444,-117.5126"/>
+</g>
+<!-- type_forceconstant_secondorder -->
+<g id="module~~dipole~~UsesGraph_node8" class="node">
+<title>type_forceconstant_secondorder</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="164.8978,-22.2554 .034,-22.2554 .034,-.2446 164.8978,-.2446 164.8978,-22.2554"/>
+<text text-anchor="middle" x="82.4659" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">type_forceconstant_secondorder</text>
+</g>
+<!-- type_forceconstant_secondorder&#45;&gt;module~dipole -->
+<g id="module~~dipole~~UsesGraph_edge7" class="edge">
+<title>type_forceconstant_secondorder&#45;&gt;module~dipole</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M146.843,-22.3389C153.2826,-24.9723 159.4543,-28.2274 164.9319,-32.25 193.0094,-52.8695 211.3018,-90.1252 220.6026,-113.4511"/>
+<polygon fill="#000000" stroke="#000000" points="217.4331,-114.9647 224.2461,-123.0784 223.9799,-112.4869 217.4331,-114.9647"/>
+</g>
+</g>
+</svg>
+</div>
+                <div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div>
+                <div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 479.8539,-26.5 479.8539,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.2554 0,-22.2554 0,-.2446 54,-.2446 54,-22.2554"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.6205,-22.2554 72.3795,-22.2554 72.3795,-.2446 137.6205,-.2446 137.6205,-22.2554"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.288,-22.2554 155.712,-22.2554 155.712,-.2446 218.288,-.2446 218.288,-22.2554"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.2554 236,-22.2554 236,-.2446 290,-.2446 290,-22.2554"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.2554 308,-22.2554 308,-.2446 362,-.2446 362,-22.2554"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="475.7082,-22.2554 380.2918,-22.2554 380.2918,-.2446 475.7082,-.2446 475.7082,-22.2554"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+
+<p>Solid arrows point from a parent (sub)module to the submodule which is
+descended from it. Dashed arrows point from a module being used to the
+module or program unit using it.
+</p>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-histfit"></span><h3>
+public subroutine <a href='../proc/histfit.html'>histfit</a>(sim)
+    
+    
+	 
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>write(<em>,</em>) 'bb',beta1,beta2</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_mdsim),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sim</strong></td><td><p>force-displacement data</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-subtract_longrange_interactions"></span><h3>
+public subroutine <a href='../proc/subtract_longrange_interactions.html'>subtract_longrange_interactions</a>(sim, map, uc, ss)
+    
+    
+	 
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>remove longrange interactions</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_mdsim),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sim</strong></td><td><p>force-displacement data</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_forcemap),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>map</strong></td><td><p>forcemap</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_crystalstructure),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>uc</strong></td><td><p>unitcell</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(lo_crystalstructure),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ss</strong></td><td><p>supercell</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

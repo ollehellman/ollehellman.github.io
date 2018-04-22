@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -179,15 +183,33 @@
       
       <a class="list-group-item" href="../proc/generate%7E2.html">generate</a>
       
-      <a class="list-group-item" href="../proc/get_intensity_along_path.html">get_intensity_along_path</a>
-      
       <a class="list-group-item" href="../proc/get_intensity_as_dos.html">get_intensity_as_dos</a>
+      
+      <a class="list-group-item" href="../proc/get_thermally_broadened_intensity_along_path.html">get_thermally_broadened_intensity_along_path</a>
+      
+      <a class="list-group-item" href="../proc/histfit.html">histfit</a>
+      
+      <a class="list-group-item" href="../proc/iso_gaussian_fft_oneqp.html">iso_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/iso_tetrahedron_fft_oneqp.html">iso_tetrahedron_fft_oneqp</a>
       
       <a class="list-group-item" href="../proc/kramer_kronig_transform_to_get_real_part.html">kramer_kronig_transform_to_get_real_part</a>
       
       <a class="list-group-item" href="../proc/optimize.html">optimize</a>
       
       <a class="list-group-item" href="../proc/random_unit_vector.html">random_unit_vector</a>
+      
+      <a class="list-group-item" href="../proc/return_supercellmatrix.html">return_supercellmatrix</a>
+      
+      <a class="list-group-item" href="../proc/spectralfunction_along_path.html">spectralfunction_along_path</a>
+      
+      <a class="list-group-item" href="../proc/subtract_longrange_interactions.html">subtract_longrange_interactions</a>
+      
+      <a class="list-group-item" href="../proc/test_forceconstant_constraints.html">test_forceconstant_constraints</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_gaussian_fft_oneqp.html">threephonon_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_tetrahedron_fft_oneqp.html">threephonon_tetrahedron_fft_oneqp</a>
       
       <a class="list-group-item" href="../proc/zerosum.html">zerosum</a>
       
@@ -204,11 +226,12 @@
 
     
     <h3>Description</h3>
-    <p>Generate the self-energy at a single q-point</p>
+    <p>Generate the self-energy at a single q-point
+ finalize to ensure that it's reasonable.</p>
     
 
     <h2>
-subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
+subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, opts, mw)
     
     
 	 
@@ -251,7 +274,7 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-qpoint%7E2"></span>class(lo_qpoint),</td>
+  <td><span class="anchor" id="variable-qpoint"></span>class(lo_qpoint),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -266,7 +289,7 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-ompoint%7E2"></span>type(lo_phonon_dispersions_qpoint),</td>
+  <td><span class="anchor" id="variable-ompoint"></span>type(lo_phonon_dispersions_qpoint),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -281,7 +304,7 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-uc%7E3"></span>type(lo_crystalstructure),</td>
+  <td><span class="anchor" id="variable-uc"></span>type(lo_crystalstructure),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -296,8 +319,8 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-fc%7E3"></span>type(lo_forceconstant_secondorder),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-fc"></span>type(lo_forceconstant_secondorder),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -311,7 +334,7 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-fct%7E2"></span>type(lo_forceconstant_thirdorder),</td>
+  <td><span class="anchor" id="variable-fct"></span>type(lo_forceconstant_thirdorder),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -326,7 +349,7 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcf%7E3"></span>type(lo_forceconstant_fourthorder),</td>
+  <td><span class="anchor" id="variable-fcf"></span>type(lo_forceconstant_fourthorder),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -341,7 +364,7 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-qp%7E3"></span>type(lo_monkhorst_pack_mesh),</td>
+  <td><span class="anchor" id="variable-qp%7E5"></span>class(lo_qpoint_mesh),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -356,7 +379,7 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dr%7E3"></span>type(lo_phonon_dispersions),</td>
+  <td><span class="anchor" id="variable-dr%7E5"></span>type(lo_phonon_dispersions),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -371,12 +394,12 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-loto%7E3"></span>type(lo_loto),</td>
+  <td><span class="anchor" id="variable-opts"></span>type(lo_opts),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>loto</strong></td><td><p>electrostatic corrections    </p></td>
+  <td><strong>opts</strong></td><td><p>all settings</p></td>
   
 </tr>
 
@@ -386,12 +409,12 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-opts%7E2"></span>type(lo_opts),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-mw"></span>type(lo_mpi_helper),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>opts</strong></td><td><p>all settings</p></td>
+  <td><strong>mw</strong></td><td><p>MPI communicator</p></td>
   
 </tr>
 
@@ -406,229 +429,259 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
                 <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: proc~~generate~~CallsGraph Pages: 1 -->
-<svg id="procgenerateCallsGraph" width="523pt" height="562pt"
- viewBox="0.00 0.00 522.84 561.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~generate~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 557.5)">
+<svg id="procgenerateCallsGraph" width="494pt" height="478pt"
+ viewBox="0.00 0.00 494.24 477.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~generate~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 473.5)">
 <title>proc~~generate~~CallsGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-557.5 518.844,-557.5 518.844,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-473.5 490.2358,-473.5 490.2358,4 -4,4"/>
 <!-- proc~generate -->
-<g id="proc~~generate~~CallsGraph_node1" class="node"><title>proc~generate</title>
-<polygon fill="none" stroke="black" points="54,-266.255 0,-266.255 0,-244.245 54,-244.245 54,-266.255"/>
-<text text-anchor="middle" x="27" y="-252.1" font-family="Helvetica,sans-Serif" font-size="10.50">generate</text>
+<g id="proc~~generate~~CallsGraph_node1" class="node">
+<title>proc~generate</title>
+<polygon fill="none" stroke="#000000" points="54,-247.2554 0,-247.2554 0,-225.2446 54,-225.2446 54,-247.2554"/>
+<text text-anchor="middle" x="27" y="-233.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">generate</text>
 </g>
-<!-- slightsmearing -->
-<g id="proc~~generate~~CallsGraph_node2" class="node"><title>slightsmearing</title>
-<polygon fill="#777777" stroke="#777777" points="247.775,-510.255 168.381,-510.255 168.381,-488.245 247.775,-488.245 247.775,-510.255"/>
-<text text-anchor="middle" x="208.078" y="-496.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">slightsmearing</text>
+<!-- isotope_imaginary_selfenergy_tetrahedron -->
+<g id="proc~~generate~~CallsGraph_node2" class="node">
+<title>isotope_imaginary_selfenergy_tetrahedron</title>
+<polygon fill="#777777" stroke="#777777" points="313.6215,-469.2554 102.5341,-469.2554 102.5341,-447.2446 313.6215,-447.2446 313.6215,-469.2554"/>
+<text text-anchor="middle" x="208.0778" y="-455.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">isotope_imaginary_selfenergy_tetrahedron</text>
 </g>
-<!-- proc~generate&#45;&gt;slightsmearing -->
-<g id="proc~~generate~~CallsGraph_edge9" class="edge"><title>proc~generate&#45;&gt;slightsmearing</title>
-<path fill="none" stroke="#000000" d="M29.5117,-266.301C35.3233,-307.138 57.5378,-448.695 90,-478.25 108.223,-494.841 134.899,-500.527 158.186,-501.87"/>
-<polygon fill="#000000" stroke="#000000" points="158.154,-505.371 168.264,-502.202 158.384,-498.374 158.154,-505.371"/>
+<!-- proc~generate&#45;&gt;isotope_imaginary_selfenergy_tetrahedron -->
+<g id="proc~~generate~~CallsGraph_edge9" class="edge">
+<title>proc~generate&#45;&gt;isotope_imaginary_selfenergy_tetrahedron</title>
+<path fill="none" stroke="#000000" d="M29.0265,-247.2711C36.159,-284.8765 61.2305,-407.2455 90,-433.25 93.8838,-436.7605 98.1342,-439.824 102.6426,-442.4941"/>
+<polygon fill="#000000" stroke="#000000" points="101.116,-445.6452 111.6022,-447.1584 104.3484,-439.4362 101.116,-445.6452"/>
 </g>
-<!-- threephonon_imaginary_selfenergy_tetrahedron -->
-<g id="proc~~generate~~CallsGraph_node3" class="node"><title>threephonon_imaginary_selfenergy_tetrahedron</title>
-<polygon fill="#777777" stroke="#777777" points="326.233,-469.255 89.9222,-469.255 89.9222,-447.245 326.233,-447.245 326.233,-469.255"/>
-<text text-anchor="middle" x="208.078" y="-455.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">threephonon_imaginary_selfenergy_tetrahedron</text>
+<!-- lo_trapezoid_integration -->
+<g id="proc~~generate~~CallsGraph_node3" class="node">
+<title>lo_trapezoid_integration</title>
+<polygon fill="#777777" stroke="#777777" points="486.276,-432.2554 362.1153,-432.2554 362.1153,-410.2446 486.276,-410.2446 486.276,-432.2554"/>
+<text text-anchor="middle" x="424.1957" y="-418.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_trapezoid_integration</text>
 </g>
-<!-- proc~generate&#45;&gt;threephonon_imaginary_selfenergy_tetrahedron -->
-<g id="proc~~generate~~CallsGraph_edge10" class="edge"><title>proc~generate&#45;&gt;threephonon_imaginary_selfenergy_tetrahedron</title>
-<path fill="none" stroke="#000000" d="M28.1367,-266.341C29.1746,-298.36 36.8386,-391.559 90,-437.25 91.987,-438.958 94.0646,-440.548 96.2189,-442.028"/>
-<polygon fill="#000000" stroke="#000000" points="94.5005,-445.078 104.88,-447.205 98.0922,-439.07 94.5005,-445.078"/>
-</g>
-<!-- proc~fourphonon_selfenergy -->
-<g id="proc~~generate~~CallsGraph_node4" class="node"><title>proc~fourphonon_selfenergy</title>
-<g id="a_proc~~generate~~CallsGraph_node4"><a xlink:href="../proc/fourphonon_selfenergy.html" xlink:title="fourphonon_selfenergy">
-<polygon fill="#d9534f" stroke="#d9534f" points="267.993,-428.255 148.162,-428.255 148.162,-406.245 267.993,-406.245 267.993,-428.255"/>
-<text text-anchor="middle" x="208.078" y="-414.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fourphonon_selfenergy</text>
-</a>
-</g>
-</g>
-<!-- proc~generate&#45;&gt;proc~fourphonon_selfenergy -->
-<g id="proc~~generate~~CallsGraph_edge11" class="edge"><title>proc~generate&#45;&gt;proc~fourphonon_selfenergy</title>
-<path fill="none" stroke="#000000" d="M29.3878,-266.56C33.3546,-293.684 47.3497,-362.668 90,-396.25 103.698,-407.036 121.096,-412.992 138.262,-416.13"/>
-<polygon fill="#000000" stroke="#000000" points="137.899,-419.615 148.313,-417.667 138.958,-412.695 137.899,-419.615"/>
-</g>
-<!-- find_threephonon_scatteringrates -->
-<g id="proc~~generate~~CallsGraph_node5" class="node"><title>find_threephonon_scatteringrates</title>
-<polygon fill="#777777" stroke="#777777" points="292.522,-387.255 123.633,-387.255 123.633,-365.245 292.522,-365.245 292.522,-387.255"/>
-<text text-anchor="middle" x="208.078" y="-373.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_threephonon_scatteringrates</text>
-</g>
-<!-- proc~generate&#45;&gt;find_threephonon_scatteringrates -->
-<g id="proc~~generate~~CallsGraph_edge12" class="edge"><title>proc~generate&#45;&gt;find_threephonon_scatteringrates</title>
-<path fill="none" stroke="#000000" d="M31.4911,-266.413C38.7091,-287.51 57.387,-333.099 90,-355.25 97.3228,-360.224 105.476,-364.121 113.976,-367.162"/>
-<polygon fill="#000000" stroke="#000000" points="113.105,-370.557 123.695,-370.244 115.221,-363.885 113.105,-370.557"/>
+<!-- proc~generate&#45;&gt;lo_trapezoid_integration -->
+<g id="proc~~generate~~CallsGraph_edge10" class="edge">
+<title>proc~generate&#45;&gt;lo_trapezoid_integration</title>
+<path fill="none" stroke="#000000" d="M27.4208,-247.4244C29.2344,-277.9031 38.8646,-362.7 90,-400.25 130.1307,-429.7189 266.1726,-429.1544 351.8134,-425.554"/>
+<polygon fill="#000000" stroke="#000000" points="352.1629,-429.042 361.9977,-425.1016 351.8522,-422.0489 352.1629,-429.042"/>
 </g>
 <!-- proc~kramer_kronig_transform_to_get_real_part -->
-<g id="proc~~generate~~CallsGraph_node6" class="node"><title>proc~kramer_kronig_transform_to_get_real_part</title>
-<g id="a_proc~~generate~~CallsGraph_node6"><a xlink:href="../proc/kramer_kronig_transform_to_get_real_part.html" xlink:title="kramer_kronig_transform_to_get_real_part">
-<polygon fill="#d9534f" stroke="#d9534f" points="313.681,-346.255 102.475,-346.255 102.475,-324.245 313.681,-324.245 313.681,-346.255"/>
-<text text-anchor="middle" x="208.078" y="-332.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kramer_kronig_transform_to_get_real_part</text>
+<g id="proc~~generate~~CallsGraph_node4" class="node">
+<title>proc~kramer_kronig_transform_to_get_real_part</title>
+<g id="a_proc~~generate~~CallsGraph_node4"><a xlink:href="../proc/kramer_kronig_transform_to_get_real_part.html" xlink:title="kramer_kronig_transform_to_get_real_part">
+<polygon fill="#d9534f" stroke="#d9534f" points="313.6807,-391.2554 102.4748,-391.2554 102.4748,-369.2446 313.6807,-369.2446 313.6807,-391.2554"/>
+<text text-anchor="middle" x="208.0778" y="-377.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">kramer_kronig_transform_to_get_real_part</text>
 </a>
 </g>
 </g>
 <!-- proc~generate&#45;&gt;proc~kramer_kronig_transform_to_get_real_part -->
-<g id="proc~~generate~~CallsGraph_edge13" class="edge"><title>proc~generate&#45;&gt;proc~kramer_kronig_transform_to_get_real_part</title>
-<path fill="none" stroke="#000000" d="M36.2819,-266.407C47.0518,-280.035 67.2032,-302.697 90,-314.25 94.9504,-316.759 100.152,-318.972 105.497,-320.925"/>
-<polygon fill="#000000" stroke="#000000" points="104.656,-324.333 115.25,-324.165 106.863,-317.69 104.656,-324.333"/>
-</g>
-<!-- isotope_imaginary_selfenergy_tetrahedron -->
-<g id="proc~~generate~~CallsGraph_node7" class="node"><title>isotope_imaginary_selfenergy_tetrahedron</title>
-<polygon fill="#777777" stroke="#777777" points="313.621,-305.255 102.534,-305.255 102.534,-283.245 313.621,-283.245 313.621,-305.255"/>
-<text text-anchor="middle" x="208.078" y="-291.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">isotope_imaginary_selfenergy_tetrahedron</text>
-</g>
-<!-- proc~generate&#45;&gt;isotope_imaginary_selfenergy_tetrahedron -->
-<g id="proc~~generate~~CallsGraph_edge14" class="edge"><title>proc~generate&#45;&gt;isotope_imaginary_selfenergy_tetrahedron</title>
-<path fill="none" stroke="#000000" d="M54.2308,-261.244C65.2683,-263.748 78.2521,-266.669 90,-269.25 107.733,-273.145 126.997,-277.293 144.681,-281.068"/>
-<polygon fill="#000000" stroke="#000000" points="144.378,-284.582 154.888,-283.242 145.836,-277.735 144.378,-284.582"/>
-</g>
-<!-- lo_trapezoid_integration -->
-<g id="proc~~generate~~CallsGraph_node8" class="node"><title>lo_trapezoid_integration</title>
-<polygon fill="#777777" stroke="#777777" points="500.58,-266.255 376.42,-266.255 376.42,-244.245 500.58,-244.245 500.58,-266.255"/>
-<text text-anchor="middle" x="438.5" y="-252.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_trapezoid_integration</text>
-</g>
-<!-- proc~generate&#45;&gt;lo_trapezoid_integration -->
-<g id="proc~~generate~~CallsGraph_edge15" class="edge"><title>proc~generate&#45;&gt;lo_trapezoid_integration</title>
-<path fill="none" stroke="#000000" d="M54.239,-255.25C116.258,-255.25 273.624,-255.25 366.283,-255.25"/>
-<polygon fill="#000000" stroke="#000000" points="366.423,-258.75 376.423,-255.25 366.423,-251.75 366.423,-258.75"/>
-</g>
-<!-- int2char -->
-<g id="proc~~generate~~CallsGraph_node9" class="node"><title>int2char</title>
-<polygon fill="#777777" stroke="#777777" points="235.078,-227.255 181.078,-227.255 181.078,-205.245 235.078,-205.245 235.078,-227.255"/>
-<text text-anchor="middle" x="208.078" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">int2char</text>
-</g>
-<!-- proc~generate&#45;&gt;int2char -->
-<g id="proc~~generate~~CallsGraph_edge16" class="edge"><title>proc~generate&#45;&gt;int2char</title>
-<path fill="none" stroke="#000000" d="M54.2308,-249.256C65.2683,-246.752 78.2521,-243.831 90,-241.25 117.11,-235.295 147.797,-228.75 170.95,-223.85"/>
-<polygon fill="#000000" stroke="#000000" points="171.958,-227.215 181.019,-221.723 170.511,-220.366 171.958,-227.215"/>
-</g>
-<!-- lo_linspace -->
-<g id="proc~~generate~~CallsGraph_node10" class="node"><title>lo_linspace</title>
-<polygon fill="#777777" stroke="#777777" points="240.115,-186.255 176.04,-186.255 176.04,-164.245 240.115,-164.245 240.115,-186.255"/>
-<text text-anchor="middle" x="208.078" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_linspace</text>
-</g>
-<!-- proc~generate&#45;&gt;lo_linspace -->
-<g id="proc~~generate~~CallsGraph_edge17" class="edge"><title>proc~generate&#45;&gt;lo_linspace</title>
-<path fill="none" stroke="#000000" d="M36.2819,-244.093C47.0518,-230.465 67.2032,-207.803 90,-196.25 113.402,-184.391 142.41,-179.13 165.697,-176.84"/>
-<polygon fill="#000000" stroke="#000000" points="166.279,-180.304 175.953,-175.984 165.696,-173.328 166.279,-180.304"/>
-</g>
-<!-- find_isotope_scatteringrates -->
-<g id="proc~~generate~~CallsGraph_node11" class="node"><title>find_isotope_scatteringrates</title>
-<polygon fill="#777777" stroke="#777777" points="279.91,-145.255 136.245,-145.255 136.245,-123.245 279.91,-123.245 279.91,-145.255"/>
-<text text-anchor="middle" x="208.078" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_isotope_scatteringrates</text>
-</g>
-<!-- proc~generate&#45;&gt;find_isotope_scatteringrates -->
-<g id="proc~~generate~~CallsGraph_edge18" class="edge"><title>proc~generate&#45;&gt;find_isotope_scatteringrates</title>
-<path fill="none" stroke="#000000" d="M31.4911,-244.087C38.7091,-222.99 57.387,-177.401 90,-155.25 100.822,-147.899 113.458,-142.901 126.347,-139.54"/>
-<polygon fill="#000000" stroke="#000000" points="127.26,-142.922 136.227,-137.278 125.698,-136.099 127.26,-142.922"/>
-</g>
-<!-- isotope_imaginary_selfenergy_gaussian -->
-<g id="proc~~generate~~CallsGraph_node12" class="node"><title>isotope_imaginary_selfenergy_gaussian</title>
-<polygon fill="#777777" stroke="#777777" points="307.948,-104.255 108.208,-104.255 108.208,-82.2446 307.948,-82.2446 307.948,-104.255"/>
-<text text-anchor="middle" x="208.078" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">isotope_imaginary_selfenergy_gaussian</text>
-</g>
-<!-- proc~generate&#45;&gt;isotope_imaginary_selfenergy_gaussian -->
-<g id="proc~~generate~~CallsGraph_edge19" class="edge"><title>proc~generate&#45;&gt;isotope_imaginary_selfenergy_gaussian</title>
-<path fill="none" stroke="#000000" d="M29.3878,-243.94C33.3546,-216.816 47.3497,-147.832 90,-114.25 92.9737,-111.909 96.1216,-109.795 99.4037,-107.888"/>
-<polygon fill="#000000" stroke="#000000" points="101.06,-110.972 108.377,-103.31 97.8789,-104.737 101.06,-110.972"/>
-</g>
-<!-- flyt2char -->
-<g id="proc~~generate~~CallsGraph_node13" class="node"><title>flyt2char</title>
-<polygon fill="#777777" stroke="#777777" points="235.078,-63.2554 181.078,-63.2554 181.078,-41.2446 235.078,-41.2446 235.078,-63.2554"/>
-<text text-anchor="middle" x="208.078" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">flyt2char</text>
-</g>
-<!-- proc~generate&#45;&gt;flyt2char -->
-<g id="proc~~generate~~CallsGraph_edge20" class="edge"><title>proc~generate&#45;&gt;flyt2char</title>
-<path fill="none" stroke="#000000" d="M28.1367,-244.159C29.1746,-212.14 36.8386,-118.941 90,-73.25 112.023,-54.3216 145.179,-49.8518 170.591,-49.6676"/>
-<polygon fill="#000000" stroke="#000000" points="170.556,-53.1674 180.605,-49.8089 170.655,-46.168 170.556,-53.1674"/>
-</g>
-<!-- threephonon_imaginary_selfenergy_gaussian -->
-<g id="proc~~generate~~CallsGraph_node14" class="node"><title>threephonon_imaginary_selfenergy_gaussian</title>
-<polygon fill="#777777" stroke="#777777" points="320.56,-22.2554 95.5958,-22.2554 95.5958,-0.244565 320.56,-0.244565 320.56,-22.2554"/>
-<text text-anchor="middle" x="208.078" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">threephonon_imaginary_selfenergy_gaussian</text>
-</g>
-<!-- proc~generate&#45;&gt;threephonon_imaginary_selfenergy_gaussian -->
-<g id="proc~~generate~~CallsGraph_edge21" class="edge"><title>proc~generate&#45;&gt;threephonon_imaginary_selfenergy_gaussian</title>
-<path fill="none" stroke="#000000" d="M29.5117,-244.199C35.3233,-203.362 57.5378,-61.8047 90,-32.25 91.7369,-30.6686 93.5507,-29.1863 95.431,-27.7974"/>
-<polygon fill="#000000" stroke="#000000" points="97.5202,-30.6163 104.07,-22.2883 93.7563,-24.7143 97.5202,-30.6163"/>
-</g>
-<!-- lo_planck -->
-<g id="proc~~generate~~CallsGraph_node15" class="node"><title>lo_planck</title>
-<polygon fill="#777777" stroke="#777777" points="466.865,-553.255 410.135,-553.255 410.135,-531.245 466.865,-531.245 466.865,-553.255"/>
-<text text-anchor="middle" x="438.5" y="-539.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_planck</text>
-</g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_planck -->
-<g id="proc~~generate~~CallsGraph_edge1" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_planck</title>
-<path fill="none" stroke="#000000" d="M267.878,-416.788C288.128,-419.307 309.801,-425.306 326.156,-438.25 357.685,-463.204 331.838,-494.837 362.156,-521.25 372.68,-530.42 386.901,-535.611 400.153,-538.541"/>
-<polygon fill="#000000" stroke="#000000" points="399.551,-541.989 410.021,-540.369 400.826,-535.106 399.551,-541.989"/>
-</g>
-<!-- lo_deallocate -->
-<g id="proc~~generate~~CallsGraph_node16" class="node"><title>lo_deallocate</title>
-<polygon fill="#777777" stroke="#777777" points="475.382,-512.255 401.617,-512.255 401.617,-490.245 475.382,-490.245 475.382,-512.255"/>
-<text text-anchor="middle" x="438.5" y="-498.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_deallocate</text>
-</g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_deallocate -->
-<g id="proc~~generate~~CallsGraph_edge2" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_deallocate</title>
-<path fill="none" stroke="#000000" d="M268.048,-419.93C287.535,-422.82 308.681,-428.249 326.156,-438.25 347.493,-450.462 341.417,-467.045 362.156,-480.25 371.096,-485.943 381.589,-490.116 391.857,-493.168"/>
-<polygon fill="#000000" stroke="#000000" points="391.009,-496.564 401.574,-495.763 392.815,-489.801 391.009,-496.564"/>
+<g id="proc~~generate~~CallsGraph_edge11" class="edge">
+<title>proc~generate&#45;&gt;proc~kramer_kronig_transform_to_get_real_part</title>
+<path fill="none" stroke="#000000" d="M29.2695,-247.6061C34.8363,-272.2844 51.611,-330.8627 90,-359.25 92.5544,-361.1389 95.2237,-362.8772 97.9852,-364.4761"/>
+<polygon fill="#000000" stroke="#000000" points="96.5919,-367.6945 107.0901,-369.1225 99.7738,-361.4594 96.5919,-367.6945"/>
 </g>
 <!-- lo_get_small_group_of_qpoint -->
-<g id="proc~~generate~~CallsGraph_node17" class="node"><title>lo_get_small_group_of_qpoint</title>
-<polygon fill="#777777" stroke="#777777" points="514.689,-471.255 362.311,-471.255 362.311,-449.245 514.689,-449.245 514.689,-471.255"/>
-<text text-anchor="middle" x="438.5" y="-457.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_get_small_group_of_qpoint</text>
+<g id="proc~~generate~~CallsGraph_node5" class="node">
+<title>lo_get_small_group_of_qpoint</title>
+<polygon fill="#777777" stroke="#777777" points="284.2668,-350.2554 131.8887,-350.2554 131.8887,-328.2446 284.2668,-328.2446 284.2668,-350.2554"/>
+<text text-anchor="middle" x="208.0778" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_get_small_group_of_qpoint</text>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_get_small_group_of_qpoint -->
-<g id="proc~~generate~~CallsGraph_edge3" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_get_small_group_of_qpoint</title>
-<path fill="none" stroke="#000000" d="M268.075,-427.623C286.671,-430.949 307.283,-434.693 326.156,-438.25 341.245,-441.094 357.466,-444.245 372.731,-447.253"/>
-<polygon fill="#000000" stroke="#000000" points="372.114,-450.698 382.603,-449.204 373.471,-443.831 372.114,-450.698"/>
+<!-- proc~generate&#45;&gt;lo_get_small_group_of_qpoint -->
+<g id="proc~~generate~~CallsGraph_edge12" class="edge">
+<title>proc~generate&#45;&gt;lo_get_small_group_of_qpoint</title>
+<path fill="none" stroke="#000000" d="M32.1536,-247.4017C41.1352,-265.4826 61.4604,-300.9148 90,-318.25 99.7035,-324.144 110.6303,-328.4799 121.8191,-331.6541"/>
+<polygon fill="#000000" stroke="#000000" points="121.1417,-335.0929 131.6949,-334.1544 122.8598,-328.307 121.1417,-335.0929"/>
 </g>
-<!-- lo_allocate -->
-<g id="proc~~generate~~CallsGraph_node18" class="node"><title>lo_allocate</title>
-<polygon fill="#777777" stroke="#777777" points="469.703,-430.255 407.296,-430.255 407.296,-408.245 469.703,-408.245 469.703,-430.255"/>
-<text text-anchor="middle" x="438.5" y="-416.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_allocate</text>
+<!-- proc~fourphonon_selfenergy -->
+<g id="proc~~generate~~CallsGraph_node6" class="node">
+<title>proc~fourphonon_selfenergy</title>
+<g id="a_proc~~generate~~CallsGraph_node6"><a xlink:href="../proc/fourphonon_selfenergy.html" xlink:title="fourphonon_selfenergy">
+<polygon fill="#d9534f" stroke="#d9534f" points="267.9933,-309.2554 148.1622,-309.2554 148.1622,-287.2446 267.9933,-287.2446 267.9933,-309.2554"/>
+<text text-anchor="middle" x="208.0778" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">fourphonon_selfenergy</text>
+</a>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_allocate -->
-<g id="proc~~generate~~CallsGraph_edge4" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_allocate</title>
-<path fill="none" stroke="#000000" d="M267.902,-417.765C308.447,-418.12 361.279,-418.583 397.126,-418.896"/>
-<polygon fill="#000000" stroke="#000000" points="397.187,-422.397 407.217,-418.985 397.248,-415.397 397.187,-422.397"/>
 </g>
-<!-- walltime -->
-<g id="proc~~generate~~CallsGraph_node19" class="node"><title>walltime</title>
-<polygon fill="#777777" stroke="#777777" points="465.5,-389.255 411.5,-389.255 411.5,-367.245 465.5,-367.245 465.5,-389.255"/>
-<text text-anchor="middle" x="438.5" y="-375.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">walltime</text>
+<!-- proc~generate&#45;&gt;proc~fourphonon_selfenergy -->
+<g id="proc~~generate~~CallsGraph_edge13" class="edge">
+<title>proc~generate&#45;&gt;proc~fourphonon_selfenergy</title>
+<path fill="none" stroke="#000000" d="M40.6113,-247.4414C52.8023,-256.8708 71.5535,-269.9576 90,-277.25 105.1532,-283.2404 122.0761,-287.5308 138.2708,-290.6007"/>
+<polygon fill="#000000" stroke="#000000" points="137.7818,-294.0685 148.2378,-292.3588 138.9978,-287.1749 137.7818,-294.0685"/>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;walltime -->
-<g id="proc~~generate~~CallsGraph_edge5" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;walltime</title>
-<path fill="none" stroke="#000000" d="M267.902,-407.207C310.011,-400.017 365.374,-390.565 401.197,-384.448"/>
-<polygon fill="#000000" stroke="#000000" points="401.935,-387.873 411.203,-382.74 400.756,-380.973 401.935,-387.873"/>
+<!-- threephonon_imaginary_selfenergy_tetrahedron -->
+<g id="proc~~generate~~CallsGraph_node7" class="node">
+<title>threephonon_imaginary_selfenergy_tetrahedron</title>
+<polygon fill="#777777" stroke="#777777" points="326.2333,-268.2554 89.9222,-268.2554 89.9222,-246.2446 326.2333,-246.2446 326.2333,-268.2554"/>
+<text text-anchor="middle" x="208.0778" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">threephonon_imaginary_selfenergy_tetrahedron</text>
 </g>
-<!-- lo_get_omega_and_velocities -->
-<g id="proc~~generate~~CallsGraph_node20" class="node"><title>lo_get_omega_and_velocities</title>
-<polygon fill="#777777" stroke="#777777" points="513.935,-348.255 363.065,-348.255 363.065,-326.245 513.935,-326.245 513.935,-348.255"/>
-<text text-anchor="middle" x="438.5" y="-334.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_get_omega_and_velocities</text>
+<!-- proc~generate&#45;&gt;threephonon_imaginary_selfenergy_tetrahedron -->
+<g id="proc~~generate~~CallsGraph_edge14" class="edge">
+<title>proc~generate&#45;&gt;threephonon_imaginary_selfenergy_tetrahedron</title>
+<path fill="none" stroke="#000000" d="M54.1092,-239.3939C67.5949,-240.9579 84.8538,-242.9594 102.91,-245.0535"/>
+<polygon fill="#000000" stroke="#000000" points="102.6677,-248.5487 113.0044,-246.2241 103.4742,-241.5953 102.6677,-248.5487"/>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_get_omega_and_velocities -->
-<g id="proc~~generate~~CallsGraph_edge6" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_get_omega_and_velocities</title>
-<path fill="none" stroke="#000000" d="M268.068,-414.021C287.451,-411.084 308.528,-405.764 326.156,-396.25 346.628,-385.2 342.227,-370.253 362.156,-358.25 365.989,-355.941 370.083,-353.879 374.309,-352.038"/>
-<polygon fill="#000000" stroke="#000000" points="375.684,-355.258 383.717,-348.351 373.13,-348.741 375.684,-355.258"/>
+<!-- slightsmearing -->
+<g id="proc~~generate~~CallsGraph_node8" class="node">
+<title>slightsmearing</title>
+<polygon fill="#777777" stroke="#777777" points="247.7746,-227.2554 168.3809,-227.2554 168.3809,-205.2446 247.7746,-205.2446 247.7746,-227.2554"/>
+<text text-anchor="middle" x="208.0778" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">slightsmearing</text>
 </g>
-<!-- lo_get_dynamical_matrix -->
-<g id="proc~~generate~~CallsGraph_node21" class="node"><title>lo_get_dynamical_matrix</title>
-<polygon fill="#777777" stroke="#777777" points="502.641,-307.255 374.359,-307.255 374.359,-285.245 502.641,-285.245 502.641,-307.255"/>
-<text text-anchor="middle" x="438.5" y="-293.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_get_dynamical_matrix</text>
+<!-- proc~generate&#45;&gt;slightsmearing -->
+<g id="proc~~generate~~CallsGraph_edge15" class="edge">
+<title>proc~generate&#45;&gt;slightsmearing</title>
+<path fill="none" stroke="#000000" d="M54.1092,-233.2558C81.5586,-230.224 124.6399,-225.4657 158.2593,-221.7524"/>
+<polygon fill="#000000" stroke="#000000" points="158.8061,-225.2134 168.3613,-220.6367 158.0375,-218.2557 158.8061,-225.2134"/>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_get_dynamical_matrix -->
-<g id="proc~~generate~~CallsGraph_edge7" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_get_dynamical_matrix</title>
-<path fill="none" stroke="#000000" d="M268.049,-417.509C288.2,-414.952 309.765,-408.98 326.156,-396.25 356.629,-372.582 332.832,-342.328 362.156,-317.25 364.381,-315.347 366.766,-313.615 369.268,-312.04"/>
-<polygon fill="#000000" stroke="#000000" points="371.008,-315.078 378.163,-307.264 367.697,-308.911 371.008,-315.078"/>
+<!-- lo_linspace -->
+<g id="proc~~generate~~CallsGraph_node9" class="node">
+<title>lo_linspace</title>
+<polygon fill="#777777" stroke="#777777" points="240.1153,-186.2554 176.0402,-186.2554 176.0402,-164.2446 240.1153,-164.2446 240.1153,-186.2554"/>
+<text text-anchor="middle" x="208.0778" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_linspace</text>
+</g>
+<!-- proc~generate&#45;&gt;lo_linspace -->
+<g id="proc~~generate~~CallsGraph_edge16" class="edge">
+<title>proc~generate&#45;&gt;lo_linspace</title>
+<path fill="none" stroke="#000000" d="M41.1428,-224.978C53.3711,-215.8154 71.8874,-203.293 90,-196.25 114.1489,-186.8598 142.7211,-181.6366 165.7102,-178.7481"/>
+<polygon fill="#000000" stroke="#000000" points="166.3111,-182.202 175.8439,-177.5786 165.5085,-175.2482 166.3111,-182.202"/>
+</g>
+<!-- isotope_imaginary_selfenergy_gaussian -->
+<g id="proc~~generate~~CallsGraph_node10" class="node">
+<title>isotope_imaginary_selfenergy_gaussian</title>
+<polygon fill="#777777" stroke="#777777" points="307.9477,-145.2554 108.2078,-145.2554 108.2078,-123.2446 307.9477,-123.2446 307.9477,-145.2554"/>
+<text text-anchor="middle" x="208.0778" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">isotope_imaginary_selfenergy_gaussian</text>
+</g>
+<!-- proc~generate&#45;&gt;isotope_imaginary_selfenergy_gaussian -->
+<g id="proc~~generate~~CallsGraph_edge17" class="edge">
+<title>proc~generate&#45;&gt;isotope_imaginary_selfenergy_gaussian</title>
+<path fill="none" stroke="#000000" d="M32.1912,-225.2331C41.2267,-207.371 61.6279,-172.3684 90,-155.25 93.7104,-153.0113 97.5979,-150.9979 101.6092,-149.1878"/>
+<polygon fill="#000000" stroke="#000000" points="103.2095,-152.3161 111.1686,-145.3231 100.5857,-145.8264 103.2095,-152.3161"/>
+</g>
+<!-- tochar -->
+<g id="proc~~generate~~CallsGraph_node11" class="node">
+<title>tochar</title>
+<polygon fill="#777777" stroke="#777777" points="235.0778,-104.2554 181.0778,-104.2554 181.0778,-82.2446 235.0778,-82.2446 235.0778,-104.2554"/>
+<text text-anchor="middle" x="208.0778" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">tochar</text>
+</g>
+<!-- proc~generate&#45;&gt;tochar -->
+<g id="proc~~generate~~CallsGraph_edge18" class="edge">
+<title>proc~generate&#45;&gt;tochar</title>
+<path fill="none" stroke="#000000" d="M29.2993,-224.984C34.9255,-200.5018 51.8113,-142.3913 90,-114.25 113.1732,-97.1736 145.754,-92.4166 170.8232,-91.6532"/>
+<polygon fill="#000000" stroke="#000000" points="171.095,-95.1507 181.0579,-91.5463 171.0218,-88.1511 171.095,-95.1507"/>
+</g>
+<!-- threephonon_imaginary_selfenergy_gaussian -->
+<g id="proc~~generate~~CallsGraph_node12" class="node">
+<title>threephonon_imaginary_selfenergy_gaussian</title>
+<polygon fill="#777777" stroke="#777777" points="320.5597,-63.2554 95.5958,-63.2554 95.5958,-41.2446 320.5597,-41.2446 320.5597,-63.2554"/>
+<text text-anchor="middle" x="208.0778" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">threephonon_imaginary_selfenergy_gaussian</text>
+</g>
+<!-- proc~generate&#45;&gt;threephonon_imaginary_selfenergy_gaussian -->
+<g id="proc~~generate~~CallsGraph_edge19" class="edge">
+<title>proc~generate&#45;&gt;threephonon_imaginary_selfenergy_gaussian</title>
+<path fill="none" stroke="#000000" d="M27.7128,-225.0092C30.2521,-195.1077 41.5246,-113.1766 90,-73.25 92.0742,-71.5416 94.2395,-69.952 96.4812,-68.4737"/>
+<polygon fill="#000000" stroke="#000000" points="98.5485,-71.3226 105.4767,-63.307 95.062,-65.2526 98.5485,-71.3226"/>
+</g>
+<!-- delta -->
+<g id="proc~~generate~~CallsGraph_node13" class="node">
+<title>delta</title>
+<polygon fill="#777777" stroke="#777777" points="235.0778,-22.2554 181.0778,-22.2554 181.0778,-.2446 235.0778,-.2446 235.0778,-22.2554"/>
+<text text-anchor="middle" x="208.0778" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">delta</text>
+</g>
+<!-- proc~generate&#45;&gt;delta -->
+<g id="proc~~generate~~CallsGraph_edge20" class="edge">
+<title>proc~generate&#45;&gt;delta</title>
+<path fill="none" stroke="#000000" d="M28.8891,-225.0761C35.6622,-186.3521 59.9301,-58.8174 90,-32.25 111.8053,-12.9845 144.9901,-8.4947 170.633,-8.3898"/>
+<polygon fill="#000000" stroke="#000000" points="170.6926,-11.8913 180.753,-8.569 170.8166,-4.8924 170.6926,-11.8913"/>
 </g>
 <!-- proc~kramer_kronig_transform_to_get_real_part&#45;&gt;lo_trapezoid_integration -->
-<g id="proc~~generate~~CallsGraph_edge8" class="edge"><title>proc~kramer_kronig_transform_to_get_real_part&#45;&gt;lo_trapezoid_integration</title>
-<path fill="none" stroke="#000000" d="M302.343,-324.203C310.638,-321.544 318.705,-318.272 326.156,-314.25 346.628,-303.2 342.227,-288.253 362.156,-276.25 365.989,-273.941 370.083,-271.879 374.309,-270.038"/>
-<polygon fill="#000000" stroke="#000000" points="375.684,-273.258 383.717,-266.351 373.13,-266.741 375.684,-273.258"/>
+<g id="proc~~generate~~CallsGraph_edge1" class="edge">
+<title>proc~kramer_kronig_transform_to_get_real_part&#45;&gt;lo_trapezoid_integration</title>
+<path fill="none" stroke="#000000" d="M266.2777,-391.2912C293.901,-396.5316 327.0919,-402.8283 355.9008,-408.2937"/>
+<polygon fill="#000000" stroke="#000000" points="355.4147,-411.7638 365.8918,-410.1891 356.7194,-404.8865 355.4147,-411.7638"/>
+</g>
+<!-- lo_truentimes -->
+<g id="proc~~generate~~CallsGraph_node14" class="node">
+<title>lo_truentimes</title>
+<polygon fill="#777777" stroke="#777777" points="461.7264,-391.2554 386.6649,-391.2554 386.6649,-369.2446 461.7264,-369.2446 461.7264,-391.2554"/>
+<text text-anchor="middle" x="424.1957" y="-377.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_truentimes</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_truentimes -->
+<g id="proc~~generate~~CallsGraph_edge2" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_truentimes</title>
+<path fill="none" stroke="#000000" d="M268.0147,-301.1863C287.4897,-304.1092 308.5905,-309.494 326.1555,-319.25 347.0644,-330.8632 342.178,-346.099 362.1555,-359.25 366.7858,-362.2981 371.9023,-364.9468 377.1521,-367.2377"/>
+<polygon fill="#000000" stroke="#000000" points="376.0822,-370.5779 386.6692,-370.9839 378.6461,-364.0643 376.0822,-370.5779"/>
+</g>
+<!-- lo_planck -->
+<g id="proc~~generate~~CallsGraph_node15" class="node">
+<title>lo_planck</title>
+<polygon fill="#777777" stroke="#777777" points="452.5604,-350.2554 395.831,-350.2554 395.831,-328.2446 452.5604,-328.2446 452.5604,-350.2554"/>
+<text text-anchor="middle" x="424.1957" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_planck</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_planck -->
+<g id="proc~~generate~~CallsGraph_edge3" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_planck</title>
+<path fill="none" stroke="#000000" d="M267.8978,-308.587C286.5746,-311.8954 307.2374,-315.6387 326.1555,-319.25 345.9316,-323.0251 367.8959,-327.4813 386.0137,-331.2281"/>
+<polygon fill="#000000" stroke="#000000" points="385.4145,-334.6782 395.9173,-333.2846 386.8378,-327.8244 385.4145,-334.6782"/>
+</g>
+<!-- lo_progressbar -->
+<g id="proc~~generate~~CallsGraph_node16" class="node">
+<title>lo_progressbar</title>
+<polygon fill="#777777" stroke="#777777" points="465.235,-309.2554 383.1564,-309.2554 383.1564,-287.2446 465.235,-287.2446 465.235,-309.2554"/>
+<text text-anchor="middle" x="424.1957" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_progressbar -->
+<g id="proc~~generate~~CallsGraph_edge4" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_progressbar</title>
+<path fill="none" stroke="#000000" d="M267.9916,-298.25C300.8758,-298.25 341.2373,-298.25 372.6945,-298.25"/>
+<polygon fill="#000000" stroke="#000000" points="372.9975,-301.7501 382.9975,-298.25 372.9975,-294.7501 372.9975,-301.7501"/>
+</g>
+<!-- mpi_allreduce -->
+<g id="proc~~generate~~CallsGraph_node17" class="node">
+<title>mpi_allreduce</title>
+<polygon fill="#777777" stroke="#777777" points="463.0652,-268.2554 385.3261,-268.2554 385.3261,-246.2446 463.0652,-246.2446 463.0652,-268.2554"/>
+<text text-anchor="middle" x="424.1957" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">mpi_allreduce</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;mpi_allreduce -->
+<g id="proc~~generate~~CallsGraph_edge5" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;mpi_allreduce</title>
+<path fill="none" stroke="#000000" d="M267.8978,-287.913C286.5746,-284.6046 307.2374,-280.8613 326.1555,-277.25 342.1124,-274.204 359.4938,-270.7145 375.1298,-267.5121"/>
+<polygon fill="#000000" stroke="#000000" points="376.0308,-270.9001 385.1203,-265.4566 374.6201,-264.0437 376.0308,-270.9001"/>
+</g>
+<!-- walltime -->
+<g id="proc~~generate~~CallsGraph_node18" class="node">
+<title>walltime</title>
+<polygon fill="#777777" stroke="#777777" points="451.1957,-227.2554 397.1957,-227.2554 397.1957,-205.2446 451.1957,-205.2446 451.1957,-227.2554"/>
+<text text-anchor="middle" x="424.1957" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">walltime</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;walltime -->
+<g id="proc~~generate~~CallsGraph_edge6" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;walltime</title>
+<path fill="none" stroke="#000000" d="M268.0147,-295.3137C287.4897,-292.3908 308.5905,-287.006 326.1555,-277.25 347.0644,-265.6368 342.178,-250.401 362.1555,-237.25 369.8155,-232.2075 378.8063,-228.258 387.5294,-225.2132"/>
+<polygon fill="#000000" stroke="#000000" points="388.7067,-228.5116 397.179,-222.1499 386.5887,-221.8398 388.7067,-228.5116"/>
+</g>
+<!-- lo_progressbar_init -->
+<g id="proc~~generate~~CallsGraph_node19" class="node">
+<title>lo_progressbar_init</title>
+<polygon fill="#777777" stroke="#777777" points="474.9974,-186.2554 373.394,-186.2554 373.394,-164.2446 474.9974,-164.2446 474.9974,-186.2554"/>
+<text text-anchor="middle" x="424.1957" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar_init</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_progressbar_init -->
+<g id="proc~~generate~~CallsGraph_edge7" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_progressbar_init</title>
+<path fill="none" stroke="#000000" d="M267.9169,-298.6595C288.1584,-296.0986 309.7618,-290.0863 326.1555,-277.25 357.1737,-252.9627 333.0494,-222.7987 362.1555,-196.25 364.1036,-194.4731 366.2077,-192.8459 368.4236,-191.3557"/>
+<polygon fill="#000000" stroke="#000000" points="370.4503,-194.2305 377.4314,-186.2609 367.0041,-188.1375 370.4503,-194.2305"/>
+</g>
+<!-- lo_allocate -->
+<g id="proc~~generate~~CallsGraph_node20" class="node">
+<title>lo_allocate</title>
+<polygon fill="#777777" stroke="#777777" points="455.3991,-145.2554 392.9922,-145.2554 392.9922,-123.2446 455.3991,-123.2446 455.3991,-145.2554"/>
+<text text-anchor="middle" x="424.1957" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_allocate</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_allocate -->
+<g id="proc~~generate~~CallsGraph_edge8" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_allocate</title>
+<path fill="none" stroke="#000000" d="M267.98,-299.9344C288.584,-297.5611 310.4063,-291.3423 326.1555,-277.25 368.2854,-239.5523 322.9764,-196.0059 362.1555,-155.25 367.9261,-149.2471 375.4716,-144.9602 383.3044,-141.8987"/>
+<polygon fill="#000000" stroke="#000000" points="384.4972,-145.1908 392.9012,-138.7391 382.3081,-138.5419 384.4972,-145.1908"/>
 </g>
 </g>
 </svg>
@@ -647,43 +700,49 @@ subroutine generate(se, qpoint, ompoint, uc, fc, fct, fcf, qp, dr, loto, opts)
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: Graph Key Pages: 1 -->
 <svg width="550pt" height="31pt"
  viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-26.5 546.248,-26.5 546.248,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 546.2477,-26.5 546.2477,4 -4,4"/>
 <!-- Subroutine -->
-<g id="node1" class="node"><title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 0.105843,-22.2554 0.105843,-0.244565 62.6818,-0.244565 62.6818,-22.2554"/>
-<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 .1058,-22.2554 .1058,-.2446 62.6818,-.2446 62.6818,-22.2554"/>
+<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
 </g>
 <!-- Function -->
-<g id="node2" class="node"><title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="134.394,-22.2554 80.3938,-22.2554 80.3938,-0.244565 134.394,-0.244565 134.394,-22.2554"/>
-<text text-anchor="middle" x="107.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.3938,-22.2554 80.3938,-22.2554 80.3938,-.2446 134.3938,-.2446 134.3938,-22.2554"/>
+<text text-anchor="middle" x="107.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
 </g>
 <!-- Interface -->
-<g id="node3" class="node"><title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="206.394,-22.2554 152.394,-22.2554 152.394,-0.244565 206.394,-0.244565 206.394,-22.2554"/>
-<text text-anchor="middle" x="179.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.3938,-22.2554 152.3938,-22.2554 152.3938,-.2446 206.3938,-.2446 206.3938,-22.2554"/>
+<text text-anchor="middle" x="179.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Interface</text>
 </g>
 <!-- Unknown Procedure Type -->
-<g id="node4" class="node"><title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="356.532,-22.2554 224.256,-22.2554 224.256,-0.244565 356.532,-0.244565 356.532,-22.2554"/>
-<text text-anchor="middle" x="290.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.5315,-22.2554 224.2561,-22.2554 224.2561,-.2446 356.5315,-.2446 356.5315,-22.2554"/>
+<text text-anchor="middle" x="290.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node"><title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.394,-22.2554 374.394,-22.2554 374.394,-0.244565 428.394,-0.244565 428.394,-22.2554"/>
-<text text-anchor="middle" x="401.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.3938,-22.2554 374.3938,-22.2554 374.3938,-.2446 428.3938,-.2446 428.3938,-22.2554"/>
+<text text-anchor="middle" x="401.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node"><title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="542.102,-22.2554 446.686,-22.2554 446.686,-0.244565 542.102,-0.244565 542.102,-22.2554"/>
-<text text-anchor="middle" x="494.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="542.102,-22.2554 446.6856,-22.2554 446.6856,-.2446 542.102,-.2446 542.102,-22.2554"/>
+<text text-anchor="middle" x="494.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
@@ -733,8 +792,8 @@ implementation in a submodule of an interface in a parent module.
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

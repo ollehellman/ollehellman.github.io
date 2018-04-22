@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <link rel="icon" href="../favicon.png">
@@ -55,7 +55,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -71,12 +71,6 @@
                     <li>
                         
                             <a href="../program/atomic_distribution.html">atomic distribution</a>
-                        
-                     </li>
-                
-                    <li>
-                        
-                            <a href='../program/autocorrelation.html'>autocorrelation</a>
                         
                      </li>
                 
@@ -167,7 +161,7 @@
 
 </div>
 
-<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
+<div class="jumbotron">
 <div class="container-fluid">
     
         <h3>thermal conductivity</h3>
@@ -190,8 +184,13 @@
 </li>
 <li>
 <p><code>--qpoint_grid value#1 value#2 value#3</code>, <code>-qg value#1 value#2 value#3</code><br>
-    default value 31 31 31<br>
-    Density of q-point mesh.</p>
+    default value 26 26 26<br>
+    Density of q-point mesh for Brillouin zone integrations.</p>
+</li>
+<li>
+<p><code>--integrationtype value</code>, <code>-it value</code>, value in: <code>1,2,3,4</code><br>
+    default value 2<br>
+    Type of integration for the phonon DOS. 1 is Gaussian, 2 adaptive Gaussian and 3 Tetrahedron.</p>
 </li>
 <li>
 <p><code>--sigma value</code><br>
@@ -206,17 +205,7 @@
 <li>
 <p><code>--readqmesh</code><br>
     default value .false.<br>
-    Read the q-point mesh from file.</p>
-</li>
-<li>
-<p><code>--loto</code><br>
-    default value .false.<br>
-    Add the corrections due to long-range electrostatic interactions.</p>
-</li>
-<li>
-<p><code>--integrationtype value</code>, <code>-it value</code>, value in: <code>1,2,3</code><br>
-    default value 3<br>
-    Type of integration for the lifetimes. 1 is fix Gaussian, 2 adaptive Gaussian and 3 Tetrahedron.</p>
+    Read the q-point mesh from file. To generate a q-mesh file, see the genkpoints utility.</p>
 </li>
 <li>
 <p><code>--temperature value</code><br>
@@ -252,6 +241,21 @@
 <p><code>--thinfilm</code><br>
     default value .false.<br>
     Calculate the suppression of kappa from in a thin film.</p>
+</li>
+<li>
+<p><code>--noisotope</code><br>
+    default value .false.<br>
+    Do not consider isotope scattering.</p>
+</li>
+<li>
+<p><code>--correctionlevel value</code><br>
+    default value 6<br>
+    How agressively things are corrected due to broken symmetries.</p>
+</li>
+<li>
+<p><code>--scftol value</code><br>
+    default value 1E-5<br>
+    What tolerance to converge the self-consistent cycle to.</p>
 </li>
 <li>
 <p><code>--help</code>, <code>-h</code><br>
@@ -315,7 +319,7 @@ $$</p>
 \begin{split}
 \Gamma_{\lambda}=&amp; \frac{\hbar \pi}{16} % _{\lambda'}
 \sum_{\lambda'\lambda''}
-\left|\Phi_{\lambda\lambda'\lambda''}\right|^2 
+\left|\Phi_{\lambda\lambda'\lambda''}\right|^2
 \bigl[(n_{\lambda'}+n_{\lambda''}+1)
 \delta(\omega_{\lambda}-\omega_{\lambda'}-\omega_{\lambda''}) \\
 + &amp; 2(n_{\lambda'}-n_{\lambda''})
@@ -324,7 +328,7 @@ $$</p>
 $$</p>
 <p>$n_{\lambda}$ is the equilibrium occupation number. The sum is over momentum conserving three-phonon processes, $\textbf{q}+\textbf{q}'+\textbf{q}''=\textbf{G}$, and the deltafunctions in frequency ensure energy conservation. The three-phonon matrix elements are given by</p>
 <p>$$
-\Phi_{\lambda\lambda'\lambda''} = 
+\Phi_{\lambda\lambda'\lambda''} =
 \sum_{ijk}
 \sum_{\alpha\beta\gamma}
 \frac{
@@ -344,9 +348,9 @@ $$</p>
 <p>where $m_i$ is the mass of atom $i$, $\epsilon_{\lambda}^{\alpha i}$ is component $\alpha$ of the eigenvector for mode $\lambda$ and atom $i$ and $\textbf{r}_i$ is the lattice vector associated with atom $i$.</p>
 <p>Mass disorder, in the form of natural isotope distributions also cause thermal resistance. According to Tamura<sup id="fnref-Tamura1983"><a class="footnote-ref" href="#fn-Tamura1983">5</a></sup>, if the isotopes are randomly distributed on the lattice sites then the strength of the isotope scattering can be given by a mass variance parameter $g$:</p>
 <p>$$
-g_i=\sum_j c_{i}^j \left(\frac{m_i^j-\bar{m_i}}{\bar{m_i}}\right)^2 
+g_i=\sum_j c_{i}^j \left(\frac{m_i^j-\bar{m_i}}{\bar{m_i}}\right)^2
 $$</p>
-<p>where $\bar{m_i}$ is the average isotopic mass( $\bar{m_i}=\sum_j c_i^j m_i^j$ ), $m^j_i$ is the mass of isotope $j$ of atom $i$ and $c^j_i$ is its concentration. The ontribution to the imaginary part of the self-energy is</p>
+<p>where $\bar{m_i}$ is the average isotopic mass( $\bar{m_i}=\sum_j c_i^j m_i^j$ ), $m^j_i$ is the mass of isotope $j$ of atom $i$ and $c^j_i$ is its concentration. The contribution to the imaginary part of the self-energy is</p>
 <p>$$
 \Gamma^{\textrm{iso}}_{\lambda}=
 \frac{\pi}{4} \sum_{\lambda'}
@@ -388,7 +392,7 @@ $$</p>
 \begin{equation*}
 \begin{split}
 \mathbf{q} + \mathbf{q}' + \mathbf{q}'' &amp; = \mathbf{G} \\
-\omega + \omega' &amp; = \omega'' 
+\omega + \omega' &amp; = \omega''
 \end{split}
 \end{equation*}
 $$</p>
@@ -403,7 +407,7 @@ $$</p>
 <p>Mostly out of habit, we sandwich the Hamiltonian between the initial and final states:</p>
 <p>$$
 \begin{equation}\label{eq:sandwich}
-{\left\langle f \middle\vert \hat{H} \middle\vert i \right\rangle} = 
+{\left\langle f \middle\vert \hat{H} \middle\vert i \right\rangle} =
 {\left\langle f \middle\vert \sum_i \frac{p^2_i}{2m}  +
 \frac{1}{2!}\sum_{ij} \sum_{\alpha\beta}\Phi_{ij}^{\alpha\beta}
 u_i^\alpha u_j^\beta +\frac{1}{3!}
@@ -426,7 +430,7 @@ $$</p>
 <p>$$
 \begin{equation}\label{eq:uprod}
 \begin{split}
-u^\alpha_{i}u^\beta_{j}u^\gamma_{k} &amp; = 
+u^\alpha_{i}u^\beta_{j}u^\gamma_{k} &amp; =
 %
 \left(\frac{\hbar}{2N}\right)^{3/2} \frac{1}{\sqrt{m_{i}m_{j}m_{k}}}
 \sum_{\lambda\lambda'\lambda''}
@@ -455,12 +459,12 @@ $$</p>
 \left\langle f \middle\vert  
 \left(a_{\lambda}+a_{\lambda}^\dagger \right)
 \left(a_{\lambda'}+a_{\lambda'}^\dagger \right)
-\left(a_{\lambda''}+a_{\lambda''}^\dagger \right) 
+\left(a_{\lambda''}+a_{\lambda''}^\dagger \right)
 \middle\vert i \right\rangle = \\
 = &amp; \sum_{\lambda\lambda'\lambda''} \left\langle f \middle\vert
 \hat{a}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''} + \hat{a}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}_{\lambda''} + \hat{a}^{\dagger}_{\lambda}   \hat{a}^{\dagger}_{\lambda'}   \hat{a}^{\dagger}_{\lambda''}
 \middle\vert i \right\rangle = \\
-= &amp; \sum_{\lambda\lambda'\lambda''} \left\langle f \middle\vert 
+= &amp; \sum_{\lambda\lambda'\lambda''} \left\langle f \middle\vert
 a_{\lambda}a_{\lambda'}a^\dagger_{\lambda''}
 \middle\vert i \right\rangle
  = 3 \sqrt{n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)}
@@ -470,12 +474,12 @@ $$</p>
 <p>where the factor 3 comes from the multiplicity, to get at</p>
 <p>$$
 \begin{equation}
-{\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle} = 
+{\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle} =
 \frac{1}{2}
 \sum_{ijk} \sum_{\alpha\beta\gamma}\Phi_{ijk}^{\alpha\beta\gamma}
 \sqrt{n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)}
 %
-\left(\frac{\hbar}{2N}\right)^{3/2} 
+\left(\frac{\hbar}{2N}\right)^{3/2}
 \frac{
 \epsilon_{\lambda}^{i \alpha}
 \epsilon_{\lambda'}^{j \beta}
@@ -493,10 +497,10 @@ $$</p>
 <p>The initial factor 1/2 is the multiplicity cancelled by the 3! from the Hamiltonian. Here, as it happens, we can identify the three-phonon matrix elements and simplify a little bit more</p>
 <p>$$
 \begin{equation}
-{\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle} = 
+{\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle} =
 \frac{1}{2}
 \sqrt{n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)}
-\left(\frac{\hbar}{2N}\right)^{3/2} 
+\left(\frac{\hbar}{2N}\right)^{3/2}
 \Phi_{\lambda\lambda'\lambda''}
 \end{equation}
 $$</p>
@@ -506,7 +510,7 @@ $$</p>
 \begin{split}
 P_{\lambda\lambda'\rightarrow\lambda''} &amp; =\frac{2\pi}{\hbar}
 \left|{\left\langle f \middle\vert \hat{H}_3 \middle\vert i \right\rangle}\right|^2
-\delta(E_f-E_i) = 
+\delta(E_f-E_i) =
 \frac{\hbar^2\pi}{16N}
 n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)
 \left| \Phi_{\lambda\lambda'\lambda''} \right|^2
@@ -527,14 +531,14 @@ $$</p>
 <p>for the other kind of three-phonon processes, and</p>
 <p>$$
 \begin{equation}\label{pminus}
-P_{\lambda\rightarrow\lambda'} =\frac{2\pi}{\hbar}\left|\langle f | H^{\textrm{iso}} | i \rangle \right|^2\delta(E_f-E_i) = 
+P_{\lambda\rightarrow\lambda'} =\frac{2\pi}{\hbar}\left|\langle f | H^{\textrm{iso}} | i \rangle \right|^2\delta(E_f-E_i) =
 \frac{\pi\hbar}{2N}  n_{\lambda}(n_{\lambda'}+1) \Lambda_{\lambda\lambda'}\delta(E_f-E_i)
 \end{equation}
 $$</p>
 <p>for the isotope scattering. I leave those derivations as an exercise. The phonon Boltzmann equation is stated as:</p>
 <p>$$
 \begin{equation}\label{eq:pbe}
-\frac{\partial \tilde{n}_\lambda}{\partial T} \mathbf{v}_\lambda \cdot \nabla T = 
+\frac{\partial \tilde{n}_\lambda}{\partial T} \mathbf{v}_\lambda \cdot \nabla T =
 \left. \frac{\partial \tilde{n}_\lambda }{\partial t} \right|_{\mathrm{coll}}
 \end{equation}
 $$</p>
@@ -579,7 +583,7 @@ $$</p>
 -n_{\lambda} \epsilon_{\lambda'} + n_{\lambda''} (\epsilon_{\lambda} + \epsilon_{\lambda'}) + \epsilon_{\lambda''} + n_{\lambda} \epsilon_{\lambda''} + n_{\lambda'} (-\epsilon_{\lambda} + \epsilon_{\lambda''})
 \right]\delta(\omega_{\lambda}+\omega_{\lambda'}-\omega_{\lambda''}) + \\
 &amp; \left[
-\epsilon_{\lambda'} + n_{\lambda} \epsilon_{\lambda'} + n_{\lambda''} (-\epsilon_{\lambda} + \epsilon_{\lambda'}) - n_{\lambda} \epsilon_{\lambda''} + 
+\epsilon_{\lambda'} + n_{\lambda} \epsilon_{\lambda'} + n_{\lambda''} (-\epsilon_{\lambda} + \epsilon_{\lambda'}) - n_{\lambda} \epsilon_{\lambda''} +
   n_{\lambda'} (\epsilon_{\lambda} + \epsilon_{\lambda''} )
 \right]\delta(\omega_{\lambda}-\omega_{\lambda'}+\omega_{\lambda''}) - \\
 &amp; \left[(1 + n_{\lambda'} + n_{\lambda''})\epsilon_{\lambda} - n_{\lambda''}\epsilon_{\lambda''} - n_{\lambda'} \epsilon_{\lambda''} + n_{\lambda} (\epsilon_{\lambda'} + \epsilon_{\lambda''} )\right]
@@ -613,9 +617,9 @@ $$</p>
 <p>If we add the isotope term again, that I forgot at some point between the beginning and here, we can rearrange this in terms of scattering rates that should look familiar (using strange relations for occupation numbers that only hold when the deltafunctions in energy are satisfied):</p>
 <p>$$
 \begin{equation}
-\left. \frac{\partial n_{\lambda}}{ \partial t} \right|_{\mathrm{coll}} = 
+\left. \frac{\partial n_{\lambda}}{ \partial t} \right|_{\mathrm{coll}} =
 \sum_{\lambda'\lambda''}
-\tilde{P}^{+}_{\lambda\lambda'\lambda''} 
+\tilde{P}^{+}_{\lambda\lambda'\lambda''}
 \left( \zeta_{\lambda}+\zeta_{\lambda'}-\zeta_{\lambda''} \right)
 +\frac{1}{2}\tilde{P}^{-}_{\lambda\lambda'\lambda''}
 \left( \zeta_{\lambda}-\zeta_{\lambda'}-\zeta_{\lambda''} \right)+
@@ -636,7 +640,7 @@ n_{\lambda}n_{\lambda'}(n_{\lambda''}+1)\left|\Phi_{\lambda\lambda'\lambda''}\ri
 n_{\lambda}(n_{\lambda'}+1)(n_{\lambda''}+1)\left|\Phi_{\lambda\lambda'\lambda''}\right|^2
 \delta(\omega_{\lambda}-\omega_{\lambda'}-\omega_{\lambda''})
 \\
-\tilde{P}^\textrm{iso}_{\lambda\lambda'} &amp;= 
+\tilde{P}^\textrm{iso}_{\lambda\lambda'} &amp;=
 \frac{\pi}{2N} n_{\lambda}(n_{\lambda'}+1) \Lambda_{\lambda\lambda'}
 \delta(\omega_{\lambda}-\omega_{\lambda})
 \end{align}
@@ -659,8 +663,8 @@ $$</p>
 \tilde{P}^{+}_{\lambda\lambda'\lambda''}
 \left(\mathbf{F}_{\lambda}+\mathbf{F}_{\lambda'}-\mathbf{F}_{\lambda''}\right)\cdot\nabla T+
 \tilde{P}^{-}_{\lambda\lambda'\lambda''}
-\left(\mathbf{F}_{\lambda}-\mathbf{F}_{\lambda'}-\mathbf{F}_{\lambda''}\right)\cdot\nabla T = 
-\\ = &amp; 
+\left(\mathbf{F}_{\lambda}-\mathbf{F}_{\lambda'}-\mathbf{F}_{\lambda''}\right)\cdot\nabla T =
+\\ = &amp;
 \mathbf{F}_{\lambda}\cdot\nabla T
 \left(
 \sum_{\lambda'}
@@ -708,8 +712,8 @@ $$</p>
 $$</p>
 <p>And we have a set of equations for $F$ that we can solve self-consistently. Previously, we used the imaginary part of the self-energy to get a phonon lifetime. What we got here, from Fermi golden rule, is related:</p>
 <p>$$
-\sum_{\lambda'} \tilde{P}^\textrm{iso}_{\lambda\lambda'} = 
-\frac{\pi}{2N} n_{\lambda}(n_{\lambda}+1) \sum_{\lambda'}  \Lambda_{\lambda\lambda'} 
+\sum_{\lambda'} \tilde{P}^\textrm{iso}_{\lambda\lambda'} =
+\frac{\pi}{2N} n_{\lambda}(n_{\lambda}+1) \sum_{\lambda'}  \Lambda_{\lambda\lambda'}
 \delta(\omega_{\lambda}-\omega_{\lambda}) = 2 n_{\lambda}(n_{\lambda}+1) \Gamma^{\textrm{iso}}_{\lambda}
 $$</p>
 <p>This can also be done for the three-phonon terms:</p>
@@ -717,7 +721,7 @@ $$</p>
 \begin{equation}
 \begin{split}
 \sum_{\lambda'\lambda''} \tilde{P}^{+}_{\lambda\lambda'\lambda''}+
-\frac{1}{2}\tilde{P}^{-}_{\lambda\lambda'\lambda''} &amp; = 
+\frac{1}{2}\tilde{P}^{-}_{\lambda\lambda'\lambda''} &amp; =
 \frac{\hbar \pi}{8 N}
 \sum_{\lambda'\lambda''} \left|\Phi_{\lambda\lambda'\lambda''}\right|^2
 \left[
@@ -779,9 +783,9 @@ $$</p>
 \tau_{\lambda} = \frac{1}{2\Gamma_{\lambda}} = \frac{ n_{\lambda}(n_{\lambda}+1) }{Q_{\lambda}}
 \end{equation}
 $$</p>
-<p>to an initial guess </p>
+<p>to an initial guess</p>
 <p>$$
-\mathbf{F}^0_{\lambda} = 
+\mathbf{F}^0_{\lambda} =
 \frac{\tau_{\lambda} \omega_{\lambda} \mathbf{v}_{\lambda} }{T}
 $$</p>
 <p>and iteratively solve</p>
@@ -822,27 +826,29 @@ $$</p>
 <p>$$
 l_{\lambda} = \left| v_{\lambda} \right| \tau_{\lambda} \,,
 $$</p>
-<p>can be measured.<sup id="fnref-1"><a class="footnote-ref" href="#fn-1">3</a></sup> The cumulative thermal conductivity can then be computed as a sum of the fraction of heat that is carried by phonons with mean free paths smaller than $l$: </p>
+<p>can be measured.<sup id="fnref-Minnich2012"><a class="footnote-ref" href="#fn-Minnich2012">3</a></sup> The cumulative thermal conductivity can then be computed as a sum of the fraction of heat that is carried by phonons with mean free paths smaller than $l$:</p>
 <p>$$
 \kappa_{\alpha\beta}^{\textrm{acc}}(l)=
-\frac{1}{V} \sum_{\lambda} 
+\frac{1}{V} \sum_{\lambda}
 C_{\lambda} v^{\alpha}_{\lambda} v^{\beta}_{\lambda} \tau_{\lambda} \Theta(l- l_{\lambda} ) \,,
 $$</p>
-<p>where $\Theta$ is the Heaviside step function. This code also calculates the cumulative kappa with respect to frequency:</p>
+<p>where $\Theta$ is the Heaviside step function.</p>
+<p>One can also define a spectral thermal conductivity as</p>
 <p>$$
-\kappa_{\alpha\beta}^{\textrm{acc}}(\omega)=
-\frac{1}{V} \sum_{\lambda} 
-C_{\lambda} v^{\alpha}_{\lambda} v^{\beta}_{\lambda} \tau_{\lambda} \Theta(\omega- \omega_{\lambda} )
+\kappa_{\alpha\beta}(\omega)=
+\frac{1}{V} \sum_{\lambda}
+C_{\lambda} v^{\alpha}_{\lambda} v^{\beta}_{\lambda} \tau_{\lambda} \delta(\omega- \omega_{\lambda} )
 $$</p>
+<p>which is a measure which frequencies contribute most to thermal transport.</p>
 <h3>Thin film scattering</h3>
-<p>Constrained geometries will incur additional scattering from domain boundaries. For a thin film (thin, but thick enough that the interior of the film is accurately described by bulk phonons) one can estimate the suppression due to film thinkness.<sup id="fnref-2"><a class="footnote-ref" href="#fn-2">4</a></sup> Assyming the cross-plane direction of the film is in the $y$-direction, and the thermal gradient is applied in the $z$-direction, the in-plane thermal conductivity $\kappa_{zz}$ is supressed as:</p>
+<p>Constrained geometries will incur additional scattering from domain boundaries. For a thin film (thin, but thick enough that the interior of the film is accurately described by bulk phonons) one can estimate the suppression due to film thinkness.<sup id="fnref-Minnich2015"><a class="footnote-ref" href="#fn-Minnich2015">4</a></sup> Assyming the cross-plane direction of the film is in the $y$-direction, and the thermal gradient is applied in the $z$-direction, the in-plane thermal conductivity $\kappa_{zz}$ is supressed as:</p>
 <p>$$
 \kappa_{zz}(d)=A+B+C,
 $$</p>
 <p>where</p>
 <p>$$
 \begin{split}
-x_{\lambda} = &amp; \frac{\hbar\omega_{\lambda}}{V} 
+x_{\lambda} = &amp; \frac{\hbar\omega_{\lambda}}{V}
 \frac{\partial n_{\lambda}} {\partial T}
 v_{\lambda}^z l_{\lambda}^z
   \\
@@ -852,7 +858,7 @@ x_{\lambda}
 B = &amp; -\frac{1}{d} \sum_{v_y&lt;0}  
 x_{\lambda}
 \left(
-l^{y}_{\lambda} 
+l^{y}_{\lambda}
 \exp\left[  -\frac{d}{l^{y}_{\lambda}}  \right]
 -l^{y}_{\lambda}-d
 \right) \\
@@ -869,11 +875,8 @@ $$</p>
 </ul>
 <p>and these are optional:</p>
 <ul>
-<li><a href="../page/files.html#infile.lotosplitting">infile.lotosplitting</a> (for electrostatic corrections)</li>
 <li><a href="../page/files.html#infile.isotopes">infile.isotopes</a> (for non-natural isotope distribution)</li>
 </ul>
-<h3>Practical considerations</h3>
-<p>Thermal conductivity code is mpi parallel, and has to be used with the appropriate <code>mpirun</code>. Given a reasonable amount of q-points, it scales very well.</p>
 <h3>Output files</h3>
 <p>Depending on options, the set of output files may differ. We start with the basic files that are written after running this code.</p>
 <h4><code>outfile.thermal_conductivity</code></h4>
@@ -886,13 +889,13 @@ $$</p>
 <tbody>
 <tr>
     <td>1</td>
-    <td> 
+    <td>
     \( T_1 \qquad \kappa_{xx} \quad \kappa_{yy} \quad \kappa_{zz} \quad \kappa_{xz} \quad   \kappa_{yz} \quad   \kappa_{xy} \quad \kappa_{zx} \quad \kappa_{zy} \quad   \kappa_{yx} \)
     </td>
 </tr>
 <tr>
     <td>2</td>
-    <td> 
+    <td>
     \( T_2 \qquad \kappa_{xx} \quad \kappa_{yy} \quad \kappa_{zz} \quad \kappa_{xz} \quad   \kappa_{yz} \quad   \kappa_{xy} \quad \kappa_{zx} \quad \kappa_{zy} \quad   \kappa_{yx} \)
     </td>
 </tr>
@@ -904,23 +907,147 @@ $$</p>
 </table>
 
 <h4><code>outfile.cumulative_kappa.hdf5</code></h4>
-<p>This file is self-explainatory. It contains the different cumulative plots described above, at a series of temperatures.</p>
+<p>This file is self-explainatory. It contains the different cumulative plots described above, at a series of temperatures. Below is a matlab snippet that plots part of the output.</p>
+<div class="codehilite"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">clf</span><span class="p">;</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>    
+
+<span class="c">% filename</span>
+<span class="n">fn</span><span class="p">=</span><span class="s">&#39;outfile.cumulative_kappa.hdf5&#39;</span><span class="p">;</span>
+<span class="c">% which temperature?</span>
+<span class="n">t</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>    
+
+    <span class="c">% read in cumulative kappa vs mean free path from file</span>
+    <span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/mean_free_path_axis&#39;</span><span class="p">]);</span>
+    <span class="n">xunit</span><span class="p">=</span><span class="n">h5readatt</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/mean_free_path_axis&#39;</span><span class="p">],</span><span class="s">&#39;unit&#39;</span><span class="p">);</span>
+    <span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/cumulative_kappa_vs_mean_free_path_total&#39;</span><span class="p">]);</span>
+    <span class="c">% projections to modes and/or atoms</span>
+    <span class="n">z</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/cumulative_kappa_vs_mean_free_path_per_atom&#39;</span><span class="p">]);</span>
+    <span class="c">%z=h5read(fn,[&#39;/temperature_&#39; num2str(t) &#39;/cumulative_kappa_vs_mean_free_path_per_mode&#39;]);</span>
+
+    <span class="n">yunit</span><span class="p">=</span><span class="n">h5readatt</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/cumulative_kappa_vs_mean_free_path_total&#39;</span><span class="p">],</span><span class="s">&#39;unit&#39;</span><span class="p">);</span>
+
+    <span class="c">% plot</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+
+    <span class="c">% set a legend</span>
+    <span class="n">lgd</span><span class="p">{</span><span class="mi">1</span><span class="p">}=</span><span class="s">&#39;Total&#39;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">lgd</span><span class="p">{</span><span class="nb">i</span><span class="o">+</span><span class="mi">1</span><span class="p">}=[</span><span class="s">&#39;Atom &#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="nb">i</span><span class="p">)];</span>
+    <span class="k">end</span>
+    <span class="n">l</span><span class="p">=</span><span class="n">legend</span><span class="p">(</span><span class="n">lgd</span><span class="p">);</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="s">&#39;edgecolor&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;location&#39;</span><span class="p">,</span><span class="s">&#39;northwest&#39;</span><span class="p">);</span>
+
+    <span class="c">% some titles</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Cumulative kappa vs mean free path&#39;</span><span class="p">);</span>
+    <span class="n">ylabel</span><span class="p">([</span><span class="s">&#39;Cumulative \kappa (&#39;</span> <span class="n">yunit</span> <span class="s">&#39;)&#39;</span><span class="p">]);</span>
+    <span class="n">xlabel</span><span class="p">([</span><span class="s">&#39;Mean free path (&#39;</span> <span class="n">xunit</span> <span class="s">&#39;)&#39;</span><span class="p">]);</span>
+
+    <span class="c">% get some reasonable ranges</span>
+    <span class="n">minx</span><span class="p">=</span><span class="n">x</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">))));</span>
+    <span class="n">maxx</span><span class="p">=</span><span class="n">x</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mf">0.9999</span><span class="p">))))</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">xlim</span><span class="p">([</span><span class="n">minx</span> <span class="n">maxx</span><span class="p">]);</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xscale&#39;</span><span class="p">,</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;yminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">);</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+    <span class="c">% read in spectral kappa vs frequency</span>
+    <span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/frequency_axis&#39;</span><span class="p">]);</span>
+    <span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/spectral_kappa_vs_frequency_total&#39;</span><span class="p">]);</span>
+    <span class="n">z</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/spectral_kappa_vs_frequency_per_mode&#39;</span><span class="p">]);</span>
+    <span class="c">%z=h5read(fn,[&#39;/temperature_&#39; num2str(t) &#39;/spectral_kappa_vs_frequency_per_atom&#39;]);</span>
+
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;yminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Frequency (THz)&#39;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Spectral \kappa (W/m/K/THz)&#39;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Spectral kappa vs frequency&#39;</span><span class="p">)</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+    <span class="c">% read in cumulative kappa vs mean free path from file</span>
+    <span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/boundary_scattering_lengths&#39;</span><span class="p">]);</span>
+    <span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,[</span><span class="s">&#39;/temperature_&#39;</span> <span class="n">num2str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="s">&#39;/boundary_scattering_kappa&#39;</span><span class="p">]);</span>
+    <span class="c">% grab only kxx</span>
+    <span class="n">y</span><span class="p">=</span><span class="nb">squeeze</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,:));</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xscale&#39;</span><span class="p">,</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;yminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Domain size (m)&#39;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Kappa (W/mK)&#39;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Kappa vs boundary scattering&#39;</span><span class="p">)</span>
+
+    <span class="c">% get a reasonable range in x</span>
+    <span class="n">minx</span><span class="p">=</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mf">1E-2</span><span class="p">))))</span>
+    <span class="n">maxx</span><span class="p">=</span><span class="n">x</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mf">0.9999</span><span class="p">))))</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">xlim</span><span class="p">([</span><span class="n">minx</span> <span class="n">maxx</span><span class="p">])</span>
+</pre></div>
+
+
 <h4><code>outfile.grid_thermal_conductivity.hdf5</code></h4>
-<p>Option <code>--dumpgrid</code> produces this self-explainatory file.</p>
+<p>Option <code>--dumpgrid</code> produces this self-explainatory file. It will not get written if you use more than one temperature, the reason is that this file can get uncomfortably large, nearly all quantities on the full q-grid are written. Below is a matlab snippet that plots a subset:</p>
+<div class="codehilite"><pre><span></span><span class="c">% file to read from</span>
+<span class="n">fn</span><span class="p">=</span><span class="s">&#39;outfile.grid_thermal_conductivity.hdf5&#39;</span><span class="p">;</span>
+<span class="c">% convert units to THz from Hz?</span>
+<span class="n">toTHz</span><span class="p">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">1E12</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="nb">pi</span><span class="p">;</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">clf</span><span class="p">;</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+    <span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/frequencies&#39;</span><span class="p">);</span>
+    <span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/linewidths&#39;</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span><span class="o">*</span><span class="n">toTHz</span><span class="p">,</span><span class="n">y</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span><span class="o">*</span><span class="n">toTHz</span><span class="p">,</span><span class="s">&#39;marker&#39;</span><span class="p">,</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="s">&#39;linestyle&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;markersize&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="s">&#39;yminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Frequency (THz)&#39;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Linewidth (THz)&#39;</span><span class="p">)</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+    <span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/frequencies&#39;</span><span class="p">);</span>
+    <span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/lifetimes&#39;</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span><span class="o">*</span><span class="n">toTHz</span><span class="p">,</span><span class="n">y</span><span class="p">(</span><span class="nb">i</span><span class="p">,:),</span><span class="s">&#39;marker&#39;</span><span class="p">,</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="s">&#39;linestyle&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;markersize&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;yscale&#39;</span><span class="p">,</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;xminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Frequency (THz)&#39;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Lifetime (s)&#39;</span><span class="p">)</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">hold</span> <span class="n">on</span><span class="p">;</span> <span class="n">box</span> <span class="n">on</span><span class="p">;</span>
+
+    <span class="n">x</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/frequencies&#39;</span><span class="p">);</span>
+    <span class="n">y</span><span class="p">=</span><span class="n">h5read</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="s">&#39;/mean_free_paths&#39;</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span><span class="o">*</span><span class="n">toTHz</span><span class="p">,</span><span class="n">y</span><span class="p">(</span><span class="nb">i</span><span class="p">,:),</span><span class="s">&#39;marker&#39;</span><span class="p">,</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="s">&#39;linestyle&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="s">&#39;markersize&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;yscale&#39;</span><span class="p">,</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;xminortick&#39;</span><span class="p">,</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Frequency (THz)&#39;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Mean free paths (m)&#39;</span><span class="p">)</span>
+</pre></div>
+
+
 <div class="footnote">
 <hr>
 <ol>
 <li id="fn-peierls1929">
-<p>Peierls, R. E. (1929). Annalen der Physik, 3, 1055 &#160;<a class="footnote-backref" href="#fnref-peierls1929" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>Peierls, R. E. (1929). Annalen der Physik, 3, 1055&#160;<a class="footnote-backref" href="#fnref-peierls1929" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn-peierls1955quantum">
 <p><a href="https://books.google.com/books?id=WvPcBUsSJBAC">Peierls, R. E. (1955). Quantum Theory of Solids. Clarendon Press.</a>&#160;<a class="footnote-backref" href="#fnref-peierls1955quantum" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
-<li id="fn-1">
-<p><a href="http://doi.org/10.1103/PhysRevLett.109.205901">Minnich, A. J. (2012). Determining phonon mean free paths from observations of quasiballistic thermal transport. Physical Review Letters, 109(20), 1–5.</a>&#160;<a class="footnote-backref" href="#fnref-1" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+<li id="fn-Minnich2012">
+<p><a href="http://doi.org/10.1103/PhysRevLett.109.205901">Minnich, A. J. (2012). Determining phonon mean free paths from observations of quasiballistic thermal transport. Physical Review Letters, 109(20), 1–5.</a>&#160;<a class="footnote-backref" href="#fnref-Minnich2012" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
-<li id="fn-2">
-<p><a href="http://doi.org/10.1063/1.4935160">Minnich, A. J. (2015). Thermal phonon boundary scattering in anisotropic thin films. Applied Physics Letters, 107(18), 8–11.</a>&#160;<a class="footnote-backref" href="#fnref-2" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+<li id="fn-Minnich2015">
+<p><a href="http://doi.org/10.1063/1.4935160">Minnich, A. J. (2015). Thermal phonon boundary scattering in anisotropic thin films. Applied Physics Letters, 107(18), 8–11.</a>&#160;<a class="footnote-backref" href="#fnref-Minnich2015" title="Jump back to footnote 4 in the text">&#8617;</a></p>
 </li>
 <li id="fn-Tamura1983">
 <p><a href="http://doi.org/10.1103/PhysRevB.27.858">Tamura, S. (1983). Isotope scattering of dispersive phonons in Ge. Physical Review B, 27(2), 858–866.</a>&#160;<a class="footnote-backref" href="#fnref-Tamura1983" title="Jump back to footnote 5 in the text">&#8617;</a></p>
@@ -952,8 +1079,8 @@ $$</p>
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

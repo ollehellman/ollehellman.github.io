@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <meta name="sourcefile" content="">
@@ -15,11 +15,11 @@
 
 <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../css/bootstrap.css" rel="stylesheet"> 
-    <link href="../css/ollesfixes.css" rel="stylesheet"> 
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet"> 
     
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
     
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
   </head>
 
 <body>
@@ -52,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-                <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -179,15 +183,33 @@
       
       <a class="list-group-item" href="../proc/generate%7E2.html">generate</a>
       
-      <a class="list-group-item" href="../proc/get_intensity_along_path.html">get_intensity_along_path</a>
-      
       <a class="list-group-item" href="../proc/get_intensity_as_dos.html">get_intensity_as_dos</a>
+      
+      <a class="list-group-item" href="../proc/get_thermally_broadened_intensity_along_path.html">get_thermally_broadened_intensity_along_path</a>
+      
+      <a class="list-group-item" href="../proc/histfit.html">histfit</a>
+      
+      <a class="list-group-item" href="../proc/iso_gaussian_fft_oneqp.html">iso_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/iso_tetrahedron_fft_oneqp.html">iso_tetrahedron_fft_oneqp</a>
       
       <a class="list-group-item" href="../proc/kramer_kronig_transform_to_get_real_part.html">kramer_kronig_transform_to_get_real_part</a>
       
       <a class="list-group-item" href="../proc/optimize.html">optimize</a>
       
       <a class="list-group-item" href="../proc/random_unit_vector.html">random_unit_vector</a>
+      
+      <a class="list-group-item" href="../proc/return_supercellmatrix.html">return_supercellmatrix</a>
+      
+      <a class="list-group-item" href="../proc/spectralfunction_along_path.html">spectralfunction_along_path</a>
+      
+      <a class="list-group-item" href="../proc/subtract_longrange_interactions.html">subtract_longrange_interactions</a>
+      
+      <a class="list-group-item" href="../proc/test_forceconstant_constraints.html">test_forceconstant_constraints</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_gaussian_fft_oneqp.html">threephonon_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_tetrahedron_fft_oneqp.html">threephonon_tetrahedron_fft_oneqp</a>
       
       <a class="list-group-item" href="../proc/zerosum.html">zerosum</a>
       
@@ -208,7 +230,7 @@
     
 
     <h2>
-subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, fcf, delta, loto)
+subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, fcf, delta, mw, verbosity)
     
     
 	 
@@ -236,7 +258,7 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-qpoint"></span>type(lo_qpoint),</td>
+  <td><span class="anchor" id="variable-qpoint%7E2"></span>type(lo_qpoint),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -251,7 +273,7 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-ompoint"></span>type(lo_phonon_dispersions_qpoint),</td>
+  <td><span class="anchor" id="variable-ompoint%7E2"></span>type(lo_phonon_dispersions_qpoint),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -266,7 +288,7 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-qp%7E2"></span>type(lo_monkhorst_pack_mesh),</td>
+  <td><span class="anchor" id="variable-qp%7E9"></span>class(lo_qpoint_mesh),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -296,7 +318,7 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-dr%7E2"></span>type(lo_phonon_dispersions),</td>
+  <td><span class="anchor" id="variable-dr%7E9"></span>type(lo_phonon_dispersions),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -311,7 +333,7 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-uc%7E2"></span>type(lo_crystalstructure),</td>
+  <td><span class="anchor" id="variable-uc%7E5"></span>type(lo_crystalstructure),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -326,7 +348,7 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-fc%7E2"></span>type(lo_forceconstant_secondorder),</td>
+  <td><span class="anchor" id="variable-fc%7E5"></span>type(lo_forceconstant_secondorder),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -341,7 +363,7 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcf%7E2"></span>type(lo_forceconstant_fourthorder),</td>
+  <td><span class="anchor" id="variable-fcf%7E5"></span>type(lo_forceconstant_fourthorder),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -371,12 +393,27 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
   
 <tr>
   
-  <td><span class="anchor" id="variable-loto%7E2"></span>type(lo_loto),</td>
+  <td><span class="anchor" id="variable-mw%7E5"></span>type(lo_mpi_helper),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>loto</strong></td><td><p>electrostatic corrections</p></td>
+  <td><strong>mw</strong></td><td><p>mpi helper</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-verbosity"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>verbosity</strong></td><td><p>how much to talk</p></td>
   
 </tr>
 
@@ -391,88 +428,103 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
                 <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: proc~~fourphonon_selfenergy~~CallsGraph Pages: 1 -->
-<svg id="procfourphonon_selfenergyCallsGraph" width="316pt" height="277pt"
- viewBox="0.00 0.00 316.10 276.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg id="procfourphonon_selfenergyCallsGraph" width="265pt" height="277pt"
+ viewBox="0.00 0.00 264.72 276.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="proc~~fourphonon_selfenergy~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 272.5)">
 <title>proc~~fourphonon_selfenergy~~CallsGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-272.5 312.104,-272.5 312.104,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-272.5 260.7161,-272.5 260.7161,4 -4,4"/>
 <!-- proc~fourphonon_selfenergy -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node1" class="node"><title>proc~fourphonon_selfenergy</title>
-<polygon fill="none" stroke="black" points="119.623,-145.255 -0.20812,-145.255 -0.20812,-123.245 119.623,-123.245 119.623,-145.255"/>
-<text text-anchor="middle" x="59.7074" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50">fourphonon_selfenergy</text>
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node1" class="node">
+<title>proc~fourphonon_selfenergy</title>
+<polygon fill="none" stroke="#000000" points="119.6229,-145.2554 -.2081,-145.2554 -.2081,-123.2446 119.6229,-123.2446 119.6229,-145.2554"/>
+<text text-anchor="middle" x="59.7074" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">fourphonon_selfenergy</text>
+</g>
+<!-- lo_truentimes -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node2" class="node">
+<title>lo_truentimes</title>
+<polygon fill="#777777" stroke="#777777" points="243.5962,-268.2554 168.5347,-268.2554 168.5347,-246.2446 243.5962,-246.2446 243.5962,-268.2554"/>
+<text text-anchor="middle" x="206.0654" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_truentimes</text>
+</g>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_truentimes -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge1" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_truentimes</title>
+<path fill="none" stroke="#000000" d="M67.707,-145.5352C82.7682,-166.0728 117.2697,-209.8656 155.4148,-236.25 158.2809,-238.2325 161.3632,-240.0774 164.5411,-241.7836"/>
+<polygon fill="#000000" stroke="#000000" points="163.1278,-244.9883 173.6504,-246.2236 166.1948,-238.696 163.1278,-244.9883"/>
 </g>
 <!-- lo_planck -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node2" class="node"><title>lo_planck</title>
-<polygon fill="#777777" stroke="#777777" points="260.124,-268.255 203.394,-268.255 203.394,-246.245 260.124,-246.245 260.124,-268.255"/>
-<text text-anchor="middle" x="231.759" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_planck</text>
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node3" class="node">
+<title>lo_planck</title>
+<polygon fill="#777777" stroke="#777777" points="234.4301,-227.2554 177.7007,-227.2554 177.7007,-205.2446 234.4301,-205.2446 234.4301,-227.2554"/>
+<text text-anchor="middle" x="206.0654" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_planck</text>
 </g>
 <!-- proc~fourphonon_selfenergy&#45;&gt;lo_planck -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge1" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_planck</title>
-<path fill="none" stroke="#000000" d="M67.8549,-145.333C81.9819,-166.334 115.585,-211.987 155.415,-236.25 166.945,-243.274 180.883,-248.009 193.62,-251.175"/>
-<polygon fill="#000000" stroke="#000000" points="192.985,-254.619 203.508,-253.39 194.516,-247.788 192.985,-254.619"/>
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge2" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_planck</title>
+<path fill="none" stroke="#000000" d="M75.1226,-145.2666C93.6318,-158.2095 125.8819,-179.866 155.4148,-195.25 159.5147,-197.3857 163.8818,-199.4668 168.2672,-201.4372"/>
+<polygon fill="#000000" stroke="#000000" points="167.2318,-204.8024 177.8001,-205.552 170.006,-198.3755 167.2318,-204.8024"/>
 </g>
-<!-- lo_deallocate -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node3" class="node"><title>lo_deallocate</title>
-<polygon fill="#777777" stroke="#777777" points="268.642,-227.255 194.877,-227.255 194.877,-205.245 268.642,-205.245 268.642,-227.255"/>
-<text text-anchor="middle" x="231.759" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_deallocate</text>
+<!-- lo_progressbar -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node4" class="node">
+<title>lo_progressbar</title>
+<polygon fill="#777777" stroke="#777777" points="247.1047,-186.2554 165.0261,-186.2554 165.0261,-164.2446 247.1047,-164.2446 247.1047,-186.2554"/>
+<text text-anchor="middle" x="206.0654" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar</text>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_deallocate -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge2" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_deallocate</title>
-<path fill="none" stroke="#000000" d="M75.0064,-145.428C92.8979,-158.936 124.905,-181.552 155.415,-195.25 164.706,-199.422 175.02,-202.951 184.96,-205.857"/>
-<polygon fill="#000000" stroke="#000000" points="184.152,-209.265 194.723,-208.556 186.017,-202.518 184.152,-209.265"/>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_progressbar -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge3" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_progressbar</title>
+<path fill="none" stroke="#000000" d="M99.314,-145.3452C117.0388,-150.3105 138.1184,-156.2157 156.8452,-161.4617"/>
+<polygon fill="#000000" stroke="#000000" points="156.1075,-164.8897 166.681,-164.217 157.9958,-158.1492 156.1075,-164.8897"/>
 </g>
-<!-- lo_get_small_group_of_qpoint -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node4" class="node"><title>lo_get_small_group_of_qpoint</title>
-<polygon fill="#777777" stroke="#777777" points="307.948,-186.255 155.57,-186.255 155.57,-164.245 307.948,-164.245 307.948,-186.255"/>
-<text text-anchor="middle" x="231.759" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_get_small_group_of_qpoint</text>
+<!-- mpi_allreduce -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node5" class="node">
+<title>mpi_allreduce</title>
+<polygon fill="#777777" stroke="#777777" points="244.935,-145.2554 167.1959,-145.2554 167.1959,-123.2446 244.935,-123.2446 244.935,-145.2554"/>
+<text text-anchor="middle" x="206.0654" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">mpi_allreduce</text>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_get_small_group_of_qpoint -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge3" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_get_small_group_of_qpoint</title>
-<path fill="none" stroke="#000000" d="M106.726,-145.345C127.795,-150.425 152.943,-156.488 175.07,-161.823"/>
-<polygon fill="#000000" stroke="#000000" points="174.457,-165.276 184.999,-164.217 176.098,-158.471 174.457,-165.276"/>
-</g>
-<!-- lo_allocate -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node5" class="node"><title>lo_allocate</title>
-<polygon fill="#777777" stroke="#777777" points="262.963,-145.255 200.556,-145.255 200.556,-123.245 262.963,-123.245 262.963,-145.255"/>
-<text text-anchor="middle" x="231.759" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_allocate</text>
-</g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_allocate -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge4" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_allocate</title>
-<path fill="none" stroke="#000000" d="M119.706,-134.25C143.012,-134.25 169.205,-134.25 190.298,-134.25"/>
-<polygon fill="#000000" stroke="#000000" points="190.514,-137.75 200.513,-134.25 190.513,-130.75 190.514,-137.75"/>
+<!-- proc~fourphonon_selfenergy&#45;&gt;mpi_allreduce -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge4" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;mpi_allreduce</title>
+<path fill="none" stroke="#000000" d="M119.6591,-134.25C132.1148,-134.25 145.0994,-134.25 157.104,-134.25"/>
+<polygon fill="#000000" stroke="#000000" points="157.3633,-137.7501 167.3632,-134.25 157.3632,-130.7501 157.3633,-137.7501"/>
 </g>
 <!-- walltime -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node6" class="node"><title>walltime</title>
-<polygon fill="#777777" stroke="#777777" points="258.759,-104.255 204.759,-104.255 204.759,-82.2446 258.759,-82.2446 258.759,-104.255"/>
-<text text-anchor="middle" x="231.759" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">walltime</text>
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node6" class="node">
+<title>walltime</title>
+<polygon fill="#777777" stroke="#777777" points="233.0654,-104.2554 179.0654,-104.2554 179.0654,-82.2446 233.0654,-82.2446 233.0654,-104.2554"/>
+<text text-anchor="middle" x="206.0654" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">walltime</text>
 </g>
 <!-- proc~fourphonon_selfenergy&#45;&gt;walltime -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge5" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;walltime</title>
-<path fill="none" stroke="#000000" d="M106.726,-123.155C134.217,-116.527 168.655,-108.223 194.263,-102.049"/>
-<polygon fill="#000000" stroke="#000000" points="195.403,-105.375 204.304,-99.6285 193.762,-98.5699 195.403,-105.375"/>
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge5" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;walltime</title>
+<path fill="none" stroke="#000000" d="M99.314,-123.1548C121.0927,-117.0538 147.9365,-109.5339 169.257,-103.5613"/>
+<polygon fill="#000000" stroke="#000000" points="170.2439,-106.9197 178.9291,-100.8518 168.3556,-100.1792 170.2439,-106.9197"/>
 </g>
-<!-- lo_get_omega_and_velocities -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node7" class="node"><title>lo_get_omega_and_velocities</title>
-<polygon fill="#777777" stroke="#777777" points="307.194,-63.2554 156.324,-63.2554 156.324,-41.2446 307.194,-41.2446 307.194,-63.2554"/>
-<text text-anchor="middle" x="231.759" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_get_omega_and_velocities</text>
+<!-- lo_progressbar_init -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node7" class="node">
+<title>lo_progressbar_init</title>
+<polygon fill="#777777" stroke="#777777" points="256.8671,-63.2554 155.2637,-63.2554 155.2637,-41.2446 256.8671,-41.2446 256.8671,-63.2554"/>
+<text text-anchor="middle" x="206.0654" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar_init</text>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_get_omega_and_velocities -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge6" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_get_omega_and_velocities</title>
-<path fill="none" stroke="#000000" d="M75.0064,-123.072C92.8979,-109.564 124.905,-86.9485 155.415,-73.25 160.891,-70.7914 166.722,-68.5558 172.622,-66.5394"/>
-<polygon fill="#000000" stroke="#000000" points="174.113,-69.7371 182.567,-63.3522 171.976,-63.0711 174.113,-69.7371"/>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_progressbar_init -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge6" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_progressbar_init</title>
+<path fill="none" stroke="#000000" d="M75.1226,-123.2334C93.6318,-110.2905 125.8819,-88.634 155.4148,-73.25 159.3683,-71.1906 163.5702,-69.1819 167.7974,-67.2744"/>
+<polygon fill="#000000" stroke="#000000" points="169.2245,-70.4705 177.0052,-63.2794 166.4383,-64.0488 169.2245,-70.4705"/>
 </g>
-<!-- lo_get_dynamical_matrix -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_node8" class="node"><title>lo_get_dynamical_matrix</title>
-<polygon fill="#777777" stroke="#777777" points="295.9,-22.2554 167.618,-22.2554 167.618,-0.244565 295.9,-0.244565 295.9,-22.2554"/>
-<text text-anchor="middle" x="231.759" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lo_get_dynamical_matrix</text>
+<!-- lo_allocate -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_node8" class="node">
+<title>lo_allocate</title>
+<polygon fill="#777777" stroke="#777777" points="237.2689,-22.2554 174.862,-22.2554 174.862,-.2446 237.2689,-.2446 237.2689,-22.2554"/>
+<text text-anchor="middle" x="206.0654" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_allocate</text>
 </g>
-<!-- proc~fourphonon_selfenergy&#45;&gt;lo_get_dynamical_matrix -->
-<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge7" class="edge"><title>proc~fourphonon_selfenergy&#45;&gt;lo_get_dynamical_matrix</title>
-<path fill="none" stroke="#000000" d="M67.8549,-123.167C81.9819,-102.166 115.585,-56.5131 155.415,-32.25 159.236,-29.922 163.322,-27.8454 167.542,-25.994"/>
-<polygon fill="#000000" stroke="#000000" points="168.92,-29.2131 176.94,-22.2906 166.353,-22.7005 168.92,-29.2131"/>
+<!-- proc~fourphonon_selfenergy&#45;&gt;lo_allocate -->
+<g id="proc~~fourphonon_selfenergy~~CallsGraph_edge7" class="edge">
+<title>proc~fourphonon_selfenergy&#45;&gt;lo_allocate</title>
+<path fill="none" stroke="#000000" d="M67.707,-122.9648C82.7682,-102.4272 117.2697,-58.6344 155.4148,-32.25 158.5342,-30.0924 161.9095,-28.0977 165.3855,-26.2675"/>
+<polygon fill="#000000" stroke="#000000" points="167.2024,-29.2783 174.7154,-21.808 164.1837,-22.9627 167.2024,-29.2783"/>
 </g>
 </g>
 </svg>
@@ -491,43 +543,49 @@ subroutine fourphonon_selfenergy(qpoint, ompoint, qp, temperature, dr, uc, fc, f
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: Graph Key Pages: 1 -->
 <svg width="550pt" height="31pt"
  viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-26.5 546.248,-26.5 546.248,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 546.2477,-26.5 546.2477,4 -4,4"/>
 <!-- Subroutine -->
-<g id="node1" class="node"><title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 0.105843,-22.2554 0.105843,-0.244565 62.6818,-0.244565 62.6818,-22.2554"/>
-<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 .1058,-22.2554 .1058,-.2446 62.6818,-.2446 62.6818,-22.2554"/>
+<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
 </g>
 <!-- Function -->
-<g id="node2" class="node"><title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="134.394,-22.2554 80.3938,-22.2554 80.3938,-0.244565 134.394,-0.244565 134.394,-22.2554"/>
-<text text-anchor="middle" x="107.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.3938,-22.2554 80.3938,-22.2554 80.3938,-.2446 134.3938,-.2446 134.3938,-22.2554"/>
+<text text-anchor="middle" x="107.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
 </g>
 <!-- Interface -->
-<g id="node3" class="node"><title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="206.394,-22.2554 152.394,-22.2554 152.394,-0.244565 206.394,-0.244565 206.394,-22.2554"/>
-<text text-anchor="middle" x="179.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.3938,-22.2554 152.3938,-22.2554 152.3938,-.2446 206.3938,-.2446 206.3938,-22.2554"/>
+<text text-anchor="middle" x="179.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Interface</text>
 </g>
 <!-- Unknown Procedure Type -->
-<g id="node4" class="node"><title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="356.532,-22.2554 224.256,-22.2554 224.256,-0.244565 356.532,-0.244565 356.532,-22.2554"/>
-<text text-anchor="middle" x="290.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.5315,-22.2554 224.2561,-22.2554 224.2561,-.2446 356.5315,-.2446 356.5315,-22.2554"/>
+<text text-anchor="middle" x="290.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node"><title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.394,-22.2554 374.394,-22.2554 374.394,-0.244565 428.394,-0.244565 428.394,-22.2554"/>
-<text text-anchor="middle" x="401.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.3938,-22.2554 374.3938,-22.2554 374.3938,-.2446 428.3938,-.2446 428.3938,-22.2554"/>
+<text text-anchor="middle" x="401.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node"><title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="542.102,-22.2554 446.686,-22.2554 446.686,-0.244565 542.102,-0.244565 542.102,-22.2554"/>
-<text text-anchor="middle" x="494.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="542.102,-22.2554 446.6856,-22.2554 446.6856,-.2446 542.102,-.2446 542.102,-22.2554"/>
+<text text-anchor="middle" x="494.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
@@ -551,31 +609,34 @@ implementation in a submodule of an interface in a parent module.
                 <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: proc~~fourphonon_selfenergy~~CalledByGraph Pages: 1 -->
 <svg id="procfourphonon_selfenergyCalledByGraph" width="217pt" height="31pt"
  viewBox="0.00 0.00 217.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="proc~~fourphonon_selfenergy~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
 <title>proc~~fourphonon_selfenergy~~CalledByGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-26.5 213.415,-26.5 213.415,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 213.4148,-26.5 213.4148,4 -4,4"/>
 <!-- proc~fourphonon_selfenergy -->
-<g id="proc~~fourphonon_selfenergy~~CalledByGraph_node1" class="node"><title>proc~fourphonon_selfenergy</title>
-<polygon fill="none" stroke="black" points="209.623,-22.2554 89.7919,-22.2554 89.7919,-0.244565 209.623,-0.244565 209.623,-22.2554"/>
-<text text-anchor="middle" x="149.707" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">fourphonon_selfenergy</text>
+<g id="proc~~fourphonon_selfenergy~~CalledByGraph_node1" class="node">
+<title>proc~fourphonon_selfenergy</title>
+<polygon fill="none" stroke="#000000" points="209.6229,-22.2554 89.7919,-22.2554 89.7919,-.2446 209.6229,-.2446 209.6229,-22.2554"/>
+<text text-anchor="middle" x="149.7074" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">fourphonon_selfenergy</text>
 </g>
 <!-- proc~generate -->
-<g id="proc~~fourphonon_selfenergy~~CalledByGraph_node2" class="node"><title>proc~generate</title>
+<g id="proc~~fourphonon_selfenergy~~CalledByGraph_node2" class="node">
+<title>proc~generate</title>
 <g id="a_proc~~fourphonon_selfenergy~~CalledByGraph_node2"><a xlink:href="../proc/generate.html" xlink:title="generate">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-22.2554 0,-22.2554 0,-0.244565 54,-0.244565 54,-22.2554"/>
-<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-22.2554 0,-22.2554 0,-.2446 54,-.2446 54,-22.2554"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">generate</text>
 </a>
 </g>
 </g>
 <!-- proc~generate&#45;&gt;proc~fourphonon_selfenergy -->
-<g id="proc~~fourphonon_selfenergy~~CalledByGraph_edge1" class="edge"><title>proc~generate&#45;&gt;proc~fourphonon_selfenergy</title>
-<path fill="none" stroke="#000000" d="M54.1917,-11.25C61.8492,-11.25 70.6007,-11.25 79.618,-11.25"/>
-<polygon fill="#000000" stroke="#000000" points="79.8676,-14.7501 89.8676,-11.25 79.8675,-7.7501 79.8676,-14.7501"/>
+<g id="proc~~fourphonon_selfenergy~~CalledByGraph_edge1" class="edge">
+<title>proc~generate&#45;&gt;proc~fourphonon_selfenergy</title>
+<path fill="none" stroke="#000000" d="M54.2327,-11.25C61.9278,-11.25 70.6728,-11.25 79.6721,-11.25"/>
+<polygon fill="#000000" stroke="#000000" points="79.8983,-14.7501 89.8983,-11.25 79.8982,-7.7501 79.8983,-14.7501"/>
 </g>
 </g>
 </svg>
@@ -594,43 +655,49 @@ implementation in a submodule of an interface in a parent module.
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: Graph Key Pages: 1 -->
 <svg width="550pt" height="31pt"
  viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-26.5 546.248,-26.5 546.248,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 546.2477,-26.5 546.2477,4 -4,4"/>
 <!-- Subroutine -->
-<g id="node1" class="node"><title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 0.105843,-22.2554 0.105843,-0.244565 62.6818,-0.244565 62.6818,-22.2554"/>
-<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 .1058,-22.2554 .1058,-.2446 62.6818,-.2446 62.6818,-22.2554"/>
+<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
 </g>
 <!-- Function -->
-<g id="node2" class="node"><title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="134.394,-22.2554 80.3938,-22.2554 80.3938,-0.244565 134.394,-0.244565 134.394,-22.2554"/>
-<text text-anchor="middle" x="107.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.3938,-22.2554 80.3938,-22.2554 80.3938,-.2446 134.3938,-.2446 134.3938,-22.2554"/>
+<text text-anchor="middle" x="107.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
 </g>
 <!-- Interface -->
-<g id="node3" class="node"><title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="206.394,-22.2554 152.394,-22.2554 152.394,-0.244565 206.394,-0.244565 206.394,-22.2554"/>
-<text text-anchor="middle" x="179.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.3938,-22.2554 152.3938,-22.2554 152.3938,-.2446 206.3938,-.2446 206.3938,-22.2554"/>
+<text text-anchor="middle" x="179.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Interface</text>
 </g>
 <!-- Unknown Procedure Type -->
-<g id="node4" class="node"><title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="356.532,-22.2554 224.256,-22.2554 224.256,-0.244565 356.532,-0.244565 356.532,-22.2554"/>
-<text text-anchor="middle" x="290.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.5315,-22.2554 224.2561,-22.2554 224.2561,-.2446 356.5315,-.2446 356.5315,-22.2554"/>
+<text text-anchor="middle" x="290.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node"><title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.394,-22.2554 374.394,-22.2554 374.394,-0.244565 428.394,-0.244565 428.394,-22.2554"/>
-<text text-anchor="middle" x="401.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.3938,-22.2554 374.3938,-22.2554 374.3938,-.2446 428.3938,-.2446 428.3938,-22.2554"/>
+<text text-anchor="middle" x="401.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node"><title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="542.102,-22.2554 446.686,-22.2554 446.686,-0.244565 542.102,-0.244565 542.102,-22.2554"/>
-<text text-anchor="middle" x="494.394" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="542.102,-22.2554 446.6856,-22.2554 446.6856,-.2446 542.102,-.2446 542.102,-22.2554"/>
+<text text-anchor="middle" x="494.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
@@ -679,8 +746,8 @@ implementation in a submodule of an interface in a parent module.
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

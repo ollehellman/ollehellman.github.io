@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <link rel="icon" href="../favicon.png">
@@ -55,7 +55,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -71,12 +71,6 @@
                     <li>
                         
                             <a href="../program/atomic_distribution.html">atomic distribution</a>
-                        
-                     </li>
-                
-                    <li>
-                        
-                            <a href='../program/autocorrelation.html'>autocorrelation</a>
                         
                      </li>
                 
@@ -167,7 +161,7 @@
 
 </div>
 
-<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
+<div class="jumbotron">
 <div class="container-fluid">
     
         <h3>canonical configuration</h3>
@@ -199,9 +193,9 @@
     Use Bose-Einstein statistics instead of Maxwell-Boltzmann. That is, use $$ \sqrt{\frac{\hbar (2n+1) }{2 m \omega}} $$ as the mean normal mode amplitudes instead of the classical $$ \frac{1}{\omega}\sqrt{\frac{k_BT}{m}} $$</p>
 </li>
 <li>
-<p><code>--output_format value</code>, <code>-of value</code>, value in: <code>1,2</code><br>
+<p><code>--output_format value</code>, <code>-of value</code>, value in: <code>1,2,3,4</code><br>
     default value 1<br>
-    Selects output format. 1 is VASP, 2 is Abinit. Default 1.</p>
+    Selects output format. 1 is VASP, 2 is Abinit, 3 is LAMMPS, 4 is FHI-Aims. Default 1.</p>
 </li>
 <li>
 <p><code>--threshold value</code><br>
@@ -212,6 +206,11 @@
 <p><code>--debye_temperature value</code>, <code>-td value</code><br>
     default value -1<br>
     Generate forceconstants that match a Debye temperature, and build displacements according to these. See details below.</p>
+</li>
+<li>
+<p><code>--maximum_frequency value</code>, <code>-mf value</code><br>
+    default value -1<br>
+    Generate forceconstants that match a maximum frequency (in THz), and build displacements according to these. See details below.</p>
 </li>
 <li>
 <p><code>--help</code>, <code>-h</code><br>
@@ -228,10 +227,9 @@
 <p><code>canonical_configuration -n 20 -t 10 --quantum --debye_temperature 400</code> </p>
 <h3>Longer summary</h3>
 <p>This code takes a second order <a href="extract_forceconstants.html">forceconstant</a> and generates a supercell with the atoms displaced corresponding to a harmonic canonical ensemble. These configurations can be used directly, to generate force-displacement statistics to determine force constants and other thermal properties, or as the starting point for molecular dynamics.</p>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Update this to explain how to do statistical sampling in clever ways, but probably not before I actually publish it.</p></div>
 <h3>Background</h3>
 <p>Born-Oppenheimer molecular dynamics can be expensive for many reasons. Firstly, it requires supercells with more than 100 atoms. Secondly, computation of the electronic ground state at every time step is time consuming. Thirdly, the cell must be fully equilibrated. The precision of the calculations is statistically linked to the number of configurations used: any property $A$ for which we want to calculate the ensemble average $\langle A \rangle$ must be converged with respect to the number of uncorrelated time steps.</p>
-<p>To minimise the equilibration time, the simulation cell can be initialised to a thermally excited state by selecting initial atomic velocities and displacement amplitudes according to the Maxwell-Boltzmann<sup id="fnref-West2006"><a class="footnote-ref" href="#fn-West2006">1</a></sup> or Bose - Einstein distributions.</p>
+<p>To minimize the equilibration time, the simulation cell can be initialized to a thermally excited state by selecting initial atomic velocities and displacement amplitudes according to the Maxwell-Boltzmann<sup id="fnref-West2006"><a class="footnote-ref" href="#fn-West2006">1</a></sup> or Bose - Einstein distributions.</p>
 <p>Starting with the equations of motion for the supercell (given harmonic <a href="../program/extract_forceconstants.html">force constants</a>)</p>
 <p>$$
 \begin{equation}
@@ -245,7 +243,7 @@ m_{N_a} \ddot{\mathbf{u}}_{N_a}
 \mathbf{\Phi}_{11} &amp; \mathbf{\Phi}_{12} &amp; \cdots &amp; \mathbf{\Phi}_{1N_a} \\
 \mathbf{\Phi}_{21} &amp; \mathbf{\Phi}_{22} &amp; \cdots &amp; \mathbf{\Phi}_{2N_a} \\
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-\mathbf{\Phi}_{N_a1} &amp; \mathbf{\Phi}_{N_a2} &amp; \cdots &amp; \mathbf{\Phi}_{N_aN_a} 
+\mathbf{\Phi}_{N_a1} &amp; \mathbf{\Phi}_{N_a2} &amp; \cdots &amp; \mathbf{\Phi}_{N_aN_a}
 \end{pmatrix}
 \begin{pmatrix}
 \mathbf{u}_1\\
@@ -254,19 +252,20 @@ m_{N_a} \ddot{\mathbf{u}}_{N_a}
 \mathbf{u}_{N_a} \\
 \end{pmatrix}
 \end{equation}
-$$ </p>
+$$</p>
 <p>we diagonalise these and get obtaining $3N_a$ eigenvalues $\omega^2_s$ and eigenvectors $\epsilon_s$. In the given cell, we can use this normal mode transformation to express the instantaneous positions and velocities,</p>
 <p>$$
 \begin{align}
 u_i = &amp; \sum_{s=1}^{3N_a} \epsilon_{is} A_{is} \sin( \omega_s t+\delta_s ) \\
-\dot{u}_i = &amp; \sum_{s=1}^{3N_a} \epsilon_{is} A_{is} \omega_s \cos( \omega_s t+\delta_s) 
+\dot{u}_i = &amp; \sum_{s=1}^{3N_a} \epsilon_{is} A_{is} \omega_s \cos( \omega_s t+\delta_s)
 \end{align}
 $$</p>
-<p>where the normal mode amplitudes $A_s$ and the phase $\delta_s$ will be determined by the following boundary conditions: we require a set of positions and velocities that correspond to a canonical ensemble. We choose $A_s$ so that they are normally distributed around their mean value and that each mode $s$ should contribute, on average, $k_B T/2$ to the internal energy. Then</p>
+<p>This is identical to the transformation introduced in <a href="phonon_dispersion_relations.html">phonon dispersion relations</a>, except that the masses are incorporated in the normal mode amplitudes. We also omit the choice of $\mathbf{q}$-vector, since we are only interested in the modes that are commensurate with the supercell. This leads to the dynamical matrix being a real symmetric matrix, with real eigenvalues and real eigenvectors.</p>
+<p>The normal mode amplitudes $A_s$ and the phase $\delta_s$ will be determined by the following boundary conditions: we require a set of positions and velocities that correspond to a canonical ensemble. We choose $A_s$ so that they are normally distributed around their mean value and that each mode $s$ should contribute, on average, $k_B T/2$ to the internal energy. Then</p>
 <p>$$
 \begin{equation}
-\langle A_{is} \rangle = 
-\sqrt{\frac{\hbar (2n_s+1) }{2 m_i \omega_s}} 
+\langle A_{is} \rangle =
+\sqrt{\frac{\hbar (2n_s+1) }{2 m_i \omega_s}}
 \approx
 \frac{1}{\omega_s}\sqrt{\frac{k_BT}{m_i}},
 \end{equation}
@@ -274,13 +273,13 @@ $$</p>
 <p>where the approximate result is in the classical limit, $\hbar \omega \ll k_BT $. The appropriate distribution of atomic positions and velocities is given by,</p>
 <p>$$
 \begin{align}
-u_i &amp; = \sum_{s=1}^{3N_a} 
+u_i &amp; = \sum_{s=1}^{3N_a}
 \epsilon_{is} \langle A_{is} \rangle \sqrt{-2\ln \xi_1}\sin 2\pi\xi_2 \\
 \dot{u}_i &amp; = \sum_{s=1}^{3N_a}
 \omega_s \epsilon_{is} \langle A_{is} \rangle \sqrt{-2\ln \xi_1}\cos 2\pi\xi_2
 \end{align}
 $$</p>
-<p>Here, $0 \lt \xi_n \lt 1$, represents a uniform distribution of random numbers, which are transformed to a normal distribution using the standard Box-Muller transform. </p>
+<p>Here, $0 \lt \xi_n \lt 1$, represents a uniform distribution of random numbers, which are transformed to a normal distribution using the standard Box-Muller transform.</p>
 <p>Choosing the mean amplitudes in the classical limit gives us a snapshot in time from a canonical Maxwell-Boltzmann ensemble (within the harmonic approximation), which results in a starting point that reduces the time until equilibration by orders of magnitude. Choosing a Bose-Einstein distribution of mean amplitudes and velocities instead allows us to sample phase space while including quantum thermal disorder at low temperatures.</p>
 <p>For applications where one does not need consecutive timesteps, the starting configurations generated by this can be used  by run several simultaneous instances of Born-Oppenheimer molecular dynamics with different random starting configurations, rather than running a single long instance. This strategy allows for parallelization of Born-Oppenheimer molecular dynamics with near perfect linear scaling, since the overhead of equilibration time is almost completely eliminated.</p>
 <p><center>
@@ -312,13 +311,15 @@ r_x r_z &amp; r_y r_z &amp; r_z^2
 \end{pmatrix}
 \end{equation}
 $$</p>
-<p>By definition, this will always produce stable phonons with the correct symmetry. The parameter $\alpha$ is determined by numerically matching the zero-point motion of the phonons to a Debye temperature:</p>
+<p>By definition, this will always produce stable phonons with the correct symmetry. The parameter $\alpha$ is determined by numerically matching the zero-point motion of the phonons to a Debye temperature (option <code>--debyte_temperature</code>):</p>
 <p>$$
 \begin{equation}
 \frac{1}{N} \sum_i \frac{\hbar \omega_i(\alpha)}{2} = \frac{9 k_B T_D}{8}
 \end{equation}
 $$</p>
-<p>Using actual forceconstants is of course better, but this procedure generates surprisingly good configurations.</p>
+<p>Or alternatively matching the maximum frequency to a reference value (option <code>--maximum_frequency</code>). Using actual forceconstants is of course better, but this procedure generates surprisingly good configurations.</p>
+<h3>Stochastic sampling</h3>
+<p>The thermalized samples produced by this code can be used to obtain finite-temperature interatomic force constants directly. A small tutorial is provided <a href="../page/workflows/minimal_example_3.html">here</a>.</p>
 <h3>Input files</h3>
 <ul>
 <li><a href="../page/files.html#infile.ucposcar">infile.ucposcar</a></li>
@@ -326,18 +327,11 @@ $$</p>
 <li><a href="../page/files.html#infile.forceconstant">infile.forceconstant</a> (or use <code>--debye_temperature</code> as described above)</li>
 </ul>
 <h3>Output files</h3>
-<p>The desired number of configurations are printed in VASP POSCAR <a href="../page/files.html#infile.ucposcar">format</a> </p>
+<p>The desired number of configurations are printed in VASP POSCAR <a href="../page/files.html#infile.ucposcar">format</a> by default, but the <code>--output_format</code> option can provide output in a variety of formats.</p>
 <ul>
 <li>contcar_conf0001</li>
 <li>contcar_conf0002</li>
 <li>contcar_conf0003</li>
-<li>...</li>
-</ul>
-<p>or alternatively in Abinit format:</p>
-<ul>
-<li>abinput_conf0001</li>
-<li>abinput_conf0002</li>
-<li>abinput_conf0003</li>
 <li>...</li>
 </ul>
 <p>In case you used a Debye temperature to generate the configurations, <code>outfile.fakeforceconstant</code> will be written. Use <a href="phonon_dispersion_relations.html">phonon dispersion relations</a> to plot it and check that the frequencies are reasonable.</p>
@@ -362,8 +356,8 @@ $$</p>
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
+    
+    <meta name="author" content="Olle Hellman" >
+    <meta name="sourcefile" content="">
+    <link rel="icon" href="../favicon.png">
+
+    <title>get_thermally_broadened_intensity_along_path &ndash; TDEP</title>
+
+<!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.css" rel="stylesheet"> 
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet"> 
+    
+    <link href="../css/ollesfixes.css" rel="stylesheet"> 
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+
+<!-- adobe typekit thing -->
+        <script src="https://use.typekit.net/vpt8bxl.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+  </head>
+
+<body>
+<div class="wrapper"><!-- my wrapper to make the footer stick at the bottom -->
+
+<!-- Fixed navbar, defined in macros.html for some reason -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+<div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
+                <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <!-- manual thingy -->
+            
+            <li><a href='../page/index.html'>Manual</a></li>
+            
+            <!-- programs -->
+            
+            <li><a href="../lists/programs.html">Programs</a></li>
+            
+            <!-- API -->
+            <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="apidropdown">API<span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="apidropdown">
+                
+                <li><a href="../lists/files.html">Source Files</a></li>
+                
+                
+                <li><a href="../lists/modules.html">Modules</a></li>
+                
+                
+                <li><a href="../lists/procedures.html">Procedures</a></li>
+                
+                
+                
+                <li><a href="../lists/types.html">Derived Types</a></li>
+                
+            </ul>
+            </li>
+        </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" style="padding 0" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+        </form>
+        
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    
+  
+  <div class="row">
+    <h1>get_thermally_broadened_intensity_along_path
+    <small>Subroutine</small>
+    
+    </h1>
+	 
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     
+    <li><i class="fa fa-code"></i><a href="../src/phonondamping_thermalpath.f90"> Source File</a></li>
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+     <li><a href='../sourcefile/phonondamping_thermalpath.f90.html'>phonondamping_thermalpath.f90</a></li>
+  
+     <li class="active">get_thermally_broadened_intensity_along_path</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-2">
+    
+<div id="sidebar">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <hr>
+  
+
+<div class="panel panel-default">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#allprocs-0">All Procedures</a></h3></div>
+  <div id="allprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../proc/correlation_function.html">correlation_function</a>
+      
+      <a class="list-group-item" href="../proc/dump_configurations.html">dump_configurations</a>
+      
+      <a class="list-group-item" href="../proc/fourphonon_selfenergy.html">fourphonon_selfenergy</a>
+      
+      <a class="list-group-item" href="../proc/generate.html">generate</a>
+      
+      <a class="list-group-item" href="../proc/generate%7E2.html">generate</a>
+      
+      <a class="list-group-item" href="../proc/get_intensity_as_dos.html">get_intensity_as_dos</a>
+      
+      <a class="list-group-item" href="../proc/get_thermally_broadened_intensity_along_path.html">get_thermally_broadened_intensity_along_path</a>
+      
+      <a class="list-group-item" href="../proc/histfit.html">histfit</a>
+      
+      <a class="list-group-item" href="../proc/iso_gaussian_fft_oneqp.html">iso_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/iso_tetrahedron_fft_oneqp.html">iso_tetrahedron_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/kramer_kronig_transform_to_get_real_part.html">kramer_kronig_transform_to_get_real_part</a>
+      
+      <a class="list-group-item" href="../proc/optimize.html">optimize</a>
+      
+      <a class="list-group-item" href="../proc/random_unit_vector.html">random_unit_vector</a>
+      
+      <a class="list-group-item" href="../proc/return_supercellmatrix.html">return_supercellmatrix</a>
+      
+      <a class="list-group-item" href="../proc/spectralfunction_along_path.html">spectralfunction_along_path</a>
+      
+      <a class="list-group-item" href="../proc/subtract_longrange_interactions.html">subtract_longrange_interactions</a>
+      
+      <a class="list-group-item" href="../proc/test_forceconstant_constraints.html">test_forceconstant_constraints</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_gaussian_fft_oneqp.html">threephonon_gaussian_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/threephonon_tetrahedron_fft_oneqp.html">threephonon_tetrahedron_fft_oneqp</a>
+      
+      <a class="list-group-item" href="../proc/zerosum.html">zerosum</a>
+      
+    </div>
+  </div>
+</div>
+
+
+</div>  
+
+    </div>
+    
+    <div class="col-sm-offset-1 col-sm-8 col-sm-offset-1" id='text'>
+
+    
+    <h3>Description</h3>
+    <p>calculate the intensity along a path</p>
+    
+
+    <h2>
+subroutine get_thermally_broadened_intensity_along_path(bs, uc, fc, fct, fcf, qp, dr, loto, opts, mw, lsmpi)
+    
+    
+	 
+</h2>
+    
+  
+
+
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-bs"></span>type(lo_phonon_bandstructure),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bs</strong></td><td><p>the bandstructure</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-uc%7E2"></span>type(lo_crystalstructure),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>uc</strong></td><td><p>crystal structure</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-fc%7E2"></span>type(lo_forceconstant_secondorder),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fc</strong></td><td><p>second order force constant</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-fct%7E2"></span>type(lo_forceconstant_thirdorder),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fct</strong></td><td><p>third order force constant</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-fcf%7E2"></span>type(lo_forceconstant_fourthorder),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fcf</strong></td><td><p>fourth order force constant</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-qp%7E6"></span>type(lo_monkhorst_pack_mesh),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>qp</strong></td><td><p>q-point mesh</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dr%7E6"></span>type(lo_phonon_dispersions),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dr</strong></td><td><p>harmonic properties on this mesh</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-loto"></span>type(lo_loto),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>loto</strong></td><td><p>electrostatic corrections</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-opts%7E2"></span>type(lo_opts),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>opts</strong></td><td><p>all settings</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mw%7E2"></span>type(lo_mpiinfo),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mw</strong></td><td><p>mpi communicator</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-lsmpi"></span>type(lo_lsmpi),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lsmpi</strong></td><td><p>mpi helper</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+     <h3>Calls</h3>
+     
+                <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: proc~~get_thermally_broadened_intensity_along_path~~CallsGraph Pages: 1 -->
+<svg id="procget_thermally_broadened_intensity_along_pathCallsGraph" width="426pt" height="523pt"
+ viewBox="0.00 0.00 425.84 522.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 518.5)">
+<title>proc~~get_thermally_broadened_intensity_along_path~~CallsGraph</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-518.5 421.8408,-518.5 421.8408,4 -4,4"/>
+<!-- proc~get_thermally_broadened_intensity_along_path -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node1" class="node">
+<title>proc~get_thermally_broadened_intensity_along_path</title>
+<polygon fill="none" stroke="#000000" points="233.3729,-268.2554 -.1244,-268.2554 -.1244,-246.2446 233.3729,-246.2446 233.3729,-268.2554"/>
+<text text-anchor="middle" x="116.6243" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">get_thermally_broadened_intensity_along_path</text>
+</g>
+<!-- dum -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node2" class="node">
+<title>dum</title>
+<polygon fill="#777777" stroke="#777777" points="370.5447,-514.2554 316.5447,-514.2554 316.5447,-492.2446 370.5447,-492.2446 370.5447,-514.2554"/>
+<text text-anchor="middle" x="343.5447" y="-500.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">dum</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;dum -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge1" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;dum</title>
+<path fill="none" stroke="#000000" d="M120.8838,-268.4005C135.4783,-305.0767 187.1475,-423.0011 269.2485,-482.25 280.1407,-490.1104 293.89,-495.0348 306.5905,-498.1173"/>
+<polygon fill="#000000" stroke="#000000" points="305.9679,-501.5631 316.4766,-500.2154 307.4212,-494.7156 305.9679,-501.5631"/>
+</g>
+<!-- lo_linspace -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node3" class="node">
+<title>lo_linspace</title>
+<polygon fill="#777777" stroke="#777777" points="375.5822,-473.2554 311.5071,-473.2554 311.5071,-451.2446 375.5822,-451.2446 375.5822,-473.2554"/>
+<text text-anchor="middle" x="343.5447" y="-459.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_linspace</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_linspace -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge2" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_linspace</title>
+<path fill="none" stroke="#000000" d="M122.5609,-268.333C140.2928,-300.35 196.1968,-393.7116 269.2485,-441.25 278.8822,-447.5191 290.3981,-451.9446 301.4542,-455.0581"/>
+<polygon fill="#000000" stroke="#000000" points="300.8596,-458.5176 311.4114,-457.5639 302.568,-451.7292 300.8596,-458.5176"/>
+</g>
+<!-- lo_gauss -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node4" class="node">
+<title>lo_gauss</title>
+<polygon fill="#777777" stroke="#777777" points="370.5754,-432.2554 316.5139,-432.2554 316.5139,-410.2446 370.5754,-410.2446 370.5754,-432.2554"/>
+<text text-anchor="middle" x="343.5447" y="-418.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_gauss</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_gauss -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge3" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_gauss</title>
+<path fill="none" stroke="#000000" d="M125.2882,-268.4385C146.7039,-295.3215 205.0685,-363.9989 269.2485,-400.25 280.5548,-406.6361 293.9432,-411.1962 306.219,-414.3978"/>
+<polygon fill="#000000" stroke="#000000" points="305.6596,-417.8625 316.1988,-416.7778 307.2835,-411.0534 305.6596,-417.8625"/>
+</g>
+<!-- lo_seed_random_numbers -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node5" class="node">
+<title>lo_seed_random_numbers</title>
+<polygon fill="#777777" stroke="#777777" points="411.9578,-391.2554 275.1316,-391.2554 275.1316,-369.2446 411.9578,-369.2446 411.9578,-391.2554"/>
+<text text-anchor="middle" x="343.5447" y="-377.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_seed_random_numbers</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_seed_random_numbers -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge4" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_seed_random_numbers</title>
+<path fill="none" stroke="#000000" d="M130.0541,-268.3807C155.6169,-289.0568 213.6876,-333.6136 269.2485,-359.25 274.6284,-361.7323 280.3656,-363.9835 286.1761,-366.0094"/>
+<polygon fill="#000000" stroke="#000000" points="285.3817,-369.4318 295.9742,-369.2071 287.5535,-362.7772 285.3817,-369.4318"/>
+</g>
+<!-- lo_progressbar -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node6" class="node">
+<title>lo_progressbar</title>
+<polygon fill="#777777" stroke="#777777" points="384.584,-350.2554 302.5054,-350.2554 302.5054,-328.2446 384.584,-328.2446 384.584,-350.2554"/>
+<text text-anchor="middle" x="343.5447" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_progressbar -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge5" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_progressbar</title>
+<path fill="none" stroke="#000000" d="M141.9726,-268.3312C172.0091,-281.2391 223.7276,-302.7674 269.2485,-318.25 276.7436,-320.7992 284.7349,-323.29 292.5946,-325.6135"/>
+<polygon fill="#000000" stroke="#000000" points="291.8537,-329.0426 302.4324,-328.4591 293.7987,-322.3183 291.8537,-329.0426"/>
+</g>
+<!-- mpi_allreduce -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node7" class="node">
+<title>mpi_allreduce</title>
+<polygon fill="#777777" stroke="#777777" points="382.4142,-309.2554 304.6751,-309.2554 304.6751,-287.2446 382.4142,-287.2446 382.4142,-309.2554"/>
+<text text-anchor="middle" x="343.5447" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">mpi_allreduce</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;mpi_allreduce -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge6" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;mpi_allreduce</title>
+<path fill="none" stroke="#000000" d="M177.7333,-268.2912C214.3741,-274.9115 260.3444,-283.2174 294.5821,-289.4034"/>
+<polygon fill="#000000" stroke="#000000" points="294.3446,-292.9171 304.8076,-291.251 295.5893,-286.0287 294.3446,-292.9171"/>
+</g>
+<!-- lo_allocate -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node8" class="node">
+<title>lo_allocate</title>
+<polygon fill="#777777" stroke="#777777" points="374.7481,-268.2554 312.3412,-268.2554 312.3412,-246.2446 374.7481,-246.2446 374.7481,-268.2554"/>
+<text text-anchor="middle" x="343.5447" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_allocate</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_allocate -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge7" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_allocate</title>
+<path fill="none" stroke="#000000" d="M233.4081,-257.25C258.0779,-257.25 282.5381,-257.25 302.118,-257.25"/>
+<polygon fill="#000000" stroke="#000000" points="302.1749,-260.7501 312.1748,-257.25 302.1748,-253.7501 302.1749,-260.7501"/>
+</g>
+<!-- lo_deallocate -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node9" class="node">
+<title>lo_deallocate</title>
+<polygon fill="#777777" stroke="#777777" points="380.4271,-227.2554 306.6623,-227.2554 306.6623,-205.2446 380.4271,-205.2446 380.4271,-227.2554"/>
+<text text-anchor="middle" x="343.5447" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_deallocate</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_deallocate -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge8" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_deallocate</title>
+<path fill="none" stroke="#000000" d="M177.7333,-246.2088C214.9689,-239.4811 261.8394,-231.0125 296.2401,-224.797"/>
+<polygon fill="#000000" stroke="#000000" points="297.2731,-228.1671 306.4914,-222.9448 296.0284,-221.2786 297.2731,-228.1671"/>
+</g>
+<!-- lo_progressbar_init -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node10" class="node">
+<title>lo_progressbar_init</title>
+<polygon fill="#777777" stroke="#777777" points="394.3464,-186.2554 292.743,-186.2554 292.743,-164.2446 394.3464,-164.2446 394.3464,-186.2554"/>
+<text text-anchor="middle" x="343.5447" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_progressbar_init</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_progressbar_init -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge9" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_progressbar_init</title>
+<path fill="none" stroke="#000000" d="M141.9726,-246.1688C172.0091,-233.2609 223.7276,-211.7326 269.2485,-196.25 276.5652,-193.7615 284.3547,-191.3287 292.0329,-189.0527"/>
+<polygon fill="#000000" stroke="#000000" points="293.0264,-192.4089 301.6553,-186.2614 291.0761,-185.6861 293.0264,-192.4089"/>
+</g>
+<!-- lo_sqnorm -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node11" class="node">
+<title>lo_sqnorm</title>
+<polygon fill="#777777" stroke="#777777" points="374.0686,-145.2554 313.0207,-145.2554 313.0207,-123.2446 374.0686,-123.2446 374.0686,-145.2554"/>
+<text text-anchor="middle" x="343.5447" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_sqnorm</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_sqnorm -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge10" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_sqnorm</title>
+<path fill="none" stroke="#000000" d="M130.0541,-246.1193C155.6169,-225.4432 213.6876,-180.8864 269.2485,-155.25 279.7782,-150.3915 291.6763,-146.4184 302.8153,-143.2872"/>
+<polygon fill="#000000" stroke="#000000" points="304.0019,-146.5936 312.7706,-140.6471 302.2075,-139.8275 304.0019,-146.5936"/>
+</g>
+<!-- lo_planck -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node12" class="node">
+<title>lo_planck</title>
+<polygon fill="#777777" stroke="#777777" points="371.9094,-104.2554 315.18,-104.2554 315.18,-82.2446 371.9094,-82.2446 371.9094,-104.2554"/>
+<text text-anchor="middle" x="343.5447" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lo_planck</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_planck -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge11" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;lo_planck</title>
+<path fill="none" stroke="#000000" d="M125.2882,-246.0615C146.7039,-219.1785 205.0685,-150.5011 269.2485,-114.25 280.2812,-108.0184 293.2966,-103.5255 305.3261,-100.337"/>
+<polygon fill="#000000" stroke="#000000" points="306.2419,-103.7164 315.1338,-97.9559 304.5903,-96.914 306.2419,-103.7164"/>
+</g>
+<!-- harmonic_things_at_single_q -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node13" class="node">
+<title>harmonic_things_at_single_q</title>
+<polygon fill="#777777" stroke="#777777" points="417.6375,-63.2554 269.4518,-63.2554 269.4518,-41.2446 417.6375,-41.2446 417.6375,-63.2554"/>
+<text text-anchor="middle" x="343.5447" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">harmonic_things_at_single_q</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;harmonic_things_at_single_q -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge12" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;harmonic_things_at_single_q</title>
+<path fill="none" stroke="#000000" d="M122.5609,-246.167C140.2928,-214.15 196.1968,-120.7884 269.2485,-73.25 272.6277,-71.051 276.2384,-69.0789 279.9797,-67.3106"/>
+<polygon fill="#000000" stroke="#000000" points="281.6223,-70.4171 289.4906,-63.3221 278.9151,-63.9618 281.6223,-70.4171"/>
+</g>
+<!-- walltime -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_node14" class="node">
+<title>walltime</title>
+<polygon fill="#777777" stroke="#777777" points="370.5447,-22.2554 316.5447,-22.2554 316.5447,-.2446 370.5447,-.2446 370.5447,-22.2554"/>
+<text text-anchor="middle" x="343.5447" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">walltime</text>
+</g>
+<!-- proc~get_thermally_broadened_intensity_along_path&#45;&gt;walltime -->
+<g id="proc~~get_thermally_broadened_intensity_along_path~~CallsGraph_edge13" class="edge">
+<title>proc~get_thermally_broadened_intensity_along_path&#45;&gt;walltime</title>
+<path fill="none" stroke="#000000" d="M120.8838,-246.0995C135.4783,-209.4233 187.1475,-91.4989 269.2485,-32.25 280.1407,-24.3896 293.89,-19.4652 306.5905,-16.3827"/>
+<polygon fill="#000000" stroke="#000000" points="307.4212,-19.7844 316.4766,-14.2846 305.9679,-12.9369 307.4212,-19.7844"/>
+</g>
+</g>
+</svg>
+</div>
+                <div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div>
+                <div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 546.2477,-26.5 546.2477,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.6818,-22.2554 .1058,-22.2554 .1058,-.2446 62.6818,-.2446 62.6818,-22.2554"/>
+<text text-anchor="middle" x="31.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.3938,-22.2554 80.3938,-22.2554 80.3938,-.2446 134.3938,-.2446 134.3938,-22.2554"/>
+<text text-anchor="middle" x="107.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.3938,-22.2554 152.3938,-22.2554 152.3938,-.2446 206.3938,-.2446 206.3938,-22.2554"/>
+<text text-anchor="middle" x="179.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.5315,-22.2554 224.2561,-22.2554 224.2561,-.2446 356.5315,-.2446 356.5315,-22.2554"/>
+<text text-anchor="middle" x="290.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.3938,-22.2554 374.3938,-22.2554 374.3938,-.2446 428.3938,-.2446 428.3938,-22.2554"/>
+<text text-anchor="middle" x="401.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="542.102,-22.2554 446.6856,-22.2554 446.6856,-.2446 542.102,-.2446 542.102,-22.2554"/>
+<text text-anchor="middle" x="494.3938" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+     
+     
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    </div>
+  </div>
+
+    <br>
+    <br>
+</div> <!-- /container -->
+
+</div><!-- end of wrapper -->
+
+<div class="footer">
+<div class="container"> 
+        <br>
+        <div class="row">
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
+            <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
+        </div>
+        <br>
+        <br>
+</div>
+</div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- MathJax JavaScript -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js'],
+            TeX: { 
+                extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], 
+                equationNumbers: { autoNumber: 'AMS' } 
+            },
+            jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                processEscapes: true
+            },
+            'HTML-CSS': { 
+                styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: '#000000 ! important'} }
+            }
+        });
+    </script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

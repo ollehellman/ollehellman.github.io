@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	 <meta name="description" content="Temperature dependent effective potential 1.0">
+	 <meta name="description" content="Temperature dependent effective potential 1.1">
     
     <meta name="author" content="Olle Hellman" >
     <link rel="icon" href="../favicon.png">
@@ -55,7 +55,7 @@
                 <span class="icon-bar"></span>
             </button>
 <div class="navbar-brand"><img style="height:50px; position: relative; left: 0px; top: -10px" src="../media/matematico.png"></div>
-            <a class="navbar-brand" href="../index.html">TDEP <small>1.0</small></a>
+            <a class="navbar-brand" href="../index.html">TDEP <small>1.1</small></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -71,12 +71,6 @@
                     <li>
                         
                             <a href="../program/atomic_distribution.html">atomic distribution</a>
-                        
-                     </li>
-                
-                    <li>
-                        
-                            <a href='../program/autocorrelation.html'>autocorrelation</a>
                         
                      </li>
                 
@@ -167,7 +161,7 @@
 
 </div>
 
-<div class="jumbotron" style="background-image: url(../media/stripe_1.png); background-position: right top; background-size: contain;background-repeat: no-repeat;">
+<div class="jumbotron">
 <div class="container-fluid">
     
         <h3>extract forceconstants</h3>
@@ -190,8 +184,15 @@
 </li>
 <li>
 <p><code>--thirdorder_cutoff value</code>, <code>-rc3 value</code><br>
-    default value -1<br>
+    default value -1
+    mutually exclude "--thirdorder_njump"<br>
     Cutoff for the third order force constants</p>
+</li>
+<li>
+<p><code>--fourthorder_cutoff value</code>, <code>-rc4 value</code><br>
+    default value -1
+    mutually exclude "--fourthorder_njump"<br>
+    Cutoff for the fourth order force constants</p>
 </li>
 <li>
 <p><code>--stride value</code>, <code>-s value</code><br>
@@ -224,6 +225,21 @@
     Calculate the difference in potential energy from the simulation and the forceconstants to determine U0. As referenced in the thermodynamics section of <a href="phonon_dispersion_relations.html">phonon dispersion relations</a> this is the renormalized baseline for the TDEP free energy: $$U_0= \left\langle U^{\textrm{BO}}(t)-\frac{1}{2} \sum_{ij}\sum_{\alpha\beta} \Phi_{ij}^{\alpha\beta} \mathbf{u}^{\alpha}_i(t) \mathbf{u}^{\beta}_j(t) \right\rangle$$ This number should be added to the appropriate phonon free energy.</p>
 </li>
 <li>
+<p><code>--printforcemap</code><br>
+    default value .false.<br>
+    Print <code>outfile.forcemap.hdf5</code> for reuse.</p>
+</li>
+<li>
+<p><code>--polar</code><br>
+    default value .false.<br>
+    Add dipole-dipole corrections for polar materials.</p>
+</li>
+<li>
+<p><code>--polarcorrectiontype value</code>, <code>-pc value</code>, value in: <code>1,2,3</code><br>
+    default value 3<br>
+    What kind of polar correction to use.</p>
+</li>
+<li>
 <p><code>--help</code>, <code>-h</code><br>
     Print this help message</p>
 </li>
@@ -238,30 +254,32 @@
 <h3>Longer summary</h3>
 <p>Calculations of the interatomic force constants are the most important part of any lattice dynamics calculation as they are used to calculate many micro and macroscopic properties of the system, e.g. phonon, thermodynamic, and transport properties, etc. This codes takes sets of displacements and forces, and uses these to fit the coefficients in an effective lattice dynamical Hamiltonian. This is by no means a new idea.<sup id="fnref-Klein1972"><a class="footnote-ref" href="#fn-Klein1972">1</a></sup> The main advantage of the TDEP method is in the implementation: it is numerically robust, well tested and general. It is not limited in order, nor limited to simple ordered systems.</p>
 <h3>Lattice dynamics and interatomic force constants</h3>
-<p>A quick recap of lattice dynamical theory:<sup id="fnref-Born1998"><a class="footnote-ref" href="#fn-Born1998">2</a></sup> a displacement $\mathbf{u}$ of an atom $i$ from its ideal lattice position changes the potential energy of the lattice. Temperature disorders the lattice, causing all atoms to be displaced from their equilibrium positions; this effect can be modeled as a Taylor expansion of the potential energy contribution of the instantaneous positions of the atoms in the system, i.e. $U=U({ \mathbf{r} })$. It is convenient to define the atomic positions as displacements $ \mathbf{u} $ from their equilibrium positions $\mathbf{R}_i+\mathbf{\mu}_i$. </p>
+<p>A quick recap of lattice dynamical theory:<sup id="fnref-Born1998"><a class="footnote-ref" href="#fn-Born1998">2</a></sup> a displacement $\mathbf{u}$ of an atom $i$ from its ideal lattice position changes the potential energy of the lattice. Temperature disorders the lattice, causing all atoms to be displaced from their equilibrium positions; this effect can be modeled as a Taylor expansion of the potential energy contribution of the instantaneous positions of the atoms in the system, i.e. $U=U({ \mathbf{r} })$. It is convenient to define the atomic positions as displacements $\mathbf{u}$ from their equilibrium positions $\mathbf{R}_i+\boldsymbol{\tau}_i$.</p>
 <p>$$
 \begin{equation}
-\textbf{r}_i=\mathbf{R}_i+\mathbf{\mu}_i+\mathbf{u}_i.
+\textbf{r}_i=\mathbf{R}_i+\boldsymbol{\tau}_i+\mathbf{u}_i.
 \end{equation}
 $$</p>
-<p>$\mathbf{R}_i$ is a lattice vector and $\mu_i$ is the position in the unit cell. We can then expand the potential energy in terms of displacements as:</p>
+<p>$\mathbf{R}_i$ is a lattice vector and $\boldsymbol{\tau}_i$ is the position in the unit cell. We can then expand the potential energy in terms of displacements as:</p>
 <p>$$
 \begin{equation}
 \begin{split}
 U(\{\textbf{u}\})=&amp; U_0+
 \sum_{i}\sum_\alpha
-\Phi^\alpha_{i} u^\alpha_{i} + 
+\Phi^\alpha_{i} u^\alpha_{i} +
 \frac{1}{2!} \sum_{ij} \sum_{\alpha\beta} \Phi^{\alpha\beta}_{ij} u^\alpha_{i} u^\beta_{j} + \\
- + &amp; \frac{1}{3!} \sum_{ijk} \sum_{\alpha\beta\gamma} \Phi^{\alpha\beta\gamma}_{ijk} u^\alpha_{i} u^\beta_{j} u^\gamma_{k}+\ldots
+ + &amp; \frac{1}{3!} \sum_{ijk} \sum_{\alpha\beta\gamma} \Phi^{\alpha\beta\gamma}_{ijk} u^\alpha_{i} u^\beta_{j} u^\gamma_{k}+
+\frac{1}{4!} \sum_{ijkl} \sum_{\alpha\beta\gamma\delta} \Phi^{\alpha\beta\gamma\delta}_{ijkl} u^\alpha_{i} u^\beta_{j} u^\gamma_{k} u^\delta_{l} + \ldots
  \end{split}
 \end{equation}
 $$</p>
-<p>Here, $ \alpha\beta\gamma $ are Cartesian indices and $ U_0 $ is the potential energy of the static lattice. The coefficients of the Taylor expansion are the derivatives of the potential energy with respect to displacement and are called the Born-von Kàrmàn force constants, which can be expressed as tensors of increasing rank:</p>
+<p>Here, $\alpha\beta\gamma\delta$ are Cartesian indices and $U_0$ is the potential energy of the static lattice. The coefficients of the Taylor expansion are the derivatives of the potential energy with respect to displacement and are called the Born-von Kàrmàn force constants, which can be expressed as tensors of increasing rank:</p>
 <p>$$
 \begin{align}
 \Phi^\alpha_i &amp; = \left. \frac{\partial U}{\partial u_i^\alpha} \right|_{u=0} = 0 \\
 \Phi^{\alpha\beta}_{ij} &amp; = \left. \frac{\partial^2 U}{\partial u_i^\alpha \partial u_j^\beta} \right|_{u=0} \\
-\Phi^{\alpha\beta\gamma}_{ijk} &amp; = \left. \frac{\partial^3 U}{\partial u_i^\alpha \partial u_j^\beta \partial u_k^\gamma} \right|_{u=0}
+\Phi^{\alpha\beta\gamma}_{ijk} &amp; = \left. \frac{\partial^3 U}{\partial u_i^\alpha \partial u_j^\beta \partial u_k^\gamma} \right|_{u=0} \\
+\Phi^{\alpha\beta\gamma\delta}_{ijkl} &amp; = \left. \frac{\partial^4 U}{\partial u_i^\alpha \partial u_j^\beta \partial u_k^\gamma \partial u_l^\delta} \right|_{u=0}
 \end{align}
 $$</p>
 <p>By increasing rank, the force constants of rank $n$ represent $n$-body interactions, as illustrated in the diagram below:</p>
@@ -272,29 +290,31 @@ $$</p>
 <p>Symmetry analysis allows us to greatly reduce the number of values needed to express the force constants (by multiple orders of magnitude, discussed more below) and is therefore crucial for generalizing the TDEP to include higher order terms in the potential energy surface. The symmetries of the force constants are deduced from rotational and translational invariance of the system, in addition to the symmetries of the crystal itself. We start with the transposition symmetries, which is an invariance under the permutation of the indices:<sup id="fnref-Leibfried1961"><a class="footnote-ref" href="#fn-Leibfried1961">4</a></sup><sup id="fnref-Maradudin1968"><a class="footnote-ref" href="#fn-Maradudin1968">3</a></sup></p>
 <p>$$
 \begin{align}
-\label{eq:firstsym}\Phi_{ij}^{\alpha\beta} &amp;= \Phi_{ji}^{\beta\alpha} \\
-\Phi_{ijk}^{\alpha\beta\gamma} = \Phi_{ikj}^{\alpha\gamma\beta} = \Phi_{jik}^{\beta\alpha\gamma}&amp; =
-\Phi_{jki}^{\beta\gamma\alpha} =
-\Phi_{kij}^{\gamma\alpha\beta} =
-\Phi_{kji}^{\gamma\beta\alpha}.
+\Phi_{ij}^{\alpha\beta} &amp; = \Phi_{ji}^{\beta\alpha} \\
+\Phi_{ijk}^{\alpha\beta\gamma} &amp; = \Phi_{jik}^{\beta\alpha\gamma} = \ldots \\
+\Phi_{ijkl}^{\alpha\beta\gamma\delta} &amp; = \Phi_{jikl}^{\alpha\beta\gamma\delta} = \ldots
 \end{align}
 $$</p>
-<p>All lattices belong to one of the 230 lattice space groups. The force constants should be invariant under these symmetry operations. Then, if two tensors are related by symmetry operation $S$ their components are related as follows:</p>
+<p>All lattices belong to one of the 230 lattice space groups. The force constants should be invariant under these symmetry operations. If two tensors are related by symmetry operation $S$ their components are related as follows:</p>
 <p>$$
 \begin{align}
-\Phi_{ij}^{\alpha\beta} &amp;= 
+\Phi_{ij}^{\alpha\beta} &amp;=
 \sum_{\mu\nu}\Phi_{kl}^{\mu\nu}
 S^{\mu\alpha}S^{\nu\beta}  \\
-\Phi_{ijk}^{\alpha\beta\gamma} &amp;= 
+\Phi_{ijk}^{\alpha\beta\gamma} &amp;=
 \sum_{\mu\nu\xi}\Phi_{mno}^{\mu\nu\xi}
-S^{\mu\alpha} S^{\nu\beta} S^{\xi\gamma}.\\
+S^{\mu\alpha} S^{\nu\beta} S^{\xi\gamma}\\
+\Phi_{ijkl}^{\alpha\beta\gamma\delta} &amp;=
+\sum_{\mu\nu\xi\kappa}\Phi_{mnop}^{\mu\nu\xi\kappa}
+S^{\mu\alpha} S^{\nu\beta} S^{\xi\gamma} S^{\kappa\delta} \,.\\
 \end{align}
 $$</p>
 <p>where $S^{\alpha\beta}$ is the proper or improper rotation matrix of the symmetry operation $S$. Naturally, this will also enforce the periodic nature of the lattice. Force constants also obey the translational invariance (acoustic sum rules):</p>
 <p>$$
 \begin{align}
 \sum_j \mathbf{\Phi}_{ij} &amp; =0 \quad \forall\, i \\
-\sum_k \mathbf{\Phi}_{ijk} &amp; =0 \quad \forall\, i,j
+\sum_k \mathbf{\Phi}_{ijk} &amp; =0 \quad \forall\, i,j \\
+\sum_l \mathbf{\Phi}_{ijkl} &amp; =0 \quad \forall\, i,j,k
 \end{align}
 $$</p>
 <p>The rotational invariance gives</p>
@@ -302,10 +322,10 @@ $$</p>
 \begin{align}
 \sum_i \Phi_i^\alpha r_i^\beta &amp; = \sum_i \Phi_i^\beta r_i^\alpha \quad \forall \, \alpha,\beta \\
 \sum_j \Phi_{ij}^{\alpha\beta} r_j^\gamma + \Phi_i^\beta \delta_{\alpha\gamma} &amp; =
-\sum_j \Phi_{ij}^{\alpha\gamma} r_j^\beta + \Phi_i^\gamma \delta_{\alpha\beta} 
+\sum_j \Phi_{ij}^{\alpha\gamma} r_j^\beta + \Phi_i^\gamma \delta_{\alpha\beta}
 \quad \forall \, \alpha,\beta,\gamma \\
 \sum_k \Phi_{ijk}^{\alpha\beta\gamma}r_k^\lambda +  \Phi_{ij}^{\gamma\beta} \delta_{\alpha\lambda} + \Phi_{ij}^{\alpha\gamma} \delta_{\beta\lambda} &amp;=
-\sum_k \Phi_{ijk}^{\alpha\beta\lambda}r_k^\gamma +  \Phi_{ij}^{\lambda\beta} \delta_{\alpha\gamma} + \Phi_{ij}^{\alpha\lambda} \delta_{\beta\gamma} 
+\sum_k \Phi_{ijk}^{\alpha\beta\lambda}r_k^\gamma +  \Phi_{ij}^{\lambda\beta} \delta_{\alpha\gamma} + \Phi_{ij}^{\alpha\lambda} \delta_{\beta\gamma}
 \quad \forall \, \alpha,\beta,\gamma,\lambda \\
 \end{align}
 $$</p>
@@ -316,7 +336,13 @@ $$</p>
 [\alpha\beta,\gamma\lambda] &amp; = [\gamma\lambda,\alpha\beta]
 \end{align}
 $$</p>
-<p>Ensure that the second order forceconstants, when taken to the long-wavelength limit, result in the correct number of elastic constants. All the symmetry relations above are naturally satisfied by the force constants produced by this code.</p>
+<p>ensure that the second order forceconstants, when taken to the long-wavelength limit, result in the correct number of elastic constants. For low-symmetry crystals the Hermitian character of the dynamical matrix is enforced:<sup id="fnref-Martin1971"><a class="footnote-ref" href="#fn-Martin1971">9</a></sup><sup id="fnref-Scheringer1974"><a class="footnote-ref" href="#fn-Scheringer1974">8</a></sup></p>
+<p>$$
+\begin{equation}
+    \sum_{j \ne i} \Phi^{\alpha\beta}_{ij} = \sum_{j \ne i} \Phi^{\beta\alpha}_{ij} \quad \forall\, i
+\end{equation}
+$$</p>
+<p>All the symmetry relations above are naturally satisfied by the force constants produced by this code.</p>
 <h3>Effective Hamiltonian</h3>
 <p>The traditional lattice dynamical Hamiltonian described above has severe limitations, in that it's deduced from the derivatives of zero temperature configuration of the crystal. The form of the Hamiltonian is however beneficial: the second order forceconstants produce an exactly solvable Hamiltonian and with phonon quasiparticles, and the higher order terms can be treated as perturbations. To extend the usefulness of this Hamiltonian, we give up the constraint that the force constants are derivatives of the zero temperature configurations. Instead, the force constant tensors are just parameters in an effective Hamiltonian that are left to be determined.</p>
 <p>Schematically, self-consistent or effective phonon theories can be split into two parts: the first part is revolves around how to sample the Born-Oppenheimer surface, the second part around how to use that data to produce an effective Hamiltonian.</p>
@@ -364,7 +390,7 @@ $$</p>
 \min_{\Theta}\Delta \mathbf{F} &amp; =
 \frac{1}{N_c} \sum_{c=1}^{N_c}  \left| \mathbf{F}_c^{\textrm{BO}}-\mathbf{F}_c^{\textrm{M}} \right|^2= \\
 &amp; =\frac{1}{N_c} \sum_{c=1}^{N_c} \left| \mathbf{F}_c^{\textrm{BO}}-\mathbf{C}(\mathbf{u}_{c})\mathbf{\Theta} \right|^2 = \\
-&amp; = \frac{1}{N_c} \left\Vert 
+&amp; = \frac{1}{N_c} \left\Vert
 \begin{pmatrix} \mathbf{F}_1^{\textrm{BO}} \\  \vdots \\ \mathbf{F}_{N_c}^{\textrm{BO}} \end{pmatrix}-
 \begin{pmatrix} \mathbf{C}(\mathbf{u}_1) \\ \vdots \\ \mathbf{C}(\mathbf{u}_{N_c}) \end{pmatrix}
 \mathbf{\Theta}
@@ -459,7 +485,7 @@ f^4_x &amp; f^4_y &amp; f^4_z
 u^1_x\theta_1+u^1_y\theta_2 &amp; u^1_y\theta_1+u^1_x\theta_2 &amp; u^1_z\theta_1 \\
 u^2_x\theta_1+u^2_y\theta_2 &amp; u^2_y\theta_1+u^2_x\theta_2 &amp; u^2_z\theta_1 \\
 u^3_x\theta_1+u^3_y\theta_2 &amp; u^3_y\theta_1+u^3_x\theta_2 &amp; u^3_z\theta_1 \\
-u^4_x\theta_1+u^4_y\theta_2 &amp; u^4_y\theta_1+u^4_x\theta_2 &amp; u^4_z\theta_1 
+u^4_x\theta_1+u^4_y\theta_2 &amp; u^4_y\theta_1+u^4_x\theta_2 &amp; u^4_z\theta_1
 \end{pmatrix}
 \end{equation*}
 $$</p>
@@ -490,7 +516,7 @@ u^4_z &amp;&amp; 0 \\
 \end{pmatrix}
 \begin{pmatrix}
 \theta_1 \\
-\theta_2 
+\theta_2
 \end{pmatrix}
 \end{equation*}
 $$</p>
@@ -753,7 +779,7 @@ $$</p>
 \begin{align}
 \left\langle U \right\rangle \qquad
 \left\langle U - \frac{1}{2} \sum_{ij}\Phi_{ij}^{\alpha\beta} u_i^\alpha u_j^\beta \right\rangle \qquad
-\left\langle U 
+\left\langle U
 - \frac{1}{2} \sum_{ij}\Phi_{ij}^{\alpha\beta} u_i^\alpha u_j^\beta
 - \frac{1}{6} \sum_{ijk}\Phi_{ijk}^{\alpha\beta\gamma} u_i^\alpha u_j^\beta u_k^\gamma
 \right\rangle
@@ -784,6 +810,13 @@ $$</p>
 <li id="fn-Hellman2013">
 <p><a href="http://doi.org/10.1103/PhysRevB.87.104111">Hellman, O., Steneteg, P., Abrikosov, I. A., &amp; Simak, S. I. (2013). Temperature dependent effective potential method for accurate free energy calculations of solids. Physical Review B, 87(10), 104111.</a>&#160;<a class="footnote-backref" href="#fnref-Hellman2013" title="Jump back to footnote 7 in the text">&#8617;</a></p>
 </li>
+<li id="fn-Scheringer1974">
+<p><a href="http://scripts.iucr.org/cgi-bin/paper?S0567739474000611">Scheringer, C. The Hermiticity of the dynamical matrix. Acta Crystallogr. Sect. A 30, 295–295 (1974).</a>&#160;<a class="footnote-backref" href="#fnref-Scheringer1974" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn-Martin1971">
+<p><a href="http://linkinghub.elsevier.com/retrieve/pii/0038109871906466">Martin, R. M. Hermitian character of the dynamical matrix - a comment on ‘non-hermitian dynamical matrices in the dynamics of low symmetry crystals’. Solid State Commun. 9, 2269–2270 (1971).</a>
+s,!&#160;<a class="footnote-backref" href="#fnref-Martin1971" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
 </ol>
 </div>
     </div>
@@ -799,8 +832,8 @@ $$</p>
 <div class="container"> 
         <br>
         <div class="row">
-            <div class="col-md-4">&copy; 2016 </div>
-            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman</span></div>
+            <div class="col-md-4">&copy; 2018 </div>
+            <div class="col-md-4"><span class="text-center"> TDEP was developed by Olle Hellman & Nina Shulumba</span></div>
             <div class="col-md-4"><span class="pull-right">Documentation generated by <a href="https://github.com/cmacmackin/ford">FORD</a></span></div>
         </div>
         <br>
